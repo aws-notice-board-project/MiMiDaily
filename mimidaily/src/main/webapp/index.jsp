@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
- 	
+ 	<a href="login.do" target="_blank">로그인</a>
 </body>
 </html>
