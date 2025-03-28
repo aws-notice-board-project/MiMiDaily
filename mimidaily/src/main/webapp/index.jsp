@@ -4,9 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>미미일보</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 </head>
 <body>
- 	<a href="login.do" target="_blank">로그인</a>
+	<div class="bg-mimiText">
+		<p>${pageContext.request.contextPath}</p>
+	 	<a href="login.do" target="_blank">로그인</a>
+	</div>
 </body>
 </html>
