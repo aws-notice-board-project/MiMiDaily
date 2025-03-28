@@ -19,7 +19,7 @@
 
 |           | 기술 종류                                    |
 | --------- | ---------------------------------------- |
-| Front End | HTML5, CSS3, JavaScript, JQuery, TailwindCSS |
+| Front End | HTML5, CSS3, JavaScript, JQuery, [TailwindCSS](https://tailwindcss.com/docs/installation/using-vite) |
 | Back End  | Java, JSP, JDBC                          |
 | DB        | OracleDB                                 |
 
