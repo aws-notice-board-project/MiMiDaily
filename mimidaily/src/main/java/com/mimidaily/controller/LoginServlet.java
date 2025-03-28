@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String url = "member/login.jsp";
+		 String url = "member/login.jsp"; 
 		
 		/*
 		 * HttpSession session = request.getSession(); // session 객체 구하기 if
@@ -51,7 +51,8 @@ public class LoginServlet extends HttpServlet {
 		String url = "member/login.jsp";
 		String userid = request.getParameter("userid");
 		String pwd = request.getParameter("pwd");
-		MemberDAO mDao = new MemberDAO();
+		/* MemberDAO mDao = new MemberDAO(); */
+		 MemberDAO mDao = MemberDAO.getInstance(); 
 		int result = mDao.userCheck(userid, pwd);
 		if (result == 1) {// id,비밀번호가 일치할 때
 			//MemberDTO mVo = mDao.getMember(userid); /* 로그인할때마다 정보가져오는거 (굳이 로그인할때마다 정보를 다 가져온다? 별로같아서 주석 */
