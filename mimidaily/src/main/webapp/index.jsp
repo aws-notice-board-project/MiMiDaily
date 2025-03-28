@@ -11,7 +11,7 @@
 <body>
 	<div class="bg-mimiText">
 		<p>${pageContext.request.contextPath}</p>
-	 	<a href="login.do" target="_blank">로그인</a>
+	 	<a href="login.do">로그인</a>
 	</div>
 </body>
 </html>
