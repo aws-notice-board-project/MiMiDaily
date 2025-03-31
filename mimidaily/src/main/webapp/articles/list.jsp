@@ -4,11 +4,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>뉴스 목록</title>
+<link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
-	<div>
-		article list입니다.
+	<jsp:include page="/components/navigation.jsp"></jsp:include>
+	<div style="height: 800px; ">
+		article list입니다. 
 	</div>
+	<jsp:include page="/components/footer.jsp"></jsp:include>
 </body>
 </html>

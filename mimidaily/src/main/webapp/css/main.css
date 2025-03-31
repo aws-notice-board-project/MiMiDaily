@@ -51,9 +51,10 @@
   font-family: "NotoSansKR-Regular";
 
 }
-html, body{height: 100%;width: 100vw;position: relative;background-color: var(--mimiBg);}
+html, body{height: 100%;width: 100vw;position: relative;background-color: var(--mimiBg); overflow-x: hidden;}
 a{text-decoration: none;color: inherit;}
 ul, li{list-style: none;}
+button{border: none; background-color: transparent; cursor: pointer;}
 /* 중요내용 작성 > 하지만 display 노출에서 감추고 싶을 때 사용 (dom에서 완전히 감추는 display:none과 다름) */
 .hide{font-weight: 0;width: 0;height: 0;overflow: hidden;position: absolute;z-index: -999;}
 
@@ -61,3 +62,81 @@ ul, li{list-style: none;}
 
 .title1 {font-size: 40px;}
 .title2 {font-size: 24px;}
+
+/* navigation */
+#logo{margin: 0 1rem;}
+#nav{
+  height: 120px; 
+  width: 100vw; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f5f5f5cc;
+  /* box-shadow: 0px 0px 10px 0px #594543; */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--mimiLight);
+}
+#nav .menu{display: flex; margin: 0 1rem;width: 50%;justify-content: space-around;min-width: 360px;}
+#nav .menu li a{margin: 0 1rem;font-size: 20px; font-weight: 400;}
+#nav .menu li a:hover{font-weight: 800;}
+#nav .menu_icon{display: none; cursor: pointer;}
+.base{width:100vw;height: 120px;position: relative;top: 0;}
+.nav_toggle{
+  overflow: hidden;
+  font-size: 18px;
+  height: 0;
+  width: 100vw;
+  background-color: var(--mimiContainer);
+  position: absolute;
+  left: 0;
+  top: 120px;
+  box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+.nav_toggle.open{height: 248px;}
+.nav_toggle a{width: 100vw;display: inline-block;text-align: center;padding: 1rem;font-size: 20px;
+}
+.nav_toggle a:hover{background-color: var(--mimiFooter);}
+
+/* footer */
+footer{
+  width: 100vw; 
+  height: 160px; 
+  padding: 1rem 0 2rem 0;
+  background-color: var(--mimiFooter);
+  position: relative;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+footer hr{width: 90%;border-color: var(--mimiLight);margin: 1rem auto;}
+footer .footer_logo{width: 90%; text-align: start;margin:auto;}
+footer img{width: 80px;height: auto;}
+footer p{text-align: center;color: #8C7B7B; }
+
+/* searchBar */
+#search_box {width: 100vw; height: 320px;display: flex;justify-content: center;align-items: center;}
+#search{width: 30vw;min-width: 220px;border-bottom: 1px solid #594543;padding: 0.5rem;}
+.search_btn {margin-left: 0.5rem;}
+
+/* 반응형 */
+@media screen and (max-width: 768px) {
+  #logo img{width: 4vw; max-width: 220px; min-width: 180px;}
+  #nav .menu{display: none;}
+  #nav .menu_icon{display: inline-block; width: 36px;margin-right: 2rem;}
+  #nav .menu_icon i{font-size: 30px;}
+}
+@media screen and (max-width: 500px) {
+  #nav{height: 100px;}
+  .base{height: 100px;}
+  .nav_toggle{top: 100px;}
+  .nav_toggle a{font-size: 16px;}
+  #search_box{height: 180px;}
+}
