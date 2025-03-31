@@ -5,30 +5,37 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login.css">
+
+
 </head>
-<body>
-	<h2>로그인</h2>
-	<form action="login.do" method="post">
-		<table>
-			<tr>
-				<td>아이디</td>
-				<td><input type="text" name="userid" value="${userid}"></td>
-			</tr>
-			<tr>
-				<td>비밀번호</td>
-				<td><input type="password" name="pwd"></td>
-			</tr>
-			<tr>
-				
-				<td colspan="2">
-					<input type="submit" value="로그인">
+<body id="login">
+	<div id="wrap">
+		<div class="cont">
+			<div id="logo"></div>
+			<h1 class="hide">미미일보</h1>
+			<h2>로그인</h2>
+			<form action="login.do" method="post">
+				<div class="login_box">
+					<div class="id_box">
+						<span>아이디</span>
+						<input type="text" name="userid" value="${userid}">
+					</div>
+					<div class="pw_box">
+						<span>비밀번호</span>
+						<input type="password" name="pwd">
+					</div>
+				</div>
+				<div class="join_btn">
+					<span>아직 회원이 아니신가요?</span>
 					<input type="button" value="회원가입" onclick="location.href='join.do'">
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">${message}</td>
-			</tr>
-		</table>
-	</form>
+				</div>
+				<div class="login_btn">
+					<input type="submit" value="로그인">
+				</div>
+			</form>
+		</div>
+	</div>
 </body>
 </html>

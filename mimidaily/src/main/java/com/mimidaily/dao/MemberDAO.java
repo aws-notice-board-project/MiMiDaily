@@ -59,7 +59,7 @@ public class MemberDAO {
 		 */
 		int result = -1; // 기본값
 
-		String sql = "select pwd from members where userid = ?";
+		String sql = "select pwd from members where id = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
