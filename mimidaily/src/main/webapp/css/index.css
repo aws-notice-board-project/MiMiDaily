@@ -1,0 +1,20 @@
+:root {
+  --mimiDark: #594543; 
+  --mimiLight: #8C7B7B; 
+  --mimiBg: #F5F5F5; 
+  --mimiContainer: #FBF9F9; 
+  --mimiFooter: #F0ECEC; 
+}
+
+.contaner{
+  background-color: var(--mimiContainer);
+  border-radius: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+#main {width: 70vw; min-width: 1120px; margin: 0 auto 5rem auto;display: flex;justify-content: space-between;}
+#main .most_liked_news{width: 768px;}
+aside {width: 320px;}
+aside .login_box {width: 100%; margin-bottom: 2rem;display: flex;flex-direction: column;align-items: center;padding: 1rem;}
+aside .login_box p{margin: 0; font-size: 14px;}
+aside .login_box .login{color: var(--mimiContainer); font-size: 24px; background-color: var(--mimiLight); border-radius: 4px;    width: 190px;text-align: center;padding: 0.3rem;margin: 0.5rem auto;}
+aside .login_box .register{font-weight: 500;}
