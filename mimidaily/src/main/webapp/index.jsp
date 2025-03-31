@@ -14,10 +14,10 @@
 </head>
 <body>
 	<div>
-	 	<a href="/articles/list.do" target="_blank">게시판</a>
+	 	<a href="/articles/list.do">게시판</a>
 	</div>
 	<div>
-	 	<a href="login.do" target="_blank">로그인</a>
+	 	<a href="login.do">로그인</a>
 	</div>
 </body>
 </html>
