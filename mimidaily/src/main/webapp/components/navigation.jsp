@@ -19,14 +19,14 @@
 		<ul class="menu">
 			<li><a href="${pageContext.request.contextPath}/articles/topten.do">TOP10</a></li>
 			<li><a href="${pageContext.request.contextPath}/articles/newest.do">최신기사</a></li>
-			<li><a href="${pageContext.request.contextPath}/articles/trevle.do">여행지</a></li>
+			<li><a href="${pageContext.request.contextPath}/articles/travel.do">여행지</a></li>
 			<li><a href="${pageContext.request.contextPath}/articles/musteat.do">맛집</a></li>
 		</ul>
 		<div class="menu_icon"><i class="fa-solid fa-bars"></i></div>
 		<ul class="nav_toggle">
 			<li><a href="${pageContext.request.contextPath}/articles/topten.do">TOP10</a></li>
 			<li><a href="${pageContext.request.contextPath}/articles/newest.do">최신기사</a></li>
-			<li><a href="${pageContext.request.contextPath}/articles/trevle.do">여행지</a></li>
+			<li><a href="${pageContext.request.contextPath}/articles/travel.do">여행지</a></li>
 			<li><a href="${pageContext.request.contextPath}/articles/musteat.do">맛집</a></li>
 		</ul>
 	</nav>
