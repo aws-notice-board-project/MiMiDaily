@@ -11,6 +11,7 @@
 
 </head>
 <body id="login">
+	<jsp:include page="/components/navigation.jsp"></jsp:include>
 	<div id="wrap">
 		<div class="cont">
 			<div id="logo"></div>
@@ -37,5 +38,6 @@
 			</form>
 		</div>
 	</div>
+	<jsp:include page="/components/footer.jsp"></jsp:include>
 </body>
 </html>
