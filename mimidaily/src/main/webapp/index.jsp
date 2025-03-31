@@ -26,7 +26,7 @@
 <jsp:include page="/components/navigation.jsp"></jsp:include>
 <jsp:include page="/components/searchBar.jsp"></jsp:include>
 	<div id="main">
-		<section class="most_liked_news contaner">
+		<section class="most_liked_news cont">
 			<h2>주요 뉴스</h2>
 			<div>
 				<ul class="news_list">
@@ -43,12 +43,12 @@
 			<div></div>
 		</section>
 		<aside>
-			<div class="login_box contaner">
+			<div class="login_box cont">
 				<p><b>미미일보</b>가 당신의 여정에 동행합니다.</p>
 				<a class="login" href="login.do">로그인</a>
 				<a class="register" href="#">회원가입</a>
 			</div>
-			<div class="most_viewed_news contaner">
+			<div class="most_viewed_news cont">
 				<h3>실시간 관심 기사</h3>
 				<ul class="news_list">
 					<li>
