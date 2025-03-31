@@ -14,7 +14,9 @@
 </head>
 <body>
 	<div>
-		<p>${pageContext.request.contextPath}</p>
+	 	<a href="/articles/list.do" target="_blank">게시판</a>
+	</div>
+	<div>
 	 	<a href="login.do" target="_blank">로그인</a>
 	</div>
 </body>
