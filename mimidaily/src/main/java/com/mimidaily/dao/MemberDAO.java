@@ -1,76 +1,26 @@
 package com.mimidaily.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
-
-import com.mimidaily.dto.MemberDTO;
-
 import com.mimidaily.common.DBConnPool;
 
-public class MemberDAO {
-	// public class MemberDAO extends DBConnPool {
-	// public MemberDAO() {
-	// super();
-	// }
-
-	// singleton pattern
-	// 생성자를 private로 설정. 직접 instance를 private static으로 생성해서 공유. 메모리절약
-	// private 생성자
-	private MemberDAO() {
-	}
-
-	// instance 생성
-	private static MemberDAO instance = new MemberDAO();
-
-	// instance 리턴
-	public static MemberDAO getInstance() {
-		return instance;
-	}
-
-	// DBCP 연결 connection 객체 생성
-	public Connection getConnection() throws Exception {
-		Connection conn = null;
-		Context initContext = new InitialContext();
-		Context envContext = (Context) initContext.lookup("java:/comp/env");
-		DataSource ds = (DataSource) envContext.lookup("jdbc/myoracle");
-		conn = ds.getConnection();
-		System.out.println(conn);
-		return conn;
+//public class MemberDAO {
+public class MemberDAO extends DBConnPool {
+	public MemberDAO() {
+		super();
 	}
 
 	// 로그인시 사용하는 메서드
 	public int userCheck(String userid, String pwd) {
-		/*
-		 * int result = -1; // 기본값 String query =
-		 * "select pwd from member where userid = ?"; // 쿼리문 템플릿 준비 try { psmt =
-		 * con.prepareStatement(query); // 쿼리문 준비 psmt.setString(1, userid); // 인파라미터 설정
-		 * rs = psmt.executeQuery(); // 쿼리문 실행
-		 * 
-		 * if (rs.next()) { if (rs.getString("pwd") != null &&
-		 * rs.getString("pwd").equals(pwd)) { result = 1; // 비밀번호일치 } else { result = 0;
-		 * // 비밀번호 불일치 } } else { result = -1; // i id 없음 } } catch (Exception e) {
-		 * System.out.println("게시물 상세보기 중 예외 발생"); e.printStackTrace(); } return result;
-		 * // 결과 반환
-		 */
+
 		int result = -1; // 기본값
-
-		String sql = "select pwd from members where id = ?";
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
+		String query = "select pwd from members where id = ?"; // 쿼리문 템플릿 준비
 		try {
-			conn = getConnection(); // connection 객체 생성
-			pstmt = conn.prepareStatement(sql); // preparedStatement 객체 생성
-			pstmt.setString(1, userid); // ? 위치에 들어가는 값 세팅
-			rs = pstmt.executeQuery();
+			psmt = con.prepareStatement(query); // 쿼리문 준비
+			psmt.setString(1, userid); // 인파라미터 설정
+			rs = psmt.executeQuery(); // 쿼리문 실행
+
 			if (rs.next()) {
-				if (rs.getString("pwd") != null && rs.getString("pwd").equals(pwd)) {
+				if (rs.getString("pwd") != null &&
+						rs.getString("pwd").equals(pwd)) {
 					result = 1; // 비밀번호일치
 				} else {
 					result = 0; // 비밀번호 불일치
@@ -79,20 +29,10 @@ public class MemberDAO {
 				result = -1; // i id 없음
 			}
 		} catch (Exception e) {
+			System.out.println("게시물 상세보기 중 예외 발생");
 			e.printStackTrace();
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
-
+		// 결과 반환
 		return result;
 	}
 
