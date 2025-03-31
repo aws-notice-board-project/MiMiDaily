@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>searchBar</title>
+<script src="https://kit.fontawesome.com/e7c9242ec2.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<div id="search_box">

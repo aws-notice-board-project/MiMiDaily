@@ -6,7 +6,7 @@
   --mimiFooter: #F0ECEC; 
 }
 
-.contaner{
+.cont{
   background-color: var(--mimiContainer);
   border-radius: 2px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);

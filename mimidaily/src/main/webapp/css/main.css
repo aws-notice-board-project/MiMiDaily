@@ -58,8 +58,6 @@ button{border: none; background-color: transparent; cursor: pointer;}
 /* 중요내용 작성 > 하지만 display 노출에서 감추고 싶을 때 사용 (dom에서 완전히 감추는 display:none과 다름) */
 .hide{font-weight: 0;width: 0;height: 0;overflow: hidden;position: absolute;z-index: -999;}
 
-.cont{width: 768px; display: flex;}
-
 .title1 {font-size: 40px;}
 .title2 {font-size: 24px;}
 

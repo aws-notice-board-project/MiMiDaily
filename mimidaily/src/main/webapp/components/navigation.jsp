@@ -5,9 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>navigation</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="module" src="/script/nav.js"></script>
 </head>
-<body>
+<body> 
 	<nav id="nav">
 		<div id="logo">
 			<h1 class="hide">미미일보 로고</h1>
@@ -16,17 +17,17 @@
 			</a>
 		</div>
 		<ul class="menu">
-			<li><a href="${pageContext.request.contextPath}/articles/list.do">TOP10</a></li>
-			<li><a href="${pageContext.request.contextPath}/articles/list.do">최신기사</a></li>
-			<li><a href="${pageContext.request.contextPath}/articles/list.do">여행지</a></li>
-			<li><a href="${pageContext.request.contextPath}/articles/list.do">맛집</a></li>
+			<li><a href="${pageContext.request.contextPath}/articles/topten.do">TOP10</a></li>
+			<li><a href="${pageContext.request.contextPath}/articles/newest.do">최신기사</a></li>
+			<li><a href="${pageContext.request.contextPath}/articles/trevle.do">여행지</a></li>
+			<li><a href="${pageContext.request.contextPath}/articles/musteat.do">맛집</a></li>
 		</ul>
 		<div class="menu_icon"><i class="fa-solid fa-bars"></i></div>
 		<ul class="nav_toggle">
-			<li><a href="${pageContext.request.contextPath}/articles/list.do">TOP10</a></li>
-			<li><a href="${pageContext.request.contextPath}/articles/list.do">최신기사</a></li>
-			<li><a href="${pageContext.request.contextPath}/articles/list.do">여행지</a></li>
-			<li><a href="${pageContext.request.contextPath}/articles/list.do">맛집</a></li>
+			<li><a href="${pageContext.request.contextPath}/articles/topten.do">TOP10</a></li>
+			<li><a href="${pageContext.request.contextPath}/articles/newest.do">최신기사</a></li>
+			<li><a href="${pageContext.request.contextPath}/articles/trevle.do">여행지</a></li>
+			<li><a href="${pageContext.request.contextPath}/articles/musteat.do">맛집</a></li>
 		</ul>
 	</nav>
 	<div class="base"></div>
