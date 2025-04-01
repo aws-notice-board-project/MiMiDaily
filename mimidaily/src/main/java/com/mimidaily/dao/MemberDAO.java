@@ -1,6 +1,7 @@
 package com.mimidaily.dao;
 
 import com.mimidaily.common.DBConnPool;
+import com.mimidaily.dto.MemberDTO;
 
 //public class MemberDAO {
 public class MemberDAO extends DBConnPool {
@@ -10,7 +11,6 @@ public class MemberDAO extends DBConnPool {
 
 	// 로그인시 사용하는 메서드
 	public int userCheck(String userid, String pwd) {
-
 		int result = -1; // 기본값
 		String query = "select pwd from members where id = ?"; // 쿼리문 템플릿 준비
 		try {
@@ -32,161 +32,72 @@ public class MemberDAO extends DBConnPool {
 			System.out.println("게시물 상세보기 중 예외 발생");
 			e.printStackTrace();
 		}
-		// 결과 반환
 		return result;
 	}
-
-	/*
-	 * public static MemberDAO getInstance() { // TODO Auto-generated method stub
-	 * return null; }
-	 */
-
-	// id 중복체크
-	// public int confirmID(String userid) {
-	// int result = -1;
-	// String sql = "select userid from member where userid=?";
-	// Connection conn = null;
-	// PreparedStatement pstmt = null;
-	// ResultSet rs = null;
-	// try {
-	// conn = getConnection();
-	// pstmt = conn.prepareStatement(sql);
-	// pstmt.setString(1, userid);
-	// rs = pstmt.executeQuery();
-	// if (rs.next()) {
-	// result = 1;
-	// } else {
-	// result = -1;
-	// }
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// } finally {
-	// try {
-	// if (rs != null)
-	// rs.close();
-	// if (pstmt != null)
-	// pstmt.close();
-	// if (conn != null)
-	// conn.close();
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// return result;
-	// }
-
+	
+	//id 중복 확인
+	public int confirmID(String userid) {
+		int result = -1;
+		String sql = "select userid from member where userid=?";
+		try {
+//			con = source.getConnection();
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, userid);
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				result = 1;
+			} else {
+				result = -1;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (psmt != null)
+					psmt.close();
+				if (con != null)
+					con.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
 	// 회원 등록
-	// public int insertMember(MemberDTO mVo) {
-	// int result = -1;
-	// String sql = "insert into member values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	// Connection conn = null;
-	// PreparedStatement pstmt = null;
-	// try {
-	// conn = getConnection();
-	// pstmt = conn.prepareStatement(sql);
-	// pstmt.setString(1, mVo.getId());
-	// pstmt.setString(2, mVo.getPwd());
-	// pstmt.setString(3, mVo.getName());
-	// pstmt.setString(4, mVo.getBirth());
-	// pstmt.setString(5, mVo.getGender());
-	// pstmt.setString(6, mVo.getEmail());
-	// pstmt.setString(7, mVo.getTel());
-	// pstmt.setString(8, mVo.getMarketing());
-	// pstmt.setInt(9, mVo.getProfile_idx());
-	// pstmt.setString(10, mVo.getIsreporter());
-	// pstmt.setString(11, mVo.getCreated_at());
-	// result = pstmt.executeUpdate();
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// } finally {
-	// try {
-	// if (pstmt != null)
-	// pstmt.close();
-	// if (conn != null)
-	// conn.close();
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// return result;
-	// }
-
-	// 아이디로 회원 정보 가져오는 메소드
-	// public MemberDTO getMember(String userid) {
-	// MemberDTO mVo = null;
-	// String sql = "select * from member where userid=?";
-	// Connection conn = null;
-	// PreparedStatement pstmt = null;
-	// ResultSet rs = null;
-	// try {
-	// conn = getConnection();
-	// pstmt = conn.prepareStatement(sql);
-	// pstmt.setString(1, userid);
-	// rs = pstmt.executeQuery();
-	// if (rs.next()) {
-	// mVo = new MemberDTO();
-	// mVo.setId(rs.getString("id"));
-	// mVo.setPwd(rs.getString("pwd"));
-	// mVo.setName(rs.getString("name"));
-	// mVo.setBirth(rs.getString("birth"));
-	// mVo.setGender(rs.getString("gender"));
-	// mVo.setEmail(rs.getString("email"));
-	// mVo.setTel(rs.getString("tel"));
-	// mVo.setMarketing(rs.getString("marketing"));
-	// mVo.setProfile_idx(rs.getInt("profile_idx"));
-	// mVo.setIsreporter(rs.getString("isreporter"));
-	// mVo.setCreated_at(rs.getString("created_at"));
-	// }
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// } finally {
-	// try {
-	// if (rs != null)
-	// rs.close();
-	// if (pstmt != null)
-	// pstmt.close();
-	// if (conn != null)
-	// conn.close();
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// return mVo;
-	// }
-
-	// 회원정보 수정
-	// public int updateMember(MemberDTO mVo) {
-	// int result = -1;
-	// String sql = "insert into member values(?, ?, ?, ?, ?, ?)";
-	// Connection conn = null;
-	// PreparedStatement pstmt = null;
-	// try {
-	// conn = getConnection();
-	// pstmt = conn.prepareStatement(sql);
-	// pstmt.setString(1, mVo.getId());
-	// pstmt.setString(2, mVo.getPwd());
-	// pstmt.setString(3, mVo.getName());
-	// pstmt.setString(4, mVo.getBirth());
-	// pstmt.setString(5, mVo.getGender());
-	// pstmt.setString(6, mVo.getEmail());
-	// pstmt.setString(7, mVo.getTel());
-	// pstmt.setString(8, mVo.getMarketing());
-	// pstmt.setInt(9, mVo.getProfile_idx());
-	// pstmt.setString(10, mVo.getIsreporter());
-	// pstmt.setString(11, mVo.getCreated_at());
-	// result = pstmt.executeUpdate();
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// } finally {
-	// try {
-	// if (pstmt != null)
-	// pstmt.close();
-	// if (conn != null)
-	// conn.close();
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// return result;
-	// }
+		public int insertMember(MemberDTO mDto) {
+			int result = -1;
+			String sql = "insert into member values(?, ?, ?, ?, ?, ?)";
+			try {
+//				con = getConnection();
+				psmt = con.prepareStatement(sql);
+				psmt.setString(1, mDto.getId());
+				psmt.setString(2, mDto.getPwd());
+				psmt.setString(3, mDto.getName());
+				psmt.setString(4, mDto.getEmail());
+				psmt.setString(5, mDto.getTel());
+				psmt.setString(6, mDto.getBirth());
+				psmt.setString(7, mDto.getGender());
+				psmt.setBoolean(8, mDto.isMarketing());
+				psmt.setString(9, mDto.getRole());
+				psmt.setObject(10, mDto.getProfile_idx());
+				psmt.setString(11, mDto.getCreated_at());
+				result = psmt.executeUpdate();// 영향을 받은 행의 수 리턴. insert하면 1행이 추가되므로 1이 리턴됨.
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (psmt != null)
+						psmt.close();
+					if (con != null)
+						con.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			return result;
+		}
+		
 }
