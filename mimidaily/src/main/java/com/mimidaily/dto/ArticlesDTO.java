@@ -1,11 +1,13 @@
 package com.mimidaily.dto;
 
+import java.sql.Timestamp;
+
 public class ArticlesDTO {
     private int idx;
     private String title;
     private String content;
     private int category;
-    private String created_at;
+    private Timestamp created_at;
     private int visitcnt;
     private String members_id;
     private Integer thumnails_idx;
@@ -34,11 +36,11 @@ public class ArticlesDTO {
 	public void setCategory(int category) {
 		this.category = category;
 	}
-	public String getCreated_at() {
+	public Timestamp getCreated_at() {
 		return created_at;
 	}
-	public void setCreated_at(String created_at) {
-		this.created_at = created_at;
+	public void setCreated_at(Timestamp timestamp) {
+		this.created_at = timestamp;
 	}
 	public int getVisitcnt() {
 		return visitcnt;
