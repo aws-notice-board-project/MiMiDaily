@@ -50,7 +50,7 @@
   font-size: 16px;
   font-family: "NotoSansKR-Regular";
 }
-html, body{height: 100%;width: 100vw;position: relative;background-color: var(--mimiBg); overflow-x: hidden;}
+html, body{height: 100%;width: 100%;position: relative;background-color: var(--mimiBg);}
 a{text-decoration: none;color: inherit;}
 ul, li{list-style: none;}
 button{border: none; background-color: transparent; cursor: pointer;}
@@ -64,7 +64,7 @@ button{border: none; background-color: transparent; cursor: pointer;}
 #logo{margin: 0 1rem;}
 #nav{
   height: 120px; 
-  width: 100vw; 
+  width: 100%; 
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -80,12 +80,12 @@ button{border: none; background-color: transparent; cursor: pointer;}
 #nav .menu li a{margin: 0 1rem;font-size: 20px; font-weight: 400;}
 #nav .menu li a:hover{font-weight: 800;}
 #nav .menu_icon{display: none; cursor: pointer;}
-.base{width:100vw;height: 120px;position: relative;top: 0;}
+.base{width:100%;height: 120px;position: relative;top: 0;}
 .nav_toggle{
   overflow: hidden;
   font-size: 18px;
   height: 0;
-  width: 100vw;
+  width: 100%;
   background-color: var(--mimiContainer);
   position: absolute;
   left: 0;
@@ -94,13 +94,13 @@ button{border: none; background-color: transparent; cursor: pointer;}
   transition: all 0.3s;
 }
 .nav_toggle.open{height: 248px;}
-.nav_toggle a{width: 100vw;display: inline-block;text-align: center;padding: 1rem;font-size: 20px;
+.nav_toggle a{width: 100%;display: inline-block;text-align: center;padding: 1rem;font-size: 20px;
 }
 .nav_toggle a:hover{background-color: var(--mimiFooter);}
 
 /* footer */
 footer{
-  width: 100vw; 
+  width: 100%; 
   height: 160px; 
   padding: 1rem 0 2rem 0;
   background-color: var(--mimiFooter);
@@ -119,7 +119,7 @@ footer img{width: 80px;height: auto;}
 footer p{text-align: center;color: #8C7B7B; }
 
 /* searchBar */
-#search_box {width: 100vw; height: 320px;display: flex;justify-content: center;align-items: center;}
+#search_box {width: 100%; height: 320px;display: flex;justify-content: center;align-items: center;}
 #search{width: 30vw;min-width: 220px;border-bottom: 1px solid #594543;padding: 0.5rem;}
 .search_btn {margin-left: 0.5rem;}
 
