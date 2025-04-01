@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html> 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,7 +44,7 @@
 			<c:if test="${empty sessionScope.loginUser}">
 				<p><b>미미일보</b>가 당신의 여정에 동행합니다.</p>
 				<a class="login btn" href="login.do">로그인</a>
-				<a class="register" href="#">회원가입</a>			
+				<a class="register" href="join.do">회원가입</a>			
 			</c:if>
 			<c:if test="${not empty sessionScope.loginUser}">
 				<p><b>${sessionScope.loginUser != null ? sessionScope.loginUser : "게스트"}님</b> 환영합니다.</p>
