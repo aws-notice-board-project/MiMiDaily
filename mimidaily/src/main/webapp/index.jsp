@@ -7,17 +7,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>미미일보</title>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- tailwindCSS -->
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<!-- fontawsome -->
-<script src="https://kit.fontawesome.com/e7c9242ec2.js" crossorigin="anonymous"></script>
-  
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/index.css">
 <script type="module" src="/script/index.js"></script>
-
 </head>
 <body>
 <jsp:include page="/components/navigation.jsp"></jsp:include>
