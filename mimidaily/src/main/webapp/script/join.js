@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
       id: document.querySelector('#id .error'), 
       pw: document.querySelector('#pw .error'), 
       rpw: document.querySelector('#rpw .error'), 
-      name: document.querySelector('#name .error'), 
       email: document.querySelector('#email .error'), 
       tel: document.querySelector('#tel .error'), 
       birth_gender: document.querySelector('#birth_gender .error'), 
@@ -67,16 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
       error.rpw.classList.add('hidden');
     }
   });
-  // nameInput.addEventListener('input', function() {
-  //   const name=nameInput.value;
-  //   if (!regex.name.test(name)) {
-  //     error.name.classList.remove('hidden');
-  //     error.name.textContent = '이름은 한글 2~6자여야 합니다.';
-  //   } else {
-  //     // 비밀번호 오류 메시지 숨기기
-  //     error.name.classList.add('hidden');
-  //   }
-  // });
   emailInput.addEventListener('input', function() {
     const email=emailInput.value;
     if (!regex.email.test(email)) {
@@ -113,6 +102,22 @@ document.addEventListener('DOMContentLoaded', function() {
       error.birth_gender.classList.add('hidden');
     }
   });
+  
+  // 필수 입력값이 모두 작성되었는지 확인하는 함수
+  function checkRequiredFields() {
+    return idInput.value && pwInput.value && rpwInput.value && nameInput.value && emailInput.value && codeInput.value;
+  }
+
+  // 정규 표현식 검증 함수
+  function checkValidInputs() {
+    return regex.id.test(idInput.value) &&
+           regex.pw.test(pwInput.value) &&
+           pwInput.value === rpwInput.value &&
+           regex.email.test(emailInput.value) &&
+           regex.tel.test(telInput.value) &&
+           regex.birth.test(birthInput.value) &&
+           regex.gender.test(genderInput.value);
+  }
 
   // 각 체크박스에 이벤트 리스너 추가
   document.getElementById('agree1').addEventListener('click', toggleSubmitButton);
@@ -124,13 +129,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 각 버튼에 이벤트 리스너 추가
   document.getElementById('agree_modal_btn1').addEventListener('click', function() {
-      openModal('agree_modal1', 'agree_content1.html'); // 모달1 내용 불러오기
+      openModal('#agree_modal1', '../media/agree_content1.html'); // 모달1 내용 불러오기
   });
   document.getElementById('agree_modal_btn2').addEventListener('click', function() {
-      openModal('agree_modal2', 'agree_content2.html'); // 모달2 내용 불러오기
+      openModal('#agree_modal2', '../media/agree_content2.html'); // 모달2 내용 불러오기
   });
   document.getElementById('agree_modal_btn3').addEventListener('click', function() {
-      openModal('agree_modal3', 'agree_content3.html'); // 모달3 내용 불러오기
+      openModal('#agree_modal3', '../media/agree_content3.html'); // 모달3 내용 불러오기
   });
 
   // 각 모달 닫기 버튼에 이벤트 리스너 추가
@@ -143,10 +148,24 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('close3').addEventListener('click', function() {
       closeModal('agree_modal3');
   });
+  
+  // submit 버튼이 클릭되었을 때 경고창 띄우기
+  form.addEventListener('submit', function(event) {
+    if (!checkRequiredFields() || !checkValidInputs()) {
+      event.preventDefault(); // 제출 막기
+      alert('모든 필수 입력값을 작성하고, 형식에 맞게 입력해 주세요.');
+    }
+  });
 });
 
+// 필수 입력값과 정규 표현식 검증이 모두 통과하고
 // 상단 두 체크박스가 선택된 경우에만 submit 버튼을 활성화
 function toggleSubmitButton() {
+  if (checkRequiredFields() && checkValidInputs()) {
+    document.querySelector('#join_btn input').disabled = false;
+  } else {
+    document.querySelector('#join_btn input').disabled = true;
+  }
   document.querySelector('#join_btn input').disabled = !(document.getElementById('agree1').checked && document.getElementById('agree2').checked); 
 }
 
@@ -160,19 +179,20 @@ function AllCheck() {
 }
 
 // 모달 열기 함수
-function openModal(modalId, contentUrl) {
-  const modal = document.getElementById(modalId);
-  modal.style.display = 'block';
-  // AJAX로 모달 내용 불러오기
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', contentUrl, true); // contentUrl을 불러옴
-  xhr.onload = function() {
-      if (xhr.status === 200) {
-          document.getElementById(modalId + 'Content').innerHTML = xhr.responseText;
-      }
-  };
-  xhr.send();
-}
+  function openModal(modalId, contentUrl) {
+    const modal = document.querySelector(modalId);
+    const contentBox = modal.querySelector('.modal_content');
+    modal.style.display = 'block';
+    // AJAX로 모달 내용 불러오기
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', contentUrl, true); // contentUrl을 불러옴
+    xhr.onload = function() {
+  	if (xhr.status === 200) {
+  	        contentBox.innerHTML = xhr.responseText;
+  	}
+    };
+    xhr.send();
+  }
 
 // 모달 닫기 함수
 function closeModal(modalId) {

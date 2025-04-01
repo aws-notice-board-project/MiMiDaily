@@ -30,25 +30,6 @@ display: flex;
 flex-direction: column;
 align-items: center;
 }
-input {
-  /* height: 100%; */
-  border-width: 0 0 1px;
-  /* background: rgba(0, 0, 0, 0.1); */
-  /* border-color: var(--mimiDark); */
-  border-color: black;
-  /* padding-top: 30px; */
-}
-input:focus {
-  outline: none;
-  box-shadow: none;
-}
-/* > 버튼 스타일 */
-.modal_btn {
-  cursor: pointer;
-  font-size: 24px;
-  border: none;
-  background: none;
-}
 .join_box {
   width: 500px;
   background: var(--mimiContainer);
@@ -56,9 +37,44 @@ input:focus {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   margin-bottom: 20px;
   padding: 15px;
+}
+input {
+  width: 450px;
+  border-width: 0 0 1px;
+  background-color: var(--mimiFooter);
+  border-color: var(--mimiDark);
+  margin: 10px;
+}
+input:focus {
+  outline: none;
+  box-shadow: none;
+}
+input[type="button"] {
+  width: 100px;
+  background-color: var(--mimiLight);
+  opacity: 0.5;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+input[type="button"]:hover {
+  opacity: 1;
+}
+input[type="checkbox"] {
+	width: 20px;
+}
+input[name="id"], 
+input[name="code"] {
+  width: 325px;
+}
+input[name="birth"] {
+  width: 250px;
+}
+input[name="gender"] {
+  width: 30px;
 }
 .join_btn {
   width: 336px;
@@ -70,42 +86,55 @@ input:focus {
   width: 100%;
   height: 100%;
   border: 0;
-  background: rgba(0, 0, 0, 1);
+  background: rgba(0, 0, 0, 0);
   cursor: pointer;
   color: #ffffff;
   font-size: 24px;
 }
 /* 모달 스타일 */
 .modal {
-  display: none; /* 초기에는 보이지 않게 설정 */
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0,0,0); /* 반투명 배경 */
-  background-color: rgba(0,0,0,0.4);
-  padding-top: 60px;
+    display: none; /* 초기에는 보이지 않게 설정 */
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* 배경을 어둡게 */
 }
-.modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 600px;
+.modal_content {
+    background-color: var(--mimiContainer); /* 모달 내용 배경 */
+    margin: 5% auto;
+    padding: 20px;
+    position: fix;
+    top: 20%;
+    left: 15%;
+    width: 70%;
+    height: 60%;
+    overflow: auto;
+    z-index: 150; /* 내용은 배경 위에 위치하도록 */
 }
 .close {
   color: #aaa;
-  float: right;
+  position: absolute;
+  top: 6%;
+  right: 17%;
   font-size: 28px;
   font-weight: bold;
+  z-index: 200;
 }
 .close:hover,
 .close:focus {
   color: black;
   text-decoration: none;
+  cursor: pointer;
+}
+#agree_modal_btn1, #agree_modal_btn2, #agree_modal_btn3 {
+  width: 50px;
+  opacity: 0.5;
+  background: var(--mimiContainer);
+  color: var(--mimiDark);
+  border: none;
   cursor: pointer;
 }
