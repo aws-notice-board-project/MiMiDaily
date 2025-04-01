@@ -12,6 +12,16 @@
 </head>
 <body id="join">
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
+	<div>
+	    <form action="join.do" method="get" name="reporteroruser">
+			<label>
+		        기자
+		        <input type="checkbox" value="reporter" name="who">
+			</label>
+	      	<input type="submit" value="확인">
+	    </form>
+	    ${reporter}
+	</div>
 	<div id="wrap">
 		<div class="cont">
 			<div id="logo"></div>
