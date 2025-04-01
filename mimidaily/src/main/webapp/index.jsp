@@ -1,4 +1,3 @@
-<%@page import="java.sql.Connection"%>
 <%@page import="javax.sql.DataSource"%>
 <%@page import="javax.naming.InitialContext"%>
 <%@page import="javax.naming.Context"%>
