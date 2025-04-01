@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ArticleListServlet
+ * Servlet implementation class TravelServlet
  */
-@WebServlet("/articles/list.do")
-public class ArticleListServlet extends HttpServlet {
+@WebServlet("/articles/travel.do")
+public class TravelServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ArticleListServlet() {
+    public TravelServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,8 +28,8 @@ public class ArticleListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// articles.jsp로 포워드
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/articles/list.jsp");
+         
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/articles/travel.jsp");
         dispatcher.forward(request, response);
 	}
 

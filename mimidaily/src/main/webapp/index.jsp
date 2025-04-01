@@ -1,8 +1,6 @@
-<%@page import="javax.sql.DataSource"%>
-<%@page import="javax.naming.InitialContext"%>
-<%@page import="javax.naming.Context"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +13,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <!-- fontawsome -->
 <script src="https://kit.fontawesome.com/e7c9242ec2.js" crossorigin="anonymous"></script>
- 
+  
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/index.css">
 <script type="module" src="/script/index.js"></script>
@@ -43,11 +41,20 @@
 		</section>
 		<aside>
 			<div class="login_box cont">
+			<c:if test="${empty sessionScope.loginUser}">
 				<p><b>미미일보</b>가 당신의 여정에 동행합니다.</p>
-				<a class="login" href="login.do">로그인</a>
-				<a class="register" href="#">회원가입</a>
+				<a class="login btn" href="login.do">로그인</a>
+				<a class="register" href="#">회원가입</a>			
+			</c:if>
+			<c:if test="${not empty sessionScope.loginUser}">
+				<p><b>${sessionScope.loginUser != null ? sessionScope.loginUser : "게스트"}님</b> 환영합니다.</p>
+				<div class="logining"> 
+					<a class="write btn" href="write.do">기사 작성하기</a>
+					<a class="logout btn" href="logout.do">로그아웃</a>
+				</div> 	
+			</c:if>	
 			</div>
-			<div class="most_viewed_news cont">
+			<div class="most_viewed_news cont">  
 				<h3>실시간 관심 기사</h3>
 				<ul class="news_list">
 					<li>
