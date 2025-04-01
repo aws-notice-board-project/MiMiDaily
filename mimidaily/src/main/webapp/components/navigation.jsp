@@ -9,7 +9,7 @@
 <script type="module" src="/script/nav.js"></script>
 </head>
 <body> 
-	<nav id="nav">
+	<nav id="nav"> 
 		<div id="logo">
 			<h1 class="hide">미미일보 로고</h1>
 			<a href="/">

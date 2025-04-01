@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/index.css">
 <script type="module" src="/script/index.js"></script>
-</head>
+</head> 
 <body>
 <jsp:include page="/components/navigation.jsp"></jsp:include>
 <jsp:include page="/components/searchBar.jsp"></jsp:include>
