@@ -7,7 +7,7 @@
 <title>회원가입</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/join.css">
-<script type="module" src="/script/join.js"></script>
+<script type="module" src="../script/join.js"></script>
 </head>
 <body id="join">
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
