@@ -6,9 +6,10 @@
 <meta charset="UTF-8">
 <title>searchBar</title>
 <script src="https://kit.fontawesome.com/e7c9242ec2.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
-	<div id="search_box">
+	<div id="search_box"> 
         <input type="text" id="search" autocomplete="off" placeholder="검색어를 입력하세요" />
         <button class="search_btn"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
