@@ -8,9 +8,9 @@ public class ArticlesDTO {
     private String created_at;
     private int visitcnt;
     private String members_id;
-    private int thumnails_idx;
-
-    public int getIdx() {
+    private Integer thumnails_idx;
+    
+	public int getIdx() {
 		return idx;
 	}
 	public void setIdx(int idx) {
@@ -52,12 +52,12 @@ public class ArticlesDTO {
 	public void setMembers_id(String members_id) {
 		this.members_id = members_id;
 	}
-	public int getThumnails_idx() {
+	public Integer getThumnails_idx() {
 		return thumnails_idx;
 	}
-	public void setThumnails_idx(int thumnails_idx) {
+	public void setThumnails_idx(Integer thumnails_idx) {
 		this.thumnails_idx = thumnails_idx;
 	}
-	
 
+  
 }

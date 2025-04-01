@@ -7,8 +7,8 @@ import java.util.Map;
 import com.mimidaily.common.DBConnPool;
 import com.mimidaily.dto.ArticlesDTO;
 
-public class ArticlesDAO extends DBConnPool {
-    public ArticlesDAO() {
+public class ArticlesEDAO extends DBConnPool {
+    public ArticlesEDAO() {
         super();
     }
 
