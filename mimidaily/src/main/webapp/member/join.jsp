@@ -7,7 +7,7 @@
 <title>회원가입</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/join.css">
-<script type="module" src="../script/join.js"></script>
+<script src="${pageContext.request.contextPath}/script/join.js"></script>
 </head>
 <body id="join">
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
@@ -52,32 +52,55 @@
 		        </div>
 		        <div class="join_box">
 					<div id="code">
-			            <input type="text" name="code" placeholder="기자 인증 코드">
-			            <input type="button" value="인증">
-			            <p class="error hidden"></p>
+						<input type="text" name="code" placeholder="기자 인증 코드">
+						<input type="button" value="인증">
+						<p class="error hidden"></p>
 					</div>
-		        </div>
+				</div>
 				<div class="join_box">
 					<label>
-		            <input type="checkbox" id="agree" onclick="toggleSubmitButton()">
-		            동의합니다.
+			            <input type="button" id="agree_all" value="전체 동의">
+			            전체 동의에는 필수 및 선택 정보에 대한 동의가 포함되어 있으며, 개별적으로 동의를 선택 하실 수 있습니다. 선택 항목에 대한 동의를 거부하시는 경우에도 서비스 이용이 가능합니다.
 					</label>
 					<label>
-		            <input type="button" class="modal_btn" onclick="openModal()">
-		            > 
+						<input type="checkbox" id="agree1">
+						동의 1
 					</label>
-		        </div>
-		        <!-- 모달 창 -->
-				<div id="myModal" class="modal">
-					<div class="modal-content">
-						<span class="close" onclick="closeModal()">&times;</span>
-		            	<div id="modalContent1">로딩 중...</div> <!-- AJAX로 불러올 내용 -->
-					</div>
-		        </div>
-		        <div class="join_btn">
+					<input type="button" id="agree_modal_btn1" value="확인 >">
+					<label>
+						<input type="checkbox" id="agree2">
+						동의 2
+					</label>
+					<input type="button" id="agree_modal_btn2" value="확인 >">
+					<label>
+						<input type="checkbox" id="agree3">
+						동의 3
+					</label>
+					<input type="button" id="agree_modal_btn3" value="확인 >">
+				</div>
+				<div class="join_btn">
 					<input type="submit" value="가입하기">
 				</div>
 			</form>
+			<!-- 모달 창들 -->
+			<div id="agree_modal1" class="modal">
+				<div class="modal_content">
+					<span class="close" id="close1">&times;</span>
+					<div id="agree_content1">로딩 중...</div>
+				</div>
+			</div>
+			<div id="agree_modal2" class="modal">
+		        <div class="modal_content">
+					<span class="close" id="close2">&times;</span>
+					<div id="agree_content2">로딩 중...</div>
+		        </div>
+			</div>
+			<div id="agree_modal3" class="modal">
+		        <div class="modal_content">
+					<span class="close" id="close3">&times;</span>
+					<div id="agree_content3">로딩 중...</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<jsp:include page="/components/footer.jsp"></jsp:include>
