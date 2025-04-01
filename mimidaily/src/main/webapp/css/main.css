@@ -49,7 +49,6 @@
   color: var(--mimiDark);
   font-size: 16px;
   font-family: "NotoSansKR-Regular";
-
 }
 html, body{height: 100%;width: 100vw;position: relative;background-color: var(--mimiBg); overflow-x: hidden;}
 a{text-decoration: none;color: inherit;}
