@@ -19,13 +19,13 @@ import com.mimidaily.utils.BoardPage;
  * Servlet implementation class MainServlet
  */
 @WebServlet("/articles/musteat.do")
-public class MustEat extends HttpServlet {
+public class MustEatServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MustEat() {
+    public MustEatServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
