@@ -32,6 +32,9 @@
 					<span>아직 회원이 아니신가요?</span>
 					<input type="button" value="회원가입" onclick="location.href='join.do'">
 				</div>
+				<div class="message_box">
+					${message}
+				</div>
 				<div class="login_btn">
 					<input type="submit" value="로그인">
 				</div>

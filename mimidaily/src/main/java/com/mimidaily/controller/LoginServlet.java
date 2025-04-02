@@ -63,16 +63,11 @@ public class LoginServlet extends HttpServlet {
 			url = "main.do";
 			
 			response.sendRedirect(url); //주소변경
-		} else if (result == 0) {//비밀번호가 일치하지 않을 때
-			request.setAttribute("message", "비밀번호가 맞지 않습니다.");
+		} else if (!(result == 1)) {//id 또는 비밀번호가 일치하지 않을 때
+			request.setAttribute("message", "아이디 또는 비밀번호가 맞지 않습니다.");
 			RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 			dispatcher.forward(request, response);
-		} else if (result == -1) {//id가 존재하지 않을 떄
-			request.setAttribute("message", "존재하지 않는 id입니다.");
-			RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-			dispatcher.forward(request, response);
-
-		}
+		} 
 	}
 
 }
