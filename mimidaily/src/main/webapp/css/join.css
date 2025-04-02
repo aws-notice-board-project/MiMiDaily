@@ -1,12 +1,14 @@
 @charset "UTF-8";
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 #wrap {
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 #join .cont {
   display: flex;
@@ -131,7 +133,7 @@ input[name="gender"] {
   cursor: pointer;
 }
 #agree_modal_btn1, #agree_modal_btn2, #agree_modal_btn3 {
-  width: 50px;
+  width: 80px;
   opacity: 0.5;
   background: var(--mimiContainer);
   color: var(--mimiDark);

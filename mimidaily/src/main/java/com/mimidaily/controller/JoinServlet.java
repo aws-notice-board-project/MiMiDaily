@@ -33,9 +33,14 @@ public class JoinServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "member/join.jsp"; 
-		String reporter = request.getParameter("who");
-		request.setAttribute("reporter", reporter);
-		System.out.println(reporter);
+		String type;
+		if ("reporter".equals(request.getParameter("role"))) {
+		    type = "reporter";
+		} else {
+		    type = "user";
+		}
+		request.setAttribute("job", type);
+//		System.out.println(reporter);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);//주소가 변경되지 않음.
 	}
