@@ -56,9 +56,14 @@ ul, li{list-style: none;}
 button{border: none; background-color: transparent; cursor: pointer;}
 /* 중요내용 작성 > 하지만 display 노출에서 감추고 싶을 때 사용 (dom에서 완전히 감추는 display:none과 다름) */
 .hide{font-weight: 0;width: 0;height: 0;overflow: hidden;position: absolute;z-index: -999;}
-
+/* 공용 */
 .title1 {font-size: 40px;}
 .title2 {font-size: 24px;}
+.cont{
+  background-color: var(--mimiContainer);
+  border-radius: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
 
 /* navigation */
 #logo{margin: 0 1rem;}

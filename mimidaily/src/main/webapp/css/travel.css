@@ -5,4 +5,72 @@
   --mimiContainer: #FBF9F9; 
   --mimiFooter: #F0ECEC; 
 }
-.news_container{width: 768px;margin: 0 auto 5rem auto;background-color: var(--mimiContainer);}
+.news_title {
+  font-size: 32px;
+  width: 70%;
+  margin: 0 auto 4rem auto;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mimiLight);
+  font-weight: 700;
+}
+.news_container{
+  display: flex;
+  width: 70%; 
+  min-width: 768px;
+  margin: 0 auto 5rem auto;
+  justify-content: start;
+}
+section.news_list{width: 70%; min-width: 520px;padding: 0 1rem 1.5rem 1rem;}
+.news_cont{display: flex;justify-content: space-around;align-items: center;margin: 3rem auto;}
+.news_cont .news_img{width: 200px;height: 140px;border-radius: 4px;overflow: hidden;}
+.news_cont img{width: 100%;height: 100%;} 
+.news_cont .contents {width: 240px; display: flex;flex-direction: column;justify-content: space-between;align-items: start;}
+.news_cont .title {font-size: 28px;} 
+.news_cont .context {
+  font-size: 16px; 
+  height: 48px;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+} 
+.news_cont .date {width: 100%;text-align: end;color: var(--mimiLight);font-size: 14px;} 
+.pagination_bar{display: flex; width: 320px;justify-content: center;margin: auto;align-items: center;}
+.pagination_bar .current_page{font-weight: bold; margin: 0 16px;}
+.pagination_bar a{color: var(--mimiLight); margin: 0 16px;}
+.pagination_bar i {color: var(--mimiDark);}
+
+aside.news_right{
+  position: fixed; /* 부모 속성 */
+  width: 220px;
+  top: 150px;
+  right: 14%; 
+  height: 1300px;
+  transition: all 0.2s;
+  opacity: 0;
+}
+
+aside.news_right.show{
+  opacity: 1;
+  z-index: 1;
+  top: 160px;
+}
+
+.userbox, .most_viewed_news{
+  top: 0;
+  position: sticky;
+  position: -webkit-sticky;
+}
+
+.news_top{display: none;}
+
+@media (min-width: 911px) and (max-width: 1120px) {
+  aside.news_right{right: 8%;}
+}
+@media (min-width: 0px)  and (max-width: 910px) {
+  .news_container{justify-content: center;}
+  aside.news_right{display: none;}
+  .news_top{display: flex;margin: auto;width: 768px;justify-content: center;}
+}
