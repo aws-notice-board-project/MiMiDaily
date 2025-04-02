@@ -1,3 +1,8 @@
+#musteat #search_box {
+    height: 180px; 
+    padding-bottom: 40px;
+}
+
 #wrap {
     display: flex;
     flex-direction: column;
@@ -7,7 +12,7 @@
 #musteat .top_title {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 70%;
 }
 #musteat .top_title span{
     font-size: 36px;
@@ -23,7 +28,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    width: 80%;
+    width: 70%;
 }
 #musteat .news_list {
     width: 75%;
@@ -60,5 +65,28 @@
 }
 #musteat .right_cont {
     width: 25%;
+    padding: 20px;
 }
+#musteat .right_cont > div {
+    background-color: var(--mimiContainer);
+    border-radius: 2px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+#musteat .right_cont .login_box {}
+#musteat .right_cont .most_viewed_news {}
+
+
+
+#musteat .right_cont .login_box {width: 100%; margin-bottom: 2rem;display: flex;flex-direction: column;align-items: center;padding: 1rem;}
+#musteat .right_cont .login_box p{margin: 0; font-size: 14px;}
+#musteat .right_cont .login_box .login{color: var(--mimiContainer); font-size: 24px; background-color: var(--mimiLight); border-radius: 4px;width: 190px;text-align: center;padding: 0.3rem;margin: 0.5rem auto;}
+#musteat .right_cont .logining {display: flex; align-items: center; justify-content: space-around; margin: 0.5rem auto;width: 90%;}
+#musteat .right_cont .btn{border-radius: 4px;text-align: center;margin: 0.5rem auto;padding: 0.5rem 1rem;}
+#musteat .right_cont .login_box .write{color: var(--mimiContainer); font-size: 18px; background-color: var(--mimiLight);}
+#musteat .right_cont .login_box .logout{color: var(--mimiContainer); font-size: 18px; background-color: var(--mimiDark);}
+#musteat .right_cont .login_box .register{font-weight: 500;}
+#musteat .right_cont .most_liked_news{width: 768px;}
+
+
+
 #musteat .page_nav {}
