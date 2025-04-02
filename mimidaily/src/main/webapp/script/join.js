@@ -3,55 +3,90 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!who) {
       console.error('Form not found');
       return;
-  } 
+  }
   const form = document.forms["join_form"];
     if (!form) {
       console.error('Form not found');
       return;
   } // form으로 checkbox 선택
-  const roleType = who.querySelector('[name="role"]');
-  const join = who.querySelector('[type="submit"]');
-  let unchecked = document.getElementById("unchecked");
-  let checked = document.getElementById("checked");
+//  const roleType = who.querySelector('[name="role"]');
+//  const join = who.querySelector('[type="submit"]');
+//  let unchecked = document.getElementById("unchecked");
+//  let checked = document.getElementById("checked");
   
-  unchecked.addEventListener("click", function() {
-    roleType.checked = false;
-    unchecked.classList.add("hidden");
-    checked.classList.remove("hidden");
-	join.value = "기자 회원 가입";
-  });
-  checked.addEventListener("click", function() {
-    roleType.checked = true;
-    checked.classList.add("hidden");
-    unchecked.classList.remove("hidden");
-	join.value = "일반 회원 가입";
-  });
+//  unchecked.addEventListener("click", function() {
+//    roleType.checked = false;
+//    unchecked.classList.add("hidden");
+//    checked.classList.remove("hidden");
+//	join.value = "기자 회원 가입";
+//  });
+//  checked.addEventListener("click", function() {
+//    roleType.checked = true;
+//    checked.classList.add("hidden");
+//    unchecked.classList.remove("hidden");
+//	join.value = "일반 회원 가입";
+//  });*/
   
   // 현재 URL에서 쿼리 문자열 가져와서 보여줄 form을 변경
-  let params = new URLSearchParams(window.location.search);
-  let role = params.get("role");
-  join.addEventListener("click", function() {
-	event.preventDefault();
-    // console.log(role);
-    if(role == "reporter" || role == null) {
-	  form.classList.remove("hidden");
-	  who.classList.add("hidden");
-    }else {
-	  who.classList.remove("hidden");
-  	  form.classList.add("hidden");
-    }
-  });
+//  let params = new URLSearchParams(window.location.search);
+//  let role = params.get("role");
+//  join.addEventListener("click", function() {
+	//event.preventDefault();
+//    console.log(role);
+//    if(role == "reporter" || role == null) {
+//	  form.classList.remove("hidden");
+//	  who.classList.add("hidden");
+//    }else {
+//	  who.classList.remove("hidden");
+//  	  form.classList.add("hidden");
+//    }
+//  });
+//  let reporterElement = document.getElementById("code");
+//  	let job = reporterElement.dataset.job;
+//      let savedJob = localStorage.getItem(job);
+//  	console.log(savedJob);
+//  		console.log(job);
+//  window.onload = function () {
+//	let reporterElement = document.getElementById("code");
+//	let job = reporterElement.dataset.job;
+//    let savedJob = localStorage.getItem(job);
+//	console.log(savedJob);
+//		console.log(job);
+//    if (savedJob) {
+//      job = savedJob;
+//    }
+//	console.log(savedJob);
+//	console.log(job);
+//	  if(job == "reporter") {
+//		reporterElement.parentElement.classList.remove("hidden");
+//		form.classList.remove("hidden");
+//		who.classList.add("hidden");
+//	  }else if(job == "user") {
+//	    reporterElement.parentElement.classList.add("hidden");
+//		form.classList.remove("hidden");
+//		who.classList.add("hidden");
+//	  } else {
+//		who.classList.remove("hidden");
+//		form.classList.add("hidden");
+//	  }
+// };
   
   // 기자인지 아닌지에 따라 인증 코드 사라지고 나타남
-/*  
-  let reporterElement = document.getElementById("code");
-  let jobName = reporterElement.dataset.job;
-  console.log(jobName);
-  if(jobName == "reporter") {
-	reporterElement.parentElement.classList.remove("hidden");
-  }else if(jobName == "user") {
-    reporterElement.parentElement.classList.add("hidden");
-  }*/
+//  let reporterElement = document.getElementById("code");
+//  let jobName = reporterElement.dataset.job;
+//  console.log(jobName);
+//  if(jobName == "reporter") {
+//	reporterElement.parentElement.classList.remove("hidden");
+//	form.classList.remove("hidden");
+//	who.classList.add("hidden");
+//  }else if(jobName == "user") {
+//    reporterElement.parentElement.classList.add("hidden");
+//	form.classList.remove("hidden");
+//	who.classList.add("hidden");
+//  } else {
+//	who.classList.remove("hidden");
+//	form.classList.add("hidden");
+//  }
 
   // 입력 필드 모음
   const idInput = form.querySelector('[name="id"]');

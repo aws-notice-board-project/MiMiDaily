@@ -17,9 +17,9 @@
 			<div id="logo"></div>
 			<h1 class="hide">미미일보</h1>
 			<h2>회원가입</h2>
-			<form action="join.do" method="get" name="whoareyou">
+			<form action="join.do" method="get" name="whoareyou" class="hidden">
 				<label>
-					<input type="checkbox" value="reporter" name="role">
+					<input type="checkbox" value="reporter" name="role" class="hidden">
 					<img src="${pageContext.request.contextPath}/media/images/user.png" id="unchecked" alt="일반회원">
 					<img src="${pageContext.request.contextPath}/media/images/reporter.png" id="checked" alt="기자" class="hidden">
 				</label>
@@ -27,7 +27,7 @@
 					<input type="submit" value="일반 회원 가입">
 				</div>
 			</form>
-			<form action="join.do" method="post" name="join_form" class="hidden">
+			<form action="join.do" method="post" name="join_form">
 		        <div class="join_box">
 					<div id="id">
 						<input type="text" name="id" placeholder="아이디">
