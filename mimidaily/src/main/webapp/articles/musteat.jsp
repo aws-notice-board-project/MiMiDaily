@@ -46,7 +46,7 @@
 											<img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="no image">
 										</c:if>
 										<c:if test="${row.thumnails_idx != 0}">
-											<span>썸네일 있음</span>
+											<img src="${pageContext.request.contextPath}${row.file_path}${row.sfile}" alt="썸네일">
 										</c:if>	
 									</div>
 								</div>

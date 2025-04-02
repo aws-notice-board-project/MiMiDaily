@@ -13,6 +13,9 @@ public class ArticlesDTO {
     private String members_id;
     private Integer thumnails_idx;
     
+    private String sfile;
+	private String file_path;
+
     // 포맷된 날짜 getter
     public String getFormattedDate() {
         if (created_at != null) {
@@ -71,5 +74,23 @@ public class ArticlesDTO {
 		this.thumnails_idx = thumnails_idx;
 	}
 
-  
+	// 썸네일 관련 getter setter 추가
+	public String getSfile() {
+		return sfile;
+	}
+
+	public void setSfile(String sfile) {
+		this.sfile = sfile;
+	}
+
+	public String getFile_path() {
+		return file_path;
+	}
+
+	public void setFile_path(String file_path) {
+		this.file_path = file_path;
+	}
+
+
+
 }

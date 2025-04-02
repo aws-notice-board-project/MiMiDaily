@@ -29,6 +29,7 @@
     flex-direction: row;
     justify-content: center;
     width: 70%;
+    padding: 10px 0px;
 }
 #musteat .news_list {
     width: 75%;
@@ -90,4 +91,6 @@
 
 
 
-#musteat .page_nav {}
+#musteat .page_nav {
+    padding: 20px;
+}

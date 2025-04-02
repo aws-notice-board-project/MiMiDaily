@@ -68,6 +68,8 @@ public class MustEatServlet extends HttpServlet {
 		// 목록에 출력할 게시물 범위 계산
 		int start = (pageNum - 1) * pageSize + 1; // 첫 게시물 번호
 		int end = pageNum * pageSize; // 마지막 게시물 번호
+		System.out.println(start);
+		System.out.println(end);
 		map.put("start", start);
 		map.put("end", end);
 		/* 페이지 처리 end */
