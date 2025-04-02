@@ -30,8 +30,8 @@
 			<form action="join.do" method="post" name="join_form">
 		        <div class="join_box">
 					<div id="id">
-						<input type="text" name="id" placeholder="아이디">
-						<input type="button" value="중복 확인">
+						<input type="text" name="id" placeholder="아이디" data-id_error="${id_error}">
+						<input type="button" value="중복 확인" id="id_check">
 						<p class="error hidden"></p>
 					</div>
 					<div id="pw">
@@ -89,7 +89,7 @@
 					</label>
 				</div>
 				<div class="join_btn">
-					<input type="submit" value="가입하기">
+					<input type="submit" value="가입하기" data-success="${success_msg}">
 				</div>
 			</form>
 			<!-- 모달 창들 -->

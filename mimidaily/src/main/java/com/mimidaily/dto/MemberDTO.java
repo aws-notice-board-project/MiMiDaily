@@ -68,20 +68,17 @@ public class MemberDTO {
 	public void setRole(int role) {
 		this.role = role;
 	}
-
 	public int getVisitcnt() {
 		return visitcnt;
 	}
 	public void setVisitcnt(int visitcnt) {
 		this.visitcnt = visitcnt;
 	}
-	
 	public Integer getProfile_idx() {
 		return profile_idx;
 	}
 	public void setProfile_idx(Integer profile_idx) {
 		this.profile_idx = profile_idx;
-
 	}
 	public String getCreated_at() {
 		return created_at;

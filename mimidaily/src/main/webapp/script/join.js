@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!form) {
       console.error('Form not found');
       return;
-  } // form으로 checkbox 선택
+  } 
+  const register = form.querySelector('[type="submit"]');
+  // form으로 checkbox 선택
 //  const roleType = who.querySelector('[name="role"]');
 //  const join = who.querySelector('[type="submit"]');
 //  let unchecked = document.getElementById("unchecked");
@@ -126,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!regex.id.test(id)) {
       error.id.classList.remove('hidden');
       error.id.textContent = '아이디 형식이 올바르지 않습니다.';
+	  idInput.focus();
     } else {
       error.id.classList.add('hidden');
     }
@@ -135,15 +138,18 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!regex.pw.test(pw)) {
       error.pw.classList.remove('hidden');
       error.pw.textContent = '비밀번호는 8~20자이며 숫자, 특수문자를 포함해야 합니다.';
+	  pwInput.focus();
     } else {
       error.pw.classList.add('hidden');
     }
   });
   rpwInput.addEventListener('input', function() {
+	const pw=pwInput.value;
     const rpw=rpwInput.value;
     if (rpw!=pw) {
       error.rpw.classList.remove('hidden');
       error.rpw.textContent = '비밀번호가 일치하지 않습니다.';
+	  rpwInput.focus();
     } else {
       error.rpw.classList.add('hidden');
     }
@@ -153,6 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!regex.email.test(email)) {
       error.email.classList.remove('hidden');
       error.email.textContent = '이메일 형식이 올바르지 않습니다.';
+	  emailInput.focus();
     } else {
       error.email.classList.add('hidden');
     }
@@ -162,6 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!regex.tel.test(tel)) {
       error.tel.classList.remove('hidden');
       error.tel.textContent = '연락처 형식이 올바르지 않습니다.';
+	  telInput.focus();
     } else {
       error.tel.classList.add('hidden');
     }
@@ -171,6 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!regex.birth.test(birth)) {
       error.birth_gender.classList.remove('hidden');
       error.birth_gender.textContent = '주민등록번호가 올바르지 않습니다.';
+	  birthInput.focus();
     } else {
       error.birth_gender.classList.add('hidden');
     }
@@ -180,26 +189,20 @@ document.addEventListener('DOMContentLoaded', function() {
     if(!regex.gender.test(gender)) {
       error.birth_gender.classList.remove('hidden');
       error.birth_gender.textContent = '주민등록번호가 올바르지 않습니다.';
+	  genderInput.focus();
     }  else {
       error.birth_gender.classList.add('hidden');
     }
   });
   
-  // 필수 입력값이 모두 작성되었는지 확인하는 함수
-  function checkRequiredFields() {
-    return idInput.value && pwInput.value && rpwInput.value && nameInput.value && emailInput.value && codeInput.value;
-  }
-
-  // 정규 표현식 검증 함수
-  function checkValidInputs() {
-    return regex.id.test(idInput.value) &&
-           regex.pw.test(pwInput.value) &&
-           pwInput.value === rpwInput.value &&
-           regex.email.test(emailInput.value) &&
-           regex.tel.test(telInput.value) &&
-           regex.birth.test(birthInput.value) &&
-           regex.gender.test(genderInput.value);
-  }
+  // id 중복 체크를 위해 servlet으로 값 넘기기
+  const idbtn = document.getElementById("id_check");
+  idbtn.addEventListener("click", function() {
+	const id=idInput.value;
+  	var url = "join.do?id=" + id;
+  	window.location.replace(url);
+  	alert(idInput.dataset.id_error);
+  });
 
   // 각 체크박스에 이벤트 리스너 추가
   document.getElementById('agree1').addEventListener('click', toggleSubmitButton);
@@ -238,6 +241,9 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('모든 필수 입력값을 작성하고, 형식에 맞게 입력해 주세요.');
     }
   });
+  
+  // 최종 가입 버튼에 성공 여부 메세지 출력 이벤트 추가
+  register.addEventListener('submit', success);
 });
 
 // 필수 입력값과 정규 표현식 검증이 모두 통과하고
@@ -281,3 +287,22 @@ function closeModal(modalId) {
   const modal = document.getElementById(modalId);
   modal.style.display = 'none';
 }
+
+function success() {
+	alert(register.dataset.success_msg);
+}
+// 필수 입력값이 모두 작성되었는지 확인하는 함수
+  function checkRequiredFields() {
+    return idInput.value && pwInput.value && rpwInput.value && nameInput.value && emailInput.value;
+  }
+
+  // 정규 표현식 검증 함수
+  function checkValidInputs() {
+    return regex.id.test(idInput.value) &&
+           regex.pw.test(pwInput.value) &&
+           pwInput.value === rpwInput.value &&
+           regex.email.test(emailInput.value) &&
+           regex.tel.test(telInput.value) &&
+           regex.birth.test(birthInput.value) &&
+           regex.gender.test(genderInput.value);
+  }

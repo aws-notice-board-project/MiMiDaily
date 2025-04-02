@@ -96,31 +96,20 @@ public class MemberDAO extends DBConnPool {
   
 	//id 중복 확인
 	public int confirmID(String userid) {
-		int result = -1;
-		String sql = "select userid from member where userid=?";
+		int result = -1; // 중복아님?
+		String sql = "select id from members where id=?";
 		try {
-//			con = source.getConnection();
 			psmt = con.prepareStatement(sql);
 			psmt.setString(1, userid);
 			rs = psmt.executeQuery();
 			if (rs.next()) {
-				result = 1;
+				result = 1;// 사용 불가능
 			} else {
-				result = -1;
+				result = -1;// 사용 가능
 			}
 		} catch (Exception e) {
+			System.out.println("예외? 오류? 발생");
 			e.printStackTrace();
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (psmt != null)
-					psmt.close();
-				if (con != null)
-					con.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 		return result;
 	}
@@ -128,9 +117,8 @@ public class MemberDAO extends DBConnPool {
 	// 회원 등록
 		public int insertMember(MemberDTO mDto) {
 			int result = -1;
-			String sql = "insert into member values(?, ?, ?, ?, ?, ?)";
+			String sql = "insert into members values(?, ?, ?, ?, ?, ?)";
 			try {
-//				con = getConnection();
 				psmt = con.prepareStatement(sql);
 				psmt.setString(1, mDto.getId());
 				psmt.setString(2, mDto.getPwd());
