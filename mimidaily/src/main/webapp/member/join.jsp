@@ -12,18 +12,20 @@
 </head>
 <body id="join">
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
-	<div>
-	    <form action="join.do" method="get" name="reporteroruser">
-			<label>
-		        기자
-		        <input type="checkbox" value="reporter" name="who">
-			</label>
-	      	<input type="submit" value="확인">
-	    </form>
-	    ${reporter}
-	</div>
 	<div id="wrap">
 		<div class="cont">
+			<form action="join.do" method="get" name="whoareyou">
+				<label>
+					<input type="checkbox" value="reporter" name="role" class=hidden>
+					<img src="${pageContext.request.contextPath}/media/images/user.png" id="unchecked" alt="일반회원">
+					<img src="${pageContext.request.contextPath}/media/images/reporter.png" id="checked" alt="기자" class="hidden">
+				</label>
+				<div class="join_btn">
+					<input type="submit" value="일반 회원 가입">
+				</div>
+			</form>
+		</div>
+		<div class="cont hidden">
 			<div id="logo"></div>
 			<h1 class="hide">미미일보</h1>
 			<h2>회원가입</h2>
@@ -61,7 +63,7 @@
 			        </div>
 		        </div>
 		        <div class="join_box">
-					<div id="code">
+					<div id="code" data-job="${job}">
 						<input type="text" name="code" placeholder="기자 인증 코드">
 						<input type="button" value="인증">
 						<p class="error hidden"></p>
@@ -75,17 +77,17 @@
 					<label>
 						<input type="checkbox" id="agree1">
 						이용약관 동의
-						<input type="button" id="agree_modal_btn1" value="확인 >">
+						<input type="button" id="agree_modal_btn1" value="내용 확인 >">
 					</label>
 					<label>
 						<input type="checkbox" id="agree2">
 						개인정보 수집 및 이용 동의
-						<input type="button" id="agree_modal_btn2" value="확인 >">
+						<input type="button" id="agree_modal_btn2" value="내용 확인 >">
 					</label>
 					<label>
 						<input type="checkbox" id="agree3">
 						마케팅 활용 및 프로모션 이용 동의
-						<input type="button" id="agree_modal_btn3" value="확인 >">
+						<input type="button" id="agree_modal_btn3" value="내용 확인 >">
 					</label>
 				</div>
 				<div class="join_btn">
