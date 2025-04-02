@@ -117,7 +117,7 @@ public class MemberDAO extends DBConnPool {
 	// 회원 등록
 		public int insertMember(MemberDTO mDto) {
 			int result = -1;
-			String sql = "insert into members values(?, ?, ?, ?, ?, ?)";
+			String sql = "insert into members values(?, ?, ?, ?, ?)"; // 필수 입력 값 5개
 			try {
 				psmt = con.prepareStatement(sql);
 				psmt.setString(1, mDto.getId());
