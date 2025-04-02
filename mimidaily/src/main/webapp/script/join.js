@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!who) {
       console.error('Form not found');
       return;
+  } 
+  const form = document.forms["join_form"];
+    if (!form) {
+      console.error('Form not found');
+      return;
   } // form으로 checkbox 선택
   const roleType = who.querySelector('[name="role"]');
   const join = who.querySelector('[type="submit"]');
@@ -10,25 +15,32 @@ document.addEventListener('DOMContentLoaded', function() {
   let checked = document.getElementById("checked");
   
   unchecked.addEventListener("click", function() {
-    roleType.checked = true;
+    roleType.checked = false;
     unchecked.classList.add("hidden");
     checked.classList.remove("hidden");
 	join.value = "기자 회원 가입";
   });
   checked.addEventListener("click", function() {
-    roleType.checked = false;
+    roleType.checked = true;
     checked.classList.add("hidden");
     unchecked.classList.remove("hidden");
 	join.value = "일반 회원 가입";
   });
   
-  // 현재 URL에서 쿼리 문자열 가져오기
+  // 현재 URL에서 쿼리 문자열 가져와서 보여줄 form을 변경
   let params = new URLSearchParams(window.location.search);
-  // "who" 파라미터 값 가져오기
   let role = params.get("role");
-  console.log("role:", role); // 출력: reporter
-  
-  
+  join.addEventListener("click", function() {
+	event.preventDefault();
+    // console.log(role);
+    if(role == "reporter" || role == null) {
+	  form.classList.remove("hidden");
+	  who.classList.add("hidden");
+    }else {
+	  who.classList.remove("hidden");
+  	  form.classList.add("hidden");
+    }
+  });
   
   
   // 기자인지 아닌지에 따라 인증 코드 사라지고 나타남
@@ -40,14 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   
   
-  
-  
-  // from에서 입력값 받아오기 모음
-  const form = document.forms["join_form"];
-  if (!form) {
-      console.error('Form not found');
-      return;
-  }
 
   // 입력 필드 모음
   const idInput = form.querySelector('[name="id"]');
