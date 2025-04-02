@@ -36,27 +36,21 @@ public class ArticlesEDAO extends DBConnPool {
     // 검색 조건에 맞는 게시물 목록을 반환합니다(페이징 기능 지원).
     public List<ArticlesDTO> selectListPage(Map<String, Object> map) {
         List<ArticlesDTO> board = new ArrayList<ArticlesDTO>();
-        String query = " "
-                + "SELECT * FROM ( "
-                + "    SELECT Tb.*, ROWNUM rNum FROM ( "
-                + "        SELECT * FROM articles ";
-
-        if (map.get("searchWord") != null) {
-            query += " WHERE " + map.get("searchField")
-                    + " LIKE '%" + map.get("searchWord") + "%' ";
-        }
-
-        query += "        ORDER BY idx DESC "
-                + "    ) Tb "
-                + " ) "
-                + " WHERE rNum BETWEEN ? AND ?";
-
+        String query = "SELECT * FROM ( " +
+                "  SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, a.thumnails_idx, " +
+                "         t.sfile AS thumbnailSfile, t.file_path AS thumbnailPath, " +
+                "         ROW_NUMBER() OVER (ORDER BY a.created_at DESC) AS rnum " +
+                "  FROM articles a " +
+                "  LEFT JOIN thumbnails t ON a.thumnails_idx = t.idx ";
+ if (map.get("searchWord") != null) {
+     query += " WHERE " + map.get("searchField") + " LIKE '%" + map.get("searchWord") + "%' ";
+ }
+ query += " ) WHERE rnum BETWEEN ? AND ?";
         try {
             psmt = con.prepareStatement(query);
             psmt.setString(1, map.get("start").toString());
             psmt.setString(2, map.get("end").toString());
             rs = psmt.executeQuery();
-
             while (rs.next()) {
                 // Model객체에 게시글 데이터 저장
                 ArticlesDTO dto = new ArticlesDTO();
@@ -69,6 +63,8 @@ public class ArticlesEDAO extends DBConnPool {
                 dto.setVisitcnt(rs.getInt(6));
                 dto.setMembers_id(rs.getString(7));
                 dto.setThumnails_idx(rs.getInt(8));
+                dto.setSfile(rs.getString(9));
+                dto.setFile_path(rs.getString(10));
 
                 board.add(dto);
             }
@@ -147,35 +143,35 @@ public class ArticlesEDAO extends DBConnPool {
 
     // 다운로드 횟수를 1 증가시킵니다.
     // public void downCountPlus(String idx) {
-    //     String sql = "UPDATE articles SET "
-    //             + " downcount=downcount+1 "
-    //             + " WHERE idx=? ";
-    //     try {
-    //         psmt = con.prepareStatement(sql);
-    //         psmt.setString(1, idx);
-    //         psmt.executeUpdate();
-    //     } catch (Exception e) {
-    //     }
+    // String sql = "UPDATE articles SET "
+    // + " downcount=downcount+1 "
+    // + " WHERE idx=? ";
+    // try {
+    // psmt = con.prepareStatement(sql);
+    // psmt.setString(1, idx);
+    // psmt.executeUpdate();
+    // } catch (Exception e) {
+    // }
     // }
 
     // 입력한 비밀번호가 지정한 일련번호의 게시물의 비밀번호와 일치하는지 확인합니다.
     // public boolean confirmPassword(String pass, String idx) {
-    //     boolean isCorr = true;
-    //     try {
-    //         String sql = "SELECT COUNT(*) FROM articles WHERE pass=? AND idx=?";
-    //         psmt = con.prepareStatement(sql);
-    //         psmt.setString(1, pass);
-    //         psmt.setString(2, idx);
-    //         rs = psmt.executeQuery();
-    //         rs.next();
-    //         if (rs.getInt(1) == 0) {
-    //             isCorr = false;
-    //         }
-    //     } catch (Exception e) {
-    //         isCorr = false;
-    //         e.printStackTrace();
-    //     }
-    //     return isCorr;
+    // boolean isCorr = true;
+    // try {
+    // String sql = "SELECT COUNT(*) FROM articles WHERE pass=? AND idx=?";
+    // psmt = con.prepareStatement(sql);
+    // psmt.setString(1, pass);
+    // psmt.setString(2, idx);
+    // rs = psmt.executeQuery();
+    // rs.next();
+    // if (rs.getInt(1) == 0) {
+    // isCorr = false;
+    // }
+    // } catch (Exception e) {
+    // isCorr = false;
+    // e.printStackTrace();
+    // }
+    // return isCorr;
     // }
 
     // 지정한 일련번호의 게시물을 삭제합니다.
