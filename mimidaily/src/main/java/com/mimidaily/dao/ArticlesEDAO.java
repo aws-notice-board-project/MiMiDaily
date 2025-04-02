@@ -42,10 +42,10 @@ public class ArticlesEDAO extends DBConnPool {
                 "         ROW_NUMBER() OVER (ORDER BY a.created_at DESC) AS rnum " +
                 "  FROM articles a " +
                 "  LEFT JOIN thumbnails t ON a.thumnails_idx = t.idx ";
- if (map.get("searchWord") != null) {
-     query += " WHERE " + map.get("searchField") + " LIKE '%" + map.get("searchWord") + "%' ";
- }
- query += " ) WHERE rnum BETWEEN ? AND ?";
+		 if (map.get("searchWord") != null) {
+		     query += " WHERE " + map.get("searchField") + " LIKE '%" + map.get("searchWord") + "%' ";
+		 }
+			 query += " ) WHERE rnum BETWEEN ? AND ?";
         try {
             psmt = con.prepareStatement(query);
             psmt.setString(1, map.get("start").toString());
@@ -82,16 +82,13 @@ public class ArticlesEDAO extends DBConnPool {
             String query = "INSERT INTO articles ( "
                     + " idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) "
                     + " VALUES ( "
-                    + " seq_board_num.NEXTVAL,?,?,?,?,?,?,?,?)";
+                    + " articles_seq.NEXTVAL,?,?,?,?,0,?, thumbnails_seq.NEXTVAL)";
             psmt = con.prepareStatement(query);
-            psmt.setInt(1, dto.getIdx());
-            psmt.setString(2, dto.getTitle());
-            psmt.setString(3, dto.getContent());
-            psmt.setInt(4, dto.getCategory());
-            psmt.setTimestamp(5, dto.getCreated_at());
-            psmt.setInt(6, dto.getVisitcnt());
-            psmt.setString(7, dto.getMembers_id());
-            psmt.setInt(8, dto.getThumnails_idx());
+            psmt.setString(1, dto.getTitle());
+            psmt.setString(2, dto.getContent());
+            psmt.setInt(3, dto.getCategory());
+            psmt.setTimestamp(4, dto.getCreated_at());
+            psmt.setString(5, dto.getMembers_id());
             result = psmt.executeUpdate();
         } catch (Exception e) {
             System.out.println("게시물 입력 중 예외 발생");
