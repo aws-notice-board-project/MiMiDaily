@@ -42,16 +42,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  
   // 기자인지 아닌지에 따라 인증 코드 사라지고 나타남
+/*  
   let reporterElement = document.getElementById("code");
   let jobName = reporterElement.dataset.job;
   console.log(jobName);
-  
-  
-  
-  
-  
+  if(jobName == "reporter") {
+	reporterElement.parentElement.classList.remove("hidden");
+  }else if(jobName == "user") {
+    reporterElement.parentElement.classList.add("hidden");
+  }*/
 
   // 입력 필드 모음
   const idInput = form.querySelector('[name="id"]');
