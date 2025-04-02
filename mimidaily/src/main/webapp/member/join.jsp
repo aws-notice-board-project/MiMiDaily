@@ -19,7 +19,7 @@
 			<h2>회원가입</h2>
 			<form action="join.do" method="get" name="whoareyou">
 				<label>
-					<input type="checkbox" value="reporter" name="role" class="hidden">
+					<input type="checkbox" value="reporter" name="role">
 					<img src="${pageContext.request.contextPath}/media/images/user.png" id="unchecked" alt="일반회원">
 					<img src="${pageContext.request.contextPath}/media/images/reporter.png" id="checked" alt="기자" class="hidden">
 				</label>

@@ -40,6 +40,7 @@ public class JoinServlet extends HttpServlet {
 		    type = "user";
 		}
 		request.setAttribute("job", type);
+		System.out.println(request.getParameter("role"));
 		System.out.println(type);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);//주소가 변경되지 않음.
