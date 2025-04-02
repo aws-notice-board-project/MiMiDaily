@@ -1,5 +1,7 @@
 package com.mimidaily.dao;
 
+import java.sql.SQLException;
+
 import com.mimidaily.common.DBConnPool;
 
 //public class MemberDAO {
@@ -35,6 +37,64 @@ public class MemberDAO extends DBConnPool {
 		// 결과 반환
 		return result;
 	}
+	
+	// 역할을 가져오는 메서드
+    public int getUserRole(String userid) {
+        int role = 0;
+        String query = "SELECT role FROM members WHERE id = ?";
+        try {
+            psmt = con.prepareStatement(query);
+            psmt.setString(1, userid);
+            rs = psmt.executeQuery();
+
+            if (rs.next()) {
+                role = rs.getInt("role"); // 역할 가져오기
+            }
+        } catch (Exception e) {
+            System.out.println("역할 조회 중 예외 발생");
+            e.printStackTrace();
+        }
+        return role; // 역할 반환
+    }
+    
+    // 방문횟수 조회 및 증가
+    public int incrementUserVisitCnt(String userid) {
+        int visitcnt = 0;
+        String selectSql = "SELECT visitcnt FROM members WHERE id = ?"; // 방문 횟수 조회 SQL
+        String updateSql = "UPDATE members SET visitcnt = ? WHERE id = ?"; // 방문 횟수 증가 SQL
+
+        try {
+            // 방문 횟수 조회
+            psmt = con.prepareStatement(selectSql);
+            psmt.setString(1, userid);
+            rs = psmt.executeQuery();
+
+            if (rs.next()) {
+                visitcnt = rs.getInt("visitcnt"); // 현재 방문 횟수 가져오기
+            }
+
+            // 방문 횟수 증가
+            visitcnt++; // 1 증가
+
+            // 업데이트 실행
+            psmt = con.prepareStatement(updateSql);
+            psmt.setInt(1, visitcnt);
+            psmt.setString(2, userid);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // 자원 반납
+            try {
+                if (rs != null) rs.close();
+                if (psmt != null) psmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return visitcnt; // 증가된 방문 횟수 반환
+    }
+
 
 	/*
 	 * public static MemberDAO getInstance() { // TODO Auto-generated method stub

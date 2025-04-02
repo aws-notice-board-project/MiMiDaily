@@ -10,7 +10,8 @@ public class MemberDTO {
     private String tel;
     private String marketing;
     private int profile_idx;
-    private String isreporter;
+    private int role;
+    private int visitcnt;
     private String created_at;
     
 	public String getId() {
@@ -67,11 +68,17 @@ public class MemberDTO {
 	public void setProfile_idx(int profile_idx) {
 		this.profile_idx = profile_idx;
 	}
-	public String getIsreporter() {
-		return isreporter;
+	public int getRole() {
+		return role;
 	}
-	public void setIsreporter(String isreporter) {
-		this.isreporter = isreporter;
+	public void setRole(int role) {
+		this.role = role;
+	}
+	public int getVisitcnt() {
+		return visitcnt;
+	}
+	public void setVisitcnt(int visitcnt) {
+		this.visitcnt = visitcnt;
 	}
 	public String getCreated_at() {
 		return created_at;
