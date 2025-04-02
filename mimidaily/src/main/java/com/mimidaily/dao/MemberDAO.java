@@ -140,7 +140,7 @@ public class MemberDAO extends DBConnPool {
 				psmt.setString(6, mDto.getBirth());
 				psmt.setString(7, mDto.getGender());
 				psmt.setBoolean(8, mDto.isMarketing());
-				psmt.setString(9, mDto.getRole());
+				psmt.setInt(9, mDto.getRole());
 				psmt.setObject(10, mDto.getProfile_idx());
 				psmt.setString(11, mDto.getCreated_at());
 				result = psmt.executeUpdate();// 영향을 받은 행의 수 리턴. insert하면 1행이 추가되므로 1이 리턴됨.
