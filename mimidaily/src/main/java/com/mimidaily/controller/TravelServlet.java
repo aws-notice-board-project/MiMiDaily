@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.mimidaily.dao.ArticlesTDAO;
 import com.mimidaily.dto.ArticlesDTO;
 
+import utils.ArticlesPagination;
+
 /**
  * Servlet implementation class TravelServlet
  */
@@ -44,7 +46,8 @@ public class TravelServlet extends HttpServlet {
         
         int pageNum=1; // 기본값(첫페이지)
         String pageTemp=request.getParameter("pageNum");
-        if(pageTemp!=null && !pageTemp.equals("")) pageNum=Integer.parseInt(pageTemp); // 요청받은 페이지로 수정
+        // 파라미터에 값이 있을 시, 요청 받은 페이지로 수정
+        if(pageTemp!=null && !pageTemp.equals("")) pageNum=Integer.parseInt(pageTemp);
         
         // 목록에 출력할 게시물 범위 계산
         int start=((pageNum-1)*pageSize)+1; // 1 11 21 ...(첫 게시물 번호)
@@ -55,8 +58,16 @@ public class TravelServlet extends HttpServlet {
         List<ArticlesDTO> articleLists=dao.selectListPage(map); // 게시물 목록 받기
         dao.close(); // DB연결 close
         
-        request.setAttribute("articleLists", articleLists);
+        // pagenation
+        String paging=ArticlesPagination.pagingBox(totalCnt, pageSize, blockPage, pageNum, "../articles/travel.do");
+        map.put("paging", paging);
+        map.put("totalCnt", totalCnt);
+        map.put("pageSize", pageSize);
+		map.put("pageNum", pageNum);
 		
+        // 전달할 데이터 request 영역에 저장 ("이름",데이터)
+        request.setAttribute("articleLists", articleLists);
+        request.setAttribute("map", map);
 		request.getRequestDispatcher("/articles/travel.jsp").forward(request, response);
 	}
 

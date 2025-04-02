@@ -1,6 +1,7 @@
 package com.mimidaily.dto;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class ArticlesDTO {
     private int idx;
@@ -11,6 +12,15 @@ public class ArticlesDTO {
     private int visitcnt;
     private String members_id;
     private Integer thumnails_idx;
+    
+    // 포맷된 날짜 getter
+    public String getFormattedDate() {
+        if (created_at != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+            return sdf.format(created_at);
+        }
+        return null;
+    }
     
 	public int getIdx() {
 		return idx;

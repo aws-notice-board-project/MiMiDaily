@@ -120,6 +120,7 @@ footer p{text-align: center;color: #8C7B7B; }
 
 /* searchBar */
 #search_box {width: 100%; height: 320px;display: flex;justify-content: center;align-items: center;}
+#search_box select {margin-right:1rem;}
 #search{width: 30vw;min-width: 220px;border-bottom: 1px solid #594543;padding: 0.5rem;}
 .search_btn {margin-left: 0.5rem;}
 
