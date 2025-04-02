@@ -15,11 +15,11 @@ public class ArticlesTDAO extends DBConnPool {
 	// 게시물 개수
 	public int selectCnt(Map<String,Object> map) {
 		int totalCnt=0;
-		String query="select count(*) from articles";
+		String query="select count(*) from articles where category=1";
 		
 		// 검색 조건이 있다면
 		if(map.get("searchWord")!=null) {
-			query+=" where "+map.get("searchField")+" like '%"+map.get("searchWord")+"%'";
+			query+=" and "+map.get("searchField")+" like '%"+map.get("searchWord")+"%'";
 		}
 		
 		try {
@@ -40,17 +40,17 @@ public class ArticlesTDAO extends DBConnPool {
 		String query=""
 					+"select * from ("
 					+"	select Tb.*, rownum rNum from (" // Tb의 모든 칼럼, rNum: rownum의 별칭
-					+"		select * from articles"; // Tb
+					+"		select * from articles where category=1"; // Tb, (1:여행 2:맛집)
 		
 		// 검색 조건이 있다면
 		if(map.get("searchWord")!=null) {
-			query+=" where "+map.get("searchField")+" like '%"+map.get("searchWord")+"%'";
+			query+=" and "+map.get("searchField")+" like '%"+map.get("searchWord")+"%'";
 		}
 		
 		query+="		order by idx desc"
 				+"	) Tb"
-				+")"
-				+"where rNum between ? and ?";
+				+" )"
+				+" where rNum between ? and ?";
 		
 		try {
 			psmt=con.prepareStatement(query); // 동적쿼리
@@ -65,7 +65,7 @@ public class ArticlesTDAO extends DBConnPool {
                 dto.setCategory(rs.getInt(4));
                 dto.setCreated_at(rs.getTimestamp(5));
                 dto.setVisitcnt(rs.getInt(6));
-                dto.setMembers_id(rs.getString(7)); 
+                dto.setMembers_id(rs.getString(7));
                 dto.setThumnails_idx(rs.getInt(8));
 				article.add(dto);
 			}

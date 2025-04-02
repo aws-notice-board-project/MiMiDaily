@@ -74,7 +74,7 @@ public class TravelServlet extends HttpServlet {
 		map.put("pageNum", pageNum);
 		
         // 전달할 데이터 request 영역에 저장 ("이름",데이터)
-		request.setAttribute("actionUrl", "travel.do");
+		request.setAttribute("actionUrl", "/articles/travel.do");
         request.setAttribute("articleLists", articleLists);
         request.setAttribute("map", map);
 		request.getRequestDispatcher("/articles/travel.jsp").forward(request, response);

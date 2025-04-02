@@ -30,12 +30,12 @@ public class MainServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String searchField = request.getParameter("searchField");
         String searchWord = request.getParameter("searchWord");
-        if (searchField != null && searchWord != null) { // 검색조건이 존재하면
-        	System.out.println("검색어 존재");
-            response.sendRedirect("newest.do?searchField=" + searchField + "&searchWord=" + searchWord);
-            return; // 이후 코드 실행 방지
+        if (searchField != null && searchWord != null && !searchWord.trim().isEmpty()) { // 검색조건이 존재하면
+        	System.out.println("검색어 존재"); 
+            response.sendRedirect("/articles/newest.do?searchField=" + searchField + "&searchWord=" + searchWord);
+            return; // 이후 코드 실행 방지 
         }
-		
+
         request.setAttribute("actionUrl", "main.do");
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 		dispatcher.forward(request, response);

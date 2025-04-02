@@ -7,9 +7,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>미미일보</title>
-<link rel="stylesheet" type="text/css" href="/css/main.css">
-<link rel="stylesheet" type="text/css" href="/css/index.css">
-<script type="module" src="/script/index.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css">
+<script type="module" src="${pageContext.request.contextPath}/script/index.js"></script>
 </head> 
 <body>
 <jsp:include page="/components/navigation.jsp"></jsp:include>

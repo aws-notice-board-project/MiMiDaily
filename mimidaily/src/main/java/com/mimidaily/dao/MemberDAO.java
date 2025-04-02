@@ -93,6 +93,36 @@ public class MemberDAO extends DBConnPool {
         }
         return visitcnt; // 증가된 방문 횟수 반환
     }
+    
+    // 멤버정보 가져오기(필요한 정보만)
+    public MemberInfo getMemberInfo(String memberId) {
+        MemberInfo memberInfo = null;
+        String sql = "SELECT m.id, m.name, COUNT(a.idx) AS article_count, "
+                   + "COUNT(c.idx) AS comment_count, m.created_at "
+                   + "FROM members m "
+                   + "LEFT JOIN articles a ON m.id = a.members_id "
+                   + "LEFT JOIN comments c ON a.idx = c.articles_idx "
+                   + "WHERE m.id = ? "
+                   + "GROUP BY m.id, m.name, m.created_at";
+        try {
+        	psmt = con.prepareStatement(sql);
+            psmt.setString(1, memberId);
+            rs = psmt.executeQuery();
+
+            if (rs.next()) {
+                memberInfo = new MemberInfo();
+                memberInfo.setId(rs.getString("id"));
+                memberInfo.setName(rs.getString("name"));
+                memberInfo.setArticleCount(rs.getInt("article_count"));
+                memberInfo.setCommentCount(rs.getInt("comment_count"));
+                memberInfo.setCreatedAt(rs.getTimestamp("created_at"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return memberInfo;
+    }
   
 	//id 중복 확인
 	public int confirmID(String userid) {

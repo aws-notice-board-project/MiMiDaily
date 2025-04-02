@@ -89,7 +89,7 @@ public class MustEatServlet extends HttpServlet {
 		map.put("pageNum", pageNum);
 
 		// 전달할 데이터를 request 영역에 저장 후 List.jsp로 포워드
-		request.setAttribute("actionUrl", "musteat.do");
+		request.setAttribute("actionUrl", "/articles/musteat.do");
 		request.setAttribute("boardLists", boardLists);
 		request.setAttribute("map", map);
 		request.getRequestDispatcher("/articles/musteat.jsp").forward(request, response);

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.mimidaily.dao.MemberDAO;
+import com.mimidaily.dao.MemberInfo;
 
 /**
  * Servlet implementation class LoginServlet
@@ -52,6 +53,7 @@ public class LoginServlet extends HttpServlet {
 		String url = "member/login.jsp";
 		String userid = request.getParameter("userid");
 		String pwd = request.getParameter("pwd");
+		MemberInfo memberInfo = null;
 		int role = 0;
 		int visitCnt = 0;
 		MemberDAO mDao = new MemberDAO(); 
@@ -61,8 +63,10 @@ public class LoginServlet extends HttpServlet {
 			//MemberDTO mVo = mDao.getMember(userid); /* 로그인할때마다 정보가져오는거 (굳이 로그인할때마다 정보를 다 가져온다? 별로같아서 주석 */
 			HttpSession session = request.getSession();
 			// session.setAttribute("loginUser", mVo);
+			memberInfo = mDao.getMemberInfo(userid);
 			visitCnt = mDao.incrementUserVisitCnt(userid); // 방문횟수 증가 및 값 가져오기
 			role = mDao.getUserRole(userid);
+			request.getSession().setAttribute("memberInfo", memberInfo); // 멤버 정보
 			session.setAttribute("userRole", role);
 			session.setAttribute("visitCnt", visitCnt);
 			session.setAttribute("loginUser", userid);

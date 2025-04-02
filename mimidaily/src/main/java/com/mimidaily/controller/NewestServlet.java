@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class Newest
  */
 @WebServlet("/articles/newest.do")
-public class Newest extends HttpServlet {
+public class NewestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Newest() {
+    public NewestServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,7 +28,7 @@ public class Newest extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("newest.do");
+		request.setAttribute("actionUrl", "/articles/newest.do");
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/articles/newest.jsp");
 		dispatcher.forward(request, response);
 	}

@@ -6,11 +6,6 @@
   --mimiFooter: #F0ECEC; 
 }
 
-.cont{
-  background-color: var(--mimiContainer);
-  border-radius: 2px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
 #main {width: 70vw; min-width: 1120px; margin: 0 auto 5rem auto;display: flex;justify-content: space-between;}
 #main .most_liked_news{width: 768px;}
 aside {width: 320px;}

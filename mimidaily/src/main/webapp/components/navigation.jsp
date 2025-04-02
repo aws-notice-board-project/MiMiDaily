@@ -12,7 +12,7 @@
 	<nav id="nav"> 
 		<div id="logo">
 			<h1 class="hide">미미일보 로고</h1>
-			<a href="/">
+			<a href="/main.do">
 				<img src="${pageContext.request.contextPath}/media/images/logo.svg" alt="미미일보 로고" width="251px" />
 			</a>
 		</div>
