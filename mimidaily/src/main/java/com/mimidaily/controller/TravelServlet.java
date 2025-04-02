@@ -40,6 +40,14 @@ public class TravelServlet extends HttpServlet {
         // 전달할 매개변수 저장용 맵(유연성, 가독성, 재사용성)
         Map<String,Object> map=new HashMap<String,Object>();
         
+        // 필터링할 조건(searchField), 입력된 검색(searchWord)
+        String searchField = request.getParameter("searchField");
+		String searchWord = request.getParameter("searchWord");
+		if(searchWord!=null) { // 검색 조건이 있다면 map에 저장
+			map.put("searchField", searchField);
+			map.put("searchWord", searchWord);
+		}
+        
         int totalCnt=dao.selectCnt(map); // 게시물 갯수
         int pageSize=10; // 한 페이지에 출력할 글의 갯수
         int blockPage=5; // 페이지 번호의 갯수
@@ -66,6 +74,7 @@ public class TravelServlet extends HttpServlet {
 		map.put("pageNum", pageNum);
 		
         // 전달할 데이터 request 영역에 저장 ("이름",데이터)
+		request.setAttribute("actionUrl", "travel.do");
         request.setAttribute("articleLists", articleLists);
         request.setAttribute("map", map);
 		request.getRequestDispatcher("/articles/travel.jsp").forward(request, response);

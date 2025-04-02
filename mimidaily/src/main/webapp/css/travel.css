@@ -1,1 +1,8 @@
-.news_container{width: 768px;margin: 0 3rem;}
+:root {
+  --mimiDark: #594543; 
+  --mimiLight: #8C7B7B; 
+  --mimiBg: #F5F5F5; 
+  --mimiContainer: #FBF9F9; 
+  --mimiFooter: #F0ECEC; 
+}
+.news_container{width: 768px;margin: 0 auto 5rem auto;background-color: var(--mimiContainer);}
