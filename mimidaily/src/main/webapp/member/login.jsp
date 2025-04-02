@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>로그인</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login.css">
-
 
 </head>
 <body id="login">
@@ -31,6 +31,9 @@
 				<div class="join_btn">
 					<span>아직 회원이 아니신가요?</span>
 					<input type="button" value="회원가입" onclick="location.href='join.do'">
+				</div>
+				<div class="message_box">
+					${message}
 				</div>
 				<div class="login_btn">
 					<input type="submit" value="로그인">

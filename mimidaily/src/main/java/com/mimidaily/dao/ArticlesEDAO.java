@@ -65,7 +65,7 @@ public class ArticlesEDAO extends DBConnPool {
                 dto.setTitle(rs.getString(2));
                 dto.setContent(rs.getString(3));
                 dto.setCategory(rs.getInt(4));
-                dto.setCreated_at(rs.getString(5));
+                dto.setCreated_at(rs.getTimestamp(5));
                 dto.setVisitcnt(rs.getInt(6));
                 dto.setMembers_id(rs.getString(7));
                 dto.setThumnails_idx(rs.getInt(8));
@@ -92,7 +92,7 @@ public class ArticlesEDAO extends DBConnPool {
             psmt.setString(2, dto.getTitle());
             psmt.setString(3, dto.getContent());
             psmt.setInt(4, dto.getCategory());
-            psmt.setString(5, dto.getCreated_at());
+            psmt.setTimestamp(5, dto.getCreated_at());
             psmt.setInt(6, dto.getVisitcnt());
             psmt.setString(7, dto.getMembers_id());
             psmt.setInt(8, dto.getThumnails_idx());
@@ -118,7 +118,7 @@ public class ArticlesEDAO extends DBConnPool {
                 dto.setTitle(rs.getString(2));
                 dto.setContent(rs.getString(3));
                 dto.setCategory(rs.getInt(4));
-                dto.setCreated_at(rs.getString(5));
+                dto.setCreated_at(rs.getTimestamp(5));
                 dto.setVisitcnt(rs.getInt(6));
                 dto.setMembers_id(rs.getString(7));
                 dto.setThumnails_idx(rs.getInt(8));
@@ -208,7 +208,7 @@ public class ArticlesEDAO extends DBConnPool {
             psmt.setString(2, dto.getTitle());
             psmt.setString(3, dto.getContent());
             psmt.setInt(4, dto.getCategory());
-            psmt.setString(5, dto.getCreated_at());
+            psmt.setTimestamp(5, dto.getCreated_at());
             psmt.setInt(6, dto.getVisitcnt());
             psmt.setString(7, dto.getMembers_id());
             psmt.setInt(8, dto.getThumnails_idx());

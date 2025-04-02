@@ -21,7 +21,7 @@
 h2 {
     font-size: 40px;
     font-family: "NotoSansKR-Light";
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 }
 
 form {
@@ -83,7 +83,7 @@ form {
 
 .join_btn {
     width: 100%;
-    margin: 5px 0px 70px 0px;
+    margin: 5px 0px 10px 0px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -103,10 +103,16 @@ form {
     cursor: pointer;
 }
 
+.message_box {
+    height: 20px;
+    margin-bottom: 30px;
+    color: #FF0101;
+}
+
 .login_btn {
     width: 336px;
     height: 78px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     background: var(--mimiDark);
 }
 

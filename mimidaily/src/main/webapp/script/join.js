@@ -1,4 +1,47 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {  
+  const who = document.forms["whoareyou"];
+    if (!who) {
+      console.error('Form not found');
+      return;
+  } // form으로 checkbox 선택
+  const roleType = who.querySelector('[name="role"]');
+  const join = who.querySelector('[type="submit"]');
+  let unchecked = document.getElementById("unchecked");
+  let checked = document.getElementById("checked");
+  
+  unchecked.addEventListener("click", function() {
+    roleType.checked = true;
+    unchecked.classList.add("hidden");
+    checked.classList.remove("hidden");
+	join.value = "기자 회원 가입";
+  });
+  checked.addEventListener("click", function() {
+    roleType.checked = false;
+    checked.classList.add("hidden");
+    unchecked.classList.remove("hidden");
+	join.value = "일반 회원 가입";
+  });
+  
+  // 현재 URL에서 쿼리 문자열 가져오기
+  let params = new URLSearchParams(window.location.search);
+  // "who" 파라미터 값 가져오기
+  let role = params.get("role");
+  console.log("role:", role); // 출력: reporter
+  
+  
+  
+  
+  // 기자인지 아닌지에 따라 인증 코드 사라지고 나타남
+  let reporterElement = document.getElementById("code");
+  let jobName = reporterElement.dataset.job;
+  console.log(jobName);
+  
+  
+  
+  
+  
+  
+  
   // from에서 입력값 받아오기 모음
   const form = document.forms["join_form"];
   if (!form) {
