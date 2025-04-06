@@ -98,7 +98,7 @@ button{border: none; background-color: transparent; cursor: pointer;}
   box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
 }
-.nav_toggle.open{height: 224px;}
+.nav_toggle.open{height: 248px;}
 .nav_toggle a{width: 100%;display: inline-block;text-align: center;padding: 1rem;font-size: 20px;
 }
 .nav_toggle a:hover{background-color: var(--mimiFooter);}
@@ -142,4 +142,5 @@ footer p{text-align: center;color: #8C7B7B; }
   .nav_toggle{top: 100px;}
   .nav_toggle a{font-size: 16px;}
   #search_box{height: 180px;}
+  .nav_toggle.open{height: 224px;}
 } 
