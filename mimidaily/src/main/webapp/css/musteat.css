@@ -107,4 +107,18 @@
 
 #musteat .page_nav {
     padding: 20px;
+    width: 10%;
+}
+#musteat .page_nav ul{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+#musteat .page_nav ul li{}
+#musteat .page_nav ul li.current{}
+#musteat .page_nav ul li a{}
+#musteat .page_nav ul li a.disabled{
+    opacity: 0.3;
+    pointer-events: none;
 }

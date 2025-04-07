@@ -85,9 +85,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="page_nav">
-			${ map.pagingImg }
-		</div>
+		${ map.pagingImg }
 	</div>
 	<jsp:include page="/components/footer.jsp"></jsp:include>
 </body>

@@ -34,7 +34,7 @@
 		</tr>
 		<tr>
 			<td>제목</td>
-			<td><input type="text" name="title"></td>
+			<td><input type="text" name="title" maxlength="30"></td>
 		</tr>
 		<tr>
 			<td>첨부 파일</td>

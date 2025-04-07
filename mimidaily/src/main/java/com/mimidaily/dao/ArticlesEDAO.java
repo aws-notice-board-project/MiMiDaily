@@ -71,7 +71,7 @@ public class ArticlesEDAO extends DBConnPool {
         String query = "SELECT * FROM ( " +
                 "  SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, a.thumnails_idx, " +
                 "         t.sfile AS thumbnailSfile, t.file_path AS thumbnailPath, " +
-                "         ROW_NUMBER() OVER (ORDER BY a.created_at DESC) AS rnum " +
+                "         ROW_NUMBER() OVER (ORDER BY a.idx DESC) AS rnum " +
                 "  FROM articles a " +
                 "  LEFT JOIN thumbnails t ON a.thumnails_idx = t.idx ";
         
