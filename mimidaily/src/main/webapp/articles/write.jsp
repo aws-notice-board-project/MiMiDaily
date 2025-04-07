@@ -47,7 +47,14 @@
 		</tr>
 		<tr>
 			<td>카테고리</td>
-			<td><input type="number" name="category"  /></td>
+			<!-- <td><input type="number" name="category"  readonly/></td> -->
+			<td>
+				<label for="category">카테고리 선택:</label>
+				<select name="category" id="category">
+					<option value="1">여행지</option>
+					<option value="2">맛집</option>
+				</select>
+			</td>
 		</tr>
 		<tr>
 			<td>작성시간</td>

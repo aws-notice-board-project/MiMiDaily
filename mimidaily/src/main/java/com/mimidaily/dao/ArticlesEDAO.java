@@ -34,75 +34,18 @@ public class ArticlesEDAO extends DBConnPool {
     }
 
     // 검색 조건에 맞는 게시물 목록을 반환합니다(페이징 기능 지원).
-    public List<ArticlesDTO> selectListPage(Map<String, Object> map) {
-        List<ArticlesDTO> board = new ArrayList<ArticlesDTO>();
-        String query = "SELECT * FROM ( " +
-                "  SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, a.thumnails_idx, " +
-                "         t.sfile AS thumbnailSfile, t.file_path AS thumbnailPath, " +
-                "         ROW_NUMBER() OVER (ORDER BY a.created_at DESC) AS rnum " +
-                "  FROM articles a " +
-                "  LEFT JOIN thumbnails t ON a.thumnails_idx = t.idx ";
-		 if (map.get("searchWord") != null) {
-		     query += " WHERE " + map.get("searchField") + " LIKE '%" + map.get("searchWord") + "%' ";
-		 }
-			 query += " ) WHERE rnum BETWEEN ? AND ?";
-        try {
-            psmt = con.prepareStatement(query);
-            psmt.setString(1, map.get("start").toString());
-            psmt.setString(2, map.get("end").toString());
-            rs = psmt.executeQuery();
-            while (rs.next()) {
-                // Model객체에 게시글 데이터 저장
-                ArticlesDTO dto = new ArticlesDTO();
-
-                dto.setIdx(rs.getInt(1));
-                dto.setTitle(rs.getString(2));
-                dto.setContent(rs.getString(3));
-                dto.setCategory(rs.getInt(4));
-                dto.setCreated_at(rs.getTimestamp(5));
-                dto.setVisitcnt(rs.getInt(6));
-                dto.setMembers_id(rs.getString(7));
-                dto.setThumnails_idx(rs.getInt(8));
-                dto.setSfile(rs.getString(9));
-                dto.setFile_path(rs.getString(10));
-
-                board.add(dto);
-            }
-        } catch (Exception e) {
-            System.out.println("게시물 조회 중 예외 발생");
-            e.printStackTrace();
-        }
-        return board;
-    }
     // public List<ArticlesDTO> selectListPage(Map<String, Object> map) {
-    //         List<ArticlesDTO> board = new ArrayList<ArticlesDTO>();
-    //         String query = "SELECT * FROM ( " +
-    //         "  SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, a.thumnails_idx, " +
-    //         "         t.sfile AS thumbnailSfile, " +
-    //         "         ROW_NUMBER() OVER (ORDER BY a.created_at DESC) AS rnum " +
-    //         "  FROM articles a " +
-    //         "  LEFT JOIN thumbnails t ON a.thumnails_idx = t.idx ";
-        
-    //     boolean whereAdded = false;
-        
-    //     // 검색어 조건 추가 (존재할 경우)
-    //     if (map.get("searchWord") != null) {
-    //         query += " WHERE " + map.get("searchField") + " LIKE '%" + map.get("searchWord") + "%' ";
-    //         whereAdded = true;
-    //     }
-        
-    //     // articles의 category가 1일 경우 조건 추가
-    //     if (map.get("category") != null && "1".equals(map.get("category").toString())) {
-    //         if (whereAdded) {
-    //             query += " AND a.category = 1 ";
-    //         } else {
-    //             query += " WHERE a.category = 1 ";
-    //             whereAdded = true;
-    //         }
-    //     }
-        
-    //     query += " ) WHERE rnum BETWEEN ? AND ?";
-    
+    //     List<ArticlesDTO> board = new ArrayList<ArticlesDTO>();
+    //     String query = "SELECT * FROM ( " +
+    //             "  SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, a.thumnails_idx, " +
+    //             "         t.sfile AS thumbnailSfile, t.file_path AS thumbnailPath, " +
+    //             "         ROW_NUMBER() OVER (ORDER BY a.created_at DESC) AS rnum " +
+    //             "  FROM articles a " +
+    //             "  LEFT JOIN thumbnails t ON a.thumnails_idx = t.idx ";
+	// 	 if (map.get("searchWord") != null) {
+	// 	     query += " WHERE " + map.get("searchField") + " LIKE '%" + map.get("searchWord") + "%' ";
+	// 	 }
+	// 		 query += " ) WHERE rnum BETWEEN ? AND ?";
     //     try {
     //         psmt = con.prepareStatement(query);
     //         psmt.setString(1, map.get("start").toString());
@@ -131,6 +74,50 @@ public class ArticlesEDAO extends DBConnPool {
     //     }
     //     return board;
     // }
+    public List<ArticlesDTO> selectListPage(Map<String, Object> map) {
+        List<ArticlesDTO> board = new ArrayList<ArticlesDTO>();
+        String query = "SELECT * FROM ( " +
+                "  SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, a.thumnails_idx, " +
+                "         t.sfile AS thumbnailSfile, t.file_path AS thumbnailPath, " +
+                "         ROW_NUMBER() OVER (ORDER BY a.created_at DESC) AS rnum " +
+                "  FROM articles a " +
+                "  LEFT JOIN thumbnails t ON a.thumnails_idx = t.idx ";
+        
+        // 항상 a.category = 2 조건을 추가하고, 검색어가 있으면 추가 조건을 붙임
+        if (map.get("searchWord") != null) {
+            query += " WHERE a.category = 2 AND " + map.get("searchField") + " LIKE '%" + map.get("searchWord") + "%' ";
+        } else {
+            query += " WHERE a.category = 2 ";
+        }
+        
+        query += " ) WHERE rnum BETWEEN ? AND ?";
+        
+        try {
+            psmt = con.prepareStatement(query);
+            psmt.setString(1, map.get("start").toString());
+            psmt.setString(2, map.get("end").toString());
+            rs = psmt.executeQuery();
+            while (rs.next()) {
+                ArticlesDTO dto = new ArticlesDTO();
+                dto.setIdx(rs.getInt(1));
+                dto.setTitle(rs.getString(2));
+                dto.setContent(rs.getString(3));
+                dto.setCategory(rs.getInt(4));
+                dto.setCreated_at(rs.getTimestamp(5));
+                dto.setVisitcnt(rs.getInt(6));
+                dto.setMembers_id(rs.getString(7));
+                dto.setThumnails_idx(rs.getInt(8));
+                dto.setSfile(rs.getString(9));
+                dto.setFile_path(rs.getString(10));
+                board.add(dto);
+            }
+        } catch (Exception e) {
+            System.out.println("게시물 조회 중 예외 발생");
+            e.printStackTrace();
+        }
+        return board;
+    }
+    
 
     // 게시글 데이터를 받아 DB에 추가합니다(파일 업로드 지원).
     // public int insertWrite(ArticlesDTO dto) {

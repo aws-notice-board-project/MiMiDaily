@@ -71,29 +71,28 @@ public class WriteServlet extends HttpServlet {
         //dto.setIdx(request.getParameter("idx"));
 		dto.setTitle(request.getParameter("title"));
         dto.setContent(request.getParameter("content"));
-        dto.setCategory(1);
-        // String categoryParam = request.getParameter("category");
-        // if (categoryParam != null && !categoryParam.isEmpty()) {
-        //     try {
-        //         int category = Integer.parseInt(categoryParam);
-        //         if (category == 1 || category == 2) {
-        //             dto.setCategory(category);
-        //             System.out.println("카테고리 값: " + category);
-        //         } else {
-        //             System.out.println("잘못된 카테고리 입력");
-        //             response.sendRedirect("/write.jsp?error=category");
-        //             return;
-        //         }
-        //     } catch (NumberFormatException e) {
-        //         System.out.println("카테고리 숫자 변환 실패");
-        //         response.sendRedirect("/write.jsp?error=category");
-        //         return;
-        //     }
-        // } else {
-        //     System.out.println("카테고리 입력 없음");
-        //     response.sendRedirect("/write.jsp?error=category");
-        //     return;
-        // }
+        String categoryParam = request.getParameter("category");
+        if (categoryParam != null && !categoryParam.isEmpty()) {
+            try {
+                int category = Integer.parseInt(categoryParam);
+                if (category == 1 || category == 2) {
+                    dto.setCategory(category);
+                    System.out.println("카테고리 값: " + category);
+                } else {
+                    System.out.println("잘못된 카테고리 입력");
+                    response.sendRedirect("/write.jsp?error=category");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("카테고리 숫자 변환 실패");
+                response.sendRedirect("/write.jsp?error=category");
+                return;
+            }
+        } else {
+            System.out.println("카테고리 입력 없음");
+            response.sendRedirect("/write.jsp?error=category");
+            return;
+        }
         
         String createdAtParam = request.getParameter("created_at");
         if (createdAtParam != null && !createdAtParam.isEmpty()) {
@@ -117,11 +116,11 @@ public class WriteServlet extends HttpServlet {
             long fileSize = filePart.getSize();              // 파일 크기
             String fileType = filePart.getContentType();       // 파일 유형(MIME 타입)
             // 저장된 파일의 접근 경로(예: 웹에서 /uploads/경로로 접근)
-            String filePath = "/uploads/" + savedFileName;
+            //String filePath = "/uploads/" + savedFileName;
             
             dto.setFile_size(fileSize);
             dto.setFile_type(fileType);
-            dto.setFile_path(filePath);
+            dto.setFile_path("/uploads/");
         }
 
         // DAO를 통해 DB에 게시 내용 저장
