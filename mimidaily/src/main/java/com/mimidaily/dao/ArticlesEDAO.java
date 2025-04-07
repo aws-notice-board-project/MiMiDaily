@@ -33,47 +33,6 @@ public class ArticlesEDAO extends DBConnPool {
         return totalCount;
     }
 
-    // 검색 조건에 맞는 게시물 목록을 반환합니다(페이징 기능 지원).
-    // public List<ArticlesDTO> selectListPage(Map<String, Object> map) {
-    //     List<ArticlesDTO> board = new ArrayList<ArticlesDTO>();
-    //     String query = "SELECT * FROM ( " +
-    //             "  SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, a.thumnails_idx, " +
-    //             "         t.sfile AS thumbnailSfile, t.file_path AS thumbnailPath, " +
-    //             "         ROW_NUMBER() OVER (ORDER BY a.created_at DESC) AS rnum " +
-    //             "  FROM articles a " +
-    //             "  LEFT JOIN thumbnails t ON a.thumnails_idx = t.idx ";
-	// 	 if (map.get("searchWord") != null) {
-	// 	     query += " WHERE " + map.get("searchField") + " LIKE '%" + map.get("searchWord") + "%' ";
-	// 	 }
-	// 		 query += " ) WHERE rnum BETWEEN ? AND ?";
-    //     try {
-    //         psmt = con.prepareStatement(query);
-    //         psmt.setString(1, map.get("start").toString());
-    //         psmt.setString(2, map.get("end").toString());
-    //         rs = psmt.executeQuery();
-    //         while (rs.next()) {
-    //             // Model객체에 게시글 데이터 저장
-    //             ArticlesDTO dto = new ArticlesDTO();
-
-    //             dto.setIdx(rs.getInt(1));
-    //             dto.setTitle(rs.getString(2));
-    //             dto.setContent(rs.getString(3));
-    //             dto.setCategory(rs.getInt(4));
-    //             dto.setCreated_at(rs.getTimestamp(5));
-    //             dto.setVisitcnt(rs.getInt(6));
-    //             dto.setMembers_id(rs.getString(7));
-    //             dto.setThumnails_idx(rs.getInt(8));
-    //             dto.setSfile(rs.getString(9));
-    //             dto.setFile_path(rs.getString(10));
-
-    //             board.add(dto);
-    //         }
-    //     } catch (Exception e) {
-    //         System.out.println("게시물 조회 중 예외 발생");
-    //         e.printStackTrace();
-    //     }
-    //     return board;
-    // }
     public List<ArticlesDTO> selectListPage(Map<String, Object> map) {
         List<ArticlesDTO> board = new ArrayList<ArticlesDTO>();
         String query = "SELECT * FROM ( " +
@@ -118,33 +77,6 @@ public class ArticlesEDAO extends DBConnPool {
         return board;
     }
     
-
-    // 게시글 데이터를 받아 DB에 추가합니다(파일 업로드 지원).
-    // public int insertWrite(ArticlesDTO dto) {
-    //     int result = 0;
-    //     try {
-    //         String query = "INSERT INTO articles ( "
-    //                + " idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) "
-    //                + " VALUES ( "
-    //                + " articles_seq.NEXTVAL,?,?,?,?,0,?, thumbnails_seq.NEXTVAL)";
-    //         psmt = con.prepareStatement(query);
-    //         psmt.setString(1, dto.getTitle());
-    //         psmt.setString(2, dto.getContent());
-    //         psmt.setInt(3, dto.getCategory());
-    //         psmt.setTimestamp(4, dto.getCreated_at());
-    //         psmt.setString(5, dto.getMembers_id());
-    //         result = psmt.executeUpdate();
-    //     } catch (Exception e) {
-    //         System.out.println("게시물 입력 중 예외 발생");
-    //         e.printStackTrace();
-    //     }
-    //     return result;
-    // }
-
-    
-
-
-    
     public int insertWrite(ArticlesDTO dto) {
         int result = 0;
         try {
@@ -184,9 +116,6 @@ public class ArticlesEDAO extends DBConnPool {
         }
         return result;
     }
-
-    
-    
 
     // 주어진 일련번호에 해당하는 게시물을 DTO에 담아 반환합니다.
     public ArticlesDTO selectView(String idx) {
@@ -228,39 +157,6 @@ public class ArticlesEDAO extends DBConnPool {
             e.printStackTrace();
         }
     }
-
-    // 다운로드 횟수를 1 증가시킵니다.
-    // public void downCountPlus(String idx) {
-    // String sql = "UPDATE articles SET "
-    // + " downcount=downcount+1 "
-    // + " WHERE idx=? ";
-    // try {
-    // psmt = con.prepareStatement(sql);
-    // psmt.setString(1, idx);
-    // psmt.executeUpdate();
-    // } catch (Exception e) {
-    // }
-    // }
-
-    // 입력한 비밀번호가 지정한 일련번호의 게시물의 비밀번호와 일치하는지 확인합니다.
-    // public boolean confirmPassword(String pass, String idx) {
-    // boolean isCorr = true;
-    // try {
-    // String sql = "SELECT COUNT(*) FROM articles WHERE pass=? AND idx=?";
-    // psmt = con.prepareStatement(sql);
-    // psmt.setString(1, pass);
-    // psmt.setString(2, idx);
-    // rs = psmt.executeQuery();
-    // rs.next();
-    // if (rs.getInt(1) == 0) {
-    // isCorr = false;
-    // }
-    // } catch (Exception e) {
-    // isCorr = false;
-    // e.printStackTrace();
-    // }
-    // return isCorr;
-    // }
 
     // 지정한 일련번호의 게시물을 삭제합니다.
     public int deletePost(String idx) {
