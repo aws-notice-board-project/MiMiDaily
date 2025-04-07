@@ -48,7 +48,7 @@ form {
     justify-content: space-between;
 }
 
-.id_box span {
+.id_box label {
     font-size: 20px;
 }
 
@@ -69,7 +69,7 @@ form {
     margin-top: 20px;
 }
 
-.pw_box span {
+.pw_box label {
     font-size: 20px;
 }
 
@@ -94,13 +94,17 @@ form {
     margin-right: 10px;
 }
 
-.join_btn input {
+.join_btn button {
     border: 0;
     background: rgba(0, 0, 0, 0);
     font-size: 20px;
-    color: var(--mimiDark);
+    color: var(--mimiLight);
     margin-right: 20px;
     cursor: pointer;
+}
+
+.join_btn button:hover {
+    color: var(--mimiDark);
 }
 
 .message_box {
@@ -113,10 +117,10 @@ form {
     width: 336px;
     height: 78px;
     margin-bottom: 10px;
-    background: var(--mimiDark);
+    background: var(--mimiLight);
 }
 
-.login_btn input {
+.login_btn button {
     width: 100%;
     height: 100%;
     border: 0;
@@ -124,6 +128,11 @@ form {
     cursor: pointer;
     color: #ffffff;
     font-size: 24px;
+    transition: background 0.3s;
+}
+
+.login_btn button:hover {
+    background: var(--mimiDark);
 }
 
 input:focus {
