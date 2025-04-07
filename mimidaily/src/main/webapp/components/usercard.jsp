@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>user</title>
 <style>
 	.userbox{width: 216px; margin: 1rem 0.5rem 1rem 0.5rem ; padding: 1rem;}
 	/* 로그인 O */
@@ -20,12 +20,11 @@
 	.info button.btn {border-radius: 4px; color: #FBF9F9;padding: 0.5rem 1rem;}
 	.info .profile_btn{width: 100%; justify-content: space-around;margin-top: 1rem;}
 	/* 로그인X */
-	.login_box {display:flex; flex-direction:column; justify-content:center;align-items:center;}
+	.login_box {display:flex; flex-direction:column; justify-content:center;align-items:center;height:100%;}
 	.login_box p{text-align:center; font-size: 14px;margin: 0;}
 	.login_box p b{font-size:14px;}
-	.login_box .login{color: #FBF9F9; font-size: 24px; background-color: #8C7B7B; border-radius: 4px;width: 190px;text-align: center;padding: 0.3rem;margin: 0.5rem auto;}
+	.login_box .login{color: #FBF9F9; font-size: 24px; background-color: #8C7B7B; border-radius: 4px;width: 190px;text-align: center;padding: 0.3rem;margin: 1rem auto;}
 	.login_box .register{font-weight: 500;color: #8C7B7B;padding-bottom: 1px;border-bottom: 1px solid;}
-
 </style>
 </head>
 <body> 

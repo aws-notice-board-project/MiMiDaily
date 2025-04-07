@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>    
@@ -24,25 +25,28 @@
 		<section class="news_list cont">
 			<c:choose>
 				<c:when test="${ empty articleLists }">
-					<div class="news_cont"> 
-						등록된 게시물이 없습니다.
+					<div class="empty_article">
+						<div class="news_cont"> 
+							등록된 게시물이 없습니다.
+						</div>
+						<jsp:include page="/components/usercard.jsp"></jsp:include>
 					</div>
 				</c:when>
 				<c:otherwise>
 					<c:forEach items="${ articleLists }" var="i" varStatus="loop">
 						<div class="news_cont">
-						<c:choose>
-				            <c:when test="${i.thumnails_idx != null}">
-				            <div class="news_img">
-								<img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
-				            </div>   
-							</c:when>
-				            <c:otherwise>
-				            <div class="news_img">
-								<img src="" alt="${i.title} 썸네일">
-				            </div>
-				            </c:otherwise>
-				        </c:choose>
+							<c:choose>
+					            <c:when test="${not empty i.thumnails_idx}">
+						            <div class="news_img">
+										<img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
+						            </div>   
+								</c:when>
+					            <c:otherwise>
+					            <div class="news_img">
+									<img src="" alt="${i.title} 썸네일">
+					            </div>
+					            </c:otherwise>
+					        </c:choose>
 							<div class="contents">
 								<div class="title">${ i.title }</div>
 								<div class="context">${ i.content }</div> 
@@ -50,6 +54,11 @@
 							</div>
 						</div>
 					</c:forEach>
+					<%-- <c:if test="${fn:length(articleLists) <= 2}">
+						<div class="userbox_cont">
+							<jsp:include page="/components/usercard.jsp"></jsp:include>
+						</div>
+					</c:if> --%>
 				</c:otherwise>
 			</c:choose>  
 			<div class="pagination_bar">
