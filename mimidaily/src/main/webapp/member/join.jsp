@@ -13,7 +13,7 @@
 <body id="member">
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
 	<div id="wrap">
-		<div id="logo"></div>
+		<div id="mimilogo"></div>
 		<h1 class="hide">미미일보</h1>
 		<h2>회원가입</h2>
 		<form action="join.do" method="get" name="whoareyou" class="hidden">
