@@ -15,7 +15,7 @@ public class Top10DAO extends DBConnPool{
 	// 게시물 개수 반환(상위 10개 제외 나머지 게시물...?
 	public int selectCnt(Map<String,Object> map) {
 		int totalCnt=0;
-		String query="select count(*) from articles where category=1";
+		String query="select count(*) from articles";
 		
 		try {
 			stmt=con.createStatement(); // 정적쿼리..?
@@ -31,14 +31,15 @@ public class Top10DAO extends DBConnPool{
 	}
 	
 	// 상위 10개 게시물 반환
-//	public List<ArticlesDTO> selectListPage(Map<String,Object> map){
-//		List<ArticlesDTO> article=new ArrayList<ArticlesDTO>();
-//		String query=""
-//					+"select * from ("
-//					+"	select Tb.*, rownum rNum from (" // Tb의 모든 칼럼, rNum: rownum의 별칭
-//					+"		select * from articles where category=1"; // Tb, (1:여행 2:맛집)
-//		
-//	}
+	public List<ArticlesDTO> selectListPage(Map<String, Object> map) {
+		List<ArticlesDTO> article=new ArrayList<ArticlesDTO>();
+		String query=""
+					+"select * from ("
+					+"	select Tb.*, rownum rNum from (" // Tb의 모든 칼럼, rNum: rownum의 별칭
+					+"		select * from articles"
+					+"		order by ";
+		return article;
+	}
 	
 	// 게시물 목록 반환(페이징 기능 지원)
 //		public List<ArticlesDTO> selectListPage(Map<String,Object> map){
