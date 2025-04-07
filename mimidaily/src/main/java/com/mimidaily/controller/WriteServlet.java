@@ -100,10 +100,7 @@ public class WriteServlet extends HttpServlet {
         } else {
             dto.setCreated_at(new Timestamp(System.currentTimeMillis())); // 기본값
         }
-        //dto.setCreated_at(Timestamp.valueOf(request.getParameter("created_at")));
-        //dto.setVisitcnt(request.getParameter("visitcnt"));
         dto.setMembers_id(request.getParameter("members_id"));
-        //dto.setThumnails_idx(request.getParameter("thumnails_idx"));
         
         // 원본 파일명과 저장된 파일 이름 설정
         if (originalFileName != "") { 
@@ -115,9 +112,6 @@ public class WriteServlet extends HttpServlet {
             // 파일의 Part 객체에서 추가 정보를 추출합니다.
             long fileSize = filePart.getSize();              // 파일 크기
             String fileType = filePart.getContentType();       // 파일 유형(MIME 타입)
-            // 저장된 파일의 접근 경로(예: 웹에서 /uploads/경로로 접근)
-            //String filePath = "/uploads/" + savedFileName;
-            
             dto.setFile_size(fileSize);
             dto.setFile_type(fileType);
             dto.setFile_path("/uploads/");
