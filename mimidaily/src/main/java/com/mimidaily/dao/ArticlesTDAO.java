@@ -76,4 +76,31 @@ public class ArticlesTDAO extends DBConnPool {
 		return article;
 	}
 	
+	// 실시간 관심기사
+	public List<ArticlesDTO> viewestList(){
+		List<ArticlesDTO> viewest=new ArrayList<ArticlesDTO>();
+
+		// 조회수 많은 게시물 순으로 내림차순
+		String query=""
+					+"select * from (select * from articles order by visitcnt desc)"
+					+" where rownum <= 4";
+		
+		try {
+			stmt=con.createStatement();
+			rs=stmt.executeQuery(query);
+			while(rs.next()) {
+				ArticlesDTO dto=new ArticlesDTO();
+				dto.setIdx(rs.getInt(1));
+                dto.setTitle(rs.getString(2));
+                dto.setContent(rs.getString(3));
+                dto.setCategory(rs.getInt(4));
+                dto.setVisitcnt(rs.getInt(6));
+                dto.setMembers_id(rs.getString(7));
+                dto.setThumnails_idx(rs.getInt(8));
+                viewest.add(dto);
+			}
+		}catch(Exception e) {e.getStackTrace();}
+		return viewest;
+	}
+	
 }

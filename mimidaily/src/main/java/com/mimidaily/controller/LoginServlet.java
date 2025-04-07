@@ -70,7 +70,6 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("userRole", role);
 			session.setAttribute("visitCnt", visitCnt);
 			session.setAttribute("loginUser", userid);
-			System.out.println("업데이트된 방문 횟수: " + visitCnt);
 			url = "main.do";
 			
 			response.sendRedirect(url); //주소변경

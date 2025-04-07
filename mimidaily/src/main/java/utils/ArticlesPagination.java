@@ -30,8 +30,8 @@ public class ArticlesPagination {
 		
 		// nextBtn
 		if(pageTemp<=totalPages) {
-			pagingBox += "<a href='" + reqUrl + "?pageNum=" + pageTemp + "'><i class='fa-solid fa-angle-right'></i></a>";
-		    pagingBox += "<a href='" + reqUrl + "?pageNum=" + totalPages + "'><i class='fa-solid fa-angle-double-right'></i></a>";
+			pagingBox += "<a class='paging_btn' href='" + reqUrl + "?pageNum=" + pageTemp + "'><i class='fa-solid fa-angle-right'></i></a>";
+		    pagingBox += "<a class='paging_btn' href='" + reqUrl + "?pageNum=" + totalPages + "'><i class='fa-solid fa-angle-double-right'></i></a>";
 		}
 		
 		return pagingBox;

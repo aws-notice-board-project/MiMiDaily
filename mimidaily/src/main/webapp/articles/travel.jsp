@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/travel.css">
 <script type="module" src="/script/newsAside.js"></script>
-</head>
+</head>  
 <body>
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
 	<jsp:include page="/components/searchBar.jsp"></jsp:include>
@@ -44,8 +44,8 @@
 				            </c:otherwise>
 				        </c:choose>
 							<div class="contents">
-								<div class="title">${ i.idx }</div>
-								<div class="context">${ i.title }</div> 
+								<div class="title">${ i.title }</div>
+								<div class="context">${ i.content }</div> 
 								<p class="date">${ i.formattedDate }</p>
 							</div>
 						</div>
@@ -60,7 +60,7 @@
 		<aside class="news_right">
 			<jsp:include page="/components/usercard.jsp"></jsp:include>
 			<jsp:include page="/components/viewestNews.jsp"></jsp:include>
-		</aside>
+		</aside>		
 	</div>
 	<jsp:include page="/components/footer.jsp"></jsp:include>
 </body>
