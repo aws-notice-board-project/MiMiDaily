@@ -170,12 +170,12 @@ public class MemberDAO extends DBConnPool {
 		}
 		
 		// 회원 정보 검색
-		public MemberDTO getMember(String userid) {
+		public MemberDTO getMember(String id) {
 			MemberDTO mDto = null;
-			String sql = "select * from member where userid=?";
+			String sql = "select * from members where userid=?";
 			try {
 				psmt = con.prepareStatement(sql);
-				psmt.setString(1, userid);
+				psmt.setString(1, id);
 				rs = psmt.executeQuery();
 				if (rs.next()) {
 					//Model 객체에 입력한 값을 저장
@@ -191,5 +191,25 @@ public class MemberDAO extends DBConnPool {
 				e.printStackTrace();
 			}
 			return mDto;
+		}
+		
+		//회원 정보 수정
+		public int updateMember(MemberDTO mDto) {
+			int result = -1;
+			String sql = "update members set pwd=?, email=?,"
+					+ "tel=? where id=?";
+			try {
+				psmt = con.prepareStatement(sql);
+				psmt.setString(1, mDto.getPwd());
+				psmt.setString(2, mDto.getEmail());
+				psmt.setString(3, mDto.getTel());
+//				psmt.setInt(4, mDto.getAdmin());
+				psmt.setString(5, mDto.getId());
+				result = psmt.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				close(); }
+			return result;
 		}
 }
