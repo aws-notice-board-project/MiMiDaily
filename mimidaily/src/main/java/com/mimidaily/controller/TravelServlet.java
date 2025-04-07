@@ -68,7 +68,7 @@ public class TravelServlet extends HttpServlet {
         dao.close(); // DB연결 close
         
         // pagenation
-        String paging=ArticlesPagination.pagingBox(totalCnt, pageSize, blockPage, pageNum, "../articles/travel.do");
+        String paging=ArticlesPagination.pagingBox(totalCnt, pageSize, blockPage, pageNum, "../articles/travel.do",map);
         map.put("paging", paging);
         map.put("totalCnt", totalCnt);
         map.put("pageSize", pageSize);

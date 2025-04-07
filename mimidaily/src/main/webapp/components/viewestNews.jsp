@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>viewest news</title>
 <style>
 	.most_viewed_news{width: 216px;margin: 1rem 0.5rem 1rem 0.5rem ; padding: 1rem;}
 </style>
@@ -25,7 +25,7 @@
 			            <c:otherwise>
 			            <div class="news_img">
 							<img src="" alt="${i.title} 썸네일">
-			            </div>
+			            </div> 
 			            </c:otherwise>
 			        </c:choose>
 					<div>

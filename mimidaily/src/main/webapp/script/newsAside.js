@@ -18,7 +18,7 @@ $(document).ready(function() {
     windowHeight = $(window).height();
     let windowBottom = windowHeight+scrollTop;
 
-    if(scrollTop > contentTop-160 && windowBottom < contentTop+contentHeight) {
+    if(scrollTop > contentTop-180 && windowBottom < contentTop+contentHeight+100) {
       $('aside.news_right').addClass('show');
     }
     else {
