@@ -20,13 +20,12 @@ import utils.FileUtil;
  * Servlet implementation class WriteServlet
  */
 @WebServlet("/articles/write.do")
-@MultipartConfig(
-		maxFileSize = 1024 * 1024 * 1, //파일업로드할때 최대 사이즈
-		maxRequestSize = 1024 * 1024 * 10 //여러개의 파일 업로드할때 총합 사이즈
-	)
+@MultipartConfig(maxFileSize = 1024 * 1024 * 1, // 파일업로드할때 최대 사이즈
+        maxRequestSize = 1024 * 1024 * 10 // 여러개의 파일 업로드할때 총합 사이즈
+)
 public class WriteServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+    private static final long serialVersionUID = 1L;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -35,65 +34,60 @@ public class WriteServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/articles/write.jsp").forward(request, response);
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("/articles/write.jsp").forward(request, response);
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		   // 1. 파일 업로드 처리 =============================
-         //업로드 디렉터리의 물리적 경로 확인
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // 1. 파일 업로드 처리 =============================
+        // 업로드 디렉터리의 물리적 경로 확인
         String saveDirectory = request.getServletContext().getRealPath("/uploads");
         System.out.println(saveDirectory);
 
         // 파일 업로드
         Part filePart = request.getPart("ofile");
         String originalFileName = "";
-        try {
-        	originalFileName = FileUtil.uploadFile(request, saveDirectory);
+        if (filePart != null && filePart.getSize() > 0) {
+            try {
+                originalFileName = FileUtil.uploadFile(request, saveDirectory);
+            } catch (Exception e) {
+                System.out.println("파일 업로드 오류입니다.");
+                e.printStackTrace();
+                // 파일 업로드 오류가 발생해도 글은 작성되도록 처리할 수 있습니다.
+                originalFileName = "";
+            }
+        } else {
+            System.out.println("파일이 선택되지 않았습니다.");
         }
-        catch (Exception e) {
-        	//JSFunction.alertLocation(response, "파일 업로드 오류입니다.", "../mvcboard/write.do");
-        	System.out.println(response);
-        	e.printStackTrace();
-        	System.out.println("파일 업로드 오류입니다.");
-        	return;
-		}
+    
 
         // 2. 파일 업로드 외 처리 =============================
         // 폼값을 DTO에 저장
-		ArticlesDTO dto = new ArticlesDTO(); 
-        //dto.setIdx(request.getParameter("idx"));
-		dto.setTitle(request.getParameter("title"));
+        ArticlesDTO dto = new ArticlesDTO();
+        // dto.setIdx(request.getParameter("idx"));
+        dto.setTitle(request.getParameter("title"));
         dto.setContent(request.getParameter("content"));
         String categoryParam = request.getParameter("category");
         if (categoryParam != null && !categoryParam.isEmpty()) {
             try {
-                int category = Integer.parseInt(categoryParam);
-                if (category == 1 || category == 2) {
-                    dto.setCategory(category);
-                    System.out.println("카테고리 값: " + category);
-                } else {
-                    System.out.println("잘못된 카테고리 입력");
-                    response.sendRedirect("/write.jsp?error=category");
-                    return;
-                }
+                dto.setCategory(Integer.parseInt(categoryParam));
             } catch (NumberFormatException e) {
-                System.out.println("카테고리 숫자 변환 실패");
-                response.sendRedirect("/write.jsp?error=category");
-                return;
+                dto.setCategory(1); // 기본값 예시
             }
         } else {
-            System.out.println("카테고리 입력 없음");
-            response.sendRedirect("/write.jsp?error=category");
-            return;
+            dto.setCategory(1); // 기본값
         }
-        
+
         String createdAtParam = request.getParameter("created_at");
         if (createdAtParam != null && !createdAtParam.isEmpty()) {
             dto.setCreated_at(Timestamp.valueOf(createdAtParam));
@@ -101,17 +95,17 @@ public class WriteServlet extends HttpServlet {
             dto.setCreated_at(new Timestamp(System.currentTimeMillis())); // 기본값
         }
         dto.setMembers_id(request.getParameter("members_id"));
-        
+
         // 원본 파일명과 저장된 파일 이름 설정
-        if (originalFileName != "") { 
-        	 // 파일명 변경 후 저장 (파일명 중복 방지를 위해)
+        if (originalFileName != "") {
+            // 파일명 변경 후 저장 (파일명 중복 방지를 위해)
             String savedFileName = FileUtil.renameFile(saveDirectory, originalFileName);
-            dto.setOfile(originalFileName);  // 원래 파일 이름
-            dto.setSfile(savedFileName);       // 서버에 저장된 파일 이름
-            
+            dto.setOfile(originalFileName); // 원래 파일 이름
+            dto.setSfile(savedFileName); // 서버에 저장된 파일 이름
+
             // 파일의 Part 객체에서 추가 정보를 추출합니다.
-            long fileSize = filePart.getSize();              // 파일 크기
-            String fileType = filePart.getContentType();       // 파일 유형(MIME 타입)
+            long fileSize = filePart.getSize(); // 파일 크기
+            String fileType = filePart.getContentType(); // 파일 유형(MIME 타입)
             dto.setFile_size(fileSize);
             dto.setFile_type(fileType);
             dto.setFile_path("/uploads/");
@@ -123,14 +117,13 @@ public class WriteServlet extends HttpServlet {
         dao.close();
 
         // 성공 or 실패?
-        if (result == 1) {  // 글쓰기 성공
-        	response.sendRedirect("/articles/musteat.do");
+        if (result == 1) { // 글쓰기 성공
+            response.sendRedirect("/articles/musteat.do");
+        } else { // 글쓰기 실패
+            // JSFunction.alertLocation(response, "글쓰기에 실패했습니다.",
+            // "../mvcboard/write.do");
+            System.out.println("글쓰기 실패");
         }
-        else {  // 글쓰기 실패
-        	// JSFunction.alertLocation(response, "글쓰기에 실패했습니다.",
-            //         "../mvcboard/write.do");
-        	System.out.println("글쓰기 실패");
-        }
-	}
+    }
 
 }
