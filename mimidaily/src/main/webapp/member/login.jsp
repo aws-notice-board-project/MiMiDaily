@@ -13,7 +13,7 @@
 <body id="login">
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
 	<div id="wrap">
-		<div class="cont">
+		<div class="content">
 			<div id="logo"></div>
 			<h1 class="hide">미미일보</h1>
 			<h2>로그인</h2>

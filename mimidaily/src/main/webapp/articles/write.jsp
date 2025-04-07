@@ -24,9 +24,9 @@
 <body>
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
 <h2>파일 첨부형 게시판 - 글쓰기(Write)</h2>
-<!-- <form name="writeFrm" method="post" enctype="multipart/form-data"
-	action="/articles/write.do" onsubmit="return validateForm(this);"> -->
-	<form action="/articles/write.do" method="post">
+<form name="writeFrm" method="post" enctype="multipart/form-data"
+	action="/articles/write.do" onsubmit="return validateForm(this);">
+	<!-- <form action="/articles/write.do" method="post"> -->
 	<table border="1" width="90%">
 		<tr>
 			<td>작성자</td>
@@ -35,6 +35,10 @@
 		<tr>
 			<td>제목</td>
 			<td><input type="text" name="title"></td>
+		</tr>
+		<tr>
+			<td>첨부 파일</td>
+			<td><input type="file" name="ofile"/></td>
 		</tr>
 		<tr>
 			<td>내용</td>
