@@ -13,24 +13,15 @@ import javax.servlet.http.HttpSession;
 import com.mimidaily.dao.MemberDAO;
 import com.mimidaily.dto.MemberDTO;
 
-/**
- * Servlet implementation class JoinServlet
- */
 @WebServlet("/join.do")
 public class JoinServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public JoinServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "member/join.jsp";
 		// 기자인지 일반 회원인지 구분
@@ -62,9 +53,6 @@ public class JoinServlet extends HttpServlet {
 		dispatcher.forward(request, response);//주소가 변경되지 않음.
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "member/join.jsp";
 		String id = request.getParameter("id");
