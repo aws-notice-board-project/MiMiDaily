@@ -74,21 +74,122 @@ public class ArticlesEDAO extends DBConnPool {
         }
         return board;
     }
+    // public List<ArticlesDTO> selectListPage(Map<String, Object> map) {
+    //         List<ArticlesDTO> board = new ArrayList<ArticlesDTO>();
+    //         String query = "SELECT * FROM ( " +
+    //         "  SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, a.thumnails_idx, " +
+    //         "         t.sfile AS thumbnailSfile, " +
+    //         "         ROW_NUMBER() OVER (ORDER BY a.created_at DESC) AS rnum " +
+    //         "  FROM articles a " +
+    //         "  LEFT JOIN thumbnails t ON a.thumnails_idx = t.idx ";
+        
+    //     boolean whereAdded = false;
+        
+    //     // 검색어 조건 추가 (존재할 경우)
+    //     if (map.get("searchWord") != null) {
+    //         query += " WHERE " + map.get("searchField") + " LIKE '%" + map.get("searchWord") + "%' ";
+    //         whereAdded = true;
+    //     }
+        
+    //     // articles의 category가 1일 경우 조건 추가
+    //     if (map.get("category") != null && "1".equals(map.get("category").toString())) {
+    //         if (whereAdded) {
+    //             query += " AND a.category = 1 ";
+    //         } else {
+    //             query += " WHERE a.category = 1 ";
+    //             whereAdded = true;
+    //         }
+    //     }
+        
+    //     query += " ) WHERE rnum BETWEEN ? AND ?";
+    
+    //     try {
+    //         psmt = con.prepareStatement(query);
+    //         psmt.setString(1, map.get("start").toString());
+    //         psmt.setString(2, map.get("end").toString());
+    //         rs = psmt.executeQuery();
+    //         while (rs.next()) {
+    //             // Model객체에 게시글 데이터 저장
+    //             ArticlesDTO dto = new ArticlesDTO();
+
+    //             dto.setIdx(rs.getInt(1));
+    //             dto.setTitle(rs.getString(2));
+    //             dto.setContent(rs.getString(3));
+    //             dto.setCategory(rs.getInt(4));
+    //             dto.setCreated_at(rs.getTimestamp(5));
+    //             dto.setVisitcnt(rs.getInt(6));
+    //             dto.setMembers_id(rs.getString(7));
+    //             dto.setThumnails_idx(rs.getInt(8));
+    //             dto.setSfile(rs.getString(9));
+    //             dto.setFile_path(rs.getString(10));
+
+    //             board.add(dto);
+    //         }
+    //     } catch (Exception e) {
+    //         System.out.println("게시물 조회 중 예외 발생");
+    //         e.printStackTrace();
+    //     }
+    //     return board;
+    // }
 
     // 게시글 데이터를 받아 DB에 추가합니다(파일 업로드 지원).
+    // public int insertWrite(ArticlesDTO dto) {
+    //     int result = 0;
+    //     try {
+    //         String query = "INSERT INTO articles ( "
+    //                + " idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) "
+    //                + " VALUES ( "
+    //                + " articles_seq.NEXTVAL,?,?,?,?,0,?, thumbnails_seq.NEXTVAL)";
+    //         psmt = con.prepareStatement(query);
+    //         psmt.setString(1, dto.getTitle());
+    //         psmt.setString(2, dto.getContent());
+    //         psmt.setInt(3, dto.getCategory());
+    //         psmt.setTimestamp(4, dto.getCreated_at());
+    //         psmt.setString(5, dto.getMembers_id());
+    //         result = psmt.executeUpdate();
+    //     } catch (Exception e) {
+    //         System.out.println("게시물 입력 중 예외 발생");
+    //         e.printStackTrace();
+    //     }
+    //     return result;
+    // }
+
+    
+
+
+    
     public int insertWrite(ArticlesDTO dto) {
         int result = 0;
         try {
-            String query = "INSERT INTO articles ( "
-                    + " idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) "
-                    + " VALUES ( "
-                    + " articles_seq.NEXTVAL,?,?,?,?,0,?, thumbnails_seq.NEXTVAL)";
+            String query = 
+                "DECLARE " +
+                "  v_t_seq NUMBER; " +
+                "  v_a_seq NUMBER; " +
+                "BEGIN " +
+                "  SELECT thumbnails_seq.NEXTVAL, articles_seq.NEXTVAL INTO v_t_seq, v_a_seq FROM dual; " +
+                "  INSERT INTO thumbnails (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
+                "  VALUES (v_t_seq, ?, ?, ?, ?, ?, ?); " +
+                "  INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) " +
+                "  VALUES (v_a_seq, ?, ?, ?, ?, 0, ?, v_t_seq); " +
+                "END;";
+            
             psmt = con.prepareStatement(query);
-            psmt.setString(1, dto.getTitle());
-            psmt.setString(2, dto.getContent());
-            psmt.setInt(3, dto.getCategory());
-            psmt.setTimestamp(4, dto.getCreated_at());
-            psmt.setString(5, dto.getMembers_id());
+            
+            // thumbnails INSERT 파라미터 설정 (순서대로)
+            psmt.setString(1, dto.getOfile());         // ofile
+            psmt.setString(2, dto.getSfile());           // sfile
+            psmt.setString(3, dto.getFile_path());       // file_path
+            psmt.setLong(4, dto.getFile_size());         // file_size
+            psmt.setString(5, dto.getFile_type());       // file_type
+            psmt.setTimestamp(6, dto.getCreated_at());   // created_at
+            
+            // articles INSERT 파라미터 설정 (순서대로)
+            psmt.setString(7, dto.getTitle());           // title
+            psmt.setString(8, dto.getContent());         // content
+            psmt.setInt(9, dto.getCategory());           // category
+            psmt.setTimestamp(10, dto.getCreated_at());    // created_at
+            psmt.setString(11, dto.getMembers_id());     // members_id
+            
             result = psmt.executeUpdate();
         } catch (Exception e) {
             System.out.println("게시물 입력 중 예외 발생");
@@ -96,6 +197,9 @@ public class ArticlesEDAO extends DBConnPool {
         }
         return result;
     }
+
+    
+    
 
     // 주어진 일련번호에 해당하는 게시물을 DTO에 담아 반환합니다.
     public ArticlesDTO selectView(String idx) {

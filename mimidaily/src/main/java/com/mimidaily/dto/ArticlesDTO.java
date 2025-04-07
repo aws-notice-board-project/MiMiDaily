@@ -13,10 +13,15 @@ public class ArticlesDTO {
     private String members_id;
     private Integer thumnails_idx;
     
+	private String ofile;
     private String sfile;
 	private String file_path;
+	private long file_size;
+	private String file_type;
 
-    // 포맷된 날짜 getter
+
+
+	// 포맷된 날짜 getter
     public String getFormattedDate() {
         if (created_at != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
@@ -75,22 +80,36 @@ public class ArticlesDTO {
 	}
 
 	// 썸네일 관련 getter setter 추가
+    public String getOfile() {
+		return ofile;
+	}
+	public void setOfile(String ofile) {
+		this.ofile = ofile;
+	}
 	public String getSfile() {
 		return sfile;
 	}
-
 	public void setSfile(String sfile) {
 		this.sfile = sfile;
 	}
-
 	public String getFile_path() {
 		return file_path;
 	}
-
 	public void setFile_path(String file_path) {
 		this.file_path = file_path;
 	}
-
+	public long getFile_size() {
+		return file_size;
+	}
+	public void setFile_size(long fileSize) {
+		this.file_size = fileSize;
+	}
+	public String getFile_type() {
+		return file_type;
+	}
+	public void setFile_type(String file_type) {
+		this.file_type = file_type;
+	}
 
 
 }
