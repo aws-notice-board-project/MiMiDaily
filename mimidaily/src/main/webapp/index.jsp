@@ -42,7 +42,7 @@
 				<p><b>${sessionScope.loginUser != null ? sessionScope.loginUser : "게스트"}님</b> 환영합니다.</p>
 				<div class="logining"> 
 					<c:if test="${ userRole==0 || userRole==2 }">
-						<a class="write btn" href="write.do">기사 작성하기</a>
+						<a class="write btn" href="/articles/write.do">기사 작성하기</a>
 					</c:if>
 					<a class="logout btn" href="logout.do">로그아웃</a>
 				</div> 	
