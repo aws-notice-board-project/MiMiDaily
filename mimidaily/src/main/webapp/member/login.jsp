@@ -13,7 +13,7 @@
 	<jsp:include page="/components/navigation.jsp" />
 	<main id="wrap">
 		<section class="content">
-			<div id="logo">
+			<div id="login_logo">
 				<img src="${pageContext.request.contextPath}/media/images/logo.svg" alt="로고 이미지">
 			</div>
 			<h1 class="hide">미미일보</h1>
