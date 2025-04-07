@@ -165,16 +165,31 @@ public class MemberDAO extends DBConnPool {
 				result = psmt.executeUpdate();// 영향을 받은 행의 수 리턴. insert하면 1행이 추가되므로 1이 리턴됨.
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				try {
-					if (psmt != null)
-						psmt.close();
-					if (con != null)
-						con.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 			}
 			return result;
+		}
+		
+		// 회원 정보 검색
+		public MemberDTO getMember(String userid) {
+			MemberDTO mDto = null;
+			String sql = "select * from member where userid=?";
+			try {
+				psmt = con.prepareStatement(sql);
+				psmt.setString(1, userid);
+				rs = psmt.executeQuery();
+				if (rs.next()) {
+					//Model 객체에 입력한 값을 저장
+					mDto = new MemberDTO();
+					mDto.setId(rs.getString("id"));
+					mDto.setPwd(rs.getString("pwd"));
+					mDto.setName(rs.getString("name"));
+					mDto.setEmail(rs.getString("email"));
+					mDto.setTel(rs.getString("tel"));
+					mDto.setMarketing(rs.getBoolean("Marketing"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return mDto;
 		}
 }
