@@ -52,6 +52,14 @@
 }
 #musteat .news_list .news_text {
     font-size: 20px;
+    width: 100%;
+    height: 65px;
+    overflow: hidden;         /* 넘치는 부분 숨김 */
+    text-overflow: ellipsis;  /* 넘치는 부분 "..." 처리 */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* 두 줄까지만 표시 */
+    overflow: hidden;
 }
 #musteat .news_list .news_date {
     font-family: 'NotoSansKR-Light';
@@ -64,6 +72,12 @@
 }
 #musteat .news_list .news_thumnails {
     width: 20%;
+    height: 150px;
+    
+}
+#musteat .news_list .news_thumnails img{
+    width: 100%;
+    height: 100%;
 }
 #musteat .right_cont {
     width: 25%;
