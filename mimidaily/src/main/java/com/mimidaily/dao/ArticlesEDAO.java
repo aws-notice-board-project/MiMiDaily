@@ -13,13 +13,46 @@ public class ArticlesEDAO extends DBConnPool {
     }
 
     // 검색 조건에 맞는 게시물의 개수를 반환합니다.
+    // public int selectCount(Map<String, Object> map) {
+    //     int totalCount = 0;
+    //     String query = "SELECT COUNT(*) FROM articles";
+    //     if (map.get("searchWord") != null) {
+    //         query += " WHERE " + map.get("searchField") + " "
+    //                 + " LIKE '%" + map.get("searchWord") + "%'";
+    //     }
+    //     try {
+    //         stmt = con.createStatement();
+    //         rs = stmt.executeQuery(query);
+    //         rs.next();
+    //         totalCount = rs.getInt(1);
+    //     } catch (Exception e) {
+    //         System.out.println("게시물 카운트 중 예외 발생");
+    //         e.printStackTrace();
+    //     }
+
+    //     return totalCount;
+    // }
+
     public int selectCount(Map<String, Object> map) {
         int totalCount = 0;
         String query = "SELECT COUNT(*) FROM articles";
-        if (map.get("searchWord") != null) {
-            query += " WHERE " + map.get("searchField") + " "
-                    + " LIKE '%" + map.get("searchWord") + "%'";
+        boolean whereAdded = false;
+        
+        // category 조건 추가 (예: MustEat 페이지에서 category가 2인 글만 보이도록)
+        if (map.get("category") != null) {
+            query += " WHERE category = " + map.get("category");
+            whereAdded = true;
         }
+        
+        // 검색어 조건 추가
+        if (map.get("searchWord") != null) {
+            if (whereAdded) {
+                query += " AND " + map.get("searchField") + " LIKE '%" + map.get("searchWord") + "%'";
+            } else {
+                query += " WHERE " + map.get("searchField") + " LIKE '%" + map.get("searchWord") + "%'";
+            }
+        }
+        
         try {
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
@@ -29,9 +62,9 @@ public class ArticlesEDAO extends DBConnPool {
             System.out.println("게시물 카운트 중 예외 발생");
             e.printStackTrace();
         }
-
         return totalCount;
     }
+    
 
     public List<ArticlesDTO> selectListPage(Map<String, Object> map) {
         List<ArticlesDTO> board = new ArrayList<ArticlesDTO>();
