@@ -38,16 +38,33 @@ public class MustEatServlet extends HttpServlet {
 		ArticlesEDAO dao = new ArticlesEDAO();
 
 		// 뷰에 전달할 매개변수 저장용 맵 생성
+		// Map<String, Object> map = new HashMap<String, Object>();
+
+		// String searchField = request.getParameter("searchField");
+		// String searchWord = request.getParameter("searchWord");
+		// if (searchWord != null) {
+		// 	// 쿼리스트링으로 전달받은 매개변수 중 검색어가 있다면 map에 저장
+		// 	map.put("searchField", searchField);
+		// 	map.put("searchWord", searchWord);
+		// }
+		// int totalCount = dao.selectCount(map); // 게시물 개수
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 
+		// 검색 조건 (필요 시)
 		String searchField = request.getParameter("searchField");
 		String searchWord = request.getParameter("searchWord");
 		if (searchWord != null) {
-			// 쿼리스트링으로 전달받은 매개변수 중 검색어가 있다면 map에 저장
 			map.put("searchField", searchField);
 			map.put("searchWord", searchWord);
 		}
-		int totalCount = dao.selectCount(map); // 게시물 개수
+
+		// MustEat 페이지는 항상 category가 2인 글만 보여줌
+		map.put("category", 2);
+
+		int totalCount = dao.selectCount(map); // 조건에 맞는 게시글 개수
+
+
 
 		/* 페이지 처리 start */
 		
