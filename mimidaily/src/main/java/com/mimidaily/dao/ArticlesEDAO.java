@@ -77,45 +77,101 @@ public class ArticlesEDAO extends DBConnPool {
         return board;
     }
     
+    // public int insertWrite(ArticlesDTO dto) {
+    //     int result = 0;
+    //     try {
+    //         String query = 
+    //             "DECLARE " +
+    //             "  v_t_seq NUMBER; " +
+    //             "  v_a_seq NUMBER; " +
+    //             "BEGIN " +
+    //             "  SELECT thumbnails_seq.NEXTVAL, articles_seq.NEXTVAL INTO v_t_seq, v_a_seq FROM dual; " +
+    //             "  INSERT INTO thumbnails (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
+    //             "  VALUES (v_t_seq, ?, ?, ?, ?, ?, ?); " +
+    //             "  INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) " +
+    //             "  VALUES (v_a_seq, ?, ?, ?, ?, 0, ?, v_t_seq); " +
+    //             "END;";
+            
+    //         psmt = con.prepareStatement(query);
+            
+    //         // thumbnails INSERT 파라미터 설정 (순서대로)
+    //         psmt.setString(1, dto.getOfile());         // ofile
+    //         psmt.setString(2, dto.getSfile());           // sfile
+    //         psmt.setString(3, dto.getFile_path());       // file_path
+    //         psmt.setLong(4, dto.getFile_size());         // file_size
+    //         psmt.setString(5, dto.getFile_type());       // file_type
+    //         psmt.setTimestamp(6, dto.getCreated_at());   // created_at
+            
+    //         // articles INSERT 파라미터 설정 (순서대로)
+    //         psmt.setString(7, dto.getTitle());           // title
+    //         psmt.setString(8, dto.getContent());         // content
+    //         psmt.setInt(9, dto.getCategory());           // category
+    //         psmt.setTimestamp(10, dto.getCreated_at());    // created_at
+    //         psmt.setString(11, dto.getMembers_id());     // members_id
+            
+    //         result = psmt.executeUpdate();
+    //     } catch (Exception e) {
+    //         System.out.println("게시물 입력 중 예외 발생");
+    //         e.printStackTrace();
+    //     }
+    //     return result;
+    // }
+
     public int insertWrite(ArticlesDTO dto) {
         int result = 0;
         try {
-            String query = 
-                "DECLARE " +
-                "  v_t_seq NUMBER; " +
-                "  v_a_seq NUMBER; " +
-                "BEGIN " +
-                "  SELECT thumbnails_seq.NEXTVAL, articles_seq.NEXTVAL INTO v_t_seq, v_a_seq FROM dual; " +
-                "  INSERT INTO thumbnails (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
-                "  VALUES (v_t_seq, ?, ?, ?, ?, ?, ?); " +
-                "  INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) " +
-                "  VALUES (v_a_seq, ?, ?, ?, ?, 0, ?, v_t_seq); " +
-                "END;";
-            
-            psmt = con.prepareStatement(query);
-            
-            // thumbnails INSERT 파라미터 설정 (순서대로)
-            psmt.setString(1, dto.getOfile());         // ofile
-            psmt.setString(2, dto.getSfile());           // sfile
-            psmt.setString(3, dto.getFile_path());       // file_path
-            psmt.setLong(4, dto.getFile_size());         // file_size
-            psmt.setString(5, dto.getFile_type());       // file_type
-            psmt.setTimestamp(6, dto.getCreated_at());   // created_at
-            
-            // articles INSERT 파라미터 설정 (순서대로)
-            psmt.setString(7, dto.getTitle());           // title
-            psmt.setString(8, dto.getContent());         // content
-            psmt.setInt(9, dto.getCategory());           // category
-            psmt.setTimestamp(10, dto.getCreated_at());    // created_at
-            psmt.setString(11, dto.getMembers_id());     // members_id
-            
-            result = psmt.executeUpdate();
+            // 파일 업로드가 없을 경우: ofile 값이 null 또는 빈 문자열
+            if (dto.getOfile() == null || dto.getOfile().trim().equals("")) {
+                // 파일 관련 컬럼 없이 articles 테이블에만 INSERT
+                String query = "INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) " +
+                               "VALUES (articles_seq.NEXTVAL, ?, ?, ?, ?, 0, ?, NULL)";
+                psmt = con.prepareStatement(query);
+                psmt.setString(1, dto.getTitle());
+                psmt.setString(2, dto.getContent());
+                psmt.setInt(3, dto.getCategory());
+                psmt.setTimestamp(4, dto.getCreated_at());
+                psmt.setString(5, dto.getMembers_id());
+                result = psmt.executeUpdate();
+            } else {
+                // 파일이 업로드된 경우: PL/SQL 블록을 사용하여 thumbnails와 articles 모두 INSERT
+                String query = 
+                    "DECLARE " +
+                    "  v_t_seq NUMBER; " +
+                    "  v_a_seq NUMBER; " +
+                    "BEGIN " +
+                    "  SELECT thumbnails_seq.NEXTVAL, articles_seq.NEXTVAL INTO v_t_seq, v_a_seq FROM dual; " +
+                    "  INSERT INTO thumbnails (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
+                    "  VALUES (v_t_seq, ?, ?, ?, ?, ?, ?); " +
+                    "  INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) " +
+                    "  VALUES (v_a_seq, ?, ?, ?, ?, 0, ?, v_t_seq); " +
+                    "END;";
+                
+                psmt = con.prepareStatement(query);
+                
+                // thumbnails INSERT 파라미터 (순서대로)
+                psmt.setString(1, dto.getOfile());         // ofile
+                psmt.setString(2, dto.getSfile());           // sfile
+                psmt.setString(3, dto.getFile_path());       // file_path
+                psmt.setLong(4, dto.getFile_size());         // file_size
+                psmt.setString(5, dto.getFile_type());       // file_type
+                psmt.setTimestamp(6, dto.getCreated_at());   // created_at
+                
+                // articles INSERT 파라미터 (순서대로)
+                psmt.setString(7, dto.getTitle());           // title
+                psmt.setString(8, dto.getContent());         // content
+                psmt.setInt(9, dto.getCategory());           // category
+                psmt.setTimestamp(10, dto.getCreated_at());    // created_at
+                psmt.setString(11, dto.getMembers_id());     // members_id
+                
+                result = psmt.executeUpdate();
+            }
         } catch (Exception e) {
             System.out.println("게시물 입력 중 예외 발생");
             e.printStackTrace();
         }
         return result;
     }
+    
 
     // 주어진 일련번호에 해당하는 게시물을 DTO에 담아 반환합니다.
     public ArticlesDTO selectView(String idx) {
