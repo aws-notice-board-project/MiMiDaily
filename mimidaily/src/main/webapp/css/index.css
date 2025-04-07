@@ -16,4 +16,4 @@ aside .logining {display: flex; align-items: center; justify-content: space-arou
 aside .btn{border-radius: 4px;text-align: center;margin: 0.5rem auto;padding: 0.5rem 1rem;}
 aside .login_box .write{color: var(--mimiContainer); font-size: 18px; background-color: var(--mimiLight);}
 aside .login_box .logout{color: var(--mimiContainer); font-size: 18px; background-color: var(--mimiDark);}
-aside .login_box .register{font-weight: 500;}
+aside .login_box .register{font-weight: 500;color: var(--mimiLight);padding-bottom: 1px;border-bottom: 1px solid;}

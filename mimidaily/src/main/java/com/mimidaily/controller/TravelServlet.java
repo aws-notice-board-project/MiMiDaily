@@ -64,6 +64,7 @@ public class TravelServlet extends HttpServlet {
         map.put("end", end);
         
         List<ArticlesDTO> articleLists=dao.selectListPage(map); // 게시물 목록 받기
+        List<ArticlesDTO> viewestList=dao.viewestList(); // 실시간 관심기사 best4
         dao.close(); // DB연결 close
         
         // pagenation
@@ -75,6 +76,7 @@ public class TravelServlet extends HttpServlet {
 		
         // 전달할 데이터 request 영역에 저장 ("이름",데이터)
 		request.setAttribute("actionUrl", "/articles/travel.do");
+		request.setAttribute("viewestList", viewestList);
         request.setAttribute("articleLists", articleLists);
         request.setAttribute("map", map);
 		request.getRequestDispatcher("/articles/travel.jsp").forward(request, response);
