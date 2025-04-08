@@ -148,14 +148,14 @@ public class MemberDAO extends DBConnPool {
 		public int insertMember(MemberDTO mDto) {
 			int result = -1;
 			String sql = "insert into members(id, pwd, name, email, tel, marketing, role, created_at) VALUES \r\n"
-					+ "    (?, ?, ?, ?, ?, '0', '1', SYSTIMESTAMP)"; // 필수 입력 값 5개
+					+ "    (?, ?, ?, ?, '0', '1', SYSTIMESTAMP)"; // 필수 입력 값 5개
 			try {
 				psmt = con.prepareStatement(sql);
 				psmt.setString(1, mDto.getId());
 				psmt.setString(2, mDto.getPwd());
 				psmt.setString(3, mDto.getName());
 				psmt.setString(4, mDto.getEmail());
-				psmt.setString(5, mDto.getTel());
+				//psmt.setString(5, mDto.getTel());
 				//psmt.setString(6, mDto.getBirth());
 				//psmt.setString(7, mDto.getGender());
 				//psmt.setBoolean(8, mDto.isMarketing());
@@ -203,8 +203,6 @@ public class MemberDAO extends DBConnPool {
 				psmt.setString(1, mDto.getPwd());
 				psmt.setString(2, mDto.getEmail());
 				psmt.setString(3, mDto.getTel());
-//				psmt.setInt(4, mDto.getAdmin());
-				psmt.setString(5, mDto.getId());
 				result = psmt.executeUpdate();
 			} catch (Exception e) {
 				e.printStackTrace();
