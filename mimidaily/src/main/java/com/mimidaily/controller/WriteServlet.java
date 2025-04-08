@@ -69,8 +69,7 @@ public class WriteServlet extends HttpServlet {
         } else {
             System.out.println("파일이 선택되지 않았습니다.");
         }
-    
-
+          
         // 2. 파일 업로드 외 처리 =============================
         // 폼값을 DTO에 저장
         ArticlesDTO dto = new ArticlesDTO();
@@ -113,17 +112,17 @@ public class WriteServlet extends HttpServlet {
 
         // DAO를 통해 DB에 게시 내용 저장
         ArticlesEDAO dao = new ArticlesEDAO();
-        int result = dao.insertWrite(dto);
-        dao.close();
-
-        // 성공 or 실패?
-        if (result == 1) { // 글쓰기 성공
+        int articleId = dao.insertWrite(dto);
+        // 해시태그 문자열은 "hashtags" 파라미터로 전달 (예: "#여행, #맛집, #공부")
+        String hashtagStr = request.getParameter("hashtags");
+        // 게시글 번호와 해시태그 문자열을 넘겨 해시태그 처리
+        if (articleId > 0) {
+            dao.processHashtags(articleId, hashtagStr);
             response.sendRedirect("/articles/musteat.do");
-        } else { // 글쓰기 실패
-            // JSFunction.alertLocation(response, "글쓰기에 실패했습니다.",
-            // "../mvcboard/write.do");
+        } else {
             System.out.println("글쓰기 실패");
         }
+        dao.close();
     }
 
 }

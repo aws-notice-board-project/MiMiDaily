@@ -62,7 +62,7 @@
 		</tr>
 		<tr>
 			<td>해시태그</td>
-			<td><input type="text" name="hastag" placeholder="#해시태그를 입력하세요." /></td>
+			<td><input type="text" name="hashtags" placeholder="#해시태그를 입력하세요. , 로 구분" /></td>
 		</tr>
 		<!-- <tr>
 			<td>썸네일</td>
