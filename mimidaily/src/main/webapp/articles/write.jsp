@@ -56,9 +56,13 @@
 				</select>
 			</td>
 		</tr>
-		<tr>
+		<tr class="hide">
 			<td>작성시간</td>
 			<td><input id="timeInput" type="text" name="created_at" readonly /></td>
+		</tr>
+		<tr>
+			<td>해시태그</td>
+			<td><input type="text" name="hastag" placeholder="#해시태그를 입력하세요." /></td>
 		</tr>
 		<!-- <tr>
 			<td>썸네일</td>

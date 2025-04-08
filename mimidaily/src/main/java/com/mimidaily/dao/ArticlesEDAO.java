@@ -12,27 +12,6 @@ public class ArticlesEDAO extends DBConnPool {
         super();
     }
 
-    // 검색 조건에 맞는 게시물의 개수를 반환합니다.
-    // public int selectCount(Map<String, Object> map) {
-    //     int totalCount = 0;
-    //     String query = "SELECT COUNT(*) FROM articles";
-    //     if (map.get("searchWord") != null) {
-    //         query += " WHERE " + map.get("searchField") + " "
-    //                 + " LIKE '%" + map.get("searchWord") + "%'";
-    //     }
-    //     try {
-    //         stmt = con.createStatement();
-    //         rs = stmt.executeQuery(query);
-    //         rs.next();
-    //         totalCount = rs.getInt(1);
-    //     } catch (Exception e) {
-    //         System.out.println("게시물 카운트 중 예외 발생");
-    //         e.printStackTrace();
-    //     }
-
-    //     return totalCount;
-    // }
-
     public int selectCount(Map<String, Object> map) {
         int totalCount = 0;
         String query = "SELECT COUNT(*) FROM articles";
@@ -110,46 +89,6 @@ public class ArticlesEDAO extends DBConnPool {
         return board;
     }
     
-    // public int insertWrite(ArticlesDTO dto) {
-    //     int result = 0;
-    //     try {
-    //         String query = 
-    //             "DECLARE " +
-    //             "  v_t_seq NUMBER; " +
-    //             "  v_a_seq NUMBER; " +
-    //             "BEGIN " +
-    //             "  SELECT thumbnails_seq.NEXTVAL, articles_seq.NEXTVAL INTO v_t_seq, v_a_seq FROM dual; " +
-    //             "  INSERT INTO thumbnails (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
-    //             "  VALUES (v_t_seq, ?, ?, ?, ?, ?, ?); " +
-    //             "  INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) " +
-    //             "  VALUES (v_a_seq, ?, ?, ?, ?, 0, ?, v_t_seq); " +
-    //             "END;";
-            
-    //         psmt = con.prepareStatement(query);
-            
-    //         // thumbnails INSERT 파라미터 설정 (순서대로)
-    //         psmt.setString(1, dto.getOfile());         // ofile
-    //         psmt.setString(2, dto.getSfile());           // sfile
-    //         psmt.setString(3, dto.getFile_path());       // file_path
-    //         psmt.setLong(4, dto.getFile_size());         // file_size
-    //         psmt.setString(5, dto.getFile_type());       // file_type
-    //         psmt.setTimestamp(6, dto.getCreated_at());   // created_at
-            
-    //         // articles INSERT 파라미터 설정 (순서대로)
-    //         psmt.setString(7, dto.getTitle());           // title
-    //         psmt.setString(8, dto.getContent());         // content
-    //         psmt.setInt(9, dto.getCategory());           // category
-    //         psmt.setTimestamp(10, dto.getCreated_at());    // created_at
-    //         psmt.setString(11, dto.getMembers_id());     // members_id
-            
-    //         result = psmt.executeUpdate();
-    //     } catch (Exception e) {
-    //         System.out.println("게시물 입력 중 예외 발생");
-    //         e.printStackTrace();
-    //     }
-    //     return result;
-    // }
-
     public int insertWrite(ArticlesDTO dto) {
         int result = 0;
         try {
