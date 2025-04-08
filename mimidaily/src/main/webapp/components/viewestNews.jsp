@@ -16,6 +16,7 @@
 	.most_viewed_news .news_list h4{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-weight: 600;width: 100px;}
 	.most_viewed_news .news_list .content{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size: 14px;width: 100px;}
 	.most_viewed_news .news_list .date{color: #8C7B7B;font-size: 12px;text-align: end;}
+	.most_viewed_news .news_list li:hover{cursor:pointer;}
 </style>
 </head>
 <body>
@@ -23,7 +24,7 @@
 		<h3>실시간 관심 기사</h3>
 		<ul class="news_list">
 			<c:forEach items="${ viewestList }" var="i" varStatus="loop">
-				<li>
+				<li  onclick="location.href='/articles/view.do?idx=${ i.idx }'">
 					<c:choose>
 			            <c:when test="${i.thumnails_idx != null}">
 			            <div class="news_img">
@@ -36,11 +37,11 @@
 			            </div> 
 			            </c:otherwise>
 			        </c:choose>
-					<div>
+					<div class="news_content">
 						<h4>${ i.title }</h4>
 						<p class="content">${ i.content }</p>
 						<p class="date">${ i.formattedDate }</p>
-					</div>  
+					</div>
 				</li>
 			</c:forEach>
 		</ul>

@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/travel.css">
 <script type="module" src="/script/newsAside.js"></script>
-</head>  
+</head>
 <body>
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
 	<jsp:include page="/components/searchBar.jsp"></jsp:include>
@@ -54,11 +54,6 @@
 							</div>
 						</div>
 					</c:forEach>
-					<%-- <c:if test="${fn:length(articleLists) <= 2}">
-						<div class="userbox_cont">
-							<jsp:include page="/components/usercard.jsp"></jsp:include>
-						</div>
-					</c:if> --%>
 				</c:otherwise>
 			</c:choose>  
 			<div class="pagination_bar">
@@ -67,8 +62,10 @@
 		</section>
 		
 		<aside class="news_right">
-			<jsp:include page="/components/usercard.jsp"></jsp:include>
-			<jsp:include page="/components/viewestNews.jsp"></jsp:include>
+			<div class="aside_box">
+				<jsp:include page="/components/usercard.jsp"></jsp:include>
+				<jsp:include page="/components/viewestNews.jsp"></jsp:include>
+			</div>
 		</aside>		
 	</div>
 	<jsp:include page="/components/footer.jsp"></jsp:include>

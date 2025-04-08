@@ -15,5 +15,11 @@ aside .login_box .login{color: var(--mimiContainer); font-size: 24px; background
 aside .logining {display: flex; align-items: center; justify-content: space-around; margin: 0.5rem auto;width: 90%;}
 aside .btn{border-radius: 4px;text-align: center;margin: 0.5rem auto;padding: 0.5rem 1rem;}
 aside .login_box .write{color: var(--mimiContainer); font-size: 18px; background-color: var(--mimiLight);}
-aside .login_box .logout{color: var(--mimiContainer); font-size: 18px; background-color: var(--mimiDark);}
+aside .login_box .profile{color: var(--mimiContainer); font-size: 18px; background-color: var(--mimiDark);}
+aside .login_box .logout_box .logout{color: var(--mimiLight); font-size: 16px;display:flex;width:100%;justify-content:center;}
+aside .login_box .logout{border-bottom:1px solid;}
 aside .login_box .register{font-weight: 500;color: var(--mimiLight);padding-bottom: 1px;border-bottom: 1px solid;}
+aside .index_viewest {width:100%}
+aside div.index_viewest div.most_viewed_news {width:100%;margin-left:0;}
+aside div.index_viewest .most_viewed_news .news_content {width: 70%;}
+aside div.index_viewest .most_viewed_news .news_content * {width: 100%;}

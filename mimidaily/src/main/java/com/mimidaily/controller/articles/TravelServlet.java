@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mimidaily.dao.ArticlesNDAO;
 import com.mimidaily.dao.ArticlesTDAO;
 import com.mimidaily.dto.ArticlesDTO;
 import com.mimidaily.utils.ArticlesPagination;
@@ -34,7 +35,7 @@ public class TravelServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArticlesTDAO dao=new ArticlesTDAO();
+		ArticlesNDAO dao=new ArticlesNDAO();
         
         // 전달할 매개변수 저장용 맵(유연성, 가독성, 재사용성)
         Map<String,Object> map=new HashMap<String,Object>();

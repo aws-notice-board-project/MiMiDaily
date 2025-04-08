@@ -47,18 +47,16 @@ a.paging_btn{margin: 0 4px;}
  
 /* aside */
 aside.news_right{
-  position: fixed; /* 부모 속성 */
+  position: absolute; /* 부모 속성 */
   width: 220px;
-  top: 150px;
-  right: 14%; 
-  height: 1300px;
+  top: 420px;
+  right: 14%;
   transition: all 0.2s;
-  opacity: 0;
-  z-index:-1;
+  z-index:1;
 }
-aside.news_right.show{opacity: 1;z-index: 1;top: 116px;}
+/* aside.news_right.show{opacity: 1;z-index: 1;} */
 .news_top{display: none;}
-.userbox, .most_viewed_news{top: 0;position: sticky;position: -webkit-sticky;}
+.news_right .aside_box{top: 0;position: sticky;position: -webkit-sticky;transform: translateY(130px);}
 
 .empty_article{position: relative;}
 .empty_article .userbox{position: absolute; top: 50%;transform: translateY(-50%);right: -300px;}
@@ -82,6 +80,7 @@ aside.news_right.show{opacity: 1;z-index: 1;top: 116px;}
   .news_top{display: flex;margin: auto;width: 90%;max-width: 768px;justify-content: center;}
   .most_viewed_news{height: 277px;overflow: hidden;}
   .most_viewed_news .news_list li:nth-child(4){display: none;}
+  .news_top .most_viewed_news .news_list li{margin-bottom:8px;}
   .empty_article .userbox{display: none;}
   .userbox_cont .userbox{display: none;}
 }
