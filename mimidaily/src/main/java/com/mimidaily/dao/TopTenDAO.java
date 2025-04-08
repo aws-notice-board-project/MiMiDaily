@@ -60,7 +60,6 @@ public class TopTenDAO extends DBConnPool{
                 
 				article.add(dto);
 			}
-//			System.out.println("DB에서 데이터 가져옴...?");
 		}catch(Exception e) {
 			System.out.println("기사 조회 중 예외 발생");
 			e.printStackTrace();

@@ -26,13 +26,13 @@ public class TopTenServlet extends HttpServlet {
 		TopTenDAO dao = new TopTenDAO();
 		// 게시글 상위 10개 조회
 		List<ArticlesDTO> ttArticles = dao.selectTopArticles();  // DAO에서 상위 10개만 조회
-		for (ArticlesDTO dto : ttArticles) {
-		    System.out.println("---- 게시글 ----");
-		    System.out.println("IDX: " + dto.getIdx());
-		    System.out.println("제목: " + dto.getTitle());
-		    System.out.println("카테고리: " + dto.getCategory());
-		    System.out.println("해시태그: " + dto.getHashtags());
-		}
+//		for (ArticlesDTO dto : ttArticles) {
+//		    System.out.println("---- 게시글 ----");
+//		    System.out.println("IDX: " + dto.getIdx());
+//		    System.out.println("제목: " + dto.getTitle());
+//		    System.out.println("카테고리: " + dto.getCategory());
+//		    System.out.println("해시태그: " + dto.getHashtags());
+//		}
 		// DB 연결 닫기
 		dao.close();
 		// request 영역에 저장 후 JSP로 포워드
