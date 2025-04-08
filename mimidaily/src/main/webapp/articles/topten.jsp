@@ -27,9 +27,19 @@
 			</div>
        		<div class="news_title">
        			<p>
-       				<span>#ㅁㅇㄴㄹ</span>
-       				<span>#ㅁㄹㅇ</span>
-       				<span>#ㅁㄴㄹㄴㅁ</span>
+       				<c:if test="${article.category == 1}">
+					<span>여행</span>
+					</c:if>
+					<c:if test="${article.category == 2}">
+					<span>맛집</span>
+					</c:if>
+					<c:choose>
+				    <c:when test="${empty article.hashtags}">
+				    </c:when>
+				    <c:otherwise>
+				        <span>여행</span>
+				    </c:otherwise>
+					</c:choose>
        			</p>
 	       		<p>${article.title}</p>
        		</div>
