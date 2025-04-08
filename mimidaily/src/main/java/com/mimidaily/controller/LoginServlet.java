@@ -37,7 +37,6 @@ public class LoginServlet extends HttpServlet {
 		
 		 String url = "member/login.jsp"; 
 		
-		
 		  HttpSession session = request.getSession(); // session 객체 구하기 
 		  if(session.getAttribute("loginUser") != null) {// 이미 로그인 된 사용자이면 
 			  url = "index.jsp"; // 메인 페이지로 이동한다. 
@@ -81,10 +80,12 @@ public class LoginServlet extends HttpServlet {
 				lastPath="/"+parts[parts.length - 1];
 			}
 
-			if(lastPath!="/"&&lastPath!="/main.do"&&lastPath!=null) {
+			if(lastPath != null && lastPath.equals("/logout.do")){
+				url = "main.do";
+			}else if(lastPath != null && !lastPath.equals("/") && !lastPath.equals("/main.do")) {
 				url = previousPage;
 			}else {url = "main.do";}
-			
+
 			response.sendRedirect(url); //주소변경
 		} else if (!(result == 1)) {//id 또는 비밀번호가 일치하지 않을 때
 			request.setAttribute("message", "아이디 또는 비밀번호가 맞지 않습니다.");

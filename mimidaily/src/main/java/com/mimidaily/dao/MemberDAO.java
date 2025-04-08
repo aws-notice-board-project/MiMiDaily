@@ -97,16 +97,18 @@ public class MemberDAO extends DBConnPool {
     // 멤버정보 가져오기(필요한 정보만)
     public MemberInfo getMemberInfo(String memberId) {
         MemberInfo memberInfo = null;
-        String sql = "SELECT m.id, m.name, COUNT(a.idx) AS article_count, "
-                   + "COUNT(c.idx) AS comment_count, m.created_at "
-                   + "FROM members m "
-                   + "LEFT JOIN articles a ON m.id = a.members_id "
-                   + "LEFT JOIN comments c ON a.idx = c.articles_idx "
-                   + "WHERE m.id = ? "
-                   + "GROUP BY m.id, m.name, m.created_at";
+        String sql = "SELECT "
+                + "(SELECT COUNT(*) FROM articles WHERE members_id = ?) AS article_count, "
+                + "(SELECT COUNT(*) FROM comments WHERE members_id = ?) AS comment_count, "
+                + "id, name, created_at "
+                + "FROM members "
+                + "WHERE id = ?";
+
         try {
         	psmt = con.prepareStatement(sql);
             psmt.setString(1, memberId);
+            psmt.setString(2, memberId);
+            psmt.setString(3, memberId);
             rs = psmt.executeQuery();
 
             if (rs.next()) {
