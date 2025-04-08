@@ -1,4 +1,4 @@
-package com.mimidaily.controller;
+package com.mimidaily.controller.member;
 
 import java.io.IOException;
 

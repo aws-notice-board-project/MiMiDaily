@@ -1,4 +1,4 @@
-package utils;
+package com.mimidaily.utils;
 
 import java.util.Map;
 

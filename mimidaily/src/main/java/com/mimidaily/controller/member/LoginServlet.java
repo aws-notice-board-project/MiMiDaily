@@ -1,4 +1,4 @@
-package com.mimidaily.controller;
+package com.mimidaily.controller.member;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.mimidaily.dao.MemberDAO;
-import com.mimidaily.dao.MemberInfo;
+import com.mimidaily.dto.MemberInfoDTO;
 
 /**
  * Servlet implementation class LoginServlet
@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
 		String url = "member/login.jsp";
 		String userid = request.getParameter("userid");
 		String pwd = request.getParameter("pwd");
-		MemberInfo memberInfo = null;
+		MemberInfoDTO memberInfo = null;
 		int role = 0;
 		int visitCnt = 0;
 		MemberDAO mDao = new MemberDAO(); 

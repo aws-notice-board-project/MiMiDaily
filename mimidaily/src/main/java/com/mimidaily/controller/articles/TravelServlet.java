@@ -1,4 +1,4 @@
-package com.mimidaily.controller;
+package com.mimidaily.controller.articles;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mimidaily.dao.ArticlesTDAO;
 import com.mimidaily.dto.ArticlesDTO;
-
-import utils.ArticlesPagination;
+import com.mimidaily.utils.ArticlesPagination;
 
 /**
  * Servlet implementation class TravelServlet
