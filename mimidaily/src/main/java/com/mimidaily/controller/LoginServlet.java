@@ -32,6 +32,8 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String referer = request.getHeader("Referer"); // 이전 페이지
+		request.getSession().setAttribute("previousPage", referer); // 세션에 저장
 		
 		 String url = "member/login.jsp"; 
 		
@@ -70,7 +72,18 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("userRole", role);
 			session.setAttribute("visitCnt", visitCnt);
 			session.setAttribute("loginUser", userid);
-			url = "main.do";
+			
+			// 세션에서 이전 페이지 URL 가져오기
+			String previousPage = (String) request.getSession().getAttribute("previousPage");
+			String lastPath = null;
+			if (previousPage != null) {
+				String[] parts = previousPage.split("/");
+				lastPath="/"+parts[parts.length - 1];
+			}
+
+			if(lastPath!="/"&&lastPath!="/main.do"&&lastPath!=null) {
+				url = previousPage;
+			}else {url = "main.do";}
 			
 			response.sendRedirect(url); //주소변경
 		} else if (!(result == 1)) {//id 또는 비밀번호가 일치하지 않을 때

@@ -35,7 +35,7 @@ public class TravelServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ArticlesTDAO dao=new ArticlesTDAO();
+		ArticlesTDAO dao=new ArticlesTDAO();
         
         // 전달할 매개변수 저장용 맵(유연성, 가독성, 재사용성)
         Map<String,Object> map=new HashMap<String,Object>();

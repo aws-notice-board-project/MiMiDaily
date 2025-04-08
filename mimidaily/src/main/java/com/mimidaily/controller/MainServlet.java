@@ -28,6 +28,9 @@ public class MainServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String referer = request.getHeader("Referer"); // 현재 페이지
+		request.getSession().setAttribute("previousPage", referer); // 세션에 저장
+		
 		String searchField = request.getParameter("searchField");
         String searchWord = request.getParameter("searchWord");
         if (searchField != null && searchWord != null && !searchWord.trim().isEmpty()) { // 검색조건이 존재하면
