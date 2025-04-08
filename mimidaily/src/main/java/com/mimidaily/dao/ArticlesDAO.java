@@ -36,7 +36,7 @@ public class ArticlesDAO extends DBConnPool {
                  dto.setCreated_at(rs.getTimestamp(5));
                  dto.setVisitcnt(rs.getInt(6));
                  dto.setMembers_id(rs.getString(7));
-                 dto.setThumnails_idx(rs.getInt(8));
+                 dto.setThumbnails_idx(rs.getInt(8));
                  viewest.add(dto);
  			}
  		}catch(Exception e) {e.getStackTrace();}
@@ -120,13 +120,13 @@ public class ArticlesDAO extends DBConnPool {
 	             dto.setCreated_at(rs.getTimestamp(5));
 	             dto.setVisitcnt(rs.getInt(6));
 	             dto.setMembers_id(rs.getString(7));
-	             dto.setThumnails_idx(rs.getInt(8));
+	             dto.setThumbnails_idx(rs.getInt(8));
 	             
 	             // 썸네일 정보를 가져오기 위한 추가 쿼리
-	             if (dto.getThumnails_idx() != null) {
+	             if (dto.getThumbnails_idx() != null) {
 	                 String thumbnailQuery = "SELECT ofile, sfile, file_path, file_size, file_type FROM thumbnails WHERE idx = ?";
 	                 try (PreparedStatement thumbnailPsmt = con.prepareStatement(thumbnailQuery)) {
-	                     thumbnailPsmt.setInt(1, dto.getThumnails_idx());
+	                     thumbnailPsmt.setInt(1, dto.getThumbnails_idx());
 	                     ResultSet thumbnailRs = thumbnailPsmt.executeQuery();
 	                     if (thumbnailRs.next()) {
 	                         dto.setOfile(thumbnailRs.getString("ofile"));
@@ -225,7 +225,7 @@ public class ArticlesDAO extends DBConnPool {
                 dto.setCreated_at(rs.getTimestamp(5));
                 dto.setVisitcnt(rs.getInt(6));
                 dto.setMembers_id(rs.getString(7));
-                dto.setThumnails_idx(rs.getInt(8));
+                dto.setThumbnails_idx(rs.getInt(8));
             }
         } catch (Exception e) {
             System.out.println("게시물 상세보기 중 예외 발생");
@@ -282,7 +282,7 @@ public class ArticlesDAO extends DBConnPool {
             psmt.setTimestamp(5, dto.getCreated_at());
             psmt.setInt(6, dto.getVisitcnt());
             psmt.setString(7, dto.getMembers_id());
-            psmt.setInt(8, dto.getThumnails_idx());
+            psmt.setInt(8, dto.getThumbnails_idx());
 
             // 쿼리문 실행
             result = psmt.executeUpdate();
