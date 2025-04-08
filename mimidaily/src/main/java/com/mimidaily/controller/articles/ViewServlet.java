@@ -1,6 +1,7 @@
 package com.mimidaily.controller.articles;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,6 +36,7 @@ public class ViewServlet extends HttpServlet {
         String idx = request.getParameter("idx");
         dao.updateVisitCount(idx);  // 조회수 1 증가
         ArticlesDTO dto = dao.selectView(idx);
+        List<ArticlesDTO> viewestList=dao.viewestList(); // 실시간 관심기사 best4
         dao.close();
 
         // 줄바꿈 처리
@@ -55,6 +57,7 @@ public class ViewServlet extends HttpServlet {
         
         // 게시물(dto) 저장 후 뷰로 포워드
         request.setAttribute("dto", dto);
+        request.setAttribute("viewestList", viewestList);
         //request.setAttribute("isImage", isImage);
         request.getRequestDispatcher("/articles/view.jsp").forward(request, response);
 	}

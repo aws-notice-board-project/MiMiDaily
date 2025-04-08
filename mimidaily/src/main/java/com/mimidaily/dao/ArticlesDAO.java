@@ -211,10 +211,19 @@ public class ArticlesDAO extends DBConnPool {
     // 주어진 일련번호에 해당하는 게시물을 DTO에 담아 반환합니다.
     public ArticlesDTO selectView(String idx) {
         ArticlesDTO dto = new ArticlesDTO(); // DTO 객체 생성
-        String query = "SELECT * FROM articles WHERE idx=?"; // 쿼리문 템플릿 준비
+        String query = ""
+                + "SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, "
+                + "       m.name AS member_name, m.email AS member_email, a.thumbnails_idx, "
+                + "       (SELECT COUNT(*) FROM likes l WHERE l.articles_idx = a.idx) AS like_count, "
+                + "       (SELECT COUNT(*) FROM likes l WHERE l.articles_idx = a.idx AND l.members_id = ?) AS is_liked "
+                + "FROM articles a "
+                + "JOIN members m ON a.members_id = m.id " // 멤버 정보를 가져오기 위한 조인
+                + "WHERE a.idx = ?";
+        
         try {
             psmt = con.prepareStatement(query); // 쿼리문 준비
-            psmt.setString(1, idx); // 인파라미터 설정
+            psmt.setString(1, idx); // 특정 멤버 ID 설정
+            psmt.setString(2, idx); // 게시글 ID 설정
             rs = psmt.executeQuery(); // 쿼리문 실행
 
             if (rs.next()) { // 결과를 DTO 객체에 저장
@@ -226,6 +235,16 @@ public class ArticlesDAO extends DBConnPool {
                 dto.setVisitcnt(rs.getInt(6));
                 dto.setMembers_id(rs.getString(7));
                 dto.setThumnails_idx(rs.getInt(8));
+                
+                // 멤버 정보 설정
+                dto.setMemberName(rs.getString("member_name")); // 멤버 이름
+                dto.setMemberEmail(rs.getString("member_email")); // 멤버 이메일
+                
+                dto.setThumnails_idx(rs.getInt(10));
+                
+                // 좋아요 수와 현재 사용자의 좋아요 여부 가져오기
+                dto.setLikes(rs.getInt("like_count")); // 좋아요 수
+                dto.setIsLiked(rs.getInt("is_liked") > 0); // 현재 사용자가 좋아요를 눌렀는지 여부 (boolean)
             }
         } catch (Exception e) {
             System.out.println("게시물 상세보기 중 예외 발생");

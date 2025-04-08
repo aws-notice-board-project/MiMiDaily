@@ -20,7 +20,10 @@ public class ArticlesDTO {
 	private long file_size;
 	private String file_type;
 
-
+	// 추가된 멤버 정보
+    private String member_name; // 멤버 이름
+    private String member_email; // 멤버 이메일
+    private boolean is_liked; // 현재 사용자가 좋아요 눌렀는지의 여부
 
 	// 포맷된 날짜 getter
     public String getFormattedDate() {
@@ -118,5 +121,30 @@ public class ArticlesDTO {
 		this.file_type = file_type;
 	}
 
+	// 글쓴이 정보
+	public String getMemberName() {
+		return member_name;
+	}
 
+	public void setMemberName(String member_name) {
+		this.member_name = member_name;
+	}
+
+	public String getMember_email() {
+		return member_email;
+	}
+
+	public void setMemberEmail(String member_email) {
+		this.member_email = member_email;
+	}
+
+
+	// 현재 사용자의 해당 글의 좋아요 여부
+	public void setIsLiked(boolean is_liked) {
+		this.is_liked = is_liked;
+	}
+	public boolean getIsLiked() {
+		return is_liked;
+	}
+	
 }

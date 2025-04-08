@@ -41,16 +41,14 @@ public class MainServlet extends HttpServlet {
 		String searchField = request.getParameter("searchField");
         String searchWord = request.getParameter("searchWord");
         if (searchField != null && searchWord != null && !searchWord.trim().isEmpty()) { // 검색조건이 존재하면
-        	System.out.println("검색어 존재"); 
             response.sendRedirect("/articles/newest.do?searchField=" + searchField + "&searchWord=" + searchWord);
-            return; // 이후 코드 실행 방지 
+        }else { 	
+        	request.setAttribute("actionUrl", "/articles/newest.do"); // 검색하면 최신기사로 검색되는 것을 위함
+        	request.setAttribute("viewestList", viewestList);
+        	RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+        	dispatcher.forward(request, response);        	
         }
-        
-        dao.close();
-        request.setAttribute("actionUrl", "main.do");
-        request.setAttribute("viewestList", viewestList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-		dispatcher.forward(request, response);
+		dao.close();
 	}
 
 	/**
