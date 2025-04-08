@@ -28,7 +28,7 @@
 		        <div>${ dto.content }</div>
 	 	 	    <div class="journalist">
 					<h3 class="hide">기자정보</h3>
-					<c:choose>
+					<%-- <c:choose>
 			            <c:when test="${dto.profiles_idx == 0}">
 				              <i class="fa-solid fa-circle-user"></i>
 						</c:when>
@@ -37,9 +37,9 @@
 							<img src="${pageContext.request.contextPath}${dto.file_path}${dto.sfile}" alt="${dto.members_id}의 프로필">
 			            </div>
 			            </c:otherwise>
-			        </c:choose>
+			        </c:choose> --%>
 			        <div class="journalist_info">
-						${ dto.members_id }
+						
 			        </div>
 				</div>
 		        	

@@ -213,7 +213,7 @@ public class ArticlesDAO extends DBConnPool {
         ArticlesDTO dto = new ArticlesDTO(); // DTO 객체 생성
         String query = ""
                 + "SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, "
-                + "       m.name AS member_name, m.email AS member_email, a.thumbnails_idx, "
+                + "       m.name AS member_name, m.email AS member_email, a.thumnails_idx, "
                 + "       (SELECT COUNT(*) FROM likes l WHERE l.articles_idx = a.idx) AS like_count, "
                 + "       (SELECT COUNT(*) FROM likes l WHERE l.articles_idx = a.idx AND l.members_id = ?) AS is_liked "
                 + "FROM articles a "
@@ -234,13 +234,13 @@ public class ArticlesDAO extends DBConnPool {
                 dto.setCreated_at(rs.getTimestamp(5));
                 dto.setVisitcnt(rs.getInt(6));
                 dto.setMembers_id(rs.getString(7));
-                dto.setThumnails_idx(rs.getInt(8));
+                dto.setThumbnails_idx(rs.getInt(8));
                 
                 // 멤버 정보 설정
                 dto.setMemberName(rs.getString("member_name")); // 멤버 이름
                 dto.setMemberEmail(rs.getString("member_email")); // 멤버 이메일
                 
-                dto.setThumnails_idx(rs.getInt(10));
+                dto.setThumbnails_idx(rs.getInt(10));
                 
                 // 좋아요 수와 현재 사용자의 좋아요 여부 가져오기
                 dto.setLikes(rs.getInt("like_count")); // 좋아요 수
