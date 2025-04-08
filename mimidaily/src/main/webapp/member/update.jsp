@@ -40,15 +40,15 @@
 					<input type="text" name="tel" placeholder="연락처">
 					<p class="error hidden"></p>
 		        </div>
-		        <div id="birth_gender">
+		        <!-- <div id="birth_gender">
 					<input type="text" name="birth" placeholder="주민번호 앞자리" maxlength="6">-<input type="text" name="gender" maxlength="1"> ■ ■ ■ ■ ■ ■
 					<p class="error hidden"></p>
-		        </div>
-				<label>
+		        </div> -->
+				<!-- <label>
 					<input type="checkbox" id="agree3">
 					마케팅 활용 및 프로모션 이용 동의
 					<input type="button" id="agree_modal_btn3" value="내용 확인 >">
-	        	</label>
+	        	</label> -->
 	        </div>
 			<div class="member_btn">
 				<input type="submit" value="저장하기" data-success="${success_msg}">
