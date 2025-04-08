@@ -22,7 +22,7 @@
 			        <p>${article.created_at}</p>
 			        <p>${article.visitcnt}</p>
 			        <p>${article.members_id}</p>
-			        <p>${article.thumbnails_idx}</p>
+			        <p>${article.thumnails_idx}</p>
 			        <p>${article.likes}</p>
 	            </c:forEach>
 	        </c:when>
