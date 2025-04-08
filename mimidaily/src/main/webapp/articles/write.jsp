@@ -27,20 +27,20 @@
 <body>
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
 
-	<div class="form-container">
-		<h1 class="title">기사 쓰기</h1>
+	<h1 class="title">기사 쓰기</h1>
+	<div class="form_cont cont">
 		<form name="writeFrm" method="post" enctype="multipart/form-data" action="/articles/write.do"
 			onsubmit="return validateForm(this);">
 
 			<!-- 작성자 -->
-			<div class="form-group hide">
+			<div class="form_box hide">
 				<label for="members_id">작성자</label>
 				<input type="text" id="members_id" name="members_id" readonly value="${sessionScope.loginUser}">
 			</div>
 
 
 			<!-- 카테고리 선택 -->
-			<div class="form-group">
+			<div class="form_box">
 				<label for="category">카테고리</label>
 				<select name="category" id="category">
 					<option value="1">여행지</option>
@@ -48,37 +48,38 @@
 				</select>
 			</div>
 
+			<!-- 해시태그 -->
+			<div class="form_box">
+				<label for="hashtags">해시태그 <small>(예: #여행지 #맛집 #서울_맛집)</small></label>
+				<input type="text" id="hashtags" name="hashtags" placeholder="#해시태그를 입력하세요.">
+			</div>
+
 			<!-- 제목 -->
-			<div class="form-group">
+			<div class="form_box">
 				<label for="title">제목</label>
 				<input type="text" id="title" name="title" maxlength="30" placeholder="제목을 입력하세요.">
 			</div>
 
 			<!-- 첨부 파일 -->
-			<div class="form-group">
+			<div class="form_box">
 				<label for="ofile">이미지 첨부</label>
 				<input type="file" id="ofile" name="ofile">
 			</div>
 
 			<!-- 내용 -->
-			<div class="form-group">
+			<div class="form_box">
 				<label for="content">내용</label>
-				<textarea id="content" name="content" rows="6" placeholder="내용을 입력하세요."></textarea>
+				<textarea id="content" name="content" rows="8" placeholder="내용을 입력하세요."></textarea>
 			</div>
+
 			<!-- 작성시간 (숨김 처리) -->
-			<div class="form-group hide">
+			<div class="form_box hide">
 				<label for="timeInput">작성시간</label>
 				<input id="timeInput" type="text" name="created_at" readonly>
 			</div>
 
-			<!-- 해시태그 -->
-			<div class="form-group">
-				<label for="hashtags">해시태그 <small>(예: #여행지 #맛집 #서울_맛집)</small></label>
-				<input type="text" id="hashtags" name="hashtags" placeholder="#해시태그를 입력하세요.">
-			</div>
-
 			<!-- 버튼 그룹 -->
-			<div class="form-actions">
+			<div class="form_button">
 				<button type="submit">작성 완료</button>
 				<!-- <button type="reset">RESET</button> -->
 				<!-- <button type="button" onclick="location.href='../mvcboard/list.do';">목록 바로가기</button> -->

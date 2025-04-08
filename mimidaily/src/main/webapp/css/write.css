@@ -1,52 +1,79 @@
-.form-container {
+.form_cont {
   max-width: 800px;
-  margin: 40px auto;
-  padding: 2em;
-  background-color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  font-family: Arial, sans-serif;
+  margin: 20px auto 40px;
+  padding: 20px;
 }
 
-.form-container h2 {
+h1.title {
   text-align: center;
-  margin-bottom: 1.5em;
+  margin-top: 20px;
+  font-size: 40px;
+  font-family: "NotoSansKR-Light";
+  color: var(--mimiDark);
 }
 
-.form-group {
-  margin-bottom: 1.25em;
+.form_cont form {
+  display: grid;
+  row-gap: 12px;
+  column-gap: 20px;
+}
+
+
+.form_box {
   display: flex;
   flex-direction: column;
 }
-
-.form-group label {
-  margin-bottom: 0.5em;
+.form_box:nth-child(2) {
+  grid-column-start: 1;
+	grid-column-end: 1;
+}
+.form_box:nth-child(3) {
+  grid-column-start: 2;
+	grid-column-end: 4;
+}
+.form_box:nth-child(4) {
+ grid-column-start: 1;
+	grid-column-end: 4;
+}
+.form_box:nth-child(5) {
+ grid-column-start: 1;
+	grid-column-end: 4;
+}
+.form_box:nth-child(6) {
+ grid-column-start: 1;
+	grid-column-end: 4;
+}
+.form_button:nth-child(8) {
+ grid-column-start: 1;
+	grid-column-end: 4;
+}
+.form_box label {
+  margin-bottom: 10px;
   font-weight: bold;
   color: #333;
 }
 
-.form-group input[type="text"],
-.form-group input[type="file"],
-.form-group textarea,
-.form-group select {
-  padding: 0.75em;
+.form_box input[type="text"],
+.form_box input[type="file"],
+.form_box textarea,
+.form_box select {
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 1em;
 }
 
-.form-group textarea {
+.form_box textarea {
   resize: vertical;
 }
 
-.form-actions {
+.form_button {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin-top: 2em;
 }
 
-.form-actions button {
+.form_button button {
   padding: 0.75em 1.5em;
   font-size: 1em;
   border: none;
@@ -54,17 +81,28 @@
   cursor: pointer;
 }
 
-.form-actions button[type="submit"] {
-  background-color: #4CAF50;
-  color: white;
+.form_button button[type="submit"] {
+  width: 40%;
+  height: 100%;
+  border: 0;
+  background: var(--mimiLight);
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 24px;
+  transition: background 0.3s;
 }
 
-.form-actions button[type="reset"] {
+.form_button button[type="submit"]:hover {
+  background: var(--mimiDark);
+}
+
+/* .form_button button[type="reset"] {
   background-color: #f0ad4e;
   color: white;
 }
 
-.form-actions button[type="button"] {
+.form_button button[type="button"] {
   background-color: #5bc0de;
   color: white;
-}
+} */
+
