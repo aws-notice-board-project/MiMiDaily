@@ -3,6 +3,7 @@ package com.mimidaily.dto;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ArticlesDTO {
     private int idx;
@@ -21,7 +22,7 @@ public class ArticlesDTO {
 	private long file_size;
 	private String file_type;
 
-	private ArrayList<String> hashtags;
+	private List<String> hashtags=new ArrayList<String>();
 
 	// 포맷된 날짜 getter
     public String getFormattedDate() {
@@ -121,9 +122,9 @@ public class ArticlesDTO {
 
 	// 해시태그
 	public ArrayList<String> getHashtags() {
-		return hashtags;
+		return (ArrayList<String>) hashtags;
 	}
-	public void setHashtags(ArrayList<String> hashtags) {
+	public void setHashtags(List<String> hashtags) {
 		this.hashtags = hashtags;
 	}
 }

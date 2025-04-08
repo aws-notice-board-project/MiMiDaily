@@ -1,8 +1,9 @@
 package com.mimidaily.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.mimidaily.common.DBConnPool;
 import com.mimidaily.dto.ArticlesDTO;
@@ -31,7 +32,7 @@ public class TopTenDAO extends DBConnPool{
 			rs=psmt.executeQuery();
 			while(rs.next()) {
 				ArticlesDTO dto=new ArticlesDTO();
-				dto.setIdx(rs.getInt(1)); // rs.get...(rs의 column row) 또는 명확한 컬럼명 넣어도 됨
+				int articleIdx = rs.getInt(1);
                 dto.setTitle(rs.getString(2));
                 dto.setContent(rs.getString(3));
                 dto.setCategory(rs.getInt(4));
@@ -40,6 +41,23 @@ public class TopTenDAO extends DBConnPool{
                 dto.setMembers_id(rs.getString(7));
                 dto.setThumbnails_idx(rs.getInt(8));
                 dto.setLikes(rs.getInt(10));
+                // 해시태그 조회
+                List<String> hashtags=new ArrayList<String>();
+                String hashtagQuery =
+                    "SELECT h.name " +
+                    "  FROM hashtags_articles ha JOIN hashtags h " +
+                    "  ON ha.hashtags_idx = h.idx " +
+                    " WHERE ha.articles_idx = ?";
+                PreparedStatement tagPstmt = con.prepareStatement(hashtagQuery);
+                tagPstmt.setInt(1, articleIdx);
+                ResultSet tagRs = tagPstmt.executeQuery();
+                while (tagRs.next()) {
+                    hashtags.add(tagRs.getString("name"));
+                }
+                tagRs.close();
+                tagPstmt.close();
+
+                dto.setHashtags(hashtags);  // 해시태그 목록 추가
                 
 				article.add(dto);
 			}
