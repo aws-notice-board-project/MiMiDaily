@@ -45,7 +45,7 @@
 		        	
 	        </div>
 	        <div>
-	            <button class="btn" type="button" onclick="location.href='../mvcboard/pass.do?mode=edit&idx=${ param.idx }';">
+	            <button class="btn" type="button" onclick="location.href='../articles/edit.do?mode=edit&idx=${ param.idx }';">
 	                수정하기
 	            </button>
 	            <button class="btn" type="button" onclick="location.href='../mvcboard/pass.do?mode=delete&idx=${ param.idx }';">

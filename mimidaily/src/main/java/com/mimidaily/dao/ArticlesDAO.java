@@ -234,13 +234,13 @@ public class ArticlesDAO extends DBConnPool {
                 dto.setCreated_at(rs.getTimestamp(5));
                 dto.setVisitcnt(rs.getInt(6));
                 dto.setMembers_id(rs.getString(7));
-                dto.setThumnails_idx(rs.getInt(8));
+                dto.setThumbnails_idx(rs.getInt(8));
                 
                 // 멤버 정보 설정
                 dto.setMemberName(rs.getString("member_name")); // 멤버 이름
                 dto.setMemberEmail(rs.getString("member_email")); // 멤버 이메일
                 
-                dto.setThumnails_idx(rs.getInt(10));
+                dto.setThumbnails_idx(rs.getInt(10));
                 
                 // 좋아요 수와 현재 사용자의 좋아요 여부 가져오기
                 dto.setLikes(rs.getInt("like_count")); // 좋아요 수
@@ -285,31 +285,70 @@ public class ArticlesDAO extends DBConnPool {
 
     // 게시글 데이터를 받아 DB에 저장되어 있던 내용을 갱신합니다(파일 업로드 지원).
     public int updatePost(ArticlesDTO dto) {
-        int result = 0;
+        int updatedArticleId = 0;
         try {
-            // 쿼리문 템플릿 준비
-            String query = "UPDATE articles"
-                    + " SET title=?, name=?, content=?, ofile=?, sfile=? "
-                    + " WHERE idx=? and pass=?";
-
-            // 쿼리문 준비
-            psmt = con.prepareStatement(query);
-            psmt.setInt(1, dto.getIdx());
-            psmt.setString(2, dto.getTitle());
-            psmt.setString(3, dto.getContent());
-            psmt.setInt(4, dto.getCategory());
-            psmt.setTimestamp(5, dto.getCreated_at());
-            psmt.setInt(6, dto.getVisitcnt());
-            psmt.setString(7, dto.getMembers_id());
-            psmt.setInt(8, dto.getThumbnails_idx());
-
-            // 쿼리문 실행
-            result = psmt.executeUpdate();
+            if (dto.getOfile() == null || dto.getOfile().trim().equals("")) {
+                // 파일 업로드 없이 단순히 게시글의 제목, 내용, 카테고리 등만 수정하는 경우:
+                String query = "UPDATE articles " +
+                               "SET title = ?, content = ?, category = ?, created_at = ? " +
+                               "WHERE idx = ?";
+                psmt = con.prepareStatement(query);
+                psmt.setString(1, dto.getTitle());
+                psmt.setString(2, dto.getContent());
+                psmt.setInt(3, dto.getCategory());
+                psmt.setTimestamp(4, dto.getCreated_at());
+                psmt.setInt(5, dto.getIdx());  // 수정할 게시글의 번호
+                int result = psmt.executeUpdate();
+                if (result > 0) {
+                    updatedArticleId = dto.getIdx();
+                }
+            } else {
+                // 파일 업로드가 있는 경우: PL/SQL 블록을 사용해서 thumbnails와 articles 모두 업데이트
+                String query = 
+                    "BEGIN " +
+                    "  UPDATE thumbnails " +
+                    "  SET ofile = ?, " +          // 새 원본파일명
+                    "      sfile = ?, " +          // 새 저장파일명
+                    "      file_path = ?, " +      // 새 파일 경로
+                    "      file_size = ?, " +      // 새 파일 크기
+                    "      file_type = ?, " +      // 새 파일 타입
+                    "      created_at = ? " +      // 수정 시간 (또는 업데이트 시간)
+                    "  WHERE idx = ?; " +          // 수정할 썸네일 번호  
+                    "  UPDATE articles " +
+                    "  SET title = ?, " +          // 새 제목
+                    "      content = ?, " +        // 새 내용
+                    "      category = ?, " +       // 새 카테고리
+                    "      created_at = ?, " +     // 수정 시간
+                    "      thumnails_idx = ? " +   // 기존 또는 변경된 썸네일 번호
+                    "  WHERE idx = ?; " +          // 수정할 게시글 번호
+                    "END;";
+                CallableStatement cstmt = con.prepareCall(query);
+                
+                // 1. thumbnails 업데이트 파라미터 (순서대로)
+                cstmt.setString(1, dto.getOfile());
+                cstmt.setString(2, dto.getSfile());
+                cstmt.setString(3, dto.getFile_path());
+                cstmt.setLong(4, dto.getFile_size());
+                cstmt.setString(5, dto.getFile_type());
+                cstmt.setTimestamp(6, dto.getCreated_at());
+                cstmt.setInt(7, dto.getThumbnails_idx());  // 기존 썸네일 idx가 dto에 있어야 함
+                
+                // 2. articles 업데이트 파라미터 (순서대로)
+                cstmt.setString(8, dto.getTitle());
+                cstmt.setString(9, dto.getContent());
+                cstmt.setInt(10, dto.getCategory());
+                cstmt.setTimestamp(11, dto.getCreated_at());
+                cstmt.setInt(12, dto.getThumbnails_idx());
+                cstmt.setInt(13, dto.getIdx());  // 수정할 게시글의 번호
+                
+                cstmt.execute();
+                updatedArticleId = dto.getIdx();
+            }
         } catch (Exception e) {
             System.out.println("게시물 수정 중 예외 발생");
             e.printStackTrace();
         }
-        return result;
+        return updatedArticleId;
     }
     
     // 해시태그 처리: 해시태그 문자열을 받아 파싱 후 해시태그 테이블과 교차테이블에 삽입
