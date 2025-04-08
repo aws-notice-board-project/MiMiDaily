@@ -2,6 +2,7 @@ package com.mimidaily.dto;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class ArticlesDTO {
     private int idx;
@@ -11,7 +12,7 @@ public class ArticlesDTO {
     private Timestamp created_at;
     private int visitcnt;
     private String members_id;
-    private Integer thumnails_idx;
+    private Integer thumbnails_idx;
     private int likes;
     
 	private String ofile;
@@ -20,7 +21,7 @@ public class ArticlesDTO {
 	private long file_size;
 	private String file_type;
 
-
+	private ArrayList<String> hashtags;
 
 	// 포맷된 날짜 getter
     public String getFormattedDate() {
@@ -73,11 +74,11 @@ public class ArticlesDTO {
 	public void setMembers_id(String members_id) {
 		this.members_id = members_id;
 	}
-	public Integer getThumnails_idx() {
-		return thumnails_idx;
+	public Integer getThumbnails_idx() {
+		return thumbnails_idx;
 	}
-	public void setThumnails_idx(Integer thumnails_idx) {
-		this.thumnails_idx = thumnails_idx;
+	public void setThumbnails_idx(Integer thumnails_idx) {
+		this.thumbnails_idx = thumnails_idx;
 	}
 	public int getLikes() {
 		return likes;
@@ -118,5 +119,11 @@ public class ArticlesDTO {
 		this.file_type = file_type;
 	}
 
-
+	// 해시태그
+	public ArrayList<String> getHashtags() {
+		return hashtags;
+	}
+	public void setHashtags(ArrayList<String> hashtags) {
+		this.hashtags = hashtags;
+	}
 }
