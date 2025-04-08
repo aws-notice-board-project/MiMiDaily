@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import com.mimidaily.common.DBConnPool;
 import com.mimidaily.dto.MemberDTO;
+import com.mimidaily.dto.MemberInfoDTO;
 
 //public class MemberDAO {
 public class MemberDAO extends DBConnPool {
@@ -95,8 +96,8 @@ public class MemberDAO extends DBConnPool {
     }
     
     // 멤버정보 가져오기(필요한 정보만)
-    public MemberInfo getMemberInfo(String memberId) {
-        MemberInfo memberInfo = null;
+    public MemberInfoDTO getMemberInfo(String memberId) {
+        MemberInfoDTO memberInfo = null;
         String sql = "SELECT "
                 + "(SELECT COUNT(*) FROM articles WHERE members_id = ?) AS article_count, "
                 + "(SELECT COUNT(*) FROM comments WHERE members_id = ?) AS comment_count, "
@@ -112,7 +113,7 @@ public class MemberDAO extends DBConnPool {
             rs = psmt.executeQuery();
 
             if (rs.next()) {
-                memberInfo = new MemberInfo();
+                memberInfo = new MemberInfoDTO();
                 memberInfo.setId(rs.getString("id"));
                 memberInfo.setName(rs.getString("name"));
                 memberInfo.setArticleCount(rs.getInt("article_count"));

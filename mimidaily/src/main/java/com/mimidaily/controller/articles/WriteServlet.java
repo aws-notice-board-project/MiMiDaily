@@ -1,4 +1,4 @@
-package com.mimidaily.controller;
+package com.mimidaily.controller.articles;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -13,8 +13,7 @@ import javax.servlet.http.Part;
 
 import com.mimidaily.dao.ArticlesEDAO;
 import com.mimidaily.dto.ArticlesDTO;
-
-import utils.FileUtil;
+import com.mimidaily.utils.FileUtil;
 
 /**
  * Servlet implementation class WriteServlet
