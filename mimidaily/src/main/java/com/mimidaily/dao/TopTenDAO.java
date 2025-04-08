@@ -23,7 +23,7 @@ public class TopTenDAO extends DBConnPool{
 				+"								from likes "
 				+"								group by articles_idx) l "
 				+"		  on a.idx=l.articles_idx "
-				+"		  order by likecnt desc visitcnt) "
+				+"		  order by likecnt desc, visitcnt) "
 				+" where rownum <= 17";
 //		System.out.println(query);
 		
@@ -56,7 +56,6 @@ public class TopTenDAO extends DBConnPool{
                 }
                 tagRs.close();
                 tagPstmt.close();
-
                 dto.setHashtags(hashtags);  // 해시태그 목록 추가
                 
 				article.add(dto);

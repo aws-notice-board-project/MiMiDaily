@@ -35,7 +35,7 @@
 					<c:forEach items="${ articleLists }" var="i" varStatus="loop">
 						<div class="news_cont list" onclick="location.href='/articles/view.do?idx=${ i.idx }'">
 							<c:choose>
-					            <c:when test="${i.thumnails_idx == 0}">
+					            <c:when test="${i.thumbnails_idx == 0}">
 						            <div class="news_img">
 										<img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
 						            </div>   
