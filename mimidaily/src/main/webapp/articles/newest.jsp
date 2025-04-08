@@ -12,6 +12,10 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/articlesList.css">
 <script type="module" src="/script/newsAside.js"></script>
+<style>
+	.title_box{display:flex;align-items: center;}
+	.title_box .category{white-space: nowrap;padding: 0.3rem 0.5rem;margin-right:0.5rem; }
+</style>
 </head>  
 <body>
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
@@ -47,18 +51,20 @@
 					            </c:otherwise>
 					        </c:choose>
 							<div class="contents">
-								<c:choose>
-					                <c:when test="${i.category == 1}">
-					                    <div class="category">여행지</div>
-					                </c:when> 
-					                <c:when test="${i.category == 2}">
-					                    <div class="category">맛집</div>
-					                </c:when>
-					                <c:otherwise>
-					                    <div class="category">기타</div> <!-- 기본값 추가 -->
-					                </c:otherwise>
-					            </c:choose>
-								<div class="title">${ i.title }</div>
+								<div class="title_box">
+									<c:choose>
+						                <c:when test="${i.category == 1}">
+						                    <div class="category">여행지</div>
+						                </c:when> 
+						                <c:when test="${i.category == 2}">
+						                    <div class="category">맛집</div>
+						                </c:when>
+						                <c:otherwise>
+						                    <div class="category">기타</div> <!-- 기본값 추가 -->
+						                </c:otherwise>
+						            </c:choose>
+									<div class="title">${ i.title }</div>
+								</div>
 								<div class="context">${ i.content }</div> 
 								<p class="date">${ i.formattedDate }</p>
 							</div>

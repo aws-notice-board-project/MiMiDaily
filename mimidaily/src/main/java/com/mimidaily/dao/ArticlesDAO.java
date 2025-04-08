@@ -234,7 +234,6 @@ public class ArticlesDAO extends DBConnPool {
                 dto.setCreated_at(rs.getTimestamp(5));
                 dto.setVisitcnt(rs.getInt(6));
                 dto.setMembers_id(rs.getString(7));
-                dto.setThumbnails_idx(rs.getInt(8));
                 
                 // 멤버 정보 설정
                 dto.setMemberName(rs.getString("member_name")); // 멤버 이름
