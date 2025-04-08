@@ -241,14 +241,14 @@ public class ArticlesEDAO extends DBConnPool {
     // 해시태그 처리: 해시태그 문자열을 받아 파싱 후 해시태그 테이블과 교차테이블에 삽입
     public void processHashtags(int articleId, String hashtagStr) {
         if (hashtagStr == null || hashtagStr.trim().isEmpty()) return;
-        String[] tags = hashtagStr.split(",");
+        String[] tags = hashtagStr.split("\\s");
         for (String tag : tags) {
             tag = tag.trim();
             if (tag.startsWith("#")) {
                 tag = tag.substring(1);
             }
             // 불필요한 기호 및 공백 제거
-            tag = tag.replaceAll("[,\\s]+", "");
+            //tag = tag.replaceAll("[,\\s]+", "");
             if (tag.isEmpty()) continue;
             int hashtagId = getHashtagId(tag);
             if (hashtagId == 0) {
