@@ -30,14 +30,14 @@ public class ArticlesDAO extends DBConnPool {
  			while(rs.next()) {
  				ArticlesDTO dto=new ArticlesDTO();
  				dto.setIdx(rs.getInt(1));
-                 dto.setTitle(rs.getString(2));
-                 dto.setContent(rs.getString(3));
-                 dto.setCategory(rs.getInt(4));
-                 dto.setCreated_at(rs.getTimestamp(5));
-                 dto.setVisitcnt(rs.getInt(6));
-                 dto.setMembers_id(rs.getString(7));
-                 dto.setThumbnails_idx(rs.getInt(8));
-                 viewest.add(dto);
+                dto.setTitle(rs.getString(2));
+                dto.setContent(rs.getString(3));
+                dto.setCategory(rs.getInt(4));
+                dto.setCreated_at(rs.getTimestamp(5));
+                dto.setVisitcnt(rs.getInt(6));
+                dto.setMembers_id(rs.getString(7));
+                dto.setThumbnails_idx(rs.getInt(8));
+                viewest.add(dto);
  			}
  		}catch(Exception e) {e.getStackTrace();}
  		return viewest;

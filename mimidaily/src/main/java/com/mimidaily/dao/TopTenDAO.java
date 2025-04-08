@@ -33,6 +33,7 @@ public class TopTenDAO extends DBConnPool{
 			while(rs.next()) {
 				ArticlesDTO dto=new ArticlesDTO();
 				int articleIdx = rs.getInt(1);
+				dto.setIdx(articleIdx);
                 dto.setTitle(rs.getString(2));
                 dto.setContent(rs.getString(3));
                 dto.setCategory(rs.getInt(4));
