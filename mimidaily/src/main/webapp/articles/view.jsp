@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${ dto.title }</title>
+<script src="https://kit.fontawesome.com/e7c9242ec2.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
 </head>
@@ -17,18 +18,29 @@
 	<div class="view_container">
 		<div class="view_box cont">
 	        <div class="view_top">
-	            <h2>${ dto.idx }. ${ dto.title }</h2>
+	            <h2><span>${ dto.idx }</span> ${ dto.title }</h2>
 	            <div class="view_top_info">
-	                <span>작성자: ${ dto.members_id }</span>
-	                <span>작성일: ${fn:substring(dto.created_at, 0, 10)}</span>
-	                <span>조회수: ${ dto.visitcnt }</span>
+	                <p><b>작성일</b> ${fn:substring(dto.created_at, 0, 10)}</p>
+	                <p><b>조회수</b> ${ dto.visitcnt }</p>
 	            </div>
 	        </div>
 	        <div class="view_bottom">
 		        <div>${ dto.content }</div>
-	 	 	    <div>
+	 	 	    <div class="journalist">
 					<h3 class="hide">기자정보</h3>
-					${ dto.members_id }
+					<c:choose>
+			            <c:when test="${dto.profiles_idx == 0}">
+				              <i class="fa-solid fa-circle-user"></i>
+						</c:when>
+			            <c:otherwise>
+			            <div class="news_img">
+							<img src="${pageContext.request.contextPath}${dto.file_path}${dto.sfile}" alt="${dto.members_id}의 프로필">
+			            </div>
+			            </c:otherwise>
+			        </c:choose>
+			        <div class="journalist_info">
+						${ dto.members_id }
+			        </div>
 				</div>
 		        	
 	        </div>
