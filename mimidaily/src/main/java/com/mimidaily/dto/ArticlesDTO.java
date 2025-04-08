@@ -12,6 +12,7 @@ public class ArticlesDTO {
     private int visitcnt;
     private String members_id;
     private Integer thumnails_idx;
+    private int likes;
     
 	private String ofile;
     private String sfile;
@@ -77,6 +78,12 @@ public class ArticlesDTO {
 	}
 	public void setThumnails_idx(Integer thumnails_idx) {
 		this.thumnails_idx = thumnails_idx;
+	}
+	public int getLikes() {
+		return likes;
+	}
+	public void setLikes(int likes) {
+		this.likes = likes;
 	}
 
 	// 썸네일 관련 getter setter 추가
