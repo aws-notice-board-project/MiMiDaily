@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import com.mimidaily.dao.ArticlesEDAO;
+import com.mimidaily.dao.ArticlesDAO;
 import com.mimidaily.dto.ArticlesDTO;
 import com.mimidaily.utils.FileUtil;
 
@@ -110,7 +110,7 @@ public class WriteServlet extends HttpServlet {
         }
 
         // DAO를 통해 DB에 게시 내용 저장
-        ArticlesEDAO dao = new ArticlesEDAO();
+        ArticlesDAO dao = new ArticlesDAO();
         int articleId = dao.insertWrite(dto);
         // 해시태그 문자열은 "hashtags" 파라미터로 전달 (예: "#여행, #맛집, #공부")
         String hashtagStr = request.getParameter("hashtags");

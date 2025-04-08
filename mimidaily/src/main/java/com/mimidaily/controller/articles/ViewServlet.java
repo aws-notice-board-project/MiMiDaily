@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mimidaily.dao.ArticlesEDAO;
+import com.mimidaily.dao.ArticlesDAO;
 import com.mimidaily.dto.ArticlesDTO;
 
 /**
@@ -31,7 +31,7 @@ public class ViewServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 // 게시물 불러오기
-		ArticlesEDAO dao = new ArticlesEDAO();
+		ArticlesDAO dao = new ArticlesDAO();
         String idx = request.getParameter("idx");
         dao.updateVisitCount(idx);  // 조회수 1 증가
         ArticlesDTO dto = dao.selectView(idx);
