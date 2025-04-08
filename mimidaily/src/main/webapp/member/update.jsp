@@ -13,7 +13,7 @@
 <body id="member">
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
 	<div id="wrap">
-		<div id="logo"></div>
+		<div id="mimilogo"></div>
 		<h1 class="hide">미미일보</h1>
 		<h2>정보수정</h2>
 		<form action="#" method="post" name="update_form">
