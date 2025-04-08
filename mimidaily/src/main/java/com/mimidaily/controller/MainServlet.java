@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mimidaily.dao.ArticlesTDAO;
+import com.mimidaily.dao.ArticlesDAO;
 import com.mimidaily.dto.ArticlesDTO;
 
 /**
@@ -32,10 +32,7 @@ public class MainServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String referer = request.getHeader("Referer"); // 현재 페이지
-		request.getSession().setAttribute("previousPage", referer); // 세션에 저장
-		
-		ArticlesTDAO dao=new ArticlesTDAO();
+		ArticlesDAO dao=new ArticlesDAO();
 		List<ArticlesDTO> viewestList=dao.viewestList(); // 실시간 관심기사 best4
 		for(ArticlesDTO i:viewestList) {
 			i.getFormattedDate();
@@ -48,7 +45,8 @@ public class MainServlet extends HttpServlet {
             response.sendRedirect("/articles/newest.do?searchField=" + searchField + "&searchWord=" + searchWord);
             return; // 이후 코드 실행 방지 
         }
-
+        
+        dao.close();
         request.setAttribute("actionUrl", "main.do");
         request.setAttribute("viewestList", viewestList);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");

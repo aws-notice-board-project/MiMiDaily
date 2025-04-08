@@ -15,9 +15,9 @@
 	.profile .date{font-style: 12px; color: #8C7B7B;}
 	.info div{display: flex; justify-content: space-between; margin-bottom: 0.5rem;}
 	.info span{color: #8C7B7B;}
-	.info button.myprofile {background-color: #594543;}
-	.info button.write {background-color: #8C7B7B;}
-	.info button.btn {border-radius: 4px; color: #FBF9F9;padding: 0.5rem 0.7rem;font-size:16px;}
+	.info .btn.myprofile {background-color: #594543;}
+	.info .btn.write {background-color: #8C7B7B;}
+	.info .btn {border-radius: 4px; color: #FBF9F9;padding: 0.5rem 0.7rem;font-size:16px;}
 	.info .profile_btn{width: 100%; justify-content: space-around;margin-top: 1rem;}
 	.info .logout_box{display:flex;justify-content:center;margin:0;}
 	.info .logout {display:inline-block;margin:auto; color:#8C7B7B; font-size:16px; border-bottom: 1px solid;}
@@ -49,11 +49,11 @@
 				<div><b>댓글</b><span>${ memberInfo.commentCount }<c:if test="${ empty memberInfo.articleCount }">0</c:if>개</span></div>
 				<div class="profile_btn">
 					<c:if test="${ userRole==0 || userRole==2 }">
-						<button class="write btn" href="${pageContext.request.contextPath}/articles/write.do">기사 작성</button>
+						<a class="write btn" href="/articles/write.do">기사 작성</a>
 					</c:if>
-					<button class="myprofile btn" href="${pageContext.request.contextPath}/articles/write.do">나의 정보</button>
+					<a class="myprofile btn" href="/update.do">나의 정보</a>
 				</div>
-				<div class="logout_box"><a class="logout" href="${pageContext.request.contextPath}/logout.do">로그아웃</a></div>
+				<div class="logout_box"><a class="logout" href="/logout.do">로그아웃</a></div>
 			</div>
 		</c:if>
 		<c:if test="${ empty sessionScope.loginUser }">

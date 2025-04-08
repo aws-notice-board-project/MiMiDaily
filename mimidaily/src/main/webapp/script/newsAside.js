@@ -1,7 +1,10 @@
 $(document).ready(function() {
-
   let contentHeight=$('section.news_list').height();
   $('aside.news_right').css('height', contentHeight);
+  
+  if(contentHeight&&contentHeight<650){
+    $('.most_viewed_news.cont').css('display', 'none');
+  }
   
   // let windowHeight
   // // resize

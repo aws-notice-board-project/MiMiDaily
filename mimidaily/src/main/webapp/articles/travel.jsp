@@ -10,7 +10,7 @@
 <title>여행 뉴스</title>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" type="text/css" href="/css/main.css">
-<link rel="stylesheet" type="text/css" href="/css/travel.css">
+<link rel="stylesheet" type="text/css" href="/css/articlesList.css">
 <script type="module" src="/script/newsAside.js"></script>
 </head>
 <body>
@@ -26,24 +26,23 @@
 			<c:choose>
 				<c:when test="${ empty articleLists }">
 					<div class="empty_article">
-						<div class="news_cont"> 
+						<div class="news_cont empty"> 
 							등록된 게시물이 없습니다.
 						</div>
-						<jsp:include page="/components/usercard.jsp"></jsp:include>
 					</div>
 				</c:when>
 				<c:otherwise>
 					<c:forEach items="${ articleLists }" var="i" varStatus="loop">
-						<div class="news_cont" onclick="location.href='/articles/view.do?idx=${ i.idx }'">
+						<div class="news_cont list" onclick="location.href='/articles/view.do?idx=${ i.idx }'">
 							<c:choose>
-					            <c:when test="${not empty i.thumnails_idx}">
+					            <c:when test="${i.thumnails_idx == 0}">
 						            <div class="news_img">
 										<img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
 						            </div>   
 								</c:when>
 					            <c:otherwise>
 					            <div class="news_img">
-									<img src="" alt="${i.title} 썸네일">
+									<img src="${pageContext.request.contextPath}${i.file_path}${i.sfile}" alt="${i.title} 썸네일">
 					            </div>
 					            </c:otherwise>
 					        </c:choose>
