@@ -28,9 +28,9 @@ public class TopTenServlet extends HttpServlet {
 		List<ArticlesDTO> ttArticles = dao.selectTopArticles();  // DAO에서 상위 10개만 조회
 //		for (ArticlesDTO dto : ttArticles) {
 //		    System.out.println("---- 게시글 ----");
-//		    System.out.println("IDX: " + dto.getIdx());
 //		    System.out.println("제목: " + dto.getTitle());
-//		    System.out.println("카테고리: " + dto.getCategory());
+//			if(dto.getCategory() == 1) System.out.println("카테고리: 여행");
+//			if(dto.getCategory() == 2) System.out.println("카테고리: 맛집");
 //		    System.out.println("해시태그: " + dto.getHashtags());
 //		}
 		// DB 연결 닫기

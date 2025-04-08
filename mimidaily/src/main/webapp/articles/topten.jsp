@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Top 10</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/topten.css">
 </head>
@@ -16,7 +16,7 @@
       <c:choose>
       <c:when test="${not empty topTenArticles}">
         <c:forEach var="article" items="${topTenArticles}">
-       	<div class="news">
+       	<div class="news" onclick="location.href='/articles/view.do?idx=${ article.idx }'">
        		<div class="news_thumbnails">
 			<c:if test="${article.thumbnails_idx == 0}">
 				<img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="no image">
