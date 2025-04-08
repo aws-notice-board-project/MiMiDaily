@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>user</title>
 <style>
-	.userbox{width: 216px; margin: 1rem 0.5rem 1rem 0.5rem ; padding: 1rem; justify-content: center;display: flex;flex-direction: column;position:relative}
+	.userbox{width: 216px; margin: 1rem 0.5rem 1rem 0.5rem ; padding: 1rem; justify-content: center;display: flex;flex-direction: column;}
 	/* 로그인 O */
 	.profile{display: flex; align-items: center; margin-bottom: 1rem;}
 	.profile i{font-size: 3rem; margin-right: 1rem;}

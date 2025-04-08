@@ -94,6 +94,7 @@ public class ArticlesTDAO extends DBConnPool {
                 dto.setTitle(rs.getString(2));
                 dto.setContent(rs.getString(3));
                 dto.setCategory(rs.getInt(4));
+                dto.setCreated_at(rs.getTimestamp(5));
                 dto.setVisitcnt(rs.getInt(6));
                 dto.setMembers_id(rs.getString(7));
                 dto.setThumnails_idx(rs.getInt(8));
