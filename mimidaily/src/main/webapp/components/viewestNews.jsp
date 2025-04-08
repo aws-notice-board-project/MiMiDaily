@@ -26,7 +26,7 @@
 			<c:forEach items="${ viewestList }" var="i" varStatus="loop">
 				<li  onclick="location.href='/articles/view.do?idx=${ i.idx }'">
 					<c:choose>
-			            <c:when test="${i.thumnails_idx != null}">
+			            <c:when test="${i.thumbnails_idx != null}">
 			            <div class="news_img">
 							<img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
 			            </div>

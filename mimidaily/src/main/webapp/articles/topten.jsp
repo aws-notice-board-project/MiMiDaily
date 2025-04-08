@@ -17,11 +17,11 @@
       <c:when test="${not empty topTenArticles}">
         <c:forEach var="article" items="${topTenArticles}">
        	<div class="news">
-       		<div class="news_thumnails">
-			<c:if test="${article.thumnails_idx == 0}">
+       		<div class="news_thumbnails">
+			<c:if test="${article.thumbnails_idx == 0}">
 				<img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="no image">
 			</c:if>
-			<c:if test="${article.thumnails_idx != 0}">
+			<c:if test="${article.thumbnails_idx != 0}">
 				<img src="${pageContext.request.contextPath}${row.file_path}${row.sfile}" alt="${article.idx}_thumbnail">
 			</c:if>	
 			</div>
@@ -33,13 +33,11 @@
 					<c:if test="${article.category == 2}">
 					<span>맛집</span>
 					</c:if>
-					<c:choose>
-				    <c:when test="${empty article.hashtags}">
-				    </c:when>
-				    <c:otherwise>
-				        <span>여행</span>
-				    </c:otherwise>
-					</c:choose>
+		            <c:if test="${not empty article.hashtags}">
+	                <c:forEach var="tag" items="${article.hashtags}">
+                    <span class="hashtag">#${tag}</span>
+	                </c:forEach>
+		            </c:if>
        			</p>
 	       		<p>${article.title}</p>
        		</div>
