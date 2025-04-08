@@ -49,14 +49,13 @@ form {
 
 .id_box label {
     font-size: 20px;
+    height: 100%;
 }
 
 .id_box input {
-    height: 100%;
     border-width: 0 0 1px;
     background: rgba(0, 0, 0, 0);
     border-color: var(--mimiDark);
-    padding-top: 30px;
 }
 
 .pw_box {
@@ -70,14 +69,13 @@ form {
 
 .pw_box label {
     font-size: 20px;
+    height: 100%;
 }
 
 .pw_box input {
-    height: 100%;
     border-width: 0 0 1px;
     background: rgba(0, 0, 0, 0);
     border-color: var(--mimiDark);
-    padding-top: 30px;
 }
 
 .join_btn {
