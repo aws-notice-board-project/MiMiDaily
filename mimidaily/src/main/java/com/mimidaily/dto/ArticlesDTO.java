@@ -2,28 +2,33 @@ package com.mimidaily.dto;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArticlesDTO {
-    private int idx;
-    private String title;
-    private String content;
-    private int category;
-    private Timestamp created_at;
-    private int visitcnt;
-    private String members_id;
-    private Integer thumnails_idx;
-    private int likes;
+  private int idx;
+  private String title;
+  private String content;
+  private int category;
+  private Timestamp created_at;
+  private int visitcnt;
+  private String members_id;
+  private Integer thumbnails_idx;
+  private int likes;
     
 	private String ofile;
-    private String sfile;
+  private String sfile;
 	private String file_path;
 	private long file_size;
 	private String file_type;
 
+
 	// 추가된 멤버 정보
-    private String member_name; // 멤버 이름
-    private String member_email; // 멤버 이메일
-    private boolean is_liked; // 현재 사용자가 좋아요 눌렀는지의 여부
+  private String member_name; // 멤버 이름
+  private String member_email; // 멤버 이메일
+  private boolean is_liked; // 현재 사용자가 좋아요 눌렀는지의 여부
+
+	private List<String> hashtags=new ArrayList<String>();
 
 	// 포맷된 날짜 getter
     public String getFormattedDate() {
@@ -76,11 +81,11 @@ public class ArticlesDTO {
 	public void setMembers_id(String members_id) {
 		this.members_id = members_id;
 	}
-	public Integer getThumnails_idx() {
-		return thumnails_idx;
+	public Integer getThumbnails_idx() {
+		return thumbnails_idx;
 	}
-	public void setThumnails_idx(Integer thumnails_idx) {
-		this.thumnails_idx = thumnails_idx;
+	public void setThumbnails_idx(Integer thumnails_idx) {
+		this.thumbnails_idx = thumnails_idx;
 	}
 	public int getLikes() {
 		return likes;
@@ -146,5 +151,14 @@ public class ArticlesDTO {
 	public boolean getIsLiked() {
 		return is_liked;
 	}
+  
+  // 해시태그
+	public ArrayList<String> getHashtags() {
+		return (ArrayList<String>) hashtags;
+	}
+	public void setHashtags(List<String> hashtags) {
+		this.hashtags = hashtags;
+	}
 	
 }
+
