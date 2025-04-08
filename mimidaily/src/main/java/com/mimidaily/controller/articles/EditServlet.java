@@ -133,7 +133,7 @@ public class EditServlet extends HttpServlet {
         // 게시글 번호와 해시태그 문자열을 넘겨 해시태그 처리
         if (articleId > 0) {
             dao.processHashtags(articleId, hashtagStr);
-            response.sendRedirect("../mvcboard/view.do?idx=" + idx);
+            response.sendRedirect("../articles/view.do?idx=" + idx);
         } else {
             System.out.println("기사 수정 실패");
         }
