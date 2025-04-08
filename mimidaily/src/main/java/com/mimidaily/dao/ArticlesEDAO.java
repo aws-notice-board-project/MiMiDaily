@@ -1,5 +1,8 @@
 package com.mimidaily.dao;
 
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -90,58 +93,63 @@ public class ArticlesEDAO extends DBConnPool {
     }
     
     public int insertWrite(ArticlesDTO dto) {
-        int result = 0;
-        try {
-            // 파일 업로드가 없을 경우: ofile 값이 null 또는 빈 문자열
-            if (dto.getOfile() == null || dto.getOfile().trim().equals("")) {
-                // 파일 관련 컬럼 없이 articles 테이블에만 INSERT
-                String query = "INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) " +
-                               "VALUES (articles_seq.NEXTVAL, ?, ?, ?, ?, 0, ?, NULL)";
-                psmt = con.prepareStatement(query);
-                psmt.setString(1, dto.getTitle());
-                psmt.setString(2, dto.getContent());
-                psmt.setInt(3, dto.getCategory());
-                psmt.setTimestamp(4, dto.getCreated_at());
-                psmt.setString(5, dto.getMembers_id());
-                result = psmt.executeUpdate();
-            } else {
-                // 파일이 업로드된 경우: PL/SQL 블록을 사용하여 thumbnails와 articles 모두 INSERT
-                String query = 
-                    "DECLARE " +
-                    "  v_t_seq NUMBER; " +
-                    "  v_a_seq NUMBER; " +
-                    "BEGIN " +
-                    "  SELECT thumbnails_seq.NEXTVAL, articles_seq.NEXTVAL INTO v_t_seq, v_a_seq FROM dual; " +
-                    "  INSERT INTO thumbnails (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
-                    "  VALUES (v_t_seq, ?, ?, ?, ?, ?, ?); " +
-                    "  INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) " +
-                    "  VALUES (v_a_seq, ?, ?, ?, ?, 0, ?, v_t_seq); " +
-                    "END;";
-                
-                psmt = con.prepareStatement(query);
-                
-                // thumbnails INSERT 파라미터 (순서대로)
-                psmt.setString(1, dto.getOfile());         // ofile
-                psmt.setString(2, dto.getSfile());           // sfile
-                psmt.setString(3, dto.getFile_path());       // file_path
-                psmt.setLong(4, dto.getFile_size());         // file_size
-                psmt.setString(5, dto.getFile_type());       // file_type
-                psmt.setTimestamp(6, dto.getCreated_at());   // created_at
-                
-                // articles INSERT 파라미터 (순서대로)
-                psmt.setString(7, dto.getTitle());           // title
-                psmt.setString(8, dto.getContent());         // content
-                psmt.setInt(9, dto.getCategory());           // category
-                psmt.setTimestamp(10, dto.getCreated_at());    // created_at
-                psmt.setString(11, dto.getMembers_id());     // members_id
-                
-                result = psmt.executeUpdate();
-            }
-        } catch (Exception e) {
-            System.out.println("게시물 입력 중 예외 발생");
-            e.printStackTrace();
-        }
-        return result;
+    	  int articleId = 0;
+          try {
+              if (dto.getOfile() == null || dto.getOfile().trim().equals("")) {
+                  // 파일 업로드가 없는 경우: articles 테이블에만 INSERT
+                  String query = "INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) " +
+                                 "VALUES (articles_seq.NEXTVAL, ?, ?, ?, ?, 0, ?, NULL)";
+                  psmt = con.prepareStatement(query);
+                  psmt.setString(1, dto.getTitle());
+                  psmt.setString(2, dto.getContent());
+                  psmt.setInt(3, dto.getCategory());
+                  psmt.setTimestamp(4, dto.getCreated_at());
+                  psmt.setString(5, dto.getMembers_id());
+                  int result = psmt.executeUpdate();
+                  if (result > 0) {
+                      stmt = con.createStatement();
+                      rs = stmt.executeQuery("SELECT articles_seq.CURRVAL FROM dual");
+                      if (rs.next()) {
+                          articleId = rs.getInt(1);
+                      }
+                  }
+              } else {
+                  // 파일 업로드가 있는 경우: PL/SQL 블록을 사용하여 thumbnails와 articles 모두 INSERT
+                  String query = 
+                      "DECLARE " +
+                      "  v_t_seq NUMBER; " +
+                      "  v_a_seq NUMBER; " +
+                      "BEGIN " +
+                      "  SELECT thumbnails_seq.NEXTVAL, articles_seq.NEXTVAL INTO v_t_seq, v_a_seq FROM dual; " +
+                      "  INSERT INTO thumbnails (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
+                      "  VALUES (v_t_seq, ?, ?, ?, ?, ?, ?); " +
+                      "  INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) " +
+                      "  VALUES (v_a_seq, ?, ?, ?, ?, 0, ?, v_t_seq); " +
+                      "  ? := v_a_seq; " +
+                      "END;";
+                  CallableStatement cstmt = con.prepareCall(query);
+                  // thumbnails INSERT 파라미터
+                  cstmt.setString(1, dto.getOfile());
+                  cstmt.setString(2, dto.getSfile());
+                  cstmt.setString(3, dto.getFile_path());
+                  cstmt.setLong(4, dto.getFile_size());
+                  cstmt.setString(5, dto.getFile_type());
+                  cstmt.setTimestamp(6, dto.getCreated_at());
+                  // articles INSERT 파라미터
+                  cstmt.setString(7, dto.getTitle());
+                  cstmt.setString(8, dto.getContent());
+                  cstmt.setInt(9, dto.getCategory());
+                  cstmt.setTimestamp(10, dto.getCreated_at());
+                  cstmt.setString(11, dto.getMembers_id());
+                  cstmt.registerOutParameter(12, java.sql.Types.INTEGER);
+                  cstmt.execute();
+                  articleId = cstmt.getInt(12);
+              }
+          } catch (Exception e) {
+              System.out.println("게시물 입력 중 예외 발생");
+              e.printStackTrace();
+          }
+          return articleId;
     }
     
 
@@ -228,6 +236,81 @@ public class ArticlesEDAO extends DBConnPool {
             e.printStackTrace();
         }
         return result;
+    }
+    
+    // 해시태그 처리: 해시태그 문자열을 받아 파싱 후 해시태그 테이블과 교차테이블에 삽입
+    public void processHashtags(int articleId, String hashtagStr) {
+        if (hashtagStr == null || hashtagStr.trim().isEmpty()) return;
+        String[] tags = hashtagStr.split(",");
+        for (String tag : tags) {
+            tag = tag.trim();
+            if (tag.startsWith("#")) {
+                tag = tag.substring(1);
+            }
+            // 불필요한 기호 및 공백 제거
+            tag = tag.replaceAll("[,\\s]+", "");
+            if (tag.isEmpty()) continue;
+            int hashtagId = getHashtagId(tag);
+            if (hashtagId == 0) {
+                hashtagId = insertHashtag(tag);
+            }
+            insertHashtagArticleRelation(hashtagId, articleId);
+        }
+    }
+    
+    // 해시태그 존재 확인. 존재하면 해당 idx 반환, 없으면 0 반환
+    private int getHashtagId(String tag) {
+        int id = 0;
+        String sql = "SELECT idx FROM hashtags WHERE name = ?";
+        try {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, tag);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("idx");
+            }
+            rs.close();
+            pstmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+    
+    // 새로운 해시태그 삽입 후 생성된 idx 반환 (시퀀스 hashtags_seq가 있어야 함)
+    private int insertHashtag(String tag) {
+        int id = 0;
+        String sql = "INSERT INTO hashtags(idx, name) VALUES(hashtags_seq.nextval, ?)";
+        try {
+            PreparedStatement pstmt = con.prepareStatement(sql, new String[] { "idx" });
+            pstmt.setString(1, tag);
+            int result = pstmt.executeUpdate();
+            if (result > 0) {
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    id = rs.getInt(1);
+                }
+                rs.close();
+            }
+            pstmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+    
+    // 해시태그와 게시글 관계를 교차 테이블에 삽입
+    private void insertHashtagArticleRelation(int hashtagId, int articleId) {
+        String sql = "INSERT INTO hashtags_articles(hashtags_idx, articles_idx) VALUES(?, ?)";
+        try {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, hashtagId);
+            pstmt.setInt(2, articleId);
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
