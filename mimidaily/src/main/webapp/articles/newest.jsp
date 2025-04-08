@@ -52,7 +52,7 @@
 								<c:choose>
 					                <c:when test="${i.category == 1}">
 					                    <div class="category">여행지</div>
-					                </c:when>
+					                </c:when> 
 					                <c:when test="${i.category == 2}">
 					                    <div class="category">맛집</div>
 					                </c:when>

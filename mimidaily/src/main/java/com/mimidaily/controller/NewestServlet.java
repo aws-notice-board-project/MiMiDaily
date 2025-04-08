@@ -69,7 +69,7 @@ public class NewestServlet extends HttpServlet {
         dao.close(); // DB연결 close
         
         // pagenation
-        String paging=ArticlesPagination.pagingBox(totalCnt, pageSize, blockPage, pageNum, "../articles/travel.do",map);
+        String paging=ArticlesPagination.pagingBox(totalCnt, pageSize, blockPage, pageNum, "../articles/newest.do",map);
         map.put("paging", paging);
         map.put("totalCnt", totalCnt);
         map.put("pageSize", pageSize);
@@ -80,7 +80,7 @@ public class NewestServlet extends HttpServlet {
 		request.setAttribute("viewestList", viewestList);
         request.setAttribute("articleLists", articleLists);
         request.setAttribute("map", map);
-		request.getRequestDispatcher("/articles/travel.jsp").forward(request, response);
+		request.getRequestDispatcher("/articles/newest.jsp").forward(request, response);
 	}
 
 	/**
