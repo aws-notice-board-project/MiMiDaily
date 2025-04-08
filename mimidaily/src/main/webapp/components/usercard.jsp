@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>user</title>
 <style>
-	.userbox{width: 216px; margin: 1rem 0.5rem 1rem 0.5rem ; padding: 1rem;}
+	.userbox{width: 216px; margin: 1rem 0.5rem 1rem 0.5rem ; padding: 1rem; justify-content: center;display: flex;flex-direction: column;position:relative}
 	/* 로그인 O */
 	.profile{display: flex; align-items: center; margin-bottom: 1rem;}
 	.profile i{font-size: 3rem; margin-right: 1rem;}
@@ -17,8 +17,10 @@
 	.info span{color: #8C7B7B;}
 	.info button.myprofile {background-color: #594543;}
 	.info button.write {background-color: #8C7B7B;}
-	.info button.btn {border-radius: 4px; color: #FBF9F9;padding: 0.5rem 1rem;}
+	.info button.btn {border-radius: 4px; color: #FBF9F9;padding: 0.5rem 0.7rem;font-size:16px;}
 	.info .profile_btn{width: 100%; justify-content: space-around;margin-top: 1rem;}
+	.info .logout_box{display:flex;justify-content:center;margin:0;}
+	.info .logout {display:inline-block;margin:auto; color:#8C7B7B; font-size:16px; border-bottom: 1px solid;}
 	/* 로그인X */
 	.login_box {display:flex; flex-direction:column; justify-content:center;align-items:center;height:100%;}
 	.login_box p{text-align:center; font-size: 14px;margin: 0;}
@@ -41,14 +43,17 @@
 			<div class="info">
 				<div><b>방문</b><span>${visitCnt}회</span></div>
 				
-				<div><b>게시글</b><span>${ memberInfo.articleCount }<c:if test="${ empty memberInfo.articleCount }">0</c:if>개</span></div>
+				<c:if test="${ userRole==0 || userRole==2 }">
+					<div><b>게시글</b><span>${ memberInfo.articleCount }<c:if test="${ empty memberInfo.articleCount }">0</c:if>개</span></div>
+				</c:if>
 				<div><b>댓글</b><span>${ memberInfo.commentCount }<c:if test="${ empty memberInfo.articleCount }">0</c:if>개</span></div>
 				<div class="profile_btn">
 					<c:if test="${ userRole==0 || userRole==2 }">
-						<button class="write btn">글쓰기</button>
+						<button class="write btn" href="${pageContext.request.contextPath}/articles/write.do">기사 작성</button>
 					</c:if>
-					<button class="myprofile btn">나의 정보</button>
+					<button class="myprofile btn" href="${pageContext.request.contextPath}/articles/write.do">나의 정보</button>
 				</div>
+				<div class="logout_box"><a class="logout" href="${pageContext.request.contextPath}/logout.do">로그아웃</a></div>
 			</div>
 		</c:if>
 		<c:if test="${ empty sessionScope.loginUser }">

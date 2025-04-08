@@ -30,11 +30,11 @@
 							등록된 게시물이 없습니다.
 						</div>
 						<jsp:include page="/components/usercard.jsp"></jsp:include>
-					</div>
+					</div> 
 				</c:when>
 				<c:otherwise>
 					<c:forEach items="${ articleLists }" var="i" varStatus="loop">
-						<div class="news_cont">
+						<div class="news_cont" onclick="location.href='/articles/view.do?idx=${ i.idx }'">
 							<c:choose>
 					            <c:when test="${not empty i.thumnails_idx}">
 						            <div class="news_img">

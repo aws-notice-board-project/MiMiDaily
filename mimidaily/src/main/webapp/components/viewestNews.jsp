@@ -8,6 +8,14 @@
 <title>viewest news</title>
 <style>
 	.most_viewed_news{width: 216px;margin: 1rem 0.5rem 1rem 0.5rem ; padding: 1rem;}
+	.most_viewed_news .news_img {margin-right: 1rem;}
+	.most_viewed_news h3{font-size: 20px;font-weight: bold;margin-bottom: 1rem;}
+	.most_viewed_news .news_list .news_img{width: 80px;margin-right: 0.5rem;}
+	.most_viewed_news .news_list img{width: 100%;}
+	.most_viewed_news .news_list li{display: flex;align-items: center;margin-bottom: 1rem; width: 100%;}
+	.most_viewed_news .news_list h4{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-weight: 600;width: 100px;}
+	.most_viewed_news .news_list .content{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size: 14px;width: 100px;}
+	.most_viewed_news .news_list .date{color: #8C7B7B;font-size: 12px;text-align: end;}
 </style>
 </head>
 <body>
