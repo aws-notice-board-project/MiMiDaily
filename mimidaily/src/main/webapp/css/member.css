@@ -113,7 +113,7 @@ input[name="gender"] {
     left: 15%;
     width: 70%;
     height: 60%;
-    overflow: auto;
+    overflow: hidden;
     z-index: 150; /* 내용은 배경 위에 위치하도록 */
 }
 .close {
