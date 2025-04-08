@@ -47,7 +47,6 @@
 					            </c:otherwise>
 					        </c:choose>
 							<div class="contents">
-								<div class="title">${ i.title }</div>
 								<c:choose>
 					                <c:when test="${i.category == 1}">
 					                    <div class="category">여행지</div>
@@ -59,6 +58,7 @@
 					                    <div class="category">기타</div> <!-- 기본값 추가 -->
 					                </c:otherwise>
 					            </c:choose>
+								<div class="title">${ i.title }</div>
 								<div class="context">${ i.content }</div> 
 								<p class="date">${ i.formattedDate }</p>
 							</div>

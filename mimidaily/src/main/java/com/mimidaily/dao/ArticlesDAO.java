@@ -213,7 +213,7 @@ public class ArticlesDAO extends DBConnPool {
         ArticlesDTO dto = new ArticlesDTO(); // DTO 객체 생성
         String query = ""
                 + "SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, "
-                + "       m.name AS member_name, m.email AS member_email, a.thumbnails_idx, "
+                + "       m.name AS member_name, m.email AS member_email, a.thumnails_idx, "
                 + "       (SELECT COUNT(*) FROM likes l WHERE l.articles_idx = a.idx) AS like_count, "
                 + "       (SELECT COUNT(*) FROM likes l WHERE l.articles_idx = a.idx AND l.members_id = ?) AS is_liked "
                 + "FROM articles a "
