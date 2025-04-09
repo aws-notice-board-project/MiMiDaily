@@ -22,7 +22,6 @@ public class ArticlesDTO {
 	private long file_size;
 	private String file_type;
 
-
 	// 추가된 멤버 정보
 	private String member_name; // 멤버 이름
 	private String member_email; // 멤버 이메일
@@ -126,6 +125,14 @@ public class ArticlesDTO {
 		this.file_type = file_type;
 	}
 
+	// 해시태그
+	public ArrayList<String> getHashtags() {
+		return (ArrayList<String>) hashtags;
+	}
+	public void setHashtags(List<String> hashtags) {
+		this.hashtags = hashtags;
+	}
+	
 	// 글쓴이 정보
 	public String getMemberName() {
 		return member_name;
@@ -143,7 +150,6 @@ public class ArticlesDTO {
 		this.member_email = member_email;
 	}
 
-
 	// 현재 사용자의 해당 글의 좋아요 여부
 	public void setIsLiked(boolean is_liked) {
 		this.is_liked = is_liked;
@@ -151,14 +157,4 @@ public class ArticlesDTO {
 	public boolean getIsLiked() {
 		return is_liked;
 	}
-  
-  // 해시태그
-	public ArrayList<String> getHashtags() {
-		return (ArrayList<String>) hashtags;
-	}
-	public void setHashtags(List<String> hashtags) {
-		this.hashtags = hashtags;
-	}
-	
 }
-
