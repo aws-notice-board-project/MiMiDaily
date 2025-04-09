@@ -100,7 +100,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const birthInput = form.querySelector('[name="birth"]');
   const genderInput = form.querySelector('[name="gender"]');
   const codeInput = form.querySelector('[name="code"]');
-
+  // id 버튼 모음
+  const idCheckBtn = document.getElementById("id_check");
+  const idUseBtn = document.getElementById("id_use");
+  
   // 에러 메시지 영역 모음
   const error = {
       id: document.querySelector('#id .error'), 
@@ -217,10 +220,30 @@ document.addEventListener('DOMContentLoaded', function() {
              regex.gender.test(genderInput.value);
   }
   
+  // id input 클릭 또는 입력 시작 시 버튼(중복확인)
+  idInput.addEventListener("focus", function() {
+    if (idInput.disabled) return; // 비활성화 상태에서는 무시
+    idCheckBtn.classList.remove('hidden');
+    idUseBtn.classList.add('hidden');
+  });
+  
+  // 사용하기 버튼 클릭 시 input 비활성화
+  idUseBtn.addEventListener("click", function() {
+    idInput.disabled = true;
+  });
+  
+  // 버튼 변경(중복확인 결과로 처리)
+    if (idInput.dataset.id_error === "사용 가능한 아이디 입니다.") {
+      idCheckBtn.classList.add('hidden');  // 중복확인 버튼 숨기기
+      idUseBtn.classList.remove('hidden'); // 사용하기 버튼 보이기
+    } else {
+      idCheckBtn.classList.remove('hidden');
+      idUseBtn.classList.add('hidden');
+    }
+  
   // id 중복 체크를 위해 servlet으로 값 넘기기
-  const idbtn = document.getElementById("id_check");
-  idbtn.addEventListener("click", function() {
-	const id=idInput.value;
+  idCheckBtn.addEventListener("click", function() {
+  const id=idInput.value;
   	var url = "join.do?id=" + id;
   	window.location.replace(url);
   	alert(idInput.dataset.id_error);

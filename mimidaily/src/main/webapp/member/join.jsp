@@ -31,6 +31,7 @@
 				<div id="id">
 					<input type="text" name="id" placeholder="아이디" data-id_error="${id_error}">
 					<input type="button" value="중복 확인" id="id_check">
+					<input type="button" value="사용하기" id="id_use" class="hidden">
 					<p class="error hidden"></p>
 				</div>
 				<div id="pw">
