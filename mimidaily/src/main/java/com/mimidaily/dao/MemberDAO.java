@@ -83,15 +83,7 @@ public class MemberDAO extends DBConnPool {
             psmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // 자원 반납
-            try {
-                if (rs != null) rs.close();
-                if (psmt != null) psmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        } 
         return visitcnt; // 증가된 방문 횟수 반환
     }
     

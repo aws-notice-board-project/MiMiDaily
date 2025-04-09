@@ -74,7 +74,6 @@ ArticlesDAO dao=new ArticlesDAO();
         map.put("pageSize", pageSize);
 		map.put("pageNum", pageNum);
 		
-		dao.close();
         // 전달할 데이터 request 영역에 저장 ("이름",데이터)
 		request.setAttribute("actionUrl", "/articles/musteat.do");
 		request.setAttribute("viewestList", viewestList);
