@@ -47,7 +47,8 @@ public class JoinServlet extends HttpServlet {
 		}
 		request.setAttribute("id_error", ide);
 		
-		mDao.close();
+		// 기자 인증 코드 확인?
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);//주소가 변경되지 않음.
 	}
@@ -75,7 +76,6 @@ public class JoinServlet extends HttpServlet {
 		} else {
 			request.setAttribute("success_msg", "회원 가입에 실패했습니다.");
 		}
-		mDao.close();
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}
