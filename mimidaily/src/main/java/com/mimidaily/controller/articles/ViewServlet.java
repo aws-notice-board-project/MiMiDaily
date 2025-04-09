@@ -33,6 +33,7 @@ public class ViewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String memberId = (String) request.getSession().getAttribute("loginUser");
 		// 게시물 불러오기
 		ArticlesDAO aDao = new ArticlesDAO();
 		// 글쓴이(기자) 불러오기
@@ -40,7 +41,7 @@ public class ViewServlet extends HttpServlet {
 		
         String idx = request.getParameter("idx");
         aDao.updateVisitCount(idx);  // 조회수 1 증가
-        ArticlesDTO aDto = aDao.selectView(idx);
+        ArticlesDTO aDto = aDao.selectView(idx, memberId);
         List<ArticlesDTO> viewestList=aDao.viewestList(); // 실시간 관심기사 best4
         MemberDTO mDto = mDao.writer(aDto.getMembers_id()); // 글쓴이
         // 줄바꿈 처리
