@@ -230,6 +230,9 @@ public class ArticlesDAO extends DBConnPool {
                 dto.setMembers_id(rs.getString(7));
                 dto.setThumbnails_idx(rs.getInt(8));
                 
+                // 해시태그
+                dto.setHashtags(hashtagsByArticle(rs.getInt(1)));
+                
                 // 썸네일 정보 로드
 	            loadThumbnail(dto);
                 
@@ -466,7 +469,7 @@ public class ArticlesDAO extends DBConnPool {
                 dto.setMembers_id(rs.getString(7));
                 dto.setThumbnails_idx(rs.getInt(8));
                 dto.setLikes(rs.getInt(10));
-                dto.setHashtags(getHashtagsByArticle(rs.getInt(1)));  // 해시태그 목록 추가
+                dto.setHashtags(hashtagsByArticle(rs.getInt(1)));  // 해시태그 목록 추가
 				article.add(dto);
 			}
 		}catch(Exception e) {
@@ -477,7 +480,7 @@ public class ArticlesDAO extends DBConnPool {
 	}
 	
 	// 게시물 번호로 해당돠는 해시태그들 반환
-	public List<String> getHashtagsByArticle(int articleIdx) {
+	public List<String> hashtagsByArticle(int articleIdx) {
 		List<String> hashtags=new ArrayList<String>();
 		String hashtagQuery = "SELECT h.name " +
 							  "  FROM hashtags_articles ha JOIN hashtags h " +
