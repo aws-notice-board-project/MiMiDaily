@@ -29,7 +29,6 @@
 					</li>
 				</ul>
 			</div>
-			<div></div>
 		</section>
 		<aside>
 			<div class="login_box cont">
