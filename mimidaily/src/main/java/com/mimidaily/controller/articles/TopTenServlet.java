@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mimidaily.dao.TopTenDAO;
+import com.mimidaily.dao.ArticlesDAO;
 import com.mimidaily.dto.ArticlesDTO;
 
 @WebServlet("/articles/topten.do")
@@ -23,7 +23,7 @@ public class TopTenServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// DAO 생성
-		TopTenDAO dao = new TopTenDAO();
+		ArticlesDAO dao = new ArticlesDAO();
 		// 게시글 상위 10개 조회
 		List<ArticlesDTO> ttArticles = dao.selectTopArticles();  // DAO에서 상위 10개만 조회
 //		for (ArticlesDTO dto : ttArticles) {
