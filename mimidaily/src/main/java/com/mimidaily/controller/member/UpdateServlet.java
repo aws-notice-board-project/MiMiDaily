@@ -27,6 +27,7 @@ public class UpdateServlet extends HttpServlet {
 		MemberDAO mDao = new MemberDAO();
 		MemberDTO mDto = mDao.getMember(id);
 		request.setAttribute("mDto", mDto);
+		mDao.close();
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}
@@ -48,6 +49,7 @@ public class UpdateServlet extends HttpServlet {
 //		mDto.setMarketing(Boolean(admin));
 		MemberDAO mDao = new MemberDAO();
 		mDao.updateMember(mDto);
+		mDao.close();
 		response.sendRedirect("login.do");
 	}
 }
