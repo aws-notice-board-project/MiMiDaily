@@ -64,8 +64,8 @@
 			            </c:otherwise>
 			        </c:choose>
 			        <div class="journalist_info">
-						<p><b>${ writer.name }</b> 기자</p>
-						<a class="writer_mail" href="mailto:${writer.email}?subject=${writer.name} 기자님께 제보합니다.&body=제보 이메일 내용을 작성해주세요">
+						<p><b>${ writer.name }</b> <c:if test="${ writer.role==2 }">기자</c:if></p>
+						<a class="writer_email" href="mailto:${writer.email}?subject=${writer.name} 기자님께 제보합니다.&body=제보 이메일 내용을 작성해주세요">
 						    <i class="fa-regular fa-envelope"></i> ${writer.email}
 						</a>
 			        </div>
@@ -80,13 +80,15 @@
 				<jsp:include page="/components/usercard.jsp"></jsp:include>
 				<div class="likes_comments">
 					<div class="likes cont">
-						<%-- <c:choose>
-							<c:when test="${article.is_liked}"><i class="fa-solid fa-heart"></i></c:when>
+						<c:choose>
+							<c:when test="${article.is_liked}"><i class="fa-solid fa-heart" style="color:red;"></i></c:when>
 							<c:otherwise><i class="fa-regular fa-heart"></i></c:otherwise>
-						</c:choose> --%>
+						</c:choose>
+						<p>좋아요 ${article.likes}</p>
 					</div>
 					<div class="comments cont">
 						<i class="fa-solid fa-comment-dots"></i>
+						<p>댓글</p>
 					</div>
 				</div>
 				<jsp:include page="/components/viewestNews.jsp"></jsp:include>

@@ -20,8 +20,8 @@
 .view_bottom .profile_img {width:44px;height:44px;}
 .view_bottom .profile_img img {width:100%;height:100%;}
 .journalist_info{margin-left:1rem;}
-.journalist_info .writer_mail *{color:#8C7B7B;}
-.journalist_info .writer_mail:hover{border-bottom:1px solid;}
+.journalist_info .writer_email *{color:#8C7B7B;}
+.journalist_info .writer_email:hover{border-bottom:1px solid;}
 
 /* aside */
 .view_container aside.news_right{
@@ -36,7 +36,9 @@
 .view_container .most_viewed_news{height: 290px;overflow: hidden;}
 
 .view_container .likes_comments{width:100%;display:flex;justify-content:space-around;padding-left:8px;}
-.view_container .likes_comments .cont{width:80px; height:80px; border-radius:6px;}
+.view_container .likes_comments i{font-size:32px;}
+.view_container .likes_comments .cont{width:80px; height:80px; border-radius:6px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+.view_container .likes_comments .cont p{font-size:14px;}
 
 @media screen and (max-width: 820px) {
   aside.news_right{display: none;}

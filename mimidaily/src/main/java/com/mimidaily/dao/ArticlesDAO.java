@@ -235,7 +235,7 @@ public class ArticlesDAO extends DBConnPool {
                 
                 // 좋아요 수와 현재 사용자의 좋아요 여부 가져오기
                 dto.setLikes(rs.getInt("like_count")); // 좋아요 수
-                dto.setIsLiked(rs.getInt("is_liked") > 0); // 현재 사용자가 좋아요를 눌렀는지 여부 (boolean)
+                dto.setIs_liked(rs.getInt("is_liked") > 0); // 현재 사용자가 좋아요를 눌렀는지 여부 (boolean)
             }
         } catch (Exception e) {
             System.out.println("게시물 상세보기 중 예외 발생");
