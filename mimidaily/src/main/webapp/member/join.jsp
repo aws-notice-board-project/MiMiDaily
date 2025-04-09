@@ -65,6 +65,7 @@
 					<input type="button" value="인증">
 					<p class="error hidden"></p>
 				</div>
+				<span class="close" id="close2">&times;</span>
 			</div>
 			<div class="member_box">
 				<label>

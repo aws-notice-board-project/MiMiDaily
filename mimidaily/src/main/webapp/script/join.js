@@ -245,65 +245,64 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 최종 가입 버튼에 성공 여부 메세지 출력 이벤트 추가
   register.addEventListener('submit', success);
-});
-
-// 필수 입력값과 정규 표현식 검증이 모두 통과하고
-// 상단 두 체크박스가 선택된 경우에만 submit 버튼을 활성화
-function toggleSubmitButton() {
-  if (checkRequiredFields() && checkValidInputs()) {
-    document.querySelector('#join_btn input').disabled = false;
-  } else {
-    document.querySelector('#join_btn input').disabled = true;
-  }
-  document.querySelector('#join_btn input').disabled = !(document.getElementById('agree1').checked && document.getElementById('agree2').checked); 
-}
-
-// 전체 선택/해제 체크박스를 클릭하면 나머지 체크박스를 선택하거나 해제하는 함수
-function AllCheck() {
-  // 모든 체크박스를 강제로 체크 상태로 설정
-  document.getElementById('agree1').checked = true;
-  document.getElementById('agree2').checked = true;
-  document.getElementById('agree3').checked = true;
-  toggleSubmitButton();
-}
-
-// 모달 열기 함수
-  function openModal(modalId, contentUrl) {
-    const modal = document.querySelector(modalId);
-    const contentBox = modal.querySelector('.modal_content');
-    modal.style.display = 'block';
-    // AJAX로 모달 내용 불러오기
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', contentUrl, true); // contentUrl을 불러옴
-    xhr.onload = function() {
-  	if (xhr.status === 200) {
-  	        contentBox.innerHTML = xhr.responseText;
-  	}
-    };
-    xhr.send();
+  
+  // 필수 입력값과 정규 표현식 검증이 모두 통과하고
+  // 상단 두 체크박스가 선택된 경우에만 submit 버튼을 활성화
+  function toggleSubmitButton() {
+    if (checkRequiredFields() && checkValidInputs()) {
+      document.querySelector('#join_btn input').disabled = false;
+    } else {
+      document.querySelector('#join_btn input').disabled = true;
+    }
+    document.querySelector('#join_btn input').disabled = !(document.getElementById('agree1').checked && document.getElementById('agree2').checked); 
   }
 
-// 모달 닫기 함수
-function closeModal(modalId) {
-  const modal = document.getElementById(modalId);
-  modal.style.display = 'none';
-}
+  // 전체 선택/해제 체크박스를 클릭하면 나머지 체크박스를 선택하거나 해제하는 함수
+  function AllCheck() {
+    // 모든 체크박스를 강제로 체크 상태로 설정
+    document.getElementById('agree1').checked = true;
+    document.getElementById('agree2').checked = true;
+    document.getElementById('agree3').checked = true;
+    toggleSubmitButton();
+  }
 
-function success() {
-	alert(register.dataset.success_msg);
-}
-// 필수 입력값이 모두 작성되었는지 확인하는 함수
+  // 모달 열기 함수
+    function openModal(modalId, contentUrl) {
+      const modal = document.querySelector(modalId);
+      const contentBox = modal.querySelector('.modal_content');
+      modal.style.display = 'block';
+      // AJAX로 모달 내용 불러오기
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', contentUrl, true); // contentUrl을 불러옴
+      xhr.onload = function() {
+    	if (xhr.status === 200) {
+    	        contentBox.innerHTML = xhr.responseText;
+    	}
+      };
+      xhr.send();
+  }
+  // 모달 닫기 함수
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.style.display = 'none';
+  }
+  // 회원가입 성공/실패 메세지 띄우기
+  function success() {
+  	alert(register.dataset.success_msg);
+  }
+  // 필수 입력값이 모두 작성되었는지 확인하는 함수
   function checkRequiredFields() {
-    return idInput.value && pwInput.value && rpwInput.value && nameInput.value && emailInput.value;
+  	return idInput.value && pwInput.value && rpwInput.value && nameInput.value && emailInput.value;
   }
 
   // 정규 표현식 검증 함수
   function checkValidInputs() {
-    return regex.id.test(idInput.value) &&
-           regex.pw.test(pwInput.value) &&
-           pwInput.value === rpwInput.value &&
-           regex.email.test(emailInput.value) &&
-           regex.tel.test(telInput.value) &&
-           regex.birth.test(birthInput.value) &&
-           regex.gender.test(genderInput.value);
+  	return regex.id.test(idInput.value) &&
+             regex.pw.test(pwInput.value) &&
+             pwInput.value === rpwInput.value &&
+             regex.email.test(emailInput.value) &&
+             regex.tel.test(telInput.value) &&
+             regex.birth.test(birthInput.value) &&
+             regex.gender.test(genderInput.value);
   }
+});

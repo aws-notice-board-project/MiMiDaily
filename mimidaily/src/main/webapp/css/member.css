@@ -95,7 +95,7 @@ input[name="gender"] {
 /* 모달 스타일 */
 .modal {
     display: none; /* 초기에는 보이지 않게 설정 */
-    position: absolute;
+    position: fixed;
     z-index: 100;
     left: 0;
     top: 0;
@@ -108,7 +108,7 @@ input[name="gender"] {
     background-color: var(--mimiContainer); /* 모달 내용 배경 */
     margin: 5% auto;
     padding: 20px;
-    position: fix;
+    position: fixed;
     top: 20%;
     left: 15%;
     width: 70%;
