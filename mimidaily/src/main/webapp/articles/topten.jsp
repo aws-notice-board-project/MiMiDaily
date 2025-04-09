@@ -39,7 +39,7 @@
 	                </c:forEach>
 		            </c:if>
        			</p>
-	       		<p>${article.title}</p>
+	       		<article>${article.title}</article>
        		</div>
        	</div>
         </c:forEach>
