@@ -198,11 +198,11 @@ document.addEventListener('DOMContentLoaded', function() {
   codeInput.addEventListener('input', function() {
     const code=birthInput.value;
     if(!regex.code.test(code)) {
-      error.birth_code.classList.remove('hidden');
-      error.birth_code.textContent = '인증코드가 올바르지 않습니다.';
+      error.code.classList.remove('hidden');
+      error.code.textContent = '인증코드가 올바르지 않습니다.';
 	  codeInput.focus();
     }  else {
-      error.birth_code.classList.add('hidden');
+      error.code.classList.add('hidden');
     }
   });
 
