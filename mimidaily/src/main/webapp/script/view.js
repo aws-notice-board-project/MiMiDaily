@@ -18,8 +18,14 @@ export function toggleLike(articleIdx) {
           // 좋아요 상태에 따라 증가 또는 감소
           if (res.liked) {
               likesCnt.text(currentLikes + 1);
-          } else {
+              $('.view_container .likes i').addClass('fa-solid');
+              $('.view_container .likes i').removeClass('fa-regular');
+              $('.view_container .likes i').css('color', 'red');
+            } else {
               likesCnt.text(currentLikes - 1);
+              $('.view_container .likes i').addClass('fa-regular');
+              $('.view_container .likes i').removeClass('fa-solid');
+              $('.view_container .likes i').css('color', '#594543');
           }
       } else {
           console.warn('좋아요 업데이트에 실패했습니다.');

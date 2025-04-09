@@ -42,8 +42,8 @@
 				<div class="logining"> 
 					<c:if test="${ userRole==0 || userRole==2 }">
 						<a class="write btn" href="/articles/write.do">기사 작성하기</a>
-						<a class="profile btn" href="update.do">나의 정보</a>
 					</c:if>
+					<a class="profile btn" href="update.do">나의 정보</a>
 				</div>
 				<div class="logout_box">
 					<a class="logout" href="logout.do">로그아웃</a>
