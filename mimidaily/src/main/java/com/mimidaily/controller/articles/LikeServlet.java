@@ -48,6 +48,8 @@ public class LikeServlet extends HttpServlet {
 	        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid article ID");
 	        return; // 잘못된 ID인 경우 종료
 	    }
+	    
+	    dao.close();
 
 	    // 좋아요 추가 또는 제거 로직
 	    boolean isLiked = dao.isLiked(memberId, articleIdx);
