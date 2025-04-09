@@ -119,7 +119,8 @@ document.addEventListener('DOMContentLoaded', function() {
       email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 
       tel: /^010-?\d{4}-?\d{4}$/, 
       birth: /^\d{6}$/, 
-      gender: /^[1-4]$/
+      gender: /^[1-4]$/,
+	  code: /^(NEWS24X7|PRESS911|JOURN88|MEDIA2025|REP0RT10)$/
   };
 
   // 정규 표현식으로 검증
@@ -209,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('agree2').addEventListener('click', toggleSubmitButton);
   document.getElementById('agree3').addEventListener('click', toggleSubmitButton);
 
-  // 전체 선택 체크박스 클릭 시
+  // 전체 선택 체크박스 클릭 시 전체 선택 이벤트 추가
   document.getElementById('agree_all').addEventListener('click', AllCheck);
 
   // 각 버튼에 이벤트 리스너 추가
