@@ -232,21 +232,30 @@ document.addEventListener('DOMContentLoaded', function() {
     idInput.disabled = true;
   });
   
-  // 버튼 변경(중복확인 결과로 처리)
-    if (idInput.dataset.id_error === "사용 가능한 아이디 입니다.") {
-      idCheckBtn.classList.add('hidden');  // 중복확인 버튼 숨기기
-      idUseBtn.classList.remove('hidden'); // 사용하기 버튼 보이기
-    } else {
-      idCheckBtn.classList.remove('hidden');
-      idUseBtn.classList.add('hidden');
-    }
-  
   // id 중복 체크를 위해 servlet으로 값 넘기기
   idCheckBtn.addEventListener("click", function() {
-  const id=idInput.value;
-  	var url = "join.do?id=" + id;
-  	window.location.replace(url);
-  	alert(idInput.dataset.id_error);
+  	const id=idInput.value;
+  	const xhr = new XMLHttpRequest();
+  	xhr.open("GET", `join.do?id=${encodeURIComponent(id)}`, true);
+  	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+	
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState === 4 && xhr.status === 200) {
+			const message = xhr.responseText.trim();
+			// 응답 메시지를 data 속성에 저장
+			idInput.dataset.id_error = message;
+			alert(message); // 결과를 사용자에게 보여줌
+		}
+	};
+	xhr.send();
+	// 버튼 상태 변경
+	if (message === "사용 가능한 아이디 입니다.") {
+		idCheckBtn.classList.add('hidden');
+		idUseBtn.classList.remove('hidden');
+	} else {
+		idCheckBtn.classList.remove('hidden');
+		idUseBtn.classList.add('hidden');
+	}
   });
 
   // 필수 입력값이 모두 작성되었는지 확인하는 함수

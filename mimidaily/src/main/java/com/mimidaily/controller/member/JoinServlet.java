@@ -38,23 +38,23 @@ public class JoinServlet extends HttpServlet {
 		
 		// id 중복 체크 전달(id, error_msg)
 		String id = request.getParameter("id");
-		String ide;
-		MemberDAO mDao = new MemberDAO();
-		int idOk = mDao.confirmID(id);
-		if(idOk == 1) {
-			ide = "사용 불가능한 아이디 입니다.";
-		} else {
-			ide = "사용 가능한 아이디 입니다.";
+		if (id != null) {
+		    MemberDAO mDao = new MemberDAO();
+		    int idOk = mDao.confirmID(id);
+		    mDao.close();
+
+		    String ide;
+		    if (idOk == 1) {
+		        ide = "사용 불가능한 아이디 입니다.";
+		    } else {
+		        ide = "사용 가능한 아이디 입니다.";
+		    }
+
+		    response.setContentType("text/plain; charset=UTF-8");
+		    response.getWriter().write(ide);
+		    return; // 여기서 끝냄
 		}
-		mDao.close();
 		
-//		response.setCharacterEncoding("UTF-8");
-//		response.setContentType("text/plain");
-//		PrintWriter out = response.getWriter();
-//		out.print(ide);
-//		out.close();
-		
-		request.setAttribute("id_error", ide);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);//주소가 변경되지 않음.
 	}
