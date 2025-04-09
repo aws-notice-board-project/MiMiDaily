@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
   } 
   const register = form.querySelector('[type="submit"]');
-  // form으로 checkbox 선택
+  // form으로 (기자/일반회원)checkbox 선택
 //  const roleType = who.querySelector('[name="role"]');
 //  const join = who.querySelector('[type="submit"]');
 //  let unchecked = document.getElementById("unchecked");
@@ -195,6 +195,27 @@ document.addEventListener('DOMContentLoaded', function() {
       error.birth_gender.classList.add('hidden');
     }
   });
+  codeInput.addEventListener('input', function() {
+    const code=birthInput.value;
+    if(!regex.code.test(code)) {
+      error.birth_code.classList.remove('hidden');
+      error.birth_code.textContent = '인증코드가 올바르지 않습니다.';
+	  codeInput.focus();
+    }  else {
+      error.birth_code.classList.add('hidden');
+    }
+  });
+
+  // 정규 표현식 검증 함수
+  function checkValidInputs() {
+  	return regex.id.test(idInput.value) &&
+             regex.pw.test(pwInput.value) &&
+             pwInput.value === rpwInput.value &&
+             regex.email.test(emailInput.value) &&
+             regex.tel.test(telInput.value) &&
+             regex.birth.test(birthInput.value) &&
+             regex.gender.test(genderInput.value);
+  }
   
   // id 중복 체크를 위해 servlet으로 값 넘기기
   const idbtn = document.getElementById("id_check");
@@ -205,56 +226,9 @@ document.addEventListener('DOMContentLoaded', function() {
   	alert(idInput.dataset.id_error);
   });
 
-  // 각 체크박스에 이벤트 리스너 추가
-  document.getElementById('agree1').addEventListener('click', toggleSubmitButton);
-  document.getElementById('agree2').addEventListener('click', toggleSubmitButton);
-  document.getElementById('agree3').addEventListener('click', toggleSubmitButton);
-
-  // 전체 선택 체크박스 클릭 시 전체 선택 이벤트 추가
-  document.getElementById('agree_all').addEventListener('click', AllCheck);
-
-  // 각 버튼에 이벤트 리스너 추가
-  document.getElementById('agree_modal_btn1').addEventListener('click', function() {
-      openModal('#agree_modal1', '../media/agree_content1.html'); // 모달1 내용 불러오기
-  });
-  document.getElementById('agree_modal_btn2').addEventListener('click', function() {
-      openModal('#agree_modal2', '../media/agree_content2.html'); // 모달2 내용 불러오기
-  });
-  document.getElementById('agree_modal_btn3').addEventListener('click', function() {
-      openModal('#agree_modal3', '../media/agree_content3.html'); // 모달3 내용 불러오기
-  });
-
-  // 각 모달 닫기 버튼에 이벤트 리스너 추가
-  document.getElementById('close1').addEventListener('click', function() {
-      closeModal('agree_modal1');
-  });
-  document.getElementById('close2').addEventListener('click', function() {
-      closeModal('agree_modal2');
-  });
-  document.getElementById('close3').addEventListener('click', function() {
-      closeModal('agree_modal3');
-  });
-  
-  // submit 버튼이 클릭되었을 때 경고창 띄우기
-  form.addEventListener('submit', function(event) {
-    if (!checkRequiredFields() || !checkValidInputs()) {
-      event.preventDefault(); // 제출 막기
-      alert('모든 필수 입력값을 작성하고, 형식에 맞게 입력해 주세요.');
-    }
-  });
-  
-  // 최종 가입 버튼에 성공 여부 메세지 출력 이벤트 추가
-  register.addEventListener('submit', success);
-  
-  // 필수 입력값과 정규 표현식 검증이 모두 통과하고
-  // 상단 두 체크박스가 선택된 경우에만 submit 버튼을 활성화
-  function toggleSubmitButton() {
-    if (checkRequiredFields() && checkValidInputs()) {
-      document.querySelector('#join_btn input').disabled = false;
-    } else {
-      document.querySelector('#join_btn input').disabled = true;
-    }
-    document.querySelector('#join_btn input').disabled = !(document.getElementById('agree1').checked && document.getElementById('agree2').checked); 
+  // 필수 입력값이 모두 작성되었는지 확인하는 함수
+  function checkRequiredFields() {
+    return idInput.value && pwInput.value && rpwInput.value && nameInput.value && emailInput.value;
   }
 
   // 전체 선택/해제 체크박스를 클릭하면 나머지 체크박스를 선택하거나 해제하는 함수
@@ -286,23 +260,61 @@ document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById(modalId);
     modal.style.display = 'none';
   }
+
+  // 각 체크박스에 이벤트 리스너 추가
+  document.getElementById('agree1').addEventListener('click', toggleSubmitButton);
+  document.getElementById('agree2').addEventListener('click', toggleSubmitButton);
+  document.getElementById('agree3').addEventListener('click', toggleSubmitButton);
+
+  // 전체 선택 체크박스 클릭 시 전체 선택 이벤트 추가
+  document.getElementById('agree_all').addEventListener('click', AllCheck);
+
+  // 각 모달 버튼에 이벤트 리스너 추가
+  document.getElementById('agree_modal_btn1').addEventListener('click', function() {
+      openModal('#agree_modal1', '../media/agree_content1.html'); // 모달1 내용 불러오기
+  });
+  document.getElementById('agree_modal_btn2').addEventListener('click', function() {
+      openModal('#agree_modal2', '../media/agree_content2.html'); // 모달2 내용 불러오기
+  });
+  document.getElementById('agree_modal_btn3').addEventListener('click', function() {
+      openModal('#agree_modal3', '../media/agree_content3.html'); // 모달3 내용 불러오기
+  });
+
+  // 각 모달 닫기 버튼에 이벤트 리스너 추가
+  document.getElementById('close1').addEventListener('click', function() {
+      closeModal('agree_modal1');
+  });
+  document.getElementById('close2').addEventListener('click', function() {
+      closeModal('agree_modal2');
+  });
+  document.getElementById('close3').addEventListener('click', function() {
+      closeModal('agree_modal3');
+  });
+
+  // 필수 입력값과 정규 표현식 검증이 모두 통과하고
+  // 상단 두 체크박스가 선택된 경우에만 submit 버튼을 활성화
+  function toggleSubmitButton() {
+    if (checkRequiredFields() && checkValidInputs()) {
+      document.querySelector('#join_btn input').disabled = false;
+    } else {
+      document.querySelector('#join_btn input').disabled = true;
+    }
+    document.querySelector('#join_btn input').disabled = !(document.getElementById('agree1').checked && document.getElementById('agree2').checked); 
+  }
+  
+  // submit 버튼이 클릭되었을 때 경고창 띄우기
+  form.addEventListener('submit', function(event) {
+    if (!checkRequiredFields() || !checkValidInputs()) {
+      event.preventDefault(); // 제출 막기
+      alert('모든 필수 입력값을 작성하고, 형식에 맞게 입력해 주세요.');
+    }
+  });
+  
   // 회원가입 성공/실패 메세지 띄우기
   function success() {
-  	alert(register.dataset.success_msg);
-  }
-  // 필수 입력값이 모두 작성되었는지 확인하는 함수
-  function checkRequiredFields() {
-  	return idInput.value && pwInput.value && rpwInput.value && nameInput.value && emailInput.value;
+    alert(register.dataset.success_msg);
   }
 
-  // 정규 표현식 검증 함수
-  function checkValidInputs() {
-  	return regex.id.test(idInput.value) &&
-             regex.pw.test(pwInput.value) &&
-             pwInput.value === rpwInput.value &&
-             regex.email.test(emailInput.value) &&
-             regex.tel.test(telInput.value) &&
-             regex.birth.test(birthInput.value) &&
-             regex.gender.test(genderInput.value);
-  }
+  // 최종 가입 버튼에 성공 여부 메세지 출력 이벤트 추가
+  register.addEventListener('submit', success);
 });
