@@ -114,29 +114,17 @@ public class ArticlesDAO extends DBConnPool {
 			while(rs.next()) {
 				ArticlesDTO dto=new ArticlesDTO();
 				dto.setIdx(rs.getInt(1)); // rs.get...(rs의 column row) 또는 명확한 컬럼명 넣어도 됨
-	             dto.setTitle(rs.getString(2));
-	             dto.setContent(rs.getString(3));
-	             dto.setCategory(rs.getInt(4));
-	             dto.setCreated_at(rs.getTimestamp(5));
-	             dto.setVisitcnt(rs.getInt(6));
-	             dto.setMembers_id(rs.getString(7));
-	             dto.setThumbnails_idx(rs.getInt(8));
+	            dto.setTitle(rs.getString(2));
+	            dto.setContent(rs.getString(3));
+	            dto.setCategory(rs.getInt(4));
+	            dto.setCreated_at(rs.getTimestamp(5));
+	            dto.setVisitcnt(rs.getInt(6));
+	            dto.setMembers_id(rs.getString(7));
+	            dto.setThumbnails_idx(rs.getInt(8));
 	             
-	             // 썸네일 정보를 가져오기 위한 추가 쿼리
-	             if (dto.getThumbnails_idx() != null) {
-	                 String thumbnailQuery = "SELECT ofile, sfile, file_path, file_size, file_type FROM thumbnails WHERE idx = ?";
-	                 try (PreparedStatement thumbnailPsmt = con.prepareStatement(thumbnailQuery)) {
-	                     thumbnailPsmt.setInt(1, dto.getThumbnails_idx());
-	                     ResultSet thumbnailRs = thumbnailPsmt.executeQuery();
-	                     if (thumbnailRs.next()) {
-	                         dto.setOfile(thumbnailRs.getString("ofile"));
-	                         dto.setSfile(thumbnailRs.getString("sfile"));
-	                         dto.setFile_path(thumbnailRs.getString("file_path"));
-	                         dto.setFile_size(thumbnailRs.getLong("file_size"));
-	                         dto.setFile_type(thumbnailRs.getString("file_type"));
-	                     }
-	                 }
-	             }
+	            // 썸네일 정보 로드
+	            loadThumbnail(dto);
+	             
 				article.add(dto);
 			}
 		}catch(Exception e) {
@@ -424,5 +412,26 @@ public class ArticlesDAO extends DBConnPool {
             e.printStackTrace();
         }
     }
-
+    
+    // 썸네일 정보
+    public void loadThumbnail(ArticlesDTO dto) {
+        if (dto.getThumbnails_idx() != null) {
+            String thumbnailQuery = "SELECT ofile, sfile, file_path, file_size, file_type FROM thumbnails WHERE idx = ?";
+            try (PreparedStatement thumbnailPsmt = con.prepareStatement(thumbnailQuery)) {
+                thumbnailPsmt.setInt(1, dto.getThumbnails_idx());
+                ResultSet thumbnailRs = thumbnailPsmt.executeQuery();
+                if (thumbnailRs.next()) {
+                    dto.setOfile(thumbnailRs.getString("ofile"));
+                    dto.setSfile(thumbnailRs.getString("sfile"));
+                    dto.setFile_path(thumbnailRs.getString("file_path"));
+                    dto.setFile_size(thumbnailRs.getLong("file_size"));
+                    dto.setFile_type(thumbnailRs.getString("file_type"));
+                }
+            } catch (Exception e) {
+                System.out.println("썸네일 조회 중 예외 발생");
+                e.printStackTrace();
+            }
+        }
+    }
+    
 }

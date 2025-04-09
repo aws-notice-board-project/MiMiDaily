@@ -39,7 +39,8 @@
 			            </c:otherwise>
 			        </c:choose> --%>
 			        <div class="journalist_info">
-						${ dto.likes }
+						${ dto.member_name }
+						${ dto.member_email }
 			        </div>
 				</div>
 		        	
