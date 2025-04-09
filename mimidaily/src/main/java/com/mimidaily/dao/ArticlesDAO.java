@@ -275,10 +275,12 @@ public class ArticlesDAO extends DBConnPool {
     }
 
     // 게시글 데이터를 받아 DB에 저장되어 있던 내용을 갱신합니다(파일 업로드 지원).
-    public int updatePost(ArticlesDTO dto) {
+    public int updatePost(ArticlesDTO dto, String idx, String thumb_idx) {
         int updatedArticleId = 0;
         try {
             if (dto.getOfile() == null || dto.getOfile().trim().equals("")) {
+            	System.out.println("updatePost");
+            	System.out.println(idx);
                 // 파일 업로드 없이 단순히 게시글의 제목, 내용, 카테고리 등만 수정하는 경우:
                 String query = "UPDATE articles " +
                                "SET title = ?, content = ?, category = ?, created_at = ? " +
@@ -288,10 +290,10 @@ public class ArticlesDAO extends DBConnPool {
                 psmt.setString(2, dto.getContent());
                 psmt.setInt(3, dto.getCategory());
                 psmt.setTimestamp(4, dto.getCreated_at());
-                psmt.setInt(5, dto.getIdx());  // 수정할 게시글의 번호
+                psmt.setString(5, idx);  // 수정할 게시글의 번호
                 int result = psmt.executeUpdate();
                 if (result > 0) {
-                    updatedArticleId = dto.getIdx();
+                    updatedArticleId = Integer.parseInt(idx);
                 }
             } else {
                 // 파일 업로드가 있는 경우: PL/SQL 블록을 사용해서 thumbnails와 articles 모두 업데이트
@@ -322,18 +324,18 @@ public class ArticlesDAO extends DBConnPool {
                 cstmt.setLong(4, dto.getFile_size());
                 cstmt.setString(5, dto.getFile_type());
                 cstmt.setTimestamp(6, dto.getCreated_at());
-                cstmt.setInt(7, dto.getThumbnails_idx());  // 기존 썸네일 idx가 dto에 있어야 함
+                cstmt.setString(7, thumb_idx);  // 기존 썸네일 idx가 dto에 있어야 함
                 
                 // 2. articles 업데이트 파라미터 (순서대로)
                 cstmt.setString(8, dto.getTitle());
                 cstmt.setString(9, dto.getContent());
                 cstmt.setInt(10, dto.getCategory());
                 cstmt.setTimestamp(11, dto.getCreated_at());
-                cstmt.setInt(12, dto.getThumbnails_idx());
-                cstmt.setInt(13, dto.getIdx());  // 수정할 게시글의 번호
+                cstmt.setString(12, thumb_idx);
+                cstmt.setString(13, idx);  // 수정할 게시글의 번호
                 
                 cstmt.execute();
-                updatedArticleId = dto.getIdx();
+                updatedArticleId = Integer.parseInt(idx);
             }
         } catch (Exception e) {
             System.out.println("게시물 수정 중 예외 발생");

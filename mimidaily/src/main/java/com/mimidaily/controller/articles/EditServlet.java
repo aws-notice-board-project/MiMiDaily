@@ -55,10 +55,10 @@ public class EditServlet extends HttpServlet {
         // 1. 파일 업로드 처리 =============================
         // 업로드 디렉터리의 물리적 경로 확인
         String saveDirectory = request.getServletContext().getRealPath("/uploads");
-        System.out.println(saveDirectory);
 
         // 파일 업로드
         Part filePart = request.getPart("ofile");
+        
         String originalFileName = "";
         if (filePart != null && filePart.getSize() > 0) {
             try {
@@ -76,18 +76,22 @@ public class EditServlet extends HttpServlet {
         // 2. 파일 업로드 외 처리 =============================
         // 수정 내용을 매개변수에서 얻어옴
 		String idx = request.getParameter("idx");
+		String thumb_idx = request.getParameter("prevthumbnails_idx");
 		String members_id = request.getParameter("members_id");
         String prevOfile = request.getParameter("prevOfile");
         String prevSfile = request.getParameter("prevSfile");
+        String prevfile_path = request.getParameter("prevfile_path");
+        String prevfile_size_gp = request.getParameter("prevfile_size");
+        long prevfile_size = 0;
+        prevfile_size = Long.parseLong(prevfile_size_gp);
+        String prevfile_type = request.getParameter("prevfile_type");
         String title = request.getParameter("title");                                         
         String content = request.getParameter("content");
-
-
+        
         ArticlesDTO dto = new ArticlesDTO();
 		dto.setMembers_id(members_id);
         dto.setTitle(title);
         dto.setContent(content);
-
 
         String categoryParam = request.getParameter("category");
         if (categoryParam != null && !categoryParam.isEmpty()) {
@@ -109,12 +113,19 @@ public class EditServlet extends HttpServlet {
         
 
    // 원본 파일명과 저장된 파일 이름 설정
-        if (originalFileName != "") {             
+        if (originalFileName != "") { 
         	String savedFileName = FileUtil.renameFile(saveDirectory, originalFileName);
         	
             dto.setOfile(originalFileName);  // 원래 파일 이름
             dto.setSfile(savedFileName);  // 서버에 저장된 파일 이름
 
+            // 파일의 Part 객체에서 추가 정보를 추출합니다.
+            long fileSize = filePart.getSize(); // 파일 크기
+            String fileType = filePart.getContentType(); // 파일 유형(MIME 타입)
+            dto.setFile_size(fileSize);
+            dto.setFile_type(fileType);
+            dto.setFile_path("/uploads/");
+            
             // 기존 파일 삭제
             FileUtil.deleteFile(request, "/uploads", prevSfile);
         }
@@ -122,16 +133,26 @@ public class EditServlet extends HttpServlet {
             // 첨부 파일이 없으면 기존 이름 유지
             dto.setOfile(prevOfile);
             dto.setSfile(prevSfile);
+            dto.setFile_size(prevfile_size);
+            dto.setFile_type(prevfile_type);
+            dto.setFile_path(prevfile_path);
         }
 
         // DAO를 통해 DB에 게시 내용 저장
 
         ArticlesDAO dao = new ArticlesDAO();
-        int articleId = dao.updatePost(dto);
+        int articleId = 0;
+        if (thumb_idx != null) {
+            articleId = dao.updatePost(dto, idx, thumb_idx);
+        } else {
+            articleId = dao.updatePost(dto, idx, thumb_idx);
+        }
+
         // 해시태그 문자열은 "hashtags" 파라미터로 전달 (예: "#여행, #맛집, #공부")
         String hashtagStr = request.getParameter("hashtags");
         // 게시글 번호와 해시태그 문자열을 넘겨 해시태그 처리
         if (articleId > 0) {
+        	System.out.println("기사 수정 성공");
             dao.processHashtags(articleId, hashtagStr);
             response.sendRedirect("../articles/view.do?idx=" + idx);
         } else {
