@@ -18,6 +18,7 @@
     </c:choose>
 </title>
 <script src="https://kit.fontawesome.com/e7c9242ec2.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
 <script type="module">
@@ -58,6 +59,16 @@
 				</c:if>
 
 		        <div class="news_context">${ article.content }</div>
+				
+				<c:if test="${not empty article.hashtags}">
+				<h4 class="hide">해시태그</h4>
+				<ul class="hashtags">
+					<c:forEach items="${ article.hashtags }" var="tags" varStatus="loop">
+						<li>#${ tags }</li>
+					</c:forEach>
+				</ul>
+				</c:if>
+				
 	 	 	    <div class="journalist">
 					<h3 class="hide">기자정보</h3>
 					<c:choose>
