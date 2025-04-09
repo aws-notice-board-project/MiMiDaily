@@ -57,7 +57,7 @@
 			<!-- 제목 -->
 			<div class="form_box">
 				<label for="title">제목</label>
-				<input type="text" id="title" name="title" maxlength="30" placeholder="제목을 입력하세요.">
+				<input type="text" id="title" name="title" maxlength="30" placeholder="제목을 입력하세요." required>
 			</div>
 
 			<!-- 첨부 파일 -->
@@ -69,7 +69,7 @@
 			<!-- 내용 -->
 			<div class="form_box">
 				<label for="content">내용</label>
-				<textarea id="content" name="content" rows="8" placeholder="내용을 입력하세요."></textarea>
+				<textarea id="content" name="content" rows="8" placeholder="내용을 입력하세요." required></textarea>
 			</div>
 
 			<!-- 작성시간 (숨김 처리) -->
