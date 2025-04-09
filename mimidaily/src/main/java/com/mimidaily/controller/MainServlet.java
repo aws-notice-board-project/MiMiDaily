@@ -34,9 +34,7 @@ public class MainServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArticlesDAO dao=new ArticlesDAO();
 		List<ArticlesDTO> viewestList=dao.viewestList(); // 실시간 관심기사 best4
-		for(ArticlesDTO i:viewestList) {
-			i.getFormattedDate();
-		}
+		dao.close();
 		
 		String searchField = request.getParameter("searchField");
         String searchWord = request.getParameter("searchWord");
@@ -48,7 +46,6 @@ public class MainServlet extends HttpServlet {
         	RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         	dispatcher.forward(request, response);        	
         }
-		dao.close();
 	}
 
 	/**

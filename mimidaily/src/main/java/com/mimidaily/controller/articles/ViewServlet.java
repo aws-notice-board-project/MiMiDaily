@@ -43,6 +43,7 @@ public class ViewServlet extends HttpServlet {
         ArticlesDTO aDto = aDao.selectView(idx);
         List<ArticlesDTO> viewestList=aDao.viewestList(); // 실시간 관심기사 best4
         aDao.close();
+        mDao.close();
         
         MemberDTO mDto = mDao.writer(aDto.getMembers_id());
         

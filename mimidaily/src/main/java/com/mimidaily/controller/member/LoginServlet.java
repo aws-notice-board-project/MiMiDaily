@@ -67,6 +67,7 @@ public class LoginServlet extends HttpServlet {
 			memberInfo = mDao.getMemberInfo(userid);
 			visitCnt = mDao.incrementUserVisitCnt(userid); // 방문횟수 증가 및 값 가져오기
 			role = mDao.getUserRole(userid);
+
 			request.getSession().setAttribute("memberInfo", memberInfo); // 멤버 정보
 			session.setAttribute("userRole", role);
 			session.setAttribute("visitCnt", visitCnt);
@@ -91,7 +92,8 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("message", "아이디 또는 비밀번호가 맞지 않습니다.");
 			RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 			dispatcher.forward(request, response);
-		} 
+		}
+		mDao.close();
 	}
 
 }
