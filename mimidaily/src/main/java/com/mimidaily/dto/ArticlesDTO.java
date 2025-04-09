@@ -131,11 +131,12 @@ public class ArticlesDTO {
 	}
 
 	// 현재 사용자의 해당 글의 좋아요 여부
-	public void setIsLiked(boolean is_liked) {
-		this.is_liked = is_liked;
-	}
-
-	public boolean getIsLiked() {
+	public boolean getIs_liked() {
 		return is_liked;
 	}
+
+	public void setIs_liked(boolean is_liked) {
+		this.is_liked = is_liked;
+	}
+	
 }

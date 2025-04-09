@@ -217,7 +217,7 @@ public class MemberDAO extends DBConnPool {
 		// 글쓴이 정보 가져오기
 		public MemberDTO writer(String member_id) {
 			MemberDTO mDto = null;
-		    String query = "SELECT id, name, email FROM members WHERE id = ?"; // 필요한 컬럼 선택
+		    String query = "SELECT id, name, email, role FROM members WHERE id = ?"; // 필요한 컬럼 선택
 
 		    try {
 		        psmt = con.prepareStatement(query);
@@ -229,7 +229,7 @@ public class MemberDAO extends DBConnPool {
 		            mDto.setId(rs.getString("id"));
 		            mDto.setName(rs.getString("name"));
 		            mDto.setEmail(rs.getString("email"));
-		            mDto.setEmail(rs.getString("email"));		            
+		            mDto.setRole(rs.getInt("role"));
 		        }
 		    } catch (Exception e) {
 		        e.printStackTrace();

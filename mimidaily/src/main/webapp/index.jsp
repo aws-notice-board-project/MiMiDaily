@@ -45,7 +45,7 @@
 						<a class="write btn" href="/articles/write.do">기사 작성하기</a>
 						<a class="profile btn" href="update.do">나의 정보</a>
 					</c:if>
-				</div>  	
+				</div>
 				<div class="logout_box">
 					<a class="logout" href="logout.do">로그아웃</a>
 				</div>
