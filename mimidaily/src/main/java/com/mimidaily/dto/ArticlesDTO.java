@@ -22,10 +22,7 @@ public class ArticlesDTO {
 	private long file_size;
 	private String file_type;
 
-	// 추가된 멤버 정보
-	private String name; // 멤버 이름
-	private String email; // 멤버 이메일
-	private boolean is_liked; // 현재 사용자가 좋아요 눌렀는지의 여부
+	private boolean is_liked; // 해당 게시글에 현재 사용자가 좋아요 눌렀는지의 여부
 
 	private List<String> hashtags=new ArrayList<String>();
 
@@ -132,24 +129,6 @@ public class ArticlesDTO {
 	public void setHashtags(List<String> hashtags) {
 		this.hashtags = hashtags;
 	}
-	
-	// 글쓴이 정보
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
 
 	// 현재 사용자의 해당 글의 좋아요 여부
 	public void setIsLiked(boolean is_liked) {

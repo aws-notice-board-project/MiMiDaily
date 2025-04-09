@@ -7,7 +7,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${ dto.title }</title>
+<title>
+    <c:choose>
+        <c:when test="${article.category == 1}">
+            여행 | ${article.title}
+        </c:when>
+        <c:when test="${article.category == 2}">
+            맛집 | ${article.title}
+        </c:when>
+    </c:choose>
+</title>
 <script src="https://kit.fontawesome.com/e7c9242ec2.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
@@ -16,45 +25,52 @@
 <jsp:include page="/components/navigation.jsp"></jsp:include>
 
 	<div class="view_container">
-		<div class="view_box cont">
-	        <div class="view_top">
-	            <h2><span>${ dto.idx }</span> ${ dto.title }</h2>
-	            <div class="view_top_info">
-	                <p><b>작성일</b> ${fn:substring(dto.created_at, 0, 10)}</p>
-	                <p><b>조회수</b> ${ dto.visitcnt }</p>
-	            </div>
-	        </div>
-	        <div class="view_bottom">
-		        <div>${ dto.content }</div>
-	 	 	    <div class="journalist">
-					<h3 class="hide">기자정보</h3>
-					<%-- <c:choose>
-			            <c:when test="${dto.profiles_idx == 0}">
-				              <i class="fa-solid fa-circle-user"></i>
-						</c:when>
-			            <c:otherwise>
-			            <div class="news_img">
-							<img src="${pageContext.request.contextPath}${dto.file_path}${dto.sfile}" alt="${dto.members_id}의 프로필">
-			            </div>
-			            </c:otherwise>
-			        </c:choose> --%>
-			        <div class="journalist_info">
-						${ dto.name }
-						${ dto.email }
-			        </div>
-				</div>
-		        	
-	        </div>
-	        <div>
+		<c:if test="${ sessionScope.loginUser==article.members_id }">
+			<div class="ud_btn">
 	            <button class="btn" type="button" onclick="location.href='../articles/edit.do?mode=edit&idx=${ param.idx }';">
 	                수정하기
 	            </button>
 	            <button class="btn" type="button" onclick="location.href='../mvcboard/pass.do?mode=delete&idx=${ param.idx }';">
 	                삭제하기
 	            </button>
-	            <button class="btn" type="button" onclick="location.href='../mvcboard/list.do';">
-	                목록 바로가기
-	            </button>
+	        </div>
+		</c:if>
+		<div class="view_box cont">
+	        <div class="view_top">
+	            <h2><span>${ article.idx }</span> ${ article.title }</h2>
+	            <div class="view_top_info">
+	                <span><b>작성일</b> ${fn:substring(article.created_at, 0, 10)}</span>
+	                <span><b>조회수</b> ${ article.visitcnt }</span>
+	            </div>
+	        </div>
+	        <div class="view_bottom">
+	            <c:if test="${article.thumbnails_idx != 0}">
+		            <div class="news_img">
+						<img src="${pageContext.request.contextPath}${article.file_path}${article.sfile}" alt="${article.title} 사진 자료">
+		            </div>
+				</c:if>
+
+		        <div class="news_context">${ article.content }</div>
+	 	 	    <div class="journalist">
+					<h3 class="hide">기자정보</h3>
+					<c:choose>
+			            <c:when test="${empty writer.profile_idx}">
+				              <i class="fa-solid fa-circle-user none_profile"></i>
+						</c:when>
+			            <c:otherwise>
+			            <div class="profile_img">
+							<img src="${pageContext.request.contextPath}${writer.file_path}${writer.sfile}" alt="${article.members_id}의 프로필">
+			            </div>
+			            </c:otherwise>
+			        </c:choose>
+			        <div class="journalist_info">
+						<p><b>${ writer.name }</b> 기자</p>
+						<a class="writer_mail" href="mailto:${writer.email}?subject=${writer.name} 기자님께 제보합니다.&body=제보 이메일 내용을 작성해주세요">
+						    <i class="fa-regular fa-envelope"></i> ${writer.email}
+						</a>
+			        </div>
+				</div>
+		        	
 	        </div>
 		</div>
 		
@@ -62,6 +78,17 @@
 		<aside class="news_right">
 			<div class="aside_box">
 				<jsp:include page="/components/usercard.jsp"></jsp:include>
+				<div class="likes_comments">
+					<div class="likes cont">
+						<%-- <c:choose>
+							<c:when test="${article.is_liked}"><i class="fa-solid fa-heart"></i></c:when>
+							<c:otherwise><i class="fa-regular fa-heart"></i></c:otherwise>
+						</c:choose> --%>
+					</div>
+					<div class="comments cont">
+						<i class="fa-solid fa-comment-dots"></i>
+					</div>
+				</div>
 				<jsp:include page="/components/viewestNews.jsp"></jsp:include>
 			</div>
 		</aside>
