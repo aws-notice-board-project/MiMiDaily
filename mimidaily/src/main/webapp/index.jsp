@@ -36,30 +36,23 @@
 			<c:if test="${empty sessionScope.loginUser}">
 				<p><b>미미일보</b>가 당신의 여정에 동행합니다.</p>
 				<a class="login btn" href="login.do">로그인</a>
-				<a class="register" href="join.do">회원가입</a>			
+				<a class="register" href="join.do">회원가입</a>
 			</c:if>
 			<c:if test="${not empty sessionScope.loginUser}">
 				<p><b>${sessionScope.loginUser != null ? sessionScope.loginUser : "게스트"}님</b> 환영합니다.</p>
 				<div class="logining"> 
 					<c:if test="${ userRole==0 || userRole==2 }">
-						<a class="write btn" href="write.do">기사 작성하기</a>
+						<a class="write btn" href="/articles/write.do">기사 작성하기</a>
+						<a class="profile btn" href="update.do">나의 정보</a>
 					</c:if>
-					<a class="logout btn" href="logout.do">로그아웃</a>
-				</div> 	
-			</c:if>	
+				</div>  	
+				<div class="logout_box">
+					<a class="logout" href="logout.do">로그아웃</a>
+				</div>
+			</c:if>
 			</div>
-			<div class="most_viewed_news cont">  
-				<h3>실시간 관심 기사</h3>
-				<ul class="news_list">
-					<li>
-						<img src="" alt="뉴스 이미지">
-						<div>
-							<h4>기사 제목</h4>
-							<p>기사 내용</p>
-							<p>2025.00.00</p>
-						</div>
-					</li>
-				</ul>
+			<div class="index_viewest">
+				<jsp:include page="/components/viewestNews.jsp"></jsp:include>
 			</div>
 		</aside>
 	</div>

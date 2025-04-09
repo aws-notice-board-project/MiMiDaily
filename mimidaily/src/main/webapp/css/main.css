@@ -117,6 +117,7 @@ footer{
   justify-content: center;
   align-items: center;
   font-size: 14px;
+  margin-top: 8rem;
 }
 footer hr{width: 90%;border-color: var(--mimiLight);margin: 1rem auto;}
 footer .footer_logo{width: 90%; text-align: start;margin:auto;}

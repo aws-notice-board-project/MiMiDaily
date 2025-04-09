@@ -4,7 +4,7 @@
     justify-content: center;
 }
 
-#login .cont {
+#login .content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,10 +12,9 @@
     padding: 30px 0;
 }
 
-#logo {
+#login_logo {
     width: 250px;
     height: 60px;
-    background: url(../media/images/logo.svg);
 }
 
 h2 {
@@ -48,16 +47,15 @@ form {
     justify-content: space-between;
 }
 
-.id_box span {
+.id_box label {
     font-size: 20px;
+    height: 100%;
 }
 
 .id_box input {
-    height: 100%;
     border-width: 0 0 1px;
     background: rgba(0, 0, 0, 0);
     border-color: var(--mimiDark);
-    padding-top: 30px;
 }
 
 .pw_box {
@@ -69,16 +67,15 @@ form {
     margin-top: 20px;
 }
 
-.pw_box span {
+.pw_box label {
     font-size: 20px;
+    height: 100%;
 }
 
 .pw_box input {
-    height: 100%;
     border-width: 0 0 1px;
     background: rgba(0, 0, 0, 0);
     border-color: var(--mimiDark);
-    padding-top: 30px;
 }
 
 .join_btn {
@@ -94,13 +91,17 @@ form {
     margin-right: 10px;
 }
 
-.join_btn input {
+.join_btn button {
     border: 0;
     background: rgba(0, 0, 0, 0);
     font-size: 20px;
-    color: var(--mimiDark);
+    color: var(--mimiLight);
     margin-right: 20px;
     cursor: pointer;
+}
+
+.join_btn button:hover {
+    color: var(--mimiDark);
 }
 
 .message_box {
@@ -113,10 +114,10 @@ form {
     width: 336px;
     height: 78px;
     margin-bottom: 10px;
-    background: var(--mimiDark);
+    background: var(--mimiLight);
 }
 
-.login_btn input {
+.login_btn button {
     width: 100%;
     height: 100%;
     border: 0;
@@ -124,6 +125,11 @@ form {
     cursor: pointer;
     color: #ffffff;
     font-size: 24px;
+    transition: background 0.3s;
+}
+
+.login_btn button:hover {
+    background: var(--mimiDark);
 }
 
 input:focus {

@@ -1,4 +1,4 @@
-package com.mimidaily.controller;
+package com.mimidaily.controller.member;
 
 import java.io.IOException;
 
@@ -32,7 +32,22 @@ public class UpdateServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8"); // 한글 깨짐을 방지
+		// 폼에서 입력한 회원 정보 얻어오기
+		String id = request.getParameter("id");
+		String pwd = request.getParameter("pwd");
+		String email = request.getParameter("email");
+		String tel = request.getParameter("tel");
+//		String admin = request.getParameter("admin");
+		// 회원 정보를 저장할 Model 객체 생성
+		MemberDTO mDto = new MemberDTO();
+		mDto.setId(id);
+		mDto.setPwd(pwd);
+		mDto.setEmail(email);
+		mDto.setTel(tel);
+//		mDto.setMarketing(Boolean(admin));
+		MemberDAO mDao = new MemberDAO();
+		mDao.updateMember(mDto);
+		response.sendRedirect("login.do");
 	}
 }

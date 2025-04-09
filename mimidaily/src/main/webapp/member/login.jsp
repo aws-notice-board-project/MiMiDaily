@@ -1,46 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>로그인</title>
+<title>로그인 - 미미일보</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login.css">
-
 </head>
 <body id="login">
-	<jsp:include page="/components/navigation.jsp"></jsp:include>
-	<div id="wrap">
-		<div class="cont">
-			<div id="logo"></div>
+	<jsp:include page="/components/navigation.jsp" />
+	<main id="wrap">
+		<section class="content">
+			<div id="login_logo">
+				<img src="${pageContext.request.contextPath}/media/images/logo.svg" alt="로고 이미지">
+			</div>
 			<h1 class="hide">미미일보</h1>
 			<h2>로그인</h2>
 			<form action="login.do" method="post">
 				<div class="login_box">
 					<div class="id_box">
-						<span>아이디</span>
-						<input type="text" name="userid" value="${userid}">
+						<label for="userid">아이디</label>
+						<input type="text" id="userid" name="userid" value="${userid}" required>
 					</div>
 					<div class="pw_box">
-						<span>비밀번호</span>
-						<input type="password" name="pwd">
+						<label for="pwd">비밀번호</label>
+						<input type="password" id="pwd" name="pwd" required>
 					</div>
 				</div>
 				<div class="join_btn">
 					<span>아직 회원이 아니신가요?</span>
-					<input type="button" value="회원가입" onclick="location.href='join.do'">
+					<button onclick="location.href='join.do'">회원가입</button>
 				</div>
 				<div class="message_box">
 					${message}
 				</div>
 				<div class="login_btn">
-					<input type="submit" value="로그인">
+					<button type="submit">로그인</button>
 				</div>
 			</form>
-		</div>
-	</div>
-	<jsp:include page="/components/footer.jsp"></jsp:include>
+		</section>
+	</main>
+	<jsp:include page="/components/footer.jsp" />
 </body>
 </html>

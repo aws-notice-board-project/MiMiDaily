@@ -1,4 +1,4 @@
-package com.mimidaily.controller;
+package com.mimidaily.controller.articles;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,10 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mimidaily.dao.ArticlesTDAO;
+import com.mimidaily.dao.ArticlesDAO;
 import com.mimidaily.dto.ArticlesDTO;
-
-import utils.ArticlesPagination;
+import com.mimidaily.utils.ArticlesPagination;
 
 /**
  * Servlet implementation class TravelServlet
@@ -35,7 +34,7 @@ public class TravelServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ArticlesTDAO dao=new ArticlesTDAO();
+		ArticlesDAO dao=new ArticlesDAO();
         
         // 전달할 매개변수 저장용 맵(유연성, 가독성, 재사용성)
         Map<String,Object> map=new HashMap<String,Object>();
@@ -47,8 +46,9 @@ public class TravelServlet extends HttpServlet {
 			map.put("searchField", searchField);
 			map.put("searchWord", searchWord);
 		}
+		map.put("category", 1); // 1:여행지
         
-        int totalCnt=dao.selectCnt(map); // 게시물 갯수
+        int totalCnt=dao.selectCount(map); // 게시물 갯수
         int pageSize=10; // 한 페이지에 출력할 글의 갯수
         int blockPage=5; // 페이지 번호의 갯수
         
@@ -64,17 +64,20 @@ public class TravelServlet extends HttpServlet {
         map.put("end", end);
         
         List<ArticlesDTO> articleLists=dao.selectListPage(map); // 게시물 목록 받기
+        List<ArticlesDTO> viewestList=dao.viewestList(); // 실시간 관심기사 best4
         dao.close(); // DB연결 close
         
         // pagenation
-        String paging=ArticlesPagination.pagingBox(totalCnt, pageSize, blockPage, pageNum, "../articles/travel.do");
+        String paging=ArticlesPagination.pagingBox(totalCnt, pageSize, blockPage, pageNum, "../articles/travel.do",map);
         map.put("paging", paging);
         map.put("totalCnt", totalCnt);
         map.put("pageSize", pageSize);
 		map.put("pageNum", pageNum);
 		
+		dao.close();
         // 전달할 데이터 request 영역에 저장 ("이름",데이터)
 		request.setAttribute("actionUrl", "/articles/travel.do");
+		request.setAttribute("viewestList", viewestList);
         request.setAttribute("articleLists", articleLists);
         request.setAttribute("map", map);
 		request.getRequestDispatcher("/articles/travel.jsp").forward(request, response);

@@ -35,7 +35,10 @@
 			<!-- 작성자 -->
 			<div class="form_box hide">
 				<label for="members_id">작성자</label>
-				<input type="text" id="members_id" name="members_id" readonly value="${sessionScope.loginUser}">
+				<input type="hidden" name="idx" value="${ dto.idx }"/>
+				<input type="hidden" id="members_id" name="members_id" readonly value="${dto.members_id}">
+				<input type="hidden" name="prevOfile" value="${ dto.ofile }" />
+				<input type="hidden" name="prevSfile" value="${ dto.sfile }" />
 			</div>
 
 
@@ -57,7 +60,7 @@
 			<!-- 제목 -->
 			<div class="form_box">
 				<label for="title">제목</label>
-				<input type="text" id="title" name="title" maxlength="30" placeholder="제목을 입력하세요.">
+				<input type="text" id="title" name="title" maxlength="30" value="${ dto.title }" >
 			</div>
 
 			<!-- 첨부 파일 -->
@@ -69,7 +72,7 @@
 			<!-- 내용 -->
 			<div class="form_box">
 				<label for="content">내용</label>
-				<textarea id="content" name="content" rows="8" placeholder="내용을 입력하세요."></textarea>
+				<textarea id="content" name="content" rows="8" >${ dto.content }</textarea>
 			</div>
 
 			<!-- 작성시간 (숨김 처리) -->

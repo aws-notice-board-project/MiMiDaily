@@ -1,9 +1,9 @@
-package com.mimidaily.dao;
+package com.mimidaily.dto;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
-public class MemberInfo {
+public class MemberInfoDTO {
     private String id;
     private String name;
     private int articleCount;

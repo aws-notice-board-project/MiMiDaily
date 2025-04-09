@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import com.mimidaily.common.DBConnPool;
 import com.mimidaily.dto.MemberDTO;
+import com.mimidaily.dto.MemberInfoDTO;
 
 //public class MemberDAO {
 public class MemberDAO extends DBConnPool {
@@ -95,22 +96,24 @@ public class MemberDAO extends DBConnPool {
     }
     
     // 멤버정보 가져오기(필요한 정보만)
-    public MemberInfo getMemberInfo(String memberId) {
-        MemberInfo memberInfo = null;
-        String sql = "SELECT m.id, m.name, COUNT(a.idx) AS article_count, "
-                   + "COUNT(c.idx) AS comment_count, m.created_at "
-                   + "FROM members m "
-                   + "LEFT JOIN articles a ON m.id = a.members_id "
-                   + "LEFT JOIN comments c ON a.idx = c.articles_idx "
-                   + "WHERE m.id = ? "
-                   + "GROUP BY m.id, m.name, m.created_at";
+    public MemberInfoDTO getMemberInfo(String memberId) {
+        MemberInfoDTO memberInfo = null;
+        String sql = "SELECT "
+                + "(SELECT COUNT(*) FROM articles WHERE members_id = ?) AS article_count, "
+                + "(SELECT COUNT(*) FROM comments WHERE members_id = ?) AS comment_count, "
+                + "id, name, created_at "
+                + "FROM members "
+                + "WHERE id = ?";
+
         try {
         	psmt = con.prepareStatement(sql);
             psmt.setString(1, memberId);
+            psmt.setString(2, memberId);
+            psmt.setString(3, memberId);
             rs = psmt.executeQuery();
 
             if (rs.next()) {
-                memberInfo = new MemberInfo();
+                memberInfo = new MemberInfoDTO();
                 memberInfo.setId(rs.getString("id"));
                 memberInfo.setName(rs.getString("name"));
                 memberInfo.setArticleCount(rs.getInt("article_count"));
@@ -148,14 +151,14 @@ public class MemberDAO extends DBConnPool {
 		public int insertMember(MemberDTO mDto) {
 			int result = -1;
 			String sql = "insert into members(id, pwd, name, email, tel, marketing, role, created_at) VALUES \r\n"
-					+ "    (?, ?, ?, ?, ?, '0', '1', SYSTIMESTAMP)"; // 필수 입력 값 5개
+					+ "    (?, ?, ?, ?, '0', '1', SYSTIMESTAMP)"; // 필수 입력 값 5개
 			try {
 				psmt = con.prepareStatement(sql);
 				psmt.setString(1, mDto.getId());
 				psmt.setString(2, mDto.getPwd());
 				psmt.setString(3, mDto.getName());
 				psmt.setString(4, mDto.getEmail());
-				psmt.setString(5, mDto.getTel());
+				//psmt.setString(5, mDto.getTel());
 				//psmt.setString(6, mDto.getBirth());
 				//psmt.setString(7, mDto.getGender());
 				//psmt.setBoolean(8, mDto.isMarketing());
@@ -170,12 +173,12 @@ public class MemberDAO extends DBConnPool {
 		}
 		
 		// 회원 정보 검색
-		public MemberDTO getMember(String userid) {
+		public MemberDTO getMember(String id) {
 			MemberDTO mDto = null;
-			String sql = "select * from member where userid=?";
+			String sql = "select * from members where userid=?";
 			try {
 				psmt = con.prepareStatement(sql);
-				psmt.setString(1, userid);
+				psmt.setString(1, id);
 				rs = psmt.executeQuery();
 				if (rs.next()) {
 					//Model 객체에 입력한 값을 저장
@@ -191,5 +194,23 @@ public class MemberDAO extends DBConnPool {
 				e.printStackTrace();
 			}
 			return mDto;
+		}
+		
+		//회원 정보 수정
+		public int updateMember(MemberDTO mDto) {
+			int result = -1;
+			String sql = "update members set pwd=?, email=?,"
+					+ "tel=? where id=?";
+			try {
+				psmt = con.prepareStatement(sql);
+				psmt.setString(1, mDto.getPwd());
+				psmt.setString(2, mDto.getEmail());
+				psmt.setString(3, mDto.getTel());
+				result = psmt.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				close(); }
+			return result;
 		}
 }

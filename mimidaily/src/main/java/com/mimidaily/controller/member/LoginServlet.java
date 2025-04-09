@@ -1,4 +1,4 @@
-package com.mimidaily.controller;
+package com.mimidaily.controller.member;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.mimidaily.dao.MemberDAO;
-import com.mimidaily.dao.MemberInfo;
+import com.mimidaily.dto.MemberInfoDTO;
 
 /**
  * Servlet implementation class LoginServlet
@@ -32,9 +32,10 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String referer = request.getHeader("Referer"); // 이전 페이지
+		request.getSession().setAttribute("previousPage", referer); // 세션에 저장
 		
 		 String url = "member/login.jsp"; 
-		
 		
 		  HttpSession session = request.getSession(); // session 객체 구하기 
 		  if(session.getAttribute("loginUser") != null) {// 이미 로그인 된 사용자이면 
@@ -53,7 +54,7 @@ public class LoginServlet extends HttpServlet {
 		String url = "member/login.jsp";
 		String userid = request.getParameter("userid");
 		String pwd = request.getParameter("pwd");
-		MemberInfo memberInfo = null;
+		MemberInfoDTO memberInfo = null;
 		int role = 0;
 		int visitCnt = 0;
 		MemberDAO mDao = new MemberDAO(); 
@@ -70,9 +71,21 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("userRole", role);
 			session.setAttribute("visitCnt", visitCnt);
 			session.setAttribute("loginUser", userid);
-			System.out.println("업데이트된 방문 횟수: " + visitCnt);
-			url = "main.do";
 			
+			// 세션에서 이전 페이지 URL 가져오기
+			String previousPage = (String) request.getSession().getAttribute("previousPage");
+			String lastPath = null;
+			if (previousPage != null) {
+				String[] parts = previousPage.split("/");
+				lastPath="/"+parts[parts.length - 1];
+			}
+
+			if(lastPath != null && lastPath.equals("/logout.do")){
+				url = "main.do";
+			}else if(lastPath != null && !lastPath.equals("/") && !lastPath.equals("/main.do")) {
+				url = previousPage;
+			}else {url = "main.do";}
+
 			response.sendRedirect(url); //주소변경
 		} else if (!(result == 1)) {//id 또는 비밀번호가 일치하지 않을 때
 			request.setAttribute("message", "아이디 또는 비밀번호가 맞지 않습니다.");
