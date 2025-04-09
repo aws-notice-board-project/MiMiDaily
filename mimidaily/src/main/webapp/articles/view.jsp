@@ -39,7 +39,7 @@
 			            </c:otherwise>
 			        </c:choose> --%>
 			        <div class="journalist_info">
-						
+						${ dto.likes }
 			        </div>
 				</div>
 		        	

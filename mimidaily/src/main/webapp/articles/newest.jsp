@@ -13,7 +13,7 @@
 <link rel="stylesheet" type="text/css" href="/css/articlesList.css">
 <script type="module" src="/script/newsAside.js"></script>
 <style>
-	.title_box{display:flex;align-items: center;}
+	.title_box{display:flex;align-items: center;width:100%;}
 	.title_box .category{white-space: nowrap;padding: 0.3rem 0.5rem;margin-right:0.5rem; }
 </style>
 </head>  
