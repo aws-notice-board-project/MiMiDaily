@@ -1,6 +1,7 @@
 package com.mimidaily.controller.member;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -45,9 +46,15 @@ public class JoinServlet extends HttpServlet {
 		} else {
 			ide = "사용 가능한 아이디 입니다.";
 		}
-		request.setAttribute("id_error", ide);
-		
 		mDao.close();
+		
+//		response.setCharacterEncoding("UTF-8");
+//		response.setContentType("text/plain");
+//		PrintWriter out = response.getWriter();
+//		out.print(ide);
+//		out.close();
+		
+		request.setAttribute("id_error", ide);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);//주소가 변경되지 않음.
 	}
