@@ -23,9 +23,9 @@ public class UpdateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "member/update.jsp";
-		String userid = request.getParameter("userid");
+		String id = request.getParameter("id");
 		MemberDAO mDao = new MemberDAO();
-		MemberDTO mDto = mDao.getMember(userid);
+		MemberDTO mDto = mDao.getMember(id);
 		request.setAttribute("mDto", mDto);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);

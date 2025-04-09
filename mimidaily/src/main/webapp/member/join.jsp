@@ -10,13 +10,13 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/member.css">
 <script src="${pageContext.request.contextPath}/script/join.js"></script>
 </head>
-<body id="member">
+<body id="join">
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
 	<div id="wrap">
 		<div id="mimilogo"></div>
 		<h1 class="hide">미미일보</h1>
 		<h2>회원가입</h2>
-		<form action="join.do" method="get" name="whoareyou" class="hidden">
+		<form action="join.do" method="get" name="precheck" class="hidden">
 			<label>
 				<input type="checkbox" value="reporter" name="role" class="hidden">
 				<img src="${pageContext.request.contextPath}/media/images/user.png" id="unchecked" alt="일반회원">
@@ -26,7 +26,7 @@
 				<input type="submit" value="일반 회원 가입">
 			</div>
 		</form>
-		<form action="join.do" method="post" name="join_form">
+		<form action="join.do" method="post" name="member_form">
 	        <div class="member_box">
 				<div id="id">
 					<input type="text" name="id" placeholder="아이디" data-id_error="${id_error}">
@@ -65,7 +65,6 @@
 					<input type="button" value="인증">
 					<p class="error hidden"></p>
 				</div>
-				<span class="close" id="close2">&times;</span>
 			</div>
 			<div class="member_box">
 				<label>
