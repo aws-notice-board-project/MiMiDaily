@@ -34,7 +34,7 @@
 	<div class="view_container">
 		<c:if test="${ sessionScope.loginUser==article.members_id }">
 			<div class="ud_btn">
-	            <button class="btn" type="button" onclick="location.href='../articles/edit.do?mode=edit&idx=${ param.idx }';">
+	            <button class="btn" type="button" onclick="location.href='../articles/edit.do?mode=edit&idx=${ param.idx }&thumb_idx=${ article.thumbnails_idx }';">
 	                수정하기
 	            </button>
 	            <button class="btn" type="button" onclick="location.href='../articles/delete.do?mode=delete&idx=${ param.idx }';">

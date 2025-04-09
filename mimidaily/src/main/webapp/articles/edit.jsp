@@ -5,7 +5,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>게시글 작성</title>
+	<title>기사 수정</title>
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/write.css">
 
@@ -27,9 +27,9 @@
 <body>
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
 
-	<h1 class="title">기사 쓰기</h1>
+	<h1 class="title">기사 수정</h1>
 	<div class="form_cont cont">
-		<form name="writeFrm" method="post" enctype="multipart/form-data" action="/articles/write.do"
+		<form name="editFrm" method="post" enctype="multipart/form-data" action="/articles/edit.do"
 			onsubmit="return validateForm(this);">
 
 			<!-- 작성자 -->
@@ -37,8 +37,12 @@
 				<label for="members_id">작성자</label>
 				<input type="hidden" name="idx" value="${ dto.idx }"/>
 				<input type="hidden" id="members_id" name="members_id" readonly value="${dto.members_id}">
+				<input type="hidden" name="prevthumbnails_idx" value="${ dto.thumbnails_idx }" />
 				<input type="hidden" name="prevOfile" value="${ dto.ofile }" />
 				<input type="hidden" name="prevSfile" value="${ dto.sfile }" />
+				<input type="hidden" name="prevfile_path" value="${ dto.file_path }" />
+				<input type="hidden" name="prevfile_size" value="${ dto.file_size }" />
+				<input type="hidden" name="prevfile_type" value="${ dto.file_type }" />
 			</div>
 
 
@@ -83,7 +87,7 @@
 
 			<!-- 버튼 그룹 -->
 			<div class="form_button">
-				<button type="submit">작성 완료</button>
+				<button type="submit">수정 완료</button>
 				<!-- <button type="reset">RESET</button> -->
 				<!-- <button type="button" onclick="location.href='../mvcboard/list.do';">목록 바로가기</button> -->
 			</div>

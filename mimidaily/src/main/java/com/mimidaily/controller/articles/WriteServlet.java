@@ -41,9 +41,6 @@ public class WriteServlet extends HttpServlet {
             throws ServletException, IOException {
     	String referer = request.getHeader("Referer"); // 이전 페이지
 		request.getSession().setAttribute("previousPage", referer); // 세션에 저장
-		System.out.println("1");
-		System.out.println(referer);
-		System.out.println("2");
         request.getRequestDispatcher("/articles/write.jsp").forward(request, response);
     }
 
@@ -56,7 +53,6 @@ public class WriteServlet extends HttpServlet {
         // 1. 파일 업로드 처리 =============================
         // 업로드 디렉터리의 물리적 경로 확인
         String saveDirectory = request.getServletContext().getRealPath("/uploads");
-        System.out.println(saveDirectory);
 
         // 파일 업로드
         Part filePart = request.getPart("ofile");
