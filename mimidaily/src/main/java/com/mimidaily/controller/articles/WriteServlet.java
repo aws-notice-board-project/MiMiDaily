@@ -39,6 +39,11 @@ public class WriteServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	String referer = request.getHeader("Referer"); // 이전 페이지
+		request.getSession().setAttribute("previousPage", referer); // 세션에 저장
+		System.out.println("1");
+		System.out.println(referer);
+		System.out.println("2");
         request.getRequestDispatcher("/articles/write.jsp").forward(request, response);
     }
 
@@ -115,13 +120,35 @@ public class WriteServlet extends HttpServlet {
         // 해시태그 문자열은 "hashtags" 파라미터로 전달 (예: "#여행, #맛집, #공부")
         String hashtagStr = request.getParameter("hashtags");
         // 게시글 번호와 해시태그 문자열을 넘겨 해시태그 처리
+        
+        // 글 작성 후 페이지 이동 처리
+        String url = "";
+        String previousPage = (String) request.getSession().getAttribute("previousPage");
+        String lastPath = null;
+        if (previousPage != null) {
+        	String[] parts = previousPage.split("/");
+        	lastPath="/"+parts[parts.length - 1];
+        }
         if (articleId > 0) {
-            dao.processHashtags(articleId, hashtagStr);
-            response.sendRedirect("/articles/musteat.do");
+        	dao.processHashtags(articleId, hashtagStr);
+        	
+        	if(lastPath != null && lastPath.equals("/musteat.do")){
+        		url = "/articles/musteat.do";
+        	}else if(lastPath != null && lastPath.equals("/travel.do")) {
+        		url = "/articles/travel.do";
+        	}else if(lastPath != null && lastPath.equals("/newest.do")) {
+        		url = "/articles/newest.do";
+        	}else {url = "/main.do";}
+        	
+        	response.sendRedirect(url); //주소변경
         } else {
-            System.out.println("글쓰기 실패");
+        	System.out.println("글쓰기 실패");
         }
         dao.close();
+        
+
+		
+        
     }
 
 }
