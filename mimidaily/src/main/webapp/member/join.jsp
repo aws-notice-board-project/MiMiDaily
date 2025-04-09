@@ -94,16 +94,16 @@
 			</form>
 			<!-- 모달 창들 -->
 			<div id="agree_modal1" class="modal">
-				<span class="close" id="close1">&times;</span>
 				<div class="modal_content">
 		        	로딩 중...
 				</div>
+				<span class="close" id="close1">&times;</span>
 			</div>
 			<div id="agree_modal2" class="modal">
-				<span class="close" id="close2">&times;</span>
 		        <div class="modal_content">
 		        	로딩 중...
 				</div>
+				<span class="close" id="close2">&times;</span>
 			</div>
 			<div id="agree_modal3" class="modal">
 				<span class="close" id="close3">&times;</span>
