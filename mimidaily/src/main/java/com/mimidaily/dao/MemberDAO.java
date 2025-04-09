@@ -213,4 +213,27 @@ public class MemberDAO extends DBConnPool {
 				close(); }
 			return result;
 		}
+		
+		// 글쓴이 정보 가져오기
+		public MemberDTO writer(String member_id) {
+			MemberDTO mDto = null;
+		    String query = "SELECT id, name, email FROM members WHERE id = ?"; // 필요한 컬럼 선택
+
+		    try {
+		        psmt = con.prepareStatement(query);
+		        psmt.setString(1, member_id); // memberId를 쿼리에 설정
+		        rs = psmt.executeQuery();
+
+		        if (rs.next()) {
+		            mDto = new MemberDTO(); // MemberDTO 객체 생성
+		            mDto.setId(rs.getString("id"));
+		            mDto.setName(rs.getString("name"));
+		            mDto.setEmail(rs.getString("email"));
+		            mDto.setEmail(rs.getString("email"));		            
+		        }
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+			return mDto;
+		}
 }

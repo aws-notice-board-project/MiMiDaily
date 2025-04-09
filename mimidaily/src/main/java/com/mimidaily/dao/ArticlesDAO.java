@@ -3,7 +3,7 @@ package com.mimidaily.dao;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+//import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -201,12 +201,10 @@ public class ArticlesDAO extends DBConnPool {
     public ArticlesDTO selectView(String idx) {
         ArticlesDTO dto = new ArticlesDTO(); // DTO 객체 생성
         String query = ""
-                + "SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, "
-                + "       m.name AS name, m.email AS email, a.thumnails_idx, "
+                + "SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, a.thumnails_idx, "
                 + "       (SELECT COUNT(*) FROM likes l WHERE l.articles_idx = a.idx) AS like_count, "
                 + "       (SELECT COUNT(*) FROM likes l WHERE l.articles_idx = a.idx AND l.members_id = ?) AS is_liked "
                 + "FROM articles a "
-                + "JOIN members m ON a.members_id = m.id " // 멤버 정보를 가져오기 위한 조인
                 + "WHERE a.idx = ?";
         
         try {
@@ -216,11 +214,11 @@ public class ArticlesDAO extends DBConnPool {
             rs = psmt.executeQuery(); // 쿼리문 실행
             
             // ResultSetMetaData를 사용하여 컬럼 정보 출력
-            ResultSetMetaData metaData = rs.getMetaData();
-            int columnCount = metaData.getColumnCount();
-            for (int i = 1; i <= columnCount; i++) {
-                System.out.println("Column " + i + ": " + metaData.getColumnName(i));
-            }
+			/*
+			 * ResultSetMetaData metaData = rs.getMetaData(); int columnCount =
+			 * metaData.getColumnCount(); for (int i = 1; i <= columnCount; i++) {
+			 * System.out.println("Column " + i + ": " + metaData.getColumnName(i)); }
+			 */
 
             if (rs.next()) { // 결과를 DTO 객체에 저장
                 dto.setIdx(rs.getInt(1));
@@ -230,12 +228,10 @@ public class ArticlesDAO extends DBConnPool {
                 dto.setCreated_at(rs.getTimestamp(5));
                 dto.setVisitcnt(rs.getInt(6));
                 dto.setMembers_id(rs.getString(7));
+                dto.setThumbnails_idx(rs.getInt(8));
                 
-                // 멤버 정보 설정
-                dto.setName(rs.getString("name")); // 멤버 이름
-                dto.setEmail(rs.getString("email")); // 멤버 이메일
-                
-                dto.setThumbnails_idx(rs.getInt(10));
+                // 썸네일 정보 로드
+	            loadThumbnail(dto);
                 
                 // 좋아요 수와 현재 사용자의 좋아요 여부 가져오기
                 dto.setLikes(rs.getInt("like_count")); // 좋아요 수
