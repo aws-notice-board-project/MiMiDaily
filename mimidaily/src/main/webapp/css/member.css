@@ -2,9 +2,6 @@
 .hidden {
   display: none !important;
 }
-.error {
-	color: red;
-}
 
 #wrap {
   width: 100%;
@@ -115,18 +112,17 @@ input[name="gender"] {
     margin: 5% auto;
     padding: 20px;
     position: fixed;
-    top: 10%;
+    top: 20%;
     left: 15%;
     width: 70%;
-    height: 70%;
-    overflow: auto;
+    height: 60%;
+    overflow: hidden;
     z-index: 150; /* 내용은 배경 위에 위치하도록 */
 }
 .close {
-  color: var(--mimiDark);
-  opacity: 0.5;
+  color: #aaa;
   position: absolute;
-  top: 18%;
+  top: 6%;
   right: 17%;
   font-size: 28px;
   font-weight: bold;
@@ -134,7 +130,7 @@ input[name="gender"] {
 }
 .close:hover,
 .close:focus {
-  opacity: 1;
+  color: black;
   text-decoration: none;
   cursor: pointer;
 }
