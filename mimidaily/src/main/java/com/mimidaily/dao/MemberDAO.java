@@ -175,7 +175,7 @@ public class MemberDAO extends DBConnPool {
 		// 회원 정보 검색
 		public MemberDTO getMember(String id) {
 			MemberDTO mDto = null;
-			String sql = "select * from members where userid=?";
+			String sql = "select * from members where id=?";
 			try {
 				psmt = con.prepareStatement(sql);
 				psmt.setString(1, id);

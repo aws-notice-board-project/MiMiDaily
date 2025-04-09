@@ -8,17 +8,26 @@
 <title>회원가입</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/member.css">
-<script src="${pageContext.request.contextPath}/script/join.js"></script>
+<script src="${pageContext.request.contextPath}/script/member.js"></script>
 </head>
-<body id="member">
+<body id="update">
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
 	<div id="wrap">
 		<div id="mimilogo"></div>
 		<h1 class="hide">미미일보</h1>
 		<h2>정보수정</h2>
-		<form action="#" method="post" name="update_form">
+		<form action="update.do" method="get" name="precheck" class="hidden">
+			<div id="prepw">
+				<input type="password" name="prepw" placeholder="비밀번호 입력">
+				<p class="error hidden"></p>
+			</div>
+			<div class="member_btn">
+				<input type="submit" value="확인">
+			</div>
+		</form>
+		<form action="update.do" method="post" name="member_form">
 	        <div class="member_box">
-				<div id="id">
+				<div id="disable">
 					<input type="text" name="id" placeholder="아이디" disabled>
 				</div>
 				<div id="pw">
@@ -40,15 +49,15 @@
 					<input type="text" name="tel" placeholder="연락처">
 					<p class="error hidden"></p>
 		        </div>
-		        <!-- <div id="birth_gender">
+		        <div id="birth_gender">
 					<input type="text" name="birth" placeholder="주민번호 앞자리" maxlength="6">-<input type="text" name="gender" maxlength="1"> ■ ■ ■ ■ ■ ■
 					<p class="error hidden"></p>
-		        </div> -->
-				<!-- <label>
+		        </div>
+				<label>
 					<input type="checkbox" id="agree3">
 					마케팅 활용 및 프로모션 이용 동의
 					<input type="button" id="agree_modal_btn3" value="내용 확인 >">
-	        	</label> -->
+	        	</label>
 	        </div>
 			<div class="member_btn">
 				<input type="submit" value="저장하기" data-success="${success_msg}">

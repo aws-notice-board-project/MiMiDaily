@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {  
-  const who = document.forms["whoareyou"];
-    if (!who) {
-      console.error('Form not found');
+  const pre = document.forms["precheck"];
+    if (!pre) {
+      console.error('Form(precheck) not found');
       return;
   }
-  const form = document.forms["join_form"];
+  const form = document.forms["member_form"];
     if (!form) {
-      console.error('Form not found');
+      console.error('Form(member_form) not found');
       return;
-  } 
+  }
   const register = form.querySelector('[type="submit"]');
   // form으로 (기자/일반회원)checkbox 선택
-//  const roleType = who.querySelector('[name="role"]');
-//  const join = who.querySelector('[type="submit"]');
+//  const roleType = pre.querySelector('[name="role"]');
+//  const join = pre.querySelector('[type="submit"]');
 //  let unchecked = document.getElementById("unchecked");
 //  let checked = document.getElementById("checked");
   
@@ -37,9 +37,9 @@ document.addEventListener('DOMContentLoaded', function() {
 //    console.log(role);
 //    if(role == "reporter" || role == null) {
 //	  form.classList.remove("hidden");
-//	  who.classList.add("hidden");
+//	  pre.classList.add("hidden");
 //    }else {
-//	  who.classList.remove("hidden");
+//	  pre.classList.remove("hidden");
 //  	  form.classList.add("hidden");
 //    }
 //  });
@@ -62,13 +62,13 @@ document.addEventListener('DOMContentLoaded', function() {
 //	  if(job == "reporter") {
 //		reporterElement.parentElement.classList.remove("hidden");
 //		form.classList.remove("hidden");
-//		who.classList.add("hidden");
+//		pre.classList.add("hidden");
 //	  }else if(job == "user") {
 //	    reporterElement.parentElement.classList.add("hidden");
 //		form.classList.remove("hidden");
-//		who.classList.add("hidden");
+//		pre.classList.add("hidden");
 //	  } else {
-//		who.classList.remove("hidden");
+//		pre.classList.remove("hidden");
 //		form.classList.add("hidden");
 //	  }
 // };
@@ -80,13 +80,13 @@ document.addEventListener('DOMContentLoaded', function() {
 //  if(jobName == "reporter") {
 //	reporterElement.parentElement.classList.remove("hidden");
 //	form.classList.remove("hidden");
-//	who.classList.add("hidden");
+//	pre.classList.add("hidden");
 //  }else if(jobName == "user") {
 //    reporterElement.parentElement.classList.add("hidden");
 //	form.classList.remove("hidden");
-//	who.classList.add("hidden");
+//	pre.classList.add("hidden");
 //  } else {
-//	who.classList.remove("hidden");
+//	pre.classList.remove("hidden");
 //	form.classList.add("hidden");
 //  }
 

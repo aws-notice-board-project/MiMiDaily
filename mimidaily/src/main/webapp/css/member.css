@@ -11,12 +11,6 @@
   flex-direction: column;
   padding: 70px 0;
 }
-/* #member .cont {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-} */
 #mimilogo {
   width: 250px;
   height: 60px;
@@ -68,9 +62,18 @@ input[type="button"]:hover {
 input[type="checkbox"] {
 	width: 20px;
 }
-input[name="id"], 
-input[name="code"] {
+#join input[name="id"], 
+#join input[name="code"] {
   width: 325px;
+}
+#update input[name="id"], 
+#update input[name="code"] {
+  border: none;
+  background-color: var(--mimiLight);
+}
+#update input[name="id"]::placeholder, 
+#update input[name="code"]::placeholder {
+  color: white;
 }
 input[name="birth"] {
   width: 250px;
