@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 //import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.mimidaily.common.DBConnPool;
 import com.mimidaily.dto.ArticlesDTO;
@@ -418,6 +420,94 @@ public class ArticlesDAO extends DBConnPool {
             pstmt.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    
+    //현재 기사 해시태그 목록 조회
+    private Set<String> getCurrentHashtags(int articleId) {
+        Set<String> currentTags = new HashSet<>();
+        // hashtags_articles 테이블의 컬럼 이름에 맞게 수정 (hr.hashtags_idx)
+        String sql = "SELECT h.name FROM hashtags h " +
+                     "JOIN hashtags_articles hr ON h.idx = hr.hashtags_idx " +
+                     "WHERE hr.articles_idx = ?";
+        try {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, articleId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                currentTags.add(rs.getString("name"));
+            }
+            rs.close();
+            pstmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return currentTags;
+    }
+    
+
+ // 게시글의 기존 해시태그 관계 삭제
+    private void deleteHashtagArticleRelation(int hashtagId, int articleId) {
+        String sql = "DELETE FROM hashtags_articles WHERE hashtags_idx = ? AND articles_idx = ?";
+        try {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, hashtagId);
+            pstmt.setInt(2, articleId);
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    //업데이트할 해시태그 목록 파싱
+    private Set<String> parseHashtags(String hashtagStr) {
+        Set<String> tags = new HashSet<>();
+        if (hashtagStr == null || hashtagStr.trim().isEmpty()) return tags;
+        
+        String[] tokens = hashtagStr.split("\\s");
+        for (String tag : tokens) {
+            tag = tag.trim();
+            if (tag.startsWith("#")) {
+                tag = tag.substring(1);
+            }
+            if (!tag.isEmpty()) {
+                tags.add(tag);
+            }
+        }
+        return tags;
+    }
+
+    //기사 수정시 해시태그 업데이트
+    public void updateArticleHashtagsSelective(int articleId, String hashtagStr) {
+        Set<String> newTags = parseHashtags(hashtagStr);
+        Set<String> currentTags = getCurrentHashtags(articleId);
+        
+        // 삭제할 해시태그: 기존에는 있지만 새 목록에는 없는 해시태그
+        Set<String> tagsToDelete = new HashSet<>(currentTags);
+        tagsToDelete.removeAll(newTags);
+        
+        // 추가할 해시태그: 새 목록에 있지만 기존에는 없는 해시태그
+        Set<String> tagsToAdd = new HashSet<>(newTags);
+        tagsToAdd.removeAll(currentTags);
+        
+        // 삭제 처리
+        for (String tag : tagsToDelete) {
+            int hashtagId = getHashtagId(tag);
+            if (hashtagId != 0) {
+            	deleteHashtagArticleRelation(hashtagId, articleId);
+            }
+        }
+        
+        // 추가 처리
+        for (String tag : tagsToAdd) {
+            int hashtagId = getHashtagId(tag);
+            if (hashtagId == 0) {
+                hashtagId = insertHashtag(tag);
+            }
+            insertHashtagArticleRelation(hashtagId, articleId);
         }
     }
     

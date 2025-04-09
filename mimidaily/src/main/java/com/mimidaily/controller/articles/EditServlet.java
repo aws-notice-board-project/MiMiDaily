@@ -39,9 +39,10 @@ public class EditServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String memberId = (String) request.getSession().getAttribute("loginUser");
 		String idx = request.getParameter("idx");
 		ArticlesDAO dao = new ArticlesDAO();
-		ArticlesDTO dto = dao.selectView(idx);
+		ArticlesDTO dto = dao.selectView(idx, memberId);
 		request.setAttribute("dto", dto);
 		request.getRequestDispatcher("/articles/edit.jsp").forward(request, response);
     }
@@ -153,7 +154,7 @@ public class EditServlet extends HttpServlet {
         // 게시글 번호와 해시태그 문자열을 넘겨 해시태그 처리
         if (articleId > 0) {
         	System.out.println("기사 수정 성공");
-            dao.processHashtags(articleId, hashtagStr);
+            dao.updateArticleHashtagsSelective(articleId, hashtagStr);
             response.sendRedirect("../articles/view.do?idx=" + idx);
         } else {
             System.out.println("기사 수정 실패");
