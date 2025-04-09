@@ -38,6 +38,7 @@
 .view_container .likes_comments{width:100%;display:flex;justify-content:space-around;padding-left:8px;}
 .view_container .likes_comments i{font-size:32px;}
 .view_container .likes_comments .cont{width:80px; height:80px; border-radius:6px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+.view_container .likes_comments .likes i, .view_container .likes_comments .comments i{cursor:pointer;}
 .view_container .likes_comments .cont p{font-size:14px;margin-top:4px;}
 
 @media screen and (max-width: 820px) {

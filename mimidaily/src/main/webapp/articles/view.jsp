@@ -20,6 +20,13 @@
 <script src="https://kit.fontawesome.com/e7c9242ec2.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
+<script type="module">
+    import { loginAlert, toggleLike } from '/script/view.js';
+
+    window.loginAlert = loginAlert;
+    window.toggleLike = toggleLike;
+</script>
+<script type="module" src="/script/view.js"></script>
 </head>
 <body>
 <jsp:include page="/components/navigation.jsp"></jsp:include>
@@ -30,7 +37,7 @@
 	            <button class="btn" type="button" onclick="location.href='../articles/edit.do?mode=edit&idx=${ param.idx }';">
 	                수정하기
 	            </button>
-	            <button class="btn" type="button" onclick="location.href='../mvcboard/pass.do?mode=delete&idx=${ param.idx }';">
+	            <button class="btn" type="button" onclick="location.href='../articles/delete.do?mode=delete&idx=${ param.idx }';">
 	                삭제하기
 	            </button>
 	        </div>
@@ -79,13 +86,23 @@
 			<div class="aside_box">
 				<jsp:include page="/components/usercard.jsp"></jsp:include>
 				<div class="likes_comments">
-					<div class="likes cont">
-						<c:choose>
-							<c:when test="${article.is_liked}"><i class="fa-solid fa-heart" style="color:red;"></i></c:when>
-							<c:otherwise><i class="fa-regular fa-heart"></i></c:otherwise>
-						</c:choose>
-						<p>좋아요 ${article.likes}</p>
-					</div>
+					<c:choose>
+						<c:when test="${not empty sessionScope.loginUser}">
+							<div class="likes cont">
+								<c:choose>
+									<c:when test="${article.is_liked==true}"><i class="fa-solid fa-heart like" onclick="toggleLike(${article.idx});" style="color:red;"></i></c:when>
+									<c:otherwise><i class="fa-regular fa-heart unlike" onclick="toggleLike(${article.idx});"></i></c:otherwise>
+								</c:choose>
+								<p>좋아요 <span>${article.likes}</span></p>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="likes cont">
+								<i class="fa-regular fa-heart unlike" onclick="loginAlert()"></i>
+								<p>좋아요 <span>${article.likes}</span></p>
+							</div>
+						</c:otherwise>
+					</c:choose>
 					<div class="comments cont">
 						<i class="fa-solid fa-comment-dots"></i>
 						<p>댓글</p>
