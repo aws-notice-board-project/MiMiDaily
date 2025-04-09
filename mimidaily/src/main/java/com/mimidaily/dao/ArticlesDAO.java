@@ -3,6 +3,7 @@ package com.mimidaily.dao;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 //import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
@@ -198,19 +199,16 @@ public class ArticlesDAO extends DBConnPool {
     
 
     // 주어진 일련번호에 해당하는 게시물을 DTO에 담아 반환합니다.
-    public ArticlesDTO selectView(String idx) {
+    public ArticlesDTO selectView(String idx, String memberId) {
         ArticlesDTO dto = new ArticlesDTO(); // DTO 객체 생성
         String query = ""
-                + "SELECT a.idx, a.title, a.content, a.category, a.created_at, a.visitcnt, a.members_id, a.thumnails_idx, "
-                + "       (SELECT COUNT(*) FROM likes l WHERE l.articles_idx = a.idx) AS like_count, "
-                + "       (SELECT COUNT(*) FROM likes l WHERE l.articles_idx = a.idx AND l.members_id = ?) AS is_liked "
-                + "FROM articles a "
-                + "WHERE a.idx = ?";
+                + "SELECT idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx "
+                + "FROM articles "
+                + "WHERE idx = ?";
         
         try {
             psmt = con.prepareStatement(query); // 쿼리문 준비
-            psmt.setString(1, idx); // 특정 멤버 ID 설정
-            psmt.setString(2, idx); // 게시글 ID 설정
+            psmt.setString(1, idx); // 게시글 ID 설정
             rs = psmt.executeQuery(); // 쿼리문 실행
             
             // ResultSetMetaData를 사용하여 컬럼 정보 출력
@@ -236,9 +234,10 @@ public class ArticlesDAO extends DBConnPool {
                 // 썸네일 정보 로드
 	            loadThumbnail(dto);
                 
-                // 좋아요 수와 현재 사용자의 좋아요 여부 가져오기
-                dto.setLikes(rs.getInt("like_count")); // 좋아요 수
-                dto.setIs_liked(rs.getInt("is_liked") > 0); // 현재 사용자가 좋아요를 눌렀는지 여부 (boolean)
+                // 좋아요 수와 현재 사용자의 좋아요 여부
+	            dto.setLikes(getLikeCount(rs.getInt(1)));
+	            dto.setIs_liked(isLiked(memberId, rs.getInt(1)));
+                
             }
         } catch (Exception e) {
             System.out.println("게시물 상세보기 중 예외 발생");
@@ -502,4 +501,63 @@ public class ArticlesDAO extends DBConnPool {
 	    }
 	    return hashtags;
 	}
+	
+	// 좋아요 갯수
+	public int getLikeCount(int idx) {
+	    String query = "SELECT COUNT(*) FROM likes WHERE articles_idx = ?";
+	    try {
+	    	psmt=con.prepareStatement(query);
+	        psmt.setInt(1, idx);
+	        ResultSet rs = psmt.executeQuery();
+	        if (rs.next()) {
+	            return rs.getInt(1);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return 0; // 기본값: 좋아요가 없음
+	}
+	// 좋아요 추가
+	public boolean addLike(String members_id, int articleIdx) {
+	    String query = "INSERT INTO likes (members_id, articles_idx) VALUES (?, ?)";
+	    try {
+	    	psmt=con.prepareStatement(query);
+	        psmt.setString(1, members_id);
+	        psmt.setInt(2, articleIdx);
+	        return psmt.executeUpdate() > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	// 좋아요 제거
+	public boolean removeLike(String members_id, int articleIdx) {
+	    String query = "DELETE FROM likes WHERE members_id = ? AND articles_idx = ?";
+	    try {
+	    	psmt=con.prepareStatement(query);
+	        psmt.setString(1, members_id);
+	        psmt.setInt(2, articleIdx);
+	        return psmt.executeUpdate() > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	// 좋아요 여부
+	public boolean isLiked(String members_id, int idx) {
+	    String query = "SELECT COUNT(*) FROM likes WHERE members_id = ? AND articles_idx = ?";
+	    try {
+	    	psmt=con.prepareStatement(query);
+	        psmt.setString(1, members_id);
+	        psmt.setInt(2, idx);
+	        ResultSet rs = psmt.executeQuery();
+	        if (rs.next()) {
+	            return rs.getInt(1) > 0; // 1보다 크면 좋아요가 있음
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false; // 기본값: 좋아요가 없음
+	}
+
 }
