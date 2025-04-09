@@ -6,27 +6,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArticlesDTO {
-  private int idx;
-  private String title;
-  private String content;
-  private int category;
-  private Timestamp created_at;
-  private int visitcnt;
-  private String members_id;
-  private Integer thumbnails_idx;
-  private int likes;
+	private int idx;
+	private String title;
+	private String content;
+	private int category;
+	private Timestamp created_at;
+	private int visitcnt;
+	private String members_id;
+	private Integer thumbnails_idx;
+	private int likes;
     
 	private String ofile;
-  private String sfile;
+	private String sfile;
 	private String file_path;
 	private long file_size;
 	private String file_type;
 
 
 	// 추가된 멤버 정보
-  private String member_name; // 멤버 이름
-  private String member_email; // 멤버 이메일
-  private boolean is_liked; // 현재 사용자가 좋아요 눌렀는지의 여부
+	private String member_name; // 멤버 이름
+	private String member_email; // 멤버 이메일
+	private boolean is_liked; // 현재 사용자가 좋아요 눌렀는지의 여부
 
 	private List<String> hashtags=new ArrayList<String>();
 
