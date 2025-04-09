@@ -100,10 +100,7 @@
 					<c:choose>
 						<c:when test="${not empty sessionScope.loginUser}">
 							<div class="likes cont">
-								<c:choose>
-									<c:when test="${article.is_liked==true}"><i class="fa-solid fa-heart like" onclick="toggleLike(${article.idx});" style="color:red;"></i></c:when>
-									<c:otherwise><i class="fa-regular fa-heart unlike" onclick="toggleLike(${article.idx});"></i></c:otherwise>
-								</c:choose>
+									<i class="fa-heart" onclick="toggleLike(${article.idx});" style="color:red;"></i>
 								<p>좋아요 <span>${article.likes}</span></p>
 							</div>
 						</c:when>
@@ -125,5 +122,21 @@
 	</div>
 
 <jsp:include page="/components/footer.jsp"></jsp:include>
+
+<script>
+	const isLiked = ${article.is_liked};
+	const isLogin = ${not empty sessionScope.loginUser};
+	if(isLogin){ // 로그인일때만 상태 확인
+		if(isLiked){
+			$('.view_container .likes i').addClass('fa-solid');
+			$('.view_container .likes i').removeClass('fa-regular');
+			$('.view_container .likes i').css('color', 'red');
+		}else{
+			$('.view_container .likes i').addClass('fa-regular');
+			$('.view_container .likes i').removeClass('fa-solid');
+			$('.view_container .likes i').css('color', '#594543');
+		}
+	}
+</script>
 </body>
 </html>
