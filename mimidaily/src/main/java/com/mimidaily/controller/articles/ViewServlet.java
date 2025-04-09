@@ -42,14 +42,12 @@ public class ViewServlet extends HttpServlet {
         aDao.updateVisitCount(idx);  // 조회수 1 증가
         ArticlesDTO aDto = aDao.selectView(idx);
         List<ArticlesDTO> viewestList=aDao.viewestList(); // 실시간 관심기사 best4
-        aDao.close();
-        mDao.close();
-        
-        MemberDTO mDto = mDao.writer(aDto.getMembers_id());
-        
-
+        MemberDTO mDto = mDao.writer(aDto.getMembers_id()); // 글쓴이
         // 줄바꿈 처리
         aDto.setContent(aDto.getContent().replaceAll("\r\n", "<br/>"));
+        
+        aDao.close();
+        mDao.close();
         
         //첨부파일 확장자 추출 및 이미지 타입 확인
         // String ext = null, fileName = dto.getSfile();
