@@ -4,38 +4,81 @@ export function loginAlert() {
 }
 export function toggleLike(articleIdx) {
   $.ajax({
-      url: '/articles/like.do',
-      method: 'post',
-      data: { id: articleIdx },
-      success: function(res) {
-		console.log(res);
-        if (res) {
-          const likesCnt = $('.likes.cont p span');
+    url: '/articles/like.do',
+    method: 'post',
+    data: { id: articleIdx },
+    success: function (res) {
+      console.log(res);
+      if (res) {
+        const likesCnt = $('.likes.cont p span');
 
-          // 현재 좋아요 수
-          let currentLikes = likesCnt.text() ? parseInt(likesCnt.text()) : 0;
-		  
-          // 좋아요 상태에 따라 증가 또는 감소
-          if (res.liked) {
-              likesCnt.text(currentLikes + 1);
-              $('.view_container .likes i').addClass('fa-solid');
-              $('.view_container .likes i').removeClass('fa-regular');
-              $('.view_container .likes i').css('color', 'red');
-            } else {
-              likesCnt.text(currentLikes - 1);
-              $('.view_container .likes i').addClass('fa-regular');
-              $('.view_container .likes i').removeClass('fa-solid');
-              $('.view_container .likes i').css('color', '#594543');
-          }
+        // 현재 좋아요 수
+        let currentLikes = likesCnt.text() ? parseInt(likesCnt.text()) : 0;
+
+        // 좋아요 상태에 따라 증가 또는 감소
+        if (res.liked) {
+          likesCnt.text(currentLikes + 1);
+          $('.view_container .likes i').addClass('fa-solid');
+          $('.view_container .likes i').removeClass('fa-regular');
+          $('.view_container .likes i').css('color', 'red');
+        } else {
+          likesCnt.text(currentLikes - 1);
+          $('.view_container .likes i').addClass('fa-regular');
+          $('.view_container .likes i').removeClass('fa-solid');
+          $('.view_container .likes i').css('color', '#594543');
+        }
       } else {
-          console.warn('좋아요 업데이트에 실패했습니다.');
+        console.warn('좋아요 업데이트에 실패했습니다.');
       }
-      },
-      error: function(e) {
-          console.error('Error:', e);
-      }
+    },
+    error: function (e) {
+      console.error('Error:', e);
+    }
   });
 }
 
-$(document).ready(function() {
+export function deleteArticle() {
+  var modal = document.getElementById('deleteModal');
+  modal.style.display = 'block';
+  
+  // 각 버튼과 창 외부 클릭 시 처리할 이벤트 핸들러 정의
+  function confirmHandler() {
+    modal.style.display = 'none';
+    alert('게시글이 삭제되었습니다.');
+    removeModalListeners();
+  }
+
+  function cancelHandler() {
+    modal.style.display = 'none';
+    removeModalListeners();
+  }
+
+  function closeHandler() {
+    modal.style.display = 'none';
+    removeModalListeners();
+  }
+
+  function windowClickHandler(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+      removeModalListeners();
+    }
+  }
+  
+  // 이벤트 리스너들을 제거하는 함수 (중복 등록 방지)
+  function removeModalListeners() {
+    document.getElementById('confirmDelete').removeEventListener('click', confirmHandler);
+    document.getElementById('cancelDelete').removeEventListener('click', cancelHandler);
+    document.getElementById('modalClose').removeEventListener('click', closeHandler);
+    window.removeEventListener('click', windowClickHandler);
+  }
+  
+  // 이벤트 리스너들을 모달 열릴 때 등록 (매번 새로 등록)
+  document.getElementById('confirmDelete').addEventListener('click', confirmHandler);
+  document.getElementById('cancelDelete').addEventListener('click', cancelHandler);
+  document.getElementById('modalClose').addEventListener('click', closeHandler);
+  window.addEventListener('click', windowClickHandler);
+}
+
+$(document).ready(function () {
 });
