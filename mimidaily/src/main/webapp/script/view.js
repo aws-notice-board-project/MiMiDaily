@@ -8,21 +8,25 @@ export function toggleLike(articleIdx) {
     method: 'post',
     data: { id: articleIdx },
     success: function (res) {
-      console.log(res);
       if (res) {
-        const likesCnt = $('.likes.cont p span');
+        // 같이 로직 처리
+        const likesCnt0 = $('.likes.cont p span.like_cnt').eq(0); // xs사이즈 좋아요
+        const likesCnt1 = $('.likes.cont p span.like_cnt').eq(1); // md사이즈 좋아요
 
         // 현재 좋아요 수
-        let currentLikes = likesCnt.text() ? parseInt(likesCnt.text()) : 0;
-
+        let currentLikes0 = likesCnt0.text() ? parseInt(likesCnt0.text()) : 0;
+        let currentLikes1 = likesCnt1.text() ? parseInt(likesCnt1.text()) : 0;
+        
         // 좋아요 상태에 따라 증가 또는 감소
         if (res.liked) {
-          likesCnt.text(currentLikes + 1);
+          likesCnt0.text(currentLikes0 + 1);
+          likesCnt1.text(currentLikes1 + 1);
           $('.view_container .likes i').addClass('fa-solid');
           $('.view_container .likes i').removeClass('fa-regular');
           $('.view_container .likes i').css('color', 'red');
         } else {
-          likesCnt.text(currentLikes - 1);
+          likesCnt0.text(currentLikes0 - 1);
+          likesCnt1.text(currentLikes1 - 1);
           $('.view_container .likes i').addClass('fa-regular');
           $('.view_container .likes i').removeClass('fa-solid');
           $('.view_container .likes i').css('color', '#594543');

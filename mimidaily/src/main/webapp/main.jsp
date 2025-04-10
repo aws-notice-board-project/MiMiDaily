@@ -13,7 +13,7 @@
 </head> 
 <body>
 <jsp:include page="/components/navigation.jsp"></jsp:include>
-<jsp:include page="/components/searchBar.jsp"></jsp:include>
+<jsp:include page="/components/searchbar.jsp"></jsp:include>
 	<div id="main">
 		<aside class="xs">
 			<div class="login_box cont">

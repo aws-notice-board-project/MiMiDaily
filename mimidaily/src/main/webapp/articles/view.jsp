@@ -129,13 +129,13 @@
 							<c:when test="${not empty sessionScope.loginUser}">
 								<div class="likes cont" onclick="toggleLike(${article.idx});">
 									<i class="fa-heart" style="color:red;"></i>
-									<p><span class="like_txt">좋아요</span> <span>${article.likes}</span></p>
+									<p><span class="like_txt">좋아요</span> <span class="like_cnt">${article.likes}</span></p>
 								</div>
 							</c:when>
 							<c:otherwise>
 								<div class="likes cont" onclick="toggleLike(${article.idx});">
 									<i class="fa-regular fa-heart unlike"></i>
-									<p><span class="like_txt">좋아요</span> <span>${article.likes}</span></p>
+									<p><span class="like_txt">좋아요</span> <span class="like_cnt">${article.likes}</span></p>
 								</div>
 							</c:otherwise>
 						</c:choose>
@@ -157,13 +157,13 @@
 						<c:when test="${not empty sessionScope.loginUser}">
 							<div class="likes cont">
 									<i class="fa-heart" onclick="toggleLike(${article.idx});" style="color:red;"></i>
-								<p><span>${article.likes}</span><span class="like_txt">좋아요</span></p>
+								<p><span class="like_cnt">${article.likes}</span><span class="like_txt">좋아요</span></p>
 							</div>
 						</c:when>
 						<c:otherwise>
 							<div class="likes cont">
 								<i class="fa-regular fa-heart unlike" onclick="loginAlert()"></i>
-								<p><span>${article.likes}</span><span class="like_txt">좋아요</span></p>
+								<p><span class="like_cnt">${article.likes}</span><span class="like_txt">좋아요</span></p>
 							</div>
 						</c:otherwise>
 					</c:choose>
