@@ -36,7 +36,7 @@
 			</c:if>
 			</div>
 			<div class="index_viewest">
-				<jsp:include page="/components/viewestNews.jsp"></jsp:include>
+				<jsp:include page="/components/viewest.jsp"></jsp:include>
 			</div>
 		</aside>
 		<section class="most_liked_news cont">
@@ -111,7 +111,7 @@
 			</c:if>
 			</div>
 			<div class="index_viewest">
-				<jsp:include page="/components/viewestNews.jsp"></jsp:include>
+				<jsp:include page="/components/viewest.jsp"></jsp:include>
 			</div>
 		</aside>
 	</div>

@@ -41,6 +41,7 @@ public class ArticlesDAO extends DBConnPool {
                 dto.setVisitcnt(rs.getInt(6));
                 dto.setMembers_id(rs.getString(7));
                 dto.setThumbnails_idx(rs.getInt(8));
+                loadThumbnail(dto);
                 viewest.add(dto);
  			}
  		}catch(Exception e) {e.getStackTrace();}

@@ -159,7 +159,7 @@
 						<p>댓글</p>
 					</div>
 				</div>
-				<jsp:include page="/components/viewestNews.jsp"></jsp:include>
+				<jsp:include page="/components/viewest.jsp"></jsp:include>
 			</div>
 		</aside>
 	</div>
