@@ -10,6 +10,7 @@
     align-items: center;
     justify-content: center;
     padding: 30px 0;
+    margin-top: 3rem;
 }
 
 #login_logo {
@@ -32,8 +33,6 @@ form {
 .login_box {
     width: 500px;
     height: 230px;
-    background: var(--mimiContainer);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -42,14 +41,14 @@ form {
 .id_box {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 50%;
     padding: 20px 20px 0px 20px;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .id_box label {
     font-size: 20px;
-    height: 100%;
+    height: 40%;
 }
 
 .id_box input {
@@ -61,15 +60,15 @@ form {
 .pw_box {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 50%;
     padding: 0px 20px 20px 20px;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-top: 20px;
 }
 
 .pw_box label {
     font-size: 20px;
-    height: 100%;
+    height: 40%;
 }
 
 .pw_box input {
@@ -80,7 +79,7 @@ form {
 
 .join_btn {
     width: 100%;
-    margin: 5px 0px 10px 0px;
+    margin: 10px 0;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -114,6 +113,7 @@ form {
     width: 336px;
     height: 78px;
     margin-bottom: 10px;
+    border-radius: 2px;
     background: var(--mimiLight);
 }
 
@@ -140,4 +140,9 @@ input:focus {
 input:-webkit-autofill {
     box-shadow: 0 0 0px 1000px #FBF9F9 inset !important;
     -webkit-text-fill-color: #594543 !important;
+}
+
+@media screen and (max-width: 568px) {
+	.login_box{width: 80%;min-width:320px}
+	.login_btn{width: 240px;height: 68px;}
 }

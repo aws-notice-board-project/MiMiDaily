@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>로그인 - 미미일보</title>
+<script src="https://kit.fontawesome.com/e7c9242ec2.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login.css">
 </head>
@@ -19,7 +20,7 @@
 			<h1 class="hide">미미일보</h1>
 			<h2>로그인</h2>
 			<form action="login.do" method="post">
-				<div class="login_box">
+				<div class="login_box cont">
 					<div class="id_box">
 						<label for="userid">아이디</label>
 						<input type="text" id="userid" name="userid" value="${userid}" required>

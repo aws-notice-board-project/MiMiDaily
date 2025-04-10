@@ -15,7 +15,7 @@
 </head>
 <body>
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
-	<jsp:include page="/components/searchBar.jsp"></jsp:include>
+	<jsp:include page="/components/searchbar.jsp"></jsp:include>
 	<h2 class="news_title">여행지</h2>
 	<div class="news_top">
 		<jsp:include page="/components/usercard.jsp"></jsp:include>
