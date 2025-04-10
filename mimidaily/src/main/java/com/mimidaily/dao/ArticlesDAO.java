@@ -561,6 +561,7 @@ public class ArticlesDAO extends DBConnPool {
                 dto.setThumbnails_idx(rs.getInt(8));
                 dto.setLikes(rs.getInt(10));
                 dto.setHashtags(hashtagsByArticle(rs.getInt(1)));  // 해시태그 목록 추가
+                loadThumbnail(dto);
 				article.add(dto);
 			}
 		}catch(Exception e) {

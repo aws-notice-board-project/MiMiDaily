@@ -1,148 +1,147 @@
 @charset "UTF-8";
-.hidden {
-  display: none !important;
-}
-.error {
-	color: red;
-}
-
 #wrap {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 70px 0;
+	width: 100%;
+	padding: 70px 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 #mimilogo {
-  width: 250px;
-  height: 60px;
-  background: url(../media/images/logo.svg);
+	background: url(../media/images/logo.svg);
+	width: 250px;
+	height: 60px;
 }
 h2 {
-  font-size: 40px;
-  font-family: "NotoSansKR-Light";
-  margin-bottom: 50px;
+	font-size: 40px;
+	font-family: "NotoSansKR-Light";
+	margin-bottom: 50px;
 }
 form {
-display: flex;
-flex-direction: column;
-align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 .member_box {
-  width: 500px;
-  background: var(--mimiContainer);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  /* align-items: center; */
-  margin-bottom: 20px;
-  padding: 15px;
+	background: var(--mimiContainer);
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	width: 500px;
+	margin-bottom: 20px;
+	padding: 15px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 input {
-  width: 450px;
-  border-width: 0 0 1px;
-  background-color: var(--mimiFooter);
-  border-color: var(--mimiDark);
-  margin: 10px;
+	border: none;
+	border-bottom: 1px solid var(--mimiLight);
+	 background: var(--mimiFooter);
+	width: 450px;
+	margin: 10px;
 }
 input:focus {
-  outline: none;
-  box-shadow: none;
+	outline: none;
+	box-shadow: none;
 }
 input[type="button"] {
-  width: 100px;
-  background-color: var(--mimiLight);
-  opacity: 0.5;
-  color: white;
-  border: none;
-  cursor: pointer;
+	border: none;
+	background: var(--mimiLight);
+	color: white;
+	opacity: 0.5;
+	width: 100px;
+	cursor: pointer;
 }
 input[type="button"]:hover {
-  opacity: 1;
+	opacity: 1;
 }
 input[type="checkbox"] {
 	width: 20px;
 }
 #join input[name="id"], 
 #join input[name="code"] {
-  width: 325px;
-}
-#update input[name="id"], 
-#update input[name="code"] {
-  border: none;
-  background-color: var(--mimiLight);
-}
-#update input[name="id"]::placeholder, 
-#update input[name="code"]::placeholder {
-  color: white;
+	width: 325px;
 }
 input[name="birth"] {
-  width: 250px;
+	width: 250px;
 }
 input[name="gender"] {
-  width: 30px;
+	width: 30px;
 }
 .member_btn {
-  width: 336px;
-  height: 78px;
-  background: var(--mimiDark);
+	background: var(--mimiDark);
+	width: 336px;
+	height: 78px;
 }
 .member_btn input {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  background: rgba(0, 0, 0, 0);
-  cursor: pointer;
-  color: #ffffff;
-  font-size: 24px;
+	border: 0;
+	background: rgba(0, 0, 0, 0);
+	color: #ffffff;
+	font-size: 24px;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
 }
 /* 모달 스타일 */
 .modal {
-    display: none; /* 초기에는 보이지 않게 설정 */
+    background: rgba(0, 0, 0, 0.5); /* 배경을 어둡게 */
+    width: 100%;
+    height: 100%;
     position: fixed;
     z-index: 100;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    display: none; /* 초기에는 보이지 않게 설정 */
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.5); /* 배경을 어둡게 */
 }
 .modal_content {
-    background-color: var(--mimiContainer); /* 모달 내용 배경 */
+    background: var(--mimiContainer); /* 모달 내용 배경 */
     margin: 5% auto;
     padding: 20px;
-    position: fixed;
-    top: 10%;
-    left: 15%;
     width: 70%;
     height: 70%;
-    overflow: auto;
-    z-index: 150; /* 내용은 배경 위에 위치하도록 */
+	position: fixed;
+	top: 10%;
+	left: 15%;
+	overflow: auto;
+	z-index: 150; /* 내용은 배경 위에 위치하도록 */
 }
 .close {
-  color: var(--mimiDark);
-  opacity: 0.7;
-  position: absolute;
-  top: 18%;
-  right: 17%;
-  font-size: 28px;
-  font-weight: bold;
-  z-index: 200;
+	font-size: 28px;
+	font-weight: bold;
+	color: var(--mimiDark);
+	opacity: 0.7;
+	position: absolute;
+	top: 18%;
+	right: 17%;
+	z-index: 200;
 }
 .close:hover,
 .close:focus {
-  opacity: 1;
-  text-decoration: none;
-  cursor: pointer;
+	cursor: pointer;
 }
 #agree_modal_btn1, #agree_modal_btn2, #agree_modal_btn3 {
-  width: 80px;
-  opacity: 0.5;
-  background: var(--mimiContainer);
-  color: var(--mimiDark);
-  border: none;
-  cursor: pointer;
+	border: none;
+	background: var(--mimiContainer);
+	color: var(--mimiDark);
+	opacity: 0.5;
+	width: 80px;
+	cursor: pointer;
+}
+
+/* js관련 클래스 모음 */
+.hidden {
+	display: none !important;
+}
+.error {
+	color: red;
+}
+.disable input {
+	border: none;
+  	background: var(--mimiLight);
+	color: white;
+	opacity: 1;
+	cursor: not-allowed;
+}
+.disable::placeholder {
+	color: white;
 }

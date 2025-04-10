@@ -27,7 +27,7 @@
 		</form>
 		<form action="update.do" method="post" name="member_form">
 	        <div class="member_box">
-				<div id="disable">
+				<div class="disable">
 					<input type="text" name="id" placeholder="아이디" disabled>
 				</div>
 				<div id="pw">

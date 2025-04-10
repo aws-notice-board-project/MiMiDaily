@@ -23,7 +23,7 @@
 			</c:if>
 			<c:if test="${article.thumbnails_idx != 0}">
 				<img src="${pageContext.request.contextPath}${row.file_path}${row.sfile}" alt="${article.idx}_thumbnail">
-			</c:if>	
+			</c:if>
 			</div>
        		<div class="news_title">
        			<p>
@@ -42,7 +42,7 @@
 	       		<article>${article.title}</article>
        		</div>
        	</div>
-        </c:forEach>
+		</c:forEach>
       </c:when>
       <c:otherwise>
         <p>인기 게시글이 없습니다.<p>
