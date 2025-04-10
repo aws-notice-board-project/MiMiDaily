@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Top 10</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/topten.css">
@@ -16,7 +17,7 @@
       <c:choose>
       <c:when test="${not empty topTenArticles}">
         <c:forEach var="article" varStatus="status" items="${topTenArticles}">
-       	<div class="news" onclick="location.href='/articles/view.do?idx=${ article.idx }'">
+       	<div class="news ${status.index < 3 ? 'row1' : status.index < 6 ? 'row2' : 'row3'}" onclick="location.href='/articles/view.do?idx=${ article.idx }'">
        		<div class="news_thumbnails">
        			<div class="news_rank">${status.index + 1 < 10 ? '0' : ''}${status.index + 1}</div>
 			<c:if test="${article.thumbnails_idx == 0}">
