@@ -31,7 +31,7 @@
 				<div id="id">
 					<input type="text" name="id" placeholder="아이디">
 					<input type="button" value="중복 확인" id="id_check">
-					<input type="button" value="사용하기" id="id_use" class="hidden">
+					<input type="button" value="사  용" id="id_use" class="hidden">
 					<p class="error hidden"></p>
 				</div>
 				<div id="pw">
@@ -56,35 +56,38 @@
 					<p class="error hidden"></p>
 		        </div>
 		        <div id="birth_gender">
-					<input type="text" name="birth" placeholder="주민등록번호 앞자리" maxlength="6">-<input type="text" name="gender" maxlength="1"> ■ ■ ■ ■ ■ ■
+					<input type="text" name="birth" placeholder="주민등록번호 앞자리" maxlength="6">-<input type="text" name="gender_value" maxlength="1"> ■ ■ ■ ■ ■ ■
 					<p class="error hidden"></p>
+					<input type="hidden" name="gender">
 		        </div>
 	        </div>
 	        <div class="member_box">
 				<div id="code" data-job="${job}">
-					<input type="text" name="code" placeholder="기자 인증 코드">
-					<input type="button" value="인증" id="code_check">
+					<input type="text" name="code_value" placeholder="기자 인증 코드">
+					<input type="button" value="인  증" id="code_check">
+					<input type="hidden" name="code">
 				</div>
 			</div>
 			<div class="member_box">
 				<label>
-		            <input type="button" id="agree_all" value="전체 동의"><br>
+		            <input type="button" name="agree_all" value="전체 동의"><br>
 		            전체 동의에는 필수 및 선택 정보에 대한 동의가 포함되어 있으며, 개별적으로 동의를 선택 하실 수 있습니다. 선택 항목에 대한 동의를 거부하시는 경우에도 서비스 이용이 가능합니다.
 				</label>
 				<label>
-					<input type="checkbox" id="agree1">
+					<input type="checkbox" name="agree1">
 					이용약관 동의
 					<input type="button" id="agree_modal_btn1" value="내용 확인 >">
 				</label>
 				<label>
-					<input type="checkbox" id="agree2">
+					<input type="checkbox" name="agree2">
 					개인정보 수집 및 이용 동의
 					<input type="button" id="agree_modal_btn2" value="내용 확인 >">
 				</label>
 				<label>
-					<input type="checkbox" id="agree3">
+					<input type="checkbox" name="agree3">
 					마케팅 활용 및 프로모션 이용 동의
 					<input type="button" id="agree_modal_btn3" value="내용 확인 >">
+					<input type="hidden" name="marketing">
 				</label>
 			</div>
 			<div class="member_btn">
