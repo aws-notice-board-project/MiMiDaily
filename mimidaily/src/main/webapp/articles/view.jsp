@@ -137,7 +137,7 @@
 								</div>
 							</c:when>
 							<c:otherwise>
-								<div class="likes cont" onclick="toggleLike(${article.idx});">
+								<div class="likes cont" onclick="loginAlert()">
 									<i class="fa-regular fa-heart unlike"></i>
 									<p><span class="like_txt">좋아요</span> <span class="like_cnt">${article.likes}</span></p>
 								</div>

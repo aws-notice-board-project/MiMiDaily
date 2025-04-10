@@ -32,7 +32,7 @@
 				</div>
 				<div class="join_btn">
 					<span>아직 회원이 아니신가요?</span>
-					<button onclick="location.href='join.do'">회원가입</button>
+					<button type="button" onclick="location.href='join.do'">회원가입</button>
 				</div>
 				<div class="message_box">
 					${message}
