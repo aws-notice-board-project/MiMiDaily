@@ -97,14 +97,24 @@ document.addEventListener('DOMContentLoaded', function() {
 	const emailInput = form.querySelector('[name="email"]');
 	const telInput = form.querySelector('[name="tel"]');
 	const birthInput = form.querySelector('[name="birth"]');
-	const genderInput = form.querySelector('[name="gender"]');
-	const codeInput = form.querySelector('[name="code"]');
+	const genderInput = form.querySelector('[name="gender_value"]');
+	const codeInput = form.querySelector('[name="code_value"]');
+	// 동의 체크박스 모음
+	const agree1 = form.querySelector('[name="agree1"]');
+	const agree2 = form.querySelector('[name="agree2"]');
+	const agree3 = form.querySelector('[name="agree3"]');
+	// 서버에 넘겨주기 위한 값
+	const gender = form.form.querySelector('[name="gender"]');
+	const code = form.querySelector('[name="code"]');
+	const marketing = form.querySelector('[name="marketing"]');
 	// id 중복확인 버튼
 	const idCheckBtn = document.getElementById("id_check");
 	// id 사용 버튼
 	const idUseBtn = document.getElementById("id_use");
-	// 코드 확인 버튼
+	// 기자 인증 코드 확인 버튼
 	const codeCheckBtn = document.getElementById("code_check");
+	// 전체 동의 버튼
+	const agreeAll = form.querySelector('[name="agree_all"]');
 	// 가입 버튼
 	const register = form.querySelector('[type="submit"]');
 	// 에러 메시지 영역 모음
@@ -222,8 +232,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 	genderInput.addEventListener('input', function() {
-		const gender=birthInput.value;
-		if(!regex.gender.test(gender)) {
+		const gender_value=birthInput.value;
+		if(!regex.gender.test(gender_value)) {
 			error.birth_gender.classList.remove('hidden');
 			error.birth_gender.textContent = '주민등록번호가 올바르지 않습니다.';
 			genderInput.focus();
@@ -232,10 +242,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 	
-	// 코드 확인
+	// 기자 인증 코드 확인
 	codeCheckBtn.addEventListener('click', function() {
-		const code=codeInput.value;
-		if(!regex.code.test(code)) {
+		const code_value=codeInput.value;
+		if(!regex.code.test(code_value)) {
 			codeInput.focus();
 			alert("인증 코드가 올바르지 않습니다.");
 		} else {
@@ -274,23 +284,23 @@ document.addEventListener('DOMContentLoaded', function() {
 		} else {
 			register.disabled = true;
 		}
-		register.disabled = !(document.getElementById('agree1').checked && document.getElementById('agree2').checked); 
+		register.disabled = !(agree1.checked && agree2.checked); 
 	}
 
 	// 전체 선택/해제 체크박스를 클릭하면 나머지 체크박스를 선택하거나 해제하는 함수
 	function AllCheck() {
 		// 모든 체크박스를 강제로 체크 상태로 설정
-		document.getElementById('agree1').checked = true;
-		document.getElementById('agree2').checked = true;
-		document.getElementById('agree3').checked = true;
+		agree1.checked = true;
+		agree2.checked = true;
+		agree3.checked = true;
 		toggleSubmitButton();
 	}
 	// 각 체크박스에 이벤트 리스너 추가
-	document.getElementById('agree1').addEventListener('click', toggleSubmitButton);
-	document.getElementById('agree2').addEventListener('click', toggleSubmitButton);
-	document.getElementById('agree3').addEventListener('click', toggleSubmitButton);
+	agree1.addEventListener('click', toggleSubmitButton);
+	agree2.addEventListener('click', toggleSubmitButton);
+	agree3.addEventListener('click', toggleSubmitButton);
 	// 전체 선택 체크박스 클릭 시 전체 선택 이벤트 추가
-	document.getElementById('agree_all').addEventListener('click', AllCheck);
+	agreeAll.addEventListener('click', AllCheck);
 	
 	
 	// submit 버튼이 클릭되었을 때 경고창 띄우기
@@ -298,11 +308,23 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (!checkRequiredFields() || !checkValidInputs()) {
 			event.preventDefault(); // 제출 막기
 			alert('모든 필수 입력값을 작성하고, 형식에 맞게 입력해 주세요.');
-		} else if (!document.getElementById('agree1').checked || !document.getElementById('agree2').checked) {
+		} else if (!agree1.checked || !agree2.checked) {
 			event.preventDefault(); // 제출 막기
 			alert('이용 약관과 개인정보 수집에 모두 동의하셔야 가입이 가능합니다.');
 		} else {
 			// 변환이 필요한 입력값은 따로 보내기
+			// 성별
+			if(genderInput.value=="1" || genderInput.value=="2") {
+				gender.value="m";
+			} else if(genderInput.value=="3" || genderInput.value=="4") {
+				gender.value="f";
+			} else {
+				gender.value=null;
+			}
+			// 기자/일반회원
+			code.value = codeInput.disabled ? '2' : '1';
+			// 마케팅 동의 여부
+			marketing.value = agree3.checked ? '1' : '0';
 		}
 	});
 
