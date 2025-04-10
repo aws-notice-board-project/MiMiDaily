@@ -129,6 +129,18 @@ public class ArticlesDTO {
 	public void setHashtags(List<String> hashtags) {
 		this.hashtags = hashtags;
 	}
+	
+	public String getHashtagString() {
+	    StringBuilder sb = new StringBuilder();
+	    for (String tag : hashtags) {
+	        // 이미 '#'가 붙어있지 않으면 추가.
+	        if (!tag.startsWith("#")) {
+	            sb.append("#");
+	        }
+	        sb.append(tag).append(" ");
+	    }
+	    return sb.toString().trim();
+	}
 
 	// 현재 사용자의 해당 글의 좋아요 여부
 	public boolean getIs_liked() {

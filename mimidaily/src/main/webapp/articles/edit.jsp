@@ -58,7 +58,7 @@
 			<!-- 해시태그 -->
 			<div class="form_box">
 				<label for="hashtags">해시태그 <small>(예: #여행지 #맛집 #서울_맛집)</small></label>
-				<input type="text" id="hashtags" name="hashtags" placeholder="#해시태그를 입력하세요.">
+				<input type="text" id="hashtags" name="hashtags" placeholder="#해시태그를 입력하세요." value="${dto.hashtagString}">
 			</div>
 
 			<!-- 제목 -->
