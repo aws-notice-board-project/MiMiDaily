@@ -230,6 +230,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // 사용하기 버튼 클릭 시 input 비활성화
   idUseBtn.addEventListener("click", function() {
     idInput.disabled = true;
+	idUseBtn.disabled = true;
+	document.querySelector('#id').classList.add('disable');
   });
   
   // id 중복 체크를 위해 servlet으로 값 넘기기
@@ -245,17 +247,17 @@ document.addEventListener('DOMContentLoaded', function() {
 			// 응답 메시지를 data 속성에 저장
 			idInput.dataset.id_error = message;
 			alert(message); // 결과를 사용자에게 보여줌
+			// 버튼 변경
+			if (message === "사용 가능한 아이디 입니다.") {
+				idCheckBtn.classList.add('hidden');
+				idUseBtn.classList.remove('hidden');
+			} else {
+				idCheckBtn.classList.remove('hidden');
+				idUseBtn.classList.add('hidden');
+			}
 		}
 	};
 	xhr.send();
-	// 버튼 상태 변경
-	if (message === "사용 가능한 아이디 입니다.") {
-		idCheckBtn.classList.add('hidden');
-		idUseBtn.classList.remove('hidden');
-	} else {
-		idCheckBtn.classList.remove('hidden');
-		idUseBtn.classList.add('hidden');
-	}
   });
 
   // 필수 입력값이 모두 작성되었는지 확인하는 함수
