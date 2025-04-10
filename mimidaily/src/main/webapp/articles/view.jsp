@@ -100,7 +100,20 @@
 							</a>
 				        </div>
 					</div>
-			        	
+			        
+			        <div class="comments">
+			        	<h3>댓글</h3>
+			        	<!-- forEach 댓글 목록 -->
+			        	<div class="comment">
+			        		<div class="profile_img">
+			        			<img src="" alt="프로필사진" />
+			        		</div>
+			        		<div class="comts">
+			        			<div class="comts_top"></div>
+			        			<div class="comts_bottom"></div>
+			        		</div>
+			        	</div>
+			        </div>
 		        </div>
 			</div>
 			<div class="comts_likes">
@@ -144,13 +157,13 @@
 						<c:when test="${not empty sessionScope.loginUser}">
 							<div class="likes cont">
 									<i class="fa-heart" onclick="toggleLike(${article.idx});" style="color:red;"></i>
-								<p>좋아요 <span>${article.likes}</span></p>
+								<p><span>${article.likes}</span><span class="like_txt">좋아요</span></p>
 							</div>
 						</c:when>
 						<c:otherwise>
 							<div class="likes cont">
 								<i class="fa-regular fa-heart unlike" onclick="loginAlert()"></i>
-								<p>좋아요 <span>${article.likes}</span></p>
+								<p><span>${article.likes}</span><span class="like_txt">좋아요</span></p>
 							</div>
 						</c:otherwise>
 					</c:choose>
@@ -180,6 +193,13 @@
 			$('.view_container .likes i').css('color', '#594543');
 		}
 	}
+	
+	// 댓글 위치로 이동
+	const commentTop = $('.view_bottom .comments').offset().top;
+	$('.comments.cont').on('click', function(){
+		$('html, body').animate({ scrollTop: commentTop }, 500);		
+	});
+ 	
 </script>
 </body>
 </html>
