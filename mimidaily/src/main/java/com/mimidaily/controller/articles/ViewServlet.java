@@ -34,6 +34,7 @@ public class ViewServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String memberId = (String) request.getSession().getAttribute("loginUser");
+        String redirectURL = request.getParameter("redirectURL");
 		// 게시물 불러오기
 		ArticlesDAO aDao = new ArticlesDAO();
 		// 글쓴이(기자) 불러오기
@@ -62,7 +63,7 @@ public class ViewServlet extends HttpServlet {
         // 	isImage = true;
         // }
         
-        
+        request.setAttribute("redirectURL", redirectURL);
         // 게시물(dto) 저장 후 뷰로 포워드
         request.setAttribute("writer", mDto);
         request.setAttribute("article", aDto);

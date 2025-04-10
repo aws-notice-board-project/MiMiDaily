@@ -3,43 +3,54 @@
 
 /* 모달 전체 영역 */
 .modal {
-  display: none;             /* 기본적으로 숨김 */
-  position: fixed;           /* 화면에 고정 */
-  z-index: 1;                /* 다른 요소 위에 표시 */
+  display: none;
+  position: fixed;
+  z-index: 100;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;            /* 스크롤 지원 */
-  background-color: rgba(0, 0, 0, 0.4);  /* 반투명 검정 배경 */
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* 모달 내용 영역 */
-.modal-content {
-  position: relative;        /* 닫기 버튼을 위한 기준 */
-  background-color: #fefefe;
-  margin: 15% auto;          /* 화면 중앙에 위치 */
+.modal_content {
+  position: relative;
+  background-color: var(--mimiContainer);
+  margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 300px;
+  width: 20%;
+  height: 20%;
   text-align: center;
   border-radius: 4px;
 }
 
-.modal-content p {
+.modal_content p {
   font-size: 18px;
-  margin-bottom: 20px;
+  margin: 25px 0 35px 0;
 }
 
-.modal-content button {
+.modal_content button {
   padding: 10px 20px;
   font-size: 16px;
   margin: 0 10px;
   cursor: pointer;
+  width: 40%;
 }
 
-/* 모달 닫기(x) 버튼 스타일 */
-.close-button {
+.modal_content button#yes_btn {
+  background-color: #8C7B7B;
+  color: white;
+}
+
+.modal_content button#no_btn {
+  background-color: #594543;
+  color: white;
+}
+
+#close_btn {
   position: absolute;
   top: 5px;
   right: 10px;
@@ -49,7 +60,7 @@
   cursor: pointer;
 }
 
-.close-button:hover {
+#close_btn:hover {
   color: #000;
 }
 

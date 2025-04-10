@@ -268,16 +268,30 @@ public class ArticlesDAO extends DBConnPool {
     public int deletePost(String idx) {
         int result = 0;
         try {
-            String query = "DELETE FROM articles WHERE idx=?";
-            psmt = con.prepareStatement(query);
+            // 1. 해시태그와의 연관 레코드 삭제 (hashtags_articles)
+            String deleteHashtagsArticlesQuery = "DELETE FROM hashtags_articles WHERE articles_idx = ?";
+            psmt = con.prepareStatement(deleteHashtagsArticlesQuery);
+            psmt.setString(1, idx);
+            psmt.executeUpdate();
+            
+            // 2. 좋아요와 같은 다른 자식 레코드가 있다면 같은 방식으로 삭제 처리
+            String deleteLikesQuery = "DELETE FROM likes WHERE articles_idx = ?";
+            psmt = con.prepareStatement(deleteLikesQuery);
+            psmt.setString(1, idx);
+            psmt.executeUpdate();
+            
+            // 3. 마지막으로 게시글 삭제
+            String deleteArticleQuery = "DELETE FROM articles WHERE idx = ?";
+            psmt = con.prepareStatement(deleteArticleQuery);
             psmt.setString(1, idx);
             result = psmt.executeUpdate();
         } catch (Exception e) {
-            System.out.println("게시물 삭제 중 예외 발생");
+            System.out.println("게시글 삭제 중 예외 발생");
             e.printStackTrace();
         }
         return result;
     }
+
 
     // 게시글 데이터를 받아 DB에 저장되어 있던 내용을 갱신합니다(파일 업로드 지원).
     public int updatePost(ArticlesDTO dto, String idx, String thumb_idx) {

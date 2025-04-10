@@ -33,11 +33,15 @@
 <body>
 	<!-- 모달창 구조 -->
 	<div id="deleteModal" class="modal">
-	<div class="modal-content">
-		<span id="modalClose" class="close-button">&times;</span>
+	<div class="modal_content">
+		<span id="close_btn">&times;</span>
 		<p>정말 삭제하시겠어요?</p>
-		<button id="confirmDelete">예</button>
-		<button id="cancelDelete">아니오</button>
+		<button id="yes_btn">예</button>
+		<button id="no_btn">아니오</button>
+		<form id="deleteForm" action="${pageContext.request.contextPath}/articles/delete.do" method="post">
+			<input type="hidden" name="idx" value="${article.idx}" />
+			<input type="hidden" name="redirectURL" value="${redirectURL}" />
+		</form>
 	</div>
 	</div>
 

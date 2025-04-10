@@ -44,7 +44,10 @@ export function deleteArticle() {
   // 각 버튼과 창 외부 클릭 시 처리할 이벤트 핸들러 정의
   function confirmHandler() {
     modal.style.display = 'none';
-    alert('게시글이 삭제되었습니다.');
+    //alert('게시글이 삭제되었습니다.');
+    removeModalListeners();
+
+    document.getElementById("deleteForm").submit();
     removeModalListeners();
   }
 
@@ -67,16 +70,16 @@ export function deleteArticle() {
   
   // 이벤트 리스너들을 제거하는 함수 (중복 등록 방지)
   function removeModalListeners() {
-    document.getElementById('confirmDelete').removeEventListener('click', confirmHandler);
-    document.getElementById('cancelDelete').removeEventListener('click', cancelHandler);
-    document.getElementById('modalClose').removeEventListener('click', closeHandler);
+    document.getElementById('yes_btn').removeEventListener('click', confirmHandler);
+    document.getElementById('no_btn').removeEventListener('click', cancelHandler);
+    document.getElementById('close_btn').removeEventListener('click', closeHandler);
     window.removeEventListener('click', windowClickHandler);
   }
   
   // 이벤트 리스너들을 모달 열릴 때 등록 (매번 새로 등록)
-  document.getElementById('confirmDelete').addEventListener('click', confirmHandler);
-  document.getElementById('cancelDelete').addEventListener('click', cancelHandler);
-  document.getElementById('modalClose').addEventListener('click', closeHandler);
+  document.getElementById('yes_btn').addEventListener('click', confirmHandler);
+  document.getElementById('no_btn').addEventListener('click', cancelHandler);
+  document.getElementById('close_btn').addEventListener('click', closeHandler);
   window.addEventListener('click', windowClickHandler);
 }
 
