@@ -97,15 +97,15 @@ document.addEventListener('DOMContentLoaded', function() {
 	const emailInput = form.querySelector('[name="email"]');
 	const telInput = form.querySelector('[name="tel"]');
 	const birthInput = form.querySelector('[name="birth"]');
-	const genderInput = form.querySelector('[name="gender_value"]');
-	const codeInput = form.querySelector('[name="code_value"]');
+	const genderInput = form.querySelector('[name="gender_code"]');
+	const codeInput = form.querySelector('[name="code"]');
 	// 동의 체크박스 모음
 	const agree1 = form.querySelector('[name="agree1"]');
 	const agree2 = form.querySelector('[name="agree2"]');
 	const agree3 = form.querySelector('[name="agree3"]');
 	// 서버에 넘겨주기 위한 값
-	const gender = form.form.querySelector('[name="gender"]');
-	const code = form.querySelector('[name="code"]');
+	const gender = form.querySelector('[name="gender"]');
+	const role = form.querySelector('[name="role"]');
 	const marketing = form.querySelector('[name="marketing"]');
 	// id 중복확인 버튼
 	const idCheckBtn = document.getElementById("id_check");
@@ -138,20 +138,20 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	// id input 클릭 또는 입력 시작 시 버튼(중복확인)
 	idInput.addEventListener("focus", function() {
-		if (idInput.disabled) return; // 비활성화 상태에서는 무시
+		if (idInput.readOnly) return; // 비활성화 상태에서는 무시
 		idCheckBtn.classList.remove('hidden');
 		idUseBtn.classList.add('hidden');
 	});
 	// id 중복 체크
 	idCheckBtn.addEventListener("click", function() {
-		const id=idInput.value;
+		const id_value=idInput.value;
 		const xhr = new XMLHttpRequest();
-		if(!regex.id.test(id)) {
+		if(!regex.id.test(id_value)) {
 			idInput.focus();
 			alert("아이디는 5~20자의 영문 대소문자, 숫자, 밑줄(_)만 사용할 수 있습니다.");
 		} else {
 			// id 중복 체크를 위해 servlet으로 값 넘기기
-			xhr.open("GET", `join.do?id=${encodeURIComponent(id)}`, true);
+			xhr.open("GET", `join.do?id=${encodeURIComponent(id_value)}`, true);
 			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState === 4 && xhr.status === 200) {
@@ -174,15 +174,15 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	// 사용 버튼 클릭 시 비활성화(변경 불가 상태)
 	idUseBtn.addEventListener("click", function() {
-		idInput.disabled = true;
-		idUseBtn.disabled = true;
-		document.querySelector('#id').classList.add('disable');
+		idInput.readOnly = true;
+		idUseBtn.diabled = true;
+		document.querySelector('#id').classList.add('readonly');
 	});
 	
 	// 정규 표현식으로 검증
 	pwInput.addEventListener('input', function() {
-		const pw=pwInput.value;
-		if (!regex.pw.test(pw)) {
+		const pw_value=pwInput.value;
+		if (!regex.pw.test(pw_value)) {
 			error.pw.classList.remove('hidden');
 			error.pw.textContent = '비밀번호는 8~20자이며, 영문자, 숫자, 특수문자(!@#$%^&*)를 각각 하나 이상 포함해야 합니다.';
 			pwInput.focus();
@@ -191,9 +191,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 	rpwInput.addEventListener('input', function() {
-		const pw=pwInput.value;
-		const rpw=rpwInput.value;
-		if (rpw!=pw) {
+		const pw_value=pwInput.value;
+		const rpw_value=rpwInput.value;
+		if (rpw_value!=pw_value) {
 			error.rpw.classList.remove('hidden');
 			error.rpw.textContent = '비밀번호가 일치하지 않습니다.';
 			rpwInput.focus();
@@ -202,8 +202,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 	emailInput.addEventListener('input', function() {
-		const email=emailInput.value;
-		if (!regex.email.test(email)) {
+		const email_value=emailInput.value;
+		if (!regex.email.test(email_value)) {
 			error.email.classList.remove('hidden');
 			error.email.textContent = '이메일 형식이 올바르지 않습니다.';
 			emailInput.focus();
@@ -212,8 +212,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 	telInput.addEventListener('input', function() {
-		const tel=telInput.value;
-		if (!regex.tel.test(tel)) {
+		const tel_value=telInput.value;
+		if (!regex.tel.test(tel_value)) {
 			error.tel.classList.remove('hidden');
 			error.tel.textContent = '연락처 형식이 올바르지 않습니다.';
 			telInput.focus();
@@ -222,8 +222,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 	birthInput.addEventListener('input', function() {
-		const birth=birthInput.value;
-		if (!regex.birth.test(birth)) {
+		const birth_value=birthInput.value;
+		if (!regex.birth.test(birth_value)) {
 			error.birth_gender.classList.remove('hidden');
 			error.birth_gender.textContent = '주민등록번호 앞자리가 올바르지 않습니다.';
 			birthInput.focus();
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 	genderInput.addEventListener('input', function() {
-		const gender_value=birthInput.value;
+		const gender_value=genderInput.value;
 		if(!regex.gender.test(gender_value)) {
 			error.birth_gender.classList.remove('hidden');
 			error.birth_gender.textContent = '주민등록번호가 올바르지 않습니다.';
@@ -250,15 +250,15 @@ document.addEventListener('DOMContentLoaded', function() {
 			alert("인증 코드가 올바르지 않습니다.");
 		} else {
 			alert("기자 인증이 완료되었습니다.");
-			codeInput.disabled = true;
+			codeInput.readOnly = true;
 			codeCheckBtn.disabled = true;
-			document.querySelector('#code').classList.add('disable');
+			document.querySelector('#code').classList.add('readonly');
 		}
 	});
 	
 	// 필수 입력값이 모두 작성되었는지 확인하는 함수
 	function checkRequiredFields() {
-		return idInput.disabled &&
+		return idInput.readOnly &&
 			   pwInput.value.trim() &&
 			   rpwInput.value.trim() &&
 			   nameInput.value.trim() &&
@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			   (!telInput.value || regex.tel.test(telInput.value)) && 
 			   (!birthInput.value || regex.birth.test(birthInput.value)) && 
 			   (!genderInput.value || regex.gender.test(genderInput.value)) && 
-			   (!codeInput.value || codeInput.disabled);
+			   (!codeInput.value || codeInput.readOnly);
 	}
 	
 	// 필수 입력값들이 비어있지 않고 작성된 값들이 알맞은 상태에서
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				gender.value=null;
 			}
 			// 기자/일반회원
-			code.value = codeInput.disabled ? '2' : '1';
+			role.value = codeInput.readOnly ? '2' : '1';
 			// 마케팅 동의 여부
 			marketing.value = agree3.checked ? '1' : '0';
 		}

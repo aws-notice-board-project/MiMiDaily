@@ -26,7 +26,7 @@
 				<input type="submit" value="일반 회원 가입">
 			</div>
 		</form>
-		<form action="join.do" method="post" name="member_form">
+		<form action="join.do" method="post" autocomplete="off" name="member_form">
 	        <div class="member_box">
 				<div id="id">
 					<input type="text" name="id" placeholder="아이디">
@@ -56,16 +56,16 @@
 					<p class="error hidden"></p>
 		        </div>
 		        <div id="birth_gender">
-					<input type="text" name="birth" placeholder="주민등록번호 앞자리" maxlength="6">-<input type="text" name="gender_value" maxlength="1"> ■ ■ ■ ■ ■ ■
+					<input type="text" name="birth" placeholder="주민등록번호 앞자리" maxlength="6">-<input type="text" name="gender_code" maxlength="1"> ■ ■ ■ ■ ■ ■
 					<p class="error hidden"></p>
 					<input type="hidden" name="gender">
 		        </div>
 	        </div>
 	        <div class="member_box">
 				<div id="code" data-job="${job}">
-					<input type="text" name="code_value" placeholder="기자 인증 코드">
+					<input type="text" name="code" placeholder="기자 인증 코드">
 					<input type="button" value="인  증" id="code_check">
-					<input type="hidden" name="code">
+					<input type="hidden" name="role">
 				</div>
 			</div>
 			<div class="member_box">
