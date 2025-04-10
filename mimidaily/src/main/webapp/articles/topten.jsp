@@ -22,7 +22,7 @@
 				<img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="no image">
 			</c:if>
 			<c:if test="${article.thumbnails_idx != 0}">
-				<img src="${pageContext.request.contextPath}${row.file_path}${row.sfile}" alt="${article.idx}_thumbnail">
+				<img src="${pageContext.request.contextPath}${article.file_path}${article.sfile}" alt="${article.idx}_thumbnail">
 			</c:if>
 			</div>
        		<div class="news_title">
