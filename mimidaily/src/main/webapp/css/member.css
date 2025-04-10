@@ -64,7 +64,7 @@ input[type="checkbox"] {
 input[name="birth"] {
 	width: 250px;
 }
-input[name="gender"] {
+input[name="gender_code"] {
 	width: 30px;
 }
 .member_btn {
@@ -135,13 +135,14 @@ input[name="gender"] {
 .error {
 	color: red;
 }
-.disable input {
+.readonly input,
+input:read-only {
 	border: none;
   	background: var(--mimiLight);
 	color: white;
 	opacity: 1;
 	cursor: not-allowed;
 }
-.disable::placeholder {
+.readonly::placeholder {
 	color: white;
 }
