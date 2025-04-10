@@ -282,10 +282,8 @@ public class ArticlesDAO extends DBConnPool {
     public int updatePost(ArticlesDTO dto, String idx, String thumb_idx) {
         int updatedArticleId = 0;
         try {
+            // 파일 업로드 없이 단순 업데이트인 경우 (파일 변경 없음)
             if (dto.getOfile() == null || dto.getOfile().trim().equals("")) {
-            	System.out.println("updatePost");
-            	System.out.println(idx);
-                // 파일 업로드 없이 단순히 게시글의 제목, 내용, 카테고리 등만 수정하는 경우:
                 String query = "UPDATE articles " +
                                "SET title = ?, content = ?, category = ?, created_at = ? " +
                                "WHERE idx = ?";
@@ -294,52 +292,98 @@ public class ArticlesDAO extends DBConnPool {
                 psmt.setString(2, dto.getContent());
                 psmt.setInt(3, dto.getCategory());
                 psmt.setTimestamp(4, dto.getCreated_at());
-                psmt.setString(5, idx);  // 수정할 게시글의 번호
+                psmt.setString(5, idx);
                 int result = psmt.executeUpdate();
                 if (result > 0) {
                     updatedArticleId = Integer.parseInt(idx);
                 }
             } else {
-                // 파일 업로드가 있는 경우: PL/SQL 블록을 사용해서 thumbnails와 articles 모두 업데이트
-                String query = 
-                    "BEGIN " +
-                    "  UPDATE thumbnails " +
-                    "  SET ofile = ?, " +          // 새 원본파일명
-                    "      sfile = ?, " +          // 새 저장파일명
-                    "      file_path = ?, " +      // 새 파일 경로
-                    "      file_size = ?, " +      // 새 파일 크기
-                    "      file_type = ?, " +      // 새 파일 타입
-                    "      created_at = ? " +      // 수정 시간 (또는 업데이트 시간)
-                    "  WHERE idx = ?; " +          // 수정할 썸네일 번호  
-                    "  UPDATE articles " +
-                    "  SET title = ?, " +          // 새 제목
-                    "      content = ?, " +        // 새 내용
-                    "      category = ?, " +       // 새 카테고리
-                    "      created_at = ?, " +     // 수정 시간
-                    "      thumnails_idx = ? " +   // 기존 또는 변경된 썸네일 번호
-                    "  WHERE idx = ?; " +          // 수정할 게시글 번호
-                    "END;";
-                CallableStatement cstmt = con.prepareCall(query);
-                
-                // 1. thumbnails 업데이트 파라미터 (순서대로)
-                cstmt.setString(1, dto.getOfile());
-                cstmt.setString(2, dto.getSfile());
-                cstmt.setString(3, dto.getFile_path());
-                cstmt.setLong(4, dto.getFile_size());
-                cstmt.setString(5, dto.getFile_type());
-                cstmt.setTimestamp(6, dto.getCreated_at());
-                cstmt.setString(7, thumb_idx);  // 기존 썸네일 idx가 dto에 있어야 함
-                
-                // 2. articles 업데이트 파라미터 (순서대로)
-                cstmt.setString(8, dto.getTitle());
-                cstmt.setString(9, dto.getContent());
-                cstmt.setInt(10, dto.getCategory());
-                cstmt.setTimestamp(11, dto.getCreated_at());
-                cstmt.setString(12, thumb_idx);
-                cstmt.setString(13, idx);  // 수정할 게시글의 번호
-                
-                cstmt.execute();
-                updatedArticleId = Integer.parseInt(idx);
+                // 파일 업로드가 있는 경우
+                // thumb_idx 값에 따라 기존 썸네일 레코드가 있는지 판단
+                if (thumb_idx != null && thumb_idx.trim().equals("0")) {
+                    // thumb_idx가 "0"이면 부모 썸네일 레코드가 없으므로 INSERT
+                    String insertThumbQuery = 
+                        "INSERT INTO thumbnails (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
+                        "VALUES (thumbnails_seq.nextval, ?, ?, ?, ?, ?, ?)";
+                    PreparedStatement pstmtThumb = con.prepareStatement(insertThumbQuery, new String[]{"idx"});
+                    pstmtThumb.setString(1, dto.getOfile());
+                    pstmtThumb.setString(2, dto.getSfile());
+                    pstmtThumb.setString(3, dto.getFile_path());
+                    pstmtThumb.setLong(4, dto.getFile_size());
+                    pstmtThumb.setString(5, dto.getFile_type());
+                    pstmtThumb.setTimestamp(6, dto.getCreated_at());
+                    int thumbResult = pstmtThumb.executeUpdate();
+                    int newThumbId = 0;
+                    if (thumbResult > 0) {
+                        ResultSet rs = pstmtThumb.getGeneratedKeys();
+                        if (rs.next()) {
+                            newThumbId = rs.getInt(1);
+                        }
+                        rs.close();
+                    }
+                    pstmtThumb.close();
+                    
+                    // articles 테이블 업데이트 (새 썸네일 키 반영)
+                    String updateArticleQuery = 
+                        "UPDATE articles " +
+                        "SET title = ?, content = ?, category = ?, created_at = ?, thumnails_idx = ? " +
+                        "WHERE idx = ?";
+                    PreparedStatement pstmtArticle = con.prepareStatement(updateArticleQuery);
+                    pstmtArticle.setString(1, dto.getTitle());
+                    pstmtArticle.setString(2, dto.getContent());
+                    pstmtArticle.setInt(3, dto.getCategory());
+                    pstmtArticle.setTimestamp(4, dto.getCreated_at());
+                    pstmtArticle.setInt(5, newThumbId);
+                    pstmtArticle.setString(6, idx);
+                    int artResult = pstmtArticle.executeUpdate();
+                    if (artResult > 0) {
+                        updatedArticleId = Integer.parseInt(idx);
+                    }
+                    pstmtArticle.close();
+                } else {
+                    // thumb_idx가 "0"이 아니면 기존 썸네일 레코드가 존재하므로, 
+                    // PL/SQL 블록을 사용해 thumbnails 테이블과 articles 테이블 모두 업데이트
+                    String query =
+                        "BEGIN " +
+                        "  UPDATE thumbnails " +
+                        "  SET ofile = ?, " +
+                        "      sfile = ?, " +
+                        "      file_path = ?, " +
+                        "      file_size = ?, " +
+                        "      file_type = ?, " +
+                        "      created_at = ? " +
+                        "  WHERE idx = ?; " +
+                        "  UPDATE articles " +
+                        "  SET title = ?, " +
+                        "      content = ?, " +
+                        "      category = ?, " +
+                        "      created_at = ?, " +
+                        "      thumnails_idx = ? " +
+                        "  WHERE idx = ?; " +
+                        "END;";
+                    CallableStatement cstmt = con.prepareCall(query);
+                    
+                    // thumbnails 업데이트 파라미터 (순서대로)
+                    cstmt.setString(1, dto.getOfile());
+                    cstmt.setString(2, dto.getSfile());
+                    cstmt.setString(3, dto.getFile_path());
+                    cstmt.setLong(4, dto.getFile_size());
+                    cstmt.setString(5, dto.getFile_type());
+                    cstmt.setTimestamp(6, dto.getCreated_at());
+                    cstmt.setString(7, thumb_idx);
+                    
+                    // articles 업데이트 파라미터 (순서대로)
+                    cstmt.setString(8, dto.getTitle());
+                    cstmt.setString(9, dto.getContent());
+                    cstmt.setInt(10, dto.getCategory());
+                    cstmt.setTimestamp(11, dto.getCreated_at());
+                    cstmt.setString(12, thumb_idx);
+                    cstmt.setString(13, idx);
+                    
+                    cstmt.execute();
+                    updatedArticleId = Integer.parseInt(idx);
+                    cstmt.close();
+                }
             }
         } catch (Exception e) {
             System.out.println("게시물 수정 중 예외 발생");
