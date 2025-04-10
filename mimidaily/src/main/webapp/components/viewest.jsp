@@ -26,14 +26,14 @@
 			<c:forEach items="${ viewestList }" var="i" varStatus="loop">
 				<li  onclick="location.href='/articles/view.do?idx=${ i.idx }'">
 					<c:choose>
-			            <c:when test="${i.thumbnails_idx != null}">
+			            <c:when test="${i.thumbnails_idx == 0}">
 			            <div class="news_img">
 							<img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
 			            </div>
 						</c:when>
 			            <c:otherwise>
 			            <div class="news_img">
-							<img src="" alt="${i.title} 썸네일">
+							<img src="${pageContext.request.contextPath}${i.file_path}${i.sfile}" alt="${i.title} 썸네일">
 			            </div> 
 			            </c:otherwise>
 			        </c:choose>

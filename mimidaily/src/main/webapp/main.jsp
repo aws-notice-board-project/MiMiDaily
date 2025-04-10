@@ -36,47 +36,22 @@
 			</c:if>
 			</div>
 			<div class="index_viewest">
-				<jsp:include page="/components/viewestNews.jsp"></jsp:include>
+				<jsp:include page="/components/viewest.jsp"></jsp:include>
 			</div>
 		</aside>
 		<section class="most_liked_news cont">
 			<h2>주요 뉴스</h2>
 			<div class="news_list">
 			    <div class="fst_news">
-				<c:forEach var="news" items="${bestnews}" begin="0" end="0">
-					<div>
-			        <c:choose>
-			            <c:when test="${news.thumbnails_idx == 0}"> <!-- 여기에서도 bestnews를 news로 수정 -->
-			                <div class="news_img">
-			                    <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
-			                </div>
-			            </c:when>
-			            <c:otherwise>
-			                이미지 있음
-			                <div class="news_img">
-			                    <img src="${pageContext.request.contextPath}${news.file_path}${news.sfile}" alt="${news.title} 썸네일"> <!-- 여기에서도 news 사용 -->
-			                </div>
-			            </c:otherwise>
-			        </c:choose>
-			        <div class="news_content">
-			            <h3>${news.title}</h3> <!-- 여기에서도 news.title 사용 -->
-			            <p class="context">${news.content}</p>
-			            <p class="date">${news.formattedDate}</p>
-			        </div>
-					</div>
-				</c:forEach>
-			    </div>
-			    <div class="snd_news">
-					<c:forEach var="news" items="${bestnews}" begin="1" end="2">
-				    <div>
+					<c:forEach var="news" items="${bestnews}" begin="0" end="0">
+						<div onclick="location.href='/articles/view.do?idx=${ news.idx }'" style="cursor:pointer;">
 				        <c:choose>
 				            <c:when test="${news.thumbnails_idx == 0}"> <!-- 여기에서도 bestnews를 news로 수정 -->
 				                <div class="news_img">
 				                    <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
-				                </div>   
+				                </div>
 				            </c:when>
 				            <c:otherwise>
-				                이미지 있음
 				                <div class="news_img">
 				                    <img src="${pageContext.request.contextPath}${news.file_path}${news.sfile}" alt="${news.title} 썸네일"> <!-- 여기에서도 news 사용 -->
 				                </div>
@@ -87,7 +62,30 @@
 				            <p class="context">${news.content}</p>
 				            <p class="date">${news.formattedDate}</p>
 				        </div>
-				    </div>
+						</div>
+					</c:forEach>
+			    </div>
+			    <div class="snd_news">
+					<c:forEach var="news" items="${bestnews}" begin="1" end="2">
+					    <div onclick="location.href='/articles/view.do?idx=${ news.idx }'" style="cursor:pointer;">
+					        <c:choose>
+					            <c:when test="${news.thumbnails_idx == 0}"> <!-- 여기에서도 bestnews를 news로 수정 -->
+					                <div class="news_img">
+					                    <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
+					                </div>   
+					            </c:when>
+					            <c:otherwise>
+					                <div class="news_img">
+					                    <img src="${pageContext.request.contextPath}${news.file_path}${news.sfile}" alt="${news.title} 썸네일"> <!-- 여기에서도 news 사용 -->
+					                </div>
+					            </c:otherwise>
+					        </c:choose>
+					        <div class="news_content">
+					            <h3>${news.title}</h3> <!-- 여기에서도 news.title 사용 -->
+					            <p class="context">${news.content}</p>
+					            <p class="date">${news.formattedDate}</p>
+					        </div>
+					    </div>
 					</c:forEach>
 			    </div>
 			</div>
@@ -113,7 +111,7 @@
 			</c:if>
 			</div>
 			<div class="index_viewest">
-				<jsp:include page="/components/viewestNews.jsp"></jsp:include>
+				<jsp:include page="/components/viewest.jsp"></jsp:include>
 			</div>
 		</aside>
 	</div>

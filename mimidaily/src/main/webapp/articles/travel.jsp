@@ -19,7 +19,7 @@
 	<h2 class="news_title">여행지</h2>
 	<div class="news_top">
 		<jsp:include page="/components/usercard.jsp"></jsp:include>
-		<jsp:include page="/components/viewestNews.jsp"></jsp:include>
+		<jsp:include page="/components/viewest.jsp"></jsp:include>
 	</div>
 	<div class="news_container">
 		<section class="news_list cont">
@@ -63,7 +63,7 @@
 		<aside class="news_right">
 			<div class="aside_box">
 				<jsp:include page="/components/usercard.jsp"></jsp:include>
-				<jsp:include page="/components/viewestNews.jsp"></jsp:include>
+				<jsp:include page="/components/viewest.jsp"></jsp:include>
 			</div>
 		</aside>		
 	</div>
