@@ -53,28 +53,6 @@ public class EditServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // 1. 파일 업로드 처리 =============================
-        // 업로드 디렉터리의 물리적 경로 확인
-        String saveDirectory = request.getServletContext().getRealPath("/uploads");
-
-        // 파일 업로드
-        Part filePart = request.getPart("ofile");
-        
-        String originalFileName = "";
-        if (filePart != null && filePart.getSize() > 0) {
-            try {
-                originalFileName = FileUtil.uploadFile(request, saveDirectory);
-            } catch (Exception e) {
-                System.out.println("파일 업로드 오류입니다.");
-                e.printStackTrace();
-                // 파일 업로드 오류가 발생해도 글은 작성되도록 처리할 수 있습니다.
-                originalFileName = "";
-            }
-        } else {
-            System.out.println("파일이 선택되지 않았습니다.");
-        }
-          
-        // 2. 파일 업로드 외 처리 =============================
         // 수정 내용을 매개변수에서 얻어옴
 		String idx = request.getParameter("idx");
 		String thumb_idx = request.getParameter("prevthumbnails_idx");
@@ -112,32 +90,100 @@ public class EditServlet extends HttpServlet {
             dto.setCreated_at(new Timestamp(System.currentTimeMillis())); // 기본값
         }
         
+		
+        // 1. 파일 업로드 처리 =============================
+        // 업로드 디렉터리의 물리적 경로 확인
+        String saveDirectory = request.getServletContext().getRealPath("/uploads");
 
-   // 원본 파일명과 저장된 파일 이름 설정
-        if (originalFileName != "") { 
-        	String savedFileName = FileUtil.renameFile(saveDirectory, originalFileName);
+        // 파일 업로드
+        Part filePart = request.getPart("ofile");
+        String originalFileName = "";
+        
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println(thumb_idx);
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        
+        if (thumb_idx != null && !thumb_idx.trim().isEmpty()) {
+        	int thumbnailId = Integer.parseInt(thumb_idx.trim());
+        	if (thumbnailId == 0) {
+        		// thumb_idx가 0인 경우의 처리 ---> 기존에 이미지가 없다
+        		System.out.println("thumb_idx는 0입니다. ---> 기존에 이미지가 없다");
         	
-            dto.setOfile(originalFileName);  // 원래 파일 이름
-            dto.setSfile(savedFileName);  // 서버에 저장된 파일 이름
-
-            // 파일의 Part 객체에서 추가 정보를 추출합니다.
-            long fileSize = filePart.getSize(); // 파일 크기
-            String fileType = filePart.getContentType(); // 파일 유형(MIME 타입)
-            dto.setFile_size(fileSize);
-            dto.setFile_type(fileType);
-            dto.setFile_path("/uploads/");
+                if (filePart != null && filePart.getSize() > 0) {
+                	System.out.println("---> 새로운 이미지 삽입");
+                    //---> 새로운 이미지 삽입
+                    try {
+                        originalFileName = FileUtil.uploadFile(request, saveDirectory);
+                    } catch (Exception e) {
+                        System.out.println("파일 업로드 오류입니다.");
+                        e.printStackTrace();
+                        // 파일 업로드 오류가 발생해도 글은 작성되도록 처리할 수 있습니다.
+                        originalFileName = "";
+                    }
+                    if (originalFileName != "") { 
+                        String savedFileName = FileUtil.renameFile(saveDirectory, originalFileName);
+                        
+                        dto.setOfile(originalFileName);  // 원래 파일 이름
+                        dto.setSfile(savedFileName);  // 서버에 저장된 파일 이름
             
-            // 기존 파일 삭제
-            FileUtil.deleteFile(request, "/uploads", prevSfile);
+                        // 파일의 Part 객체에서 추가 정보를 추출합니다.
+                        long fileSize = filePart.getSize(); // 파일 크기
+                        String fileType = filePart.getContentType(); // 파일 유형(MIME 타입)
+                        dto.setFile_size(fileSize);
+                        dto.setFile_type(fileType);
+                        dto.setFile_path("/uploads/");
+                    }
+                } else {
+                	System.out.println("//---> 이미지 그대로 없음");
+                    //---> 이미지 그대로 없음
+                    System.out.println("파일이 선택되지 않았습니다.");
+                } 
+        	} else {
+        		System.out.println("// thumb_idx가 0이 아닌 경우의 처리 ---> 기존에 이미지가 있다");
+        		// thumb_idx가 0이 아닌 경우의 처리 ---> 기존에 이미지가 있다
+        		System.out.println("thumb_idx는 0이 아닙니다. 값: " + thumbnailId);
+                if (filePart != null && filePart.getSize() > 0) {
+                	System.out.println(" //---> 기존에 이미지 수정");
+                    //---> 기존에 이미지 수정
+                    try {
+                        originalFileName = FileUtil.uploadFile(request, saveDirectory);
+                    } catch (Exception e) {
+                        System.out.println("파일 업로드 오류입니다.");
+                        e.printStackTrace();
+                        // 파일 업로드 오류가 발생해도 글은 작성되도록 처리할 수 있습니다.
+                        originalFileName = "";
+                    }
+                    if (originalFileName != "") { 
+                        String savedFileName = FileUtil.renameFile(saveDirectory, originalFileName);
+                        
+                        dto.setOfile(originalFileName);  // 원래 파일 이름
+                        dto.setSfile(savedFileName);  // 서버에 저장된 파일 이름
+            
+                        // 파일의 Part 객체에서 추가 정보를 추출합니다.
+                        long fileSize = filePart.getSize(); // 파일 크기
+                        String fileType = filePart.getContentType(); // 파일 유형(MIME 타입)
+                        dto.setFile_size(fileSize);
+                        dto.setFile_type(fileType);
+                        dto.setFile_path("/uploads/");
+                        
+                        // 기존 파일 삭제
+                        FileUtil.deleteFile(request, "/uploads", prevSfile);
+                    }
+                } else {
+                	System.out.println(" //---> 기존에 이미지 그대로");
+                    //---> 기존에 이미지 그대로
+                    dto.setOfile(prevOfile);
+                    dto.setSfile(prevSfile);
+                    dto.setFile_size(prevfile_size);
+                    dto.setFile_type(prevfile_type);
+                    dto.setFile_path(prevfile_path);
+                }
+
+            
+
+        	}
         }
-        else {
-            // 첨부 파일이 없으면 기존 이름 유지
-            dto.setOfile(prevOfile);
-            dto.setSfile(prevSfile);
-            dto.setFile_size(prevfile_size);
-            dto.setFile_type(prevfile_type);
-            dto.setFile_path(prevfile_path);
-        }
+       
 
         // DAO를 통해 DB에 게시 내용 저장
 
