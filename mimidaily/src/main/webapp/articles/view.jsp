@@ -43,57 +43,89 @@
 	            </button>
 	        </div>
 		</c:if>
-		<div class="view_box cont">
-	        <div class="view_top">
-	            <h2><span>${ article.idx }</span> ${ article.title }</h2>
-	            <div class="view_top_info">
-	                <span><b>작성일</b> ${fn:substring(article.created_at, 0, 10)}</span>
-	                <span><b>조회수</b> ${ article.visitcnt }</span>
-	            </div>
-	        </div>
-	        <div class="view_bottom">
-	            <c:if test="${article.thumbnails_idx != 0}">
-		            <div class="news_img">
-						<img src="${pageContext.request.contextPath}${article.file_path}${article.sfile}" alt="${article.title} 사진 자료">
+		<div class="view_detail">
+			<div class="view_box cont">
+		        <div class="view_top">
+		            <h2><span>${ article.idx }</span> ${ article.title }</h2>
+		            <div class="view_top_info">
+		                <span><b>작성일</b> ${fn:substring(article.created_at, 0, 10)}</span>
+		                <span><b>조회수</b> ${ article.visitcnt }</span>
 		            </div>
-				</c:if>
-
-		        <div class="news_context">${ article.content }</div>
-				
-				<c:if test="${not empty article.hashtags}">
-				<h4 class="hide">해시태그</h4>
-				<ul class="hashtags">
-					<c:forEach items="${ article.hashtags }" var="tags" varStatus="loop">
-						<li>#${ tags }</li>
-					</c:forEach>
-				</ul>
-				</c:if>
-				
-	 	 	    <div class="journalist">
-					<h3 class="hide">기자정보</h3>
-					<c:choose>
-			            <c:when test="${empty writer.profile_idx}">
-				              <i class="fa-solid fa-circle-user none_profile"></i>
-						</c:when>
-			            <c:otherwise>
-			            <div class="profile_img">
-							<img src="${pageContext.request.contextPath}${writer.file_path}${writer.sfile}" alt="${article.members_id}의 프로필">
+		        </div>
+		        <div class="view_bottom">
+		            <c:if test="${article.thumbnails_idx != 0}">
+			            <div class="news_img">
+							<img src="${pageContext.request.contextPath}${article.file_path}${article.sfile}" alt="${article.title} 사진 자료">
 			            </div>
-			            </c:otherwise>
-			        </c:choose>
-			        <div class="journalist_info">
-						<p><b>${ writer.name }</b> <c:if test="${ writer.role==2 }">기자</c:if></p>
-						<a class="writer_email" href="mailto:${writer.email}?subject=${writer.name} 기자님께 제보합니다.&body=제보 이메일 내용을 작성해주세요">
-						    <i class="fa-regular fa-envelope"></i> ${writer.email}
-						</a>
-			        </div>
-				</div>
-		        	
-	        </div>
+					</c:if>
+	
+			        <div class="news_context">${ article.content }</div>
+					
+					<c:if test="${not empty article.hashtags}">
+					<h4 class="hide">해시태그</h4>
+					<ul class="hashtags">
+						<c:forEach items="${ article.hashtags }" var="tags" varStatus="loop">
+							<li>#${ tags }</li>
+						</c:forEach>
+					</ul>
+					</c:if>
+					
+		 	 	    <div class="journalist">
+						<h3 class="hide">기자정보</h3>
+						<c:choose>
+				            <c:when test="${empty writer.profile_idx}">
+					              <i class="fa-solid fa-circle-user none_profile"></i>
+							</c:when>
+				            <c:otherwise>
+				            <div class="profile_img">
+								<img src="${pageContext.request.contextPath}${writer.file_path}${writer.sfile}" alt="${article.members_id}의 프로필">
+				            </div>
+				            </c:otherwise>
+				        </c:choose>
+				        <div class="journalist_info">
+							<p><b>${ writer.name }</b> <c:if test="${ writer.role==2 }">기자</c:if></p>
+							<a class="writer_email" href="mailto:${writer.email}?subject=${writer.name} 기자님께 제보합니다.&body=제보 이메일 내용을 작성해주세요">
+							    <i class="fa-regular fa-envelope"></i> ${writer.email}
+							</a>
+				        </div>
+					</div>
+			        	
+		        </div>
+			</div>
+			<div class="comts_likes">
+				<aside class="news_right">
+					<div class="aside_box">
+						<c:if test="${empty sessionScope.loginUser}">
+							<div class="login_box cont" onclick="location.href='/login.do'">
+								<i class="fa-solid fa-right-to-bracket"></i>
+								<p>로그인</p>
+							</div>
+						</c:if>
+						<c:choose>
+							<c:when test="${not empty sessionScope.loginUser}">
+								<div class="likes cont" onclick="toggleLike(${article.idx});">
+									<i class="fa-heart" style="color:red;"></i>
+									<p><span class="like_txt">좋아요</span> <span>${article.likes}</span></p>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="likes cont" onclick="toggleLike(${article.idx});">
+									<i class="fa-regular fa-heart unlike"></i>
+									<p><span class="like_txt">좋아요</span> <span>${article.likes}</span></p>
+								</div>
+							</c:otherwise>
+						</c:choose>
+						<div class="comments cont">
+							<i class="fa-solid fa-comment-dots"></i>
+							<p>댓글</p>
+						</div>
+					</div>
+				</aside>
+			</div>
 		</div>
 		
 		<!-- 사이드 -->
-		<aside class="news_right">
+		<aside class="news_right md">
 			<div class="aside_box">
 				<jsp:include page="/components/usercard.jsp"></jsp:include>
 				<div class="likes_comments">

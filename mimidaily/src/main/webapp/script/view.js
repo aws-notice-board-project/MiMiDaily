@@ -38,4 +38,7 @@ export function toggleLike(articleIdx) {
 }
 
 $(document).ready(function() {
+  let contentHeight=$('.view_box').height();
+  $('aside.news_right').css('height', contentHeight+200);
+  
 });

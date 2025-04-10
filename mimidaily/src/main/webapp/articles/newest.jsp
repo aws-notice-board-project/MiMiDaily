@@ -10,8 +10,8 @@
 <title>최신 기사</title>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" type="text/css" href="/css/main.css">
-<link rel="stylesheet" type="text/css" href="/css/articlesList.css">
-<script type="module" src="/script/newsAside.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/articles.css">
+<script type="module" src="/script/aside.js"></script>
 <style>
 	.title_box{display:flex;align-items: center;width:100%;}
 	.title_box .category{white-space: nowrap;padding: 0.3rem 0.5rem;margin-right:0.5rem; }
