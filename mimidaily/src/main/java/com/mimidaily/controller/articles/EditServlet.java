@@ -178,9 +178,6 @@ public class EditServlet extends HttpServlet {
                     dto.setFile_type(prevfile_type);
                     dto.setFile_path(prevfile_path);
                 }
-
-            
-
         	}
         }
        

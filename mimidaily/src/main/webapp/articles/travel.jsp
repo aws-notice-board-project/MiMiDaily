@@ -33,7 +33,7 @@
 				</c:when>
 				<c:otherwise>
 					<c:forEach items="${ articleLists }" var="i" varStatus="loop">
-						<div class="news_cont list" onclick="location.href='/articles/view.do?idx=${ i.idx }'">
+						<div class="news_cont list" onclick="location.href='/articles/view.do?idx=${ i.idx }&redirectURL=travel.do'">
 							<c:choose>
 					            <c:when test="${i.thumbnails_idx == 0}">
 						            <div class="news_img">
