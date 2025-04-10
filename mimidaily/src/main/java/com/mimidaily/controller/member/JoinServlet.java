@@ -24,7 +24,7 @@ public class JoinServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = "member/join.jsp";
+		String url = "join.do";
 		// 기자인지 일반 회원인지 구분
 //		String type;
 //		if ("reporter".equals(request.getParameter("role"))) {
@@ -60,7 +60,7 @@ public class JoinServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8"); // 한글 깨짐을 방지
-		String url = "member/join.jsp";
+		String url = "join.do";
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pw");
 		String name = request.getParameter("name");
@@ -86,7 +86,7 @@ public class JoinServlet extends HttpServlet {
 		if (result == 1) {
 			session.setAttribute("id", mDto.getId());
 			request.setAttribute("success_msg", "회원 가입에 성공했습니다.");
-			url = "member/login.jsp";
+			url = "login.do";
 		} else {
 			request.setAttribute("success_msg", "회원 가입에 실패했습니다.");
 		}

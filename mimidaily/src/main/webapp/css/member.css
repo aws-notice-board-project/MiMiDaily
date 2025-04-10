@@ -32,6 +32,9 @@ form {
 	flex-direction: column;
 	justify-content: center;
 }
+.member_box#profile {
+	width: 250px;
+}
 input {
 	border: none;
 	border-bottom: 1px solid var(--mimiLight);
@@ -143,6 +146,6 @@ input:disabled {
 	opacity: 1;
 	cursor: not-allowed;
 }
-.readonly::placeholder {
+.readonly input::placeholder {
 	color: white;
 }
