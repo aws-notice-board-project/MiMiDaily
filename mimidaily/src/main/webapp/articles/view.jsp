@@ -33,7 +33,7 @@
 <jsp:include page="/components/navigation.jsp"></jsp:include>
 
 	<div class="view_container">
-		<c:if test="${ sessionScope.loginUser==article.members_id }">
+		<c:if test="${ sessionScope.loginUser==article.members_id || sessionScope.userRole==0 }">
 			<div class="ud_btn">
 	            <button class="btn" type="button" onclick="location.href='../articles/edit.do?mode=edit&idx=${ param.idx }&thumb_idx=${ article.thumbnails_idx }';">
 	                수정하기

@@ -34,18 +34,20 @@ public class MainServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArticlesDAO dao=new ArticlesDAO();
 		List<ArticlesDTO> viewestList=dao.viewestList(); // 실시간 관심기사 best4
+		List<ArticlesDTO> toptenList = dao.selectTopArticles();// 게시글 상위 10개 조회
 		dao.close();
 		
 		String searchField = request.getParameter("searchField");
         String searchWord = request.getParameter("searchWord");
         if (searchField != null && searchWord != null && !searchWord.trim().isEmpty()) { // 검색조건이 존재하면
             response.sendRedirect("/articles/newest.do?searchField=" + searchField + "&searchWord=" + searchWord);
-        }else { 	
-        	request.setAttribute("actionUrl", "/articles/newest.do"); // 검색하면 최신기사로 검색되는 것을 위함
-        	request.setAttribute("viewestList", viewestList);
-        	RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-        	dispatcher.forward(request, response);        	
+            return;
         }
+        request.setAttribute("actionUrl", "/articles/newest.do"); // 검색하면 최신기사로 검색되는 것을 위함
+        request.setAttribute("viewestList", viewestList);
+        request.setAttribute("bestnews", toptenList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/main.jsp");
+        dispatcher.forward(request, response);        	
 	}
 
 	/**
