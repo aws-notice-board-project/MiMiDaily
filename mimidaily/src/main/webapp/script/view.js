@@ -80,5 +80,7 @@ export function deleteArticle() {
   window.addEventListener('click', windowClickHandler);
 }
 
-$(document).ready(function () {
+$(document).ready(function() {
+  let contentHeight=$('.view_box').height();
+  $('aside.news_right').css('height', contentHeight+200);
 });

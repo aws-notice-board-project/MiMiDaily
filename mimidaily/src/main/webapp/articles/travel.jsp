@@ -10,8 +10,8 @@
 <title>여행 뉴스</title>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" type="text/css" href="/css/main.css">
-<link rel="stylesheet" type="text/css" href="/css/articlesList.css">
-<script type="module" src="/script/newsAside.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/articles.css">
+<script type="module" src="/script/aside.js"></script>
 </head>
 <body>
 	<jsp:include page="/components/navigation.jsp"></jsp:include>

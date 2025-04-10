@@ -88,18 +88,36 @@
   transition: all 0.2s;
   z-index:1;
 }
-.view_container aside.news_right .aside_box{top: 0;position: sticky;position: -webkit-sticky;transform: translateY(130px);}
+.view_container aside.news_right .aside_box{top: 0;position: sticky;transform: translateY(140px);}
 .view_container .most_viewed_news{height: 290px;overflow: hidden;}
 
 .view_container .likes_comments{width:100%;display:flex;justify-content:space-around;padding-left:8px;}
 .view_container .likes_comments i{font-size:32px;}
-.view_container .likes_comments .cont{width:80px; height:80px; border-radius:6px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
-.view_container .likes_comments .likes i, .view_container .likes_comments .comments i{cursor:pointer;}
+.view_container .likes_comments .cont{cursor:pointer;width:80px; height:80px; border-radius:6px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
 .view_container .likes_comments .cont p{font-size:14px;margin-top:4px;}
 
+.most_viewed_news .news_list li:nth-child(4){display:none;}
+.comts_likes{display:none;}
 @media screen and (max-width: 820px) {
-  aside.news_right{display: none;}
+  aside.news_right.md{display: none;}
   .view_container .ud_bt {width:100%;min-width:320px;}
   .view_container {width:100%;min-width:320px;}
   .view_box {width:auto;min-width:320px;}
+  .view_detail{width:80%;}
+  
+  .comts_likes{display:inline-block;}
+  .comts_likes aside.news_right{width: 20%;display: flex;align-items: center;flex-direction: column;}
+  .comts_likes .aside_box{display:flex;flex-direction:column;}
+  .comts_likes .aside_box .cont{margin:1rem 0;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer;}
+  .comts_likes .aside_box .cont i{font-size:32px;margin-bottom:4px;}
+  .comts_likes .aside_box .cont p{text-align:center;}
+  .comts_likes .login_box, .comts_likes .likes, .comts_likes .comments{display:inline-block;height:80px;width:80px;}
+}
+@media screen and (max-width: 580px) {
+  .view_container aside.news_right .aside_box{transform: translateY(160px);}
+  .view_box {min-width: 260px;}
+  .view_container .ud_btn{min-width:0;}
+  .comts_likes .login_box, .comts_likes .likes, .comts_likes .comments {width:56px;}
+  .comts_likes .aside_box .cont p {font-size:14px;}
+  .comts_likes .aside_box .cont .like_txt {display:none;}
 }
