@@ -56,15 +56,14 @@
 					<p class="error hidden"></p>
 		        </div>
 		        <div id="birth_gender">
-					<input type="text" name="birth" placeholder="주민번호 앞자리" maxlength="6">-<input type="text" name="gender" maxlength="1"> ■ ■ ■ ■ ■ ■
+					<input type="text" name="birth" placeholder="주민등록번호 앞자리" maxlength="6">-<input type="text" name="gender" maxlength="1"> ■ ■ ■ ■ ■ ■
 					<p class="error hidden"></p>
 		        </div>
 	        </div>
 	        <div class="member_box">
 				<div id="code" data-job="${job}">
 					<input type="text" name="code" placeholder="기자 인증 코드">
-					<input type="button" value="인증">
-					<p class="error hidden"></p>
+					<input type="button" value="인증" id="code_check">
 				</div>
 			</div>
 			<div class="member_box">

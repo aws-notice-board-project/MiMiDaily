@@ -45,9 +45,9 @@ public class JoinServlet extends HttpServlet {
 
 		    String ide;
 		    if (idOk == 1) {
-		        ide = "사용 불가능한 아이디 입니다.";
+		        ide = "사용 불가능한 아이디입니다. 다른 아이디로 변경해 주세요.";
 		    } else {
-		        ide = "사용 가능한 아이디 입니다.";
+		        ide = "사용 가능한 아이디입니다.";
 		    }
 
 		    response.setContentType("text/plain; charset=UTF-8");
