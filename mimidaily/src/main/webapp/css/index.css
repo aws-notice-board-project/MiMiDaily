@@ -80,6 +80,7 @@ aside div.index_viewest .most_viewed_news .news_content * {width: 100%;}
   aside.xs .index_viewest{width: 260px;}
   aside.xs .login_box {width: 40%;margin:0;height: 260px;justify-content:center;}
   aside.xs .login_box>p {text-align: center;}
+  aside.xs .login_box .login{width: 80%;}
   aside.xs .logining{flex-direction:column;}
   aside.xs div.index_viewest div.most_viewed_news {height:280px;}
   aside.xs .most_viewed_news .news_list li {margin-bottom:8px;}
