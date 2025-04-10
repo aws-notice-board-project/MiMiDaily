@@ -142,21 +142,19 @@ public class MemberDAO extends DBConnPool {
 	// 회원 등록
 		public int insertMember(MemberDTO mDto) {
 			int result = -1;
-			String sql = "insert into members(id, pwd, name, email, tel, marketing, role, created_at) VALUES \r\n"
-					+ "    (?, ?, ?, ?, '0', '1', SYSTIMESTAMP)"; // 필수 입력 값 5개
+			String sql = "insert into members(id, pwd, name, email, tel, birth, gender, role, marketing, created_at) VALUES \r\n"
+					+ "    (?, ?, ?, ?, ?, ?, ?, ?, ?, SYSTIMESTAMP)";
 			try {
 				psmt = con.prepareStatement(sql);
 				psmt.setString(1, mDto.getId());
 				psmt.setString(2, mDto.getPwd());
 				psmt.setString(3, mDto.getName());
 				psmt.setString(4, mDto.getEmail());
-				//psmt.setString(5, mDto.getTel());
-				//psmt.setString(6, mDto.getBirth());
-				//psmt.setString(7, mDto.getGender());
-				//psmt.setBoolean(8, mDto.isMarketing());
-				//psmt.setInt(9, mDto.getRole());
-				//psmt.setObject(10, mDto.getProfile_idx());
-				//psmt.setString(11, mDto.getCreated_at());
+				psmt.setString(5, mDto.getTel());
+				psmt.setString(6, mDto.getBirth());
+				psmt.setString(7, mDto.getGender());
+				psmt.setInt(8, mDto.getRole());
+				psmt.setBoolean(9, mDto.isMarketing());
 				result = psmt.executeUpdate();// 영향을 받은 행의 수 리턴. insert하면 1행이 추가되므로 1이 리턴됨.
 			} catch (Exception e) {
 				e.printStackTrace();
