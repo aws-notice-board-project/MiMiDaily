@@ -8,7 +8,7 @@
 <title>회원가입</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/member.css">
-<script src="${pageContext.request.contextPath}/script/member.js"></script>
+<script src="${pageContext.request.contextPath}/script/update.js"></script>
 </head>
 <body id="update">
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
@@ -26,9 +26,13 @@
 			</div>
 		</form>
 		<form action="update.do" method="post" name="member_form">
+			<div class="member_box" id="profile">
+				<!-- 프로필 이미지 -->
+			</div>
 	        <div class="member_box">
-				<div class="disable">
-					<input type="text" name="id" placeholder="아이디" disabled>
+				<div class="readonly">
+					<input type="hidden" name="role" value="${member.role}">
+					<input type="text" name="id" value="${member.id}" readonly>
 				</div>
 				<div id="pw">
 					<input type="password" name="pw" placeholder="비밀번호">
@@ -50,21 +54,23 @@
 					<p class="error hidden"></p>
 		        </div>
 		        <div id="birth_gender">
-					<input type="text" name="birth" placeholder="주민번호 앞자리" maxlength="6">-<input type="text" name="gender" maxlength="1"> ■ ■ ■ ■ ■ ■
+					<input type="text" name="birth" placeholder="주민번호 앞자리" maxlength="6">-<input type="text" name="gender_code" maxlength="1"> ■ ■ ■ ■ ■ ■
 					<p class="error hidden"></p>
+					<input type="hidden" name="gender">
 		        </div>
 				<label>
-					<input type="checkbox" id="agree3">
+					<input type="checkbox" id="marketing_agree">
 					마케팅 활용 및 프로모션 이용 동의
-					<input type="button" id="agree_modal_btn3" value="내용 확인 >">
+					<input type="button" id="marketing_agree_modal_btn" value="내용 확인 >">
+					<input type="hidden" name="marketing">
 	        	</label>
 	        </div>
 			<div class="member_btn">
 				<input type="submit" value="저장하기" data-success="${success_msg}">
 			</div>
 		</form>
-		<div id="agree_modal3" class="modal">
-			<span class="close" id="close3">&times;</span>
+		<div id="marketing_agree_modal" class="modal">
+			<span class="close" id="close">&times;</span>
 	        <div class="modal_content">
 	        	로딩 중...
 			</div>

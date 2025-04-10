@@ -133,7 +133,7 @@ public class MemberDAO extends DBConnPool {
 				result = -1;// 사용 가능
 			}
 		} catch (Exception e) {
-			System.out.println("예외? 오류? 발생");
+			System.out.println("id 중복 확인 중 오류 발생");
 			e.printStackTrace();
 		}
 		return result;
@@ -157,6 +157,7 @@ public class MemberDAO extends DBConnPool {
 				psmt.setBoolean(9, mDto.isMarketing());
 				result = psmt.executeUpdate();// 영향을 받은 행의 수 리턴. insert하면 1행이 추가되므로 1이 리턴됨.
 			} catch (Exception e) {
+				System.out.println("회원 등록 중 오류 발생");
 				e.printStackTrace();
 			}
 			return result;
@@ -178,9 +179,13 @@ public class MemberDAO extends DBConnPool {
 					mDto.setName(rs.getString("name"));
 					mDto.setEmail(rs.getString("email"));
 					mDto.setTel(rs.getString("tel"));
+					mDto.setBirth(rs.getString("birth"));
+					mDto.setGender(rs.getString("gender"));
+					mDto.setRole(rs.getInt("role"));
 					mDto.setMarketing(rs.getBoolean("Marketing"));
 				}
 			} catch (Exception e) {
+				System.out.println("회원 정보 검색 중 오류 발생");
 				e.printStackTrace();
 			}
 			return mDto;
@@ -189,15 +194,22 @@ public class MemberDAO extends DBConnPool {
 		//회원 정보 수정
 		public int updateMember(MemberDTO mDto) {
 			int result = -1;
-			String sql = "update members set pwd=?, email=?,"
-					+ "tel=? where id=?";
+			String sql = "update members set pwd=?, name=?, email=?, "
+					+ " tel=?, birth=?, gender=?, marketing=? where id=?";
 			try {
 				psmt = con.prepareStatement(sql);
+				psmt.setString(9, mDto.getId());
 				psmt.setString(1, mDto.getPwd());
-				psmt.setString(2, mDto.getEmail());
-				psmt.setString(3, mDto.getTel());
+				psmt.setString(2, mDto.getName());
+				psmt.setString(3, mDto.getEmail());
+				psmt.setString(4, mDto.getTel());
+				psmt.setString(5, mDto.getBirth());
+				psmt.setString(6, mDto.getGender());
+				psmt.setInt(7, mDto.getRole());
+				psmt.setBoolean(8, mDto.isMarketing());
 				result = psmt.executeUpdate();
 			} catch (Exception e) {
+				System.out.println("회원 정보 수정 중 오류 발생");
 				e.printStackTrace();
 			} finally {
 				close(); }

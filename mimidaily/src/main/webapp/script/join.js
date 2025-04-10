@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		document.querySelector('#id').classList.add('readonly');
 	});
 	
-	// 정규 표현식으로 검증
+	// 정규 표현식으로 검증 모음
 	pwInput.addEventListener('input', function() {
 		const pw_value=pwInput.value;
 		if (!regex.pw.test(pw_value)) {
@@ -311,8 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		} else if (!agree1.checked || !agree2.checked) {
 			event.preventDefault(); // 제출 막기
 			alert('이용 약관과 개인정보 수집에 모두 동의하셔야 가입이 가능합니다.');
-		} else {
-			// 변환이 필요한 입력값은 따로 보내기
+		} else { // 변환이 필요한 입력값은 따로 보내기
 			// 성별
 			if(genderInput.value=="1" || genderInput.value=="2") {
 				gender.value="m";
