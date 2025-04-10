@@ -22,14 +22,25 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
 <script type="module">
-    import { loginAlert, toggleLike } from '/script/view.js';
+    import { loginAlert, toggleLike , deleteArticle } from '/script/view.js';
 
     window.loginAlert = loginAlert;
     window.toggleLike = toggleLike;
+	window.deleteArticle = deleteArticle;
 </script>
 <script type="module" src="/script/view.js"></script>
 </head>
 <body>
+	<!-- 모달창 구조 -->
+	<div id="deleteModal" class="modal">
+	<div class="modal-content">
+		<span id="modalClose" class="close-button">&times;</span>
+		<p>정말 삭제하시겠어요?</p>
+		<button id="confirmDelete">예</button>
+		<button id="cancelDelete">아니오</button>
+	</div>
+	</div>
+
 <jsp:include page="/components/navigation.jsp"></jsp:include>
 
 	<div class="view_container">
@@ -38,7 +49,7 @@
 	            <button class="btn" type="button" onclick="location.href='../articles/edit.do?mode=edit&idx=${ param.idx }&thumb_idx=${ article.thumbnails_idx }';">
 	                수정하기
 	            </button>
-	            <button class="btn" type="button" onclick="location.href='../articles/delete.do?mode=delete&idx=${ param.idx }';">
+	            <button class="btn" type="button" onclick="deleteArticle()">
 	                삭제하기
 	            </button>
 	        </div>
