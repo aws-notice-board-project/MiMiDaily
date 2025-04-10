@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	};
 	// 정규 표현식 모음
 	const regex = {
-		id: /^[a-zA-Z0-9_]{5,20}$/, 
+		id: /^[a-zA-Z0-9_]{4,20}$/, 
 		pw: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/, 
 		email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 
 		tel: /^010-?\d{4}-?\d{4}$/, 
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		const xhr = new XMLHttpRequest();
 		if(!regex.id.test(id_value)) {
 			idInput.focus();
-			alert("아이디는 5~20자의 영문 대소문자, 숫자, 밑줄(_)만 사용할 수 있습니다.");
+			alert("아이디는 4~20자의 영문 대소문자, 숫자, 밑줄(_)만 사용할 수 있습니다.");
 		} else {
 			// id 중복 체크를 위해 servlet으로 값 넘기기
 			xhr.open("GET", `join.do?id=${encodeURIComponent(id_value)}`, true);

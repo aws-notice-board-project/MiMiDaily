@@ -136,7 +136,7 @@ input[name="gender_code"] {
 	color: red;
 }
 .readonly input,
-input:read-only {
+input:disabled {
 	border: none;
   	background: var(--mimiLight);
 	color: white;
