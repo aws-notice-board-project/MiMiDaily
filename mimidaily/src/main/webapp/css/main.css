@@ -138,7 +138,7 @@ footer p{text-align: center;color: #8C7B7B; }
   #nav .menu_icon{display: inline-block; width: 36px;margin-right: 2rem;}
   #nav .menu_icon i{font-size: 30px;}
   
-  footer{padding: 1rem;height: auto;}
+  footer{padding: 1rem;height: auto;margin-top: 4rem;}
   footer p{font-size:14px;}
 }
 @media screen and (max-width: 500px) {

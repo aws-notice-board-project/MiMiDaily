@@ -32,7 +32,7 @@
 			</div>
 
 			<div class="form_box">
-				<label for="category">카테고리</label>
+				<label for="category" class="category_label">카테고리</label>
 				<select name="category" id="category">
 					<option value="1">여행지</option>
 					<option value="2">맛집</option>
@@ -40,23 +40,23 @@
 			</div>
 
 			<div class="form_box">
-				<label for="hashtags">해시태그 <small>(예: #여행지 #맛집 #서울_맛집)</small></label>
+				<label for="hashtags"><span class="hash_label">해시태그</span> <small>(예: #여행지 #맛집 #서울_맛집)</small></label>
 				<input type="text" id="hashtags" name="hashtags" placeholder="#해시태그를 입력하세요." value="${dto.hashtagString}">
 			</div>
 
 			<div class="form_box">
 				<label for="title">제목</label>
-				<input type="text" id="title" name="title" maxlength="30" value="${ dto.title }" >
+				<input type="text" id="title" name="title" maxlength="30" value="${ dto.title }" required >
 			</div>
 
 			<div class="form_box">
 				<label for="ofile">이미지 첨부</label>
-				<input type="file" id="ofile" name="ofile">
+				<input type="file" id="ofile" name="ofile" accept="image/*">
 			</div>
 
 			<div class="form_box">
 				<label for="content">내용</label>
-				<textarea id="content" name="content" rows="8" >${ dto.content }</textarea>
+				<textarea id="content" name="content" rows="8" required >${ dto.content }</textarea>
 			</div>
 
 			<div class="form_box hide">
