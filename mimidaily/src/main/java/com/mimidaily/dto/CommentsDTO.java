@@ -1,13 +1,14 @@
 package com.mimidaily.dto;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class CommentsDTO {
-	int idx;
-	String context;
-	Timestamp created_at;
-	String members_id;
-	int articles_idx;
+	private int idx;
+	private String context;
+	private Timestamp created_at;
+	private String members_id;
+	private int articles_idx;
 	
 	public int getIdx() {
 		return idx;
@@ -27,6 +28,14 @@ public class CommentsDTO {
 	public void setCreated_at(Timestamp created_at) {
 		this.created_at = created_at;
 	}
+	// 포맷된 날짜 getter
+    public String getFormattedDate() {
+        if (created_at != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+            return sdf.format(created_at);
+        }
+        return null;
+    }
 	public String getMembers_id() {
 		return members_id;
 	}

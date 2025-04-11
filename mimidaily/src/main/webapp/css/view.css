@@ -101,7 +101,7 @@
 .journalist_info .writer_email:hover{border-bottom:1px solid;}
 
 /* 댓글 */
-.comments .comment {padding:1rem 1.5rem;}
+.comments .comments_form {padding:1rem 1.5rem;margin-top:1rem;}
 .comments h3 {font-size:20px;border-bottom: 1px solid rgb(188, 177, 177);padding:1rem;}
 .comments .input_comment {display:flex; justify-content:space-between;align-items:center;}
 .comments .input_comment i.none_profile {color:#594543;margin-right:1rem;}
@@ -109,7 +109,8 @@
 .comments .comment #comment:focus{border: 2px solid;outline: none;}
 .comment_btn {background-color:#594543;color:#f7f5f5;}
 .comments_list {background-color: #F0ECEC;padding:1rem;}
-.coment_cont{display: flex;}
+.coment_cont{display: flex;align-items:center;padding: 1rem 0;}
+.coment_cont .profile_img{line-height: 54px;margin-right:0.5rem;}
 .comt_context {display: flex;justify-content:space-between;width:100%;}
 .coment_cont i.none_profile{font-size: 32px;}
 .comt_btn {text-align:end;}
@@ -162,5 +163,5 @@ aside.news_right.md .aside_box i.fa-heart{font-size: 30px;}
   .journalist_info{text-align: center;}
   .journalist{padding:1rem;flex-direction:column;}
   .journalist i, .journalist p{margin-top:0.5rem;}
-  .comments .comment {padding:0.5rem 0;}
+  .comments .comments_form {padding:0.5rem 0;}
 }
