@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +28,14 @@
 		</form>
 		<form action="update.do" method="post" name="member_form">
 			<div class="member_box" id="profile">
-				<!-- 프로필 이미지 -->
+			<c:choose>
+            <c:when test="${empty member.profile_idx}">
+          		<i class="fa-solid fa-circle-user none_profile"></i>
+			</c:when>
+            <c:otherwise>
+				<img src="" alt="${member.id}의 프로필">
+            </c:otherwise>
+        	</c:choose>
 			</div>
 	        <div class="member_box">
 				<div class="readonly">
