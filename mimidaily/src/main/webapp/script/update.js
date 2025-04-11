@@ -10,8 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	    return;
 	}
 	// 입력 필드 모음
-	const role = form.querySelector('[name="role"]');
-	const id = form.querySelector('[name="id"]');
 	const pwInput = form.querySelector('[name="pw"]');
 	const rpwInput = form.querySelector('[name="rpw"]');
 	const nameInput = form.querySelector('[name="name"]');
@@ -35,38 +33,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		birth_gender: document.querySelector('#birth_gender .error')
 	};
 	// 정규 표현식 모음
-	const regex = {
-		id: /^[a-zA-Z0-9_]{4,20}$/, 
+	const regex = { 
 		pw: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/, 
 		email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 
 		tel: /^010-?\d{4}-?\d{4}$/, 
 		birth: /^\d{6}$/, 
 		gender: /^[1-4]$/
 	};
-	
-	// role, id 불러오기(현재는 중복체크이니 변경 필요)
-	const id_value=id.value;
-	const role_value=role.value;
-	const xhr = new XMLHttpRequest();
-	xhr.open("GET", `join.do?id=${encodeURIComponent(id_value)}`, true);
-	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-	xhr.onreadystatechange = function () {
-		if (xhr.readyState === 4 && xhr.status === 200) {
-			const message = xhr.responseText.trim();
-			// 응답 메시지를 data 속성에 저장
-			idInput.dataset.id_error = message;
-			alert(message); // 결과를 사용자에게 보여줌
-			// 버튼 변경
-			if (message == "사용 가능한 아이디입니다.") {
-				idCheckBtn.classList.add('hidden');
-				idUseBtn.classList.remove('hidden');
-			} else {
-				idCheckBtn.classList.remove('hidden');
-				idUseBtn.classList.add('hidden');
-			}
-		}
-	}
-	xhr.send();
 		
 	pwInput.addEventListener('input', function() {
 		const pw_value=pwInput.value;
@@ -167,12 +140,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 
-	// 회원가입 성공/실패 메세지 띄우기
-	function success() {
-	  alert(save.dataset.success_msg);
+	// 정보수정 실패 메세지 띄우기
+	function fail() {
+	  alert(save.dataset.fail_msg);
 	}
 	// 최종 가입 버튼에 성공 여부 메세지 출력 이벤트 추가
-	save.addEventListener('submit', success);
+	save.addEventListener('submit', fail);
 
 	// 모달 열기 함수
 	function openModal(modalId, contentUrl) {

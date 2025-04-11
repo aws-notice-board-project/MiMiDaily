@@ -84,7 +84,7 @@
 					<input type="button" id="agree_modal_btn2" value="내용 확인 >">
 				</label>
 				<label>
-					<input type="checkbox" name="agree3">
+					<input type="checkbox" name="agree3" checked>
 					마케팅 활용 및 프로모션 이용 동의
 					<input type="button" id="agree_modal_btn3" value="내용 확인 >">
 					<input type="hidden" name="marketing">

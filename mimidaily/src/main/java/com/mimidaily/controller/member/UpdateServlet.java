@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.mimidaily.dao.ArticlesDAO;
 import com.mimidaily.dao.MemberDAO;
+import com.mimidaily.dto.ArticlesDTO;
 import com.mimidaily.dto.MemberDTO;
 
 @WebServlet("/update.do")
@@ -24,11 +26,13 @@ public class UpdateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "/member/update.jsp";
-		String id = request.getParameter("id");
-		MemberDAO mDao = new MemberDAO();
-		MemberDTO mDto = mDao.getMember(id);
-		request.setAttribute("member", mDto);
-		mDao.close();
+		
+        String memberId = (String) request.getSession().getAttribute("loginUser");
+		MemberDAO dao = new MemberDAO();
+		MemberDTO dto = dao.getMember(memberId);;
+		request.setAttribute("member", dto);
+		System.out.println(dto.getName());
+		System.out.println(dto.isMarketing());
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}
