@@ -181,7 +181,6 @@ public class MemberDAO extends DBConnPool {
 					mDto.setTel(rs.getString("tel"));
 					mDto.setBirth(rs.getString("birth"));
 					mDto.setGender(rs.getString("gender"));
-					mDto.setRole(rs.getInt("role"));
 					mDto.setMarketing(rs.getBoolean("Marketing"));
 				}
 			} catch (Exception e) {
@@ -198,15 +197,14 @@ public class MemberDAO extends DBConnPool {
 					+ " tel=?, birth=?, gender=?, marketing=? where id=?";
 			try {
 				psmt = con.prepareStatement(sql);
-				psmt.setString(9, mDto.getId());
+				psmt.setString(8, mDto.getId());
 				psmt.setString(1, mDto.getPwd());
 				psmt.setString(2, mDto.getName());
 				psmt.setString(3, mDto.getEmail());
 				psmt.setString(4, mDto.getTel());
 				psmt.setString(5, mDto.getBirth());
 				psmt.setString(6, mDto.getGender());
-				psmt.setInt(7, mDto.getRole());
-				psmt.setBoolean(8, mDto.isMarketing());
+				psmt.setBoolean(7, mDto.isMarketing());
 				result = psmt.executeUpdate();
 			} catch (Exception e) {
 				System.out.println("회원 정보 수정 중 오류 발생");

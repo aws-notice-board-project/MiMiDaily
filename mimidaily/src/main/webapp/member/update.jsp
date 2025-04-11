@@ -31,8 +31,7 @@
 			</div>
 	        <div class="member_box">
 				<div class="readonly">
-					<input type="hidden" name="role" value="${member.role}">
-					<input type="text" name="id" value="${member.id}" readonly>
+					<input type="text" name="id" value="${sessionScope.loginUser}" readonly>
 				</div>
 				<div id="pw">
 					<input type="password" name="pw" placeholder="비밀번호">
@@ -43,30 +42,32 @@
 					<p class="error hidden"></p>
 				</div>
 				<div id="name">
-					<input type="text" name="name" placeholder="이름">
+					<input type="text" name="name" placeholder="이름" value="${member.name}">
 				</div>
 				<div id="email">
-					<input type="email" name="email" placeholder="메일 주소">
+					<input type="email" name="email" placeholder="메일 주소" value="${member.email}">
 					<p class="error hidden"></p>
 				</div>
 				<div id="tel">
-					<input type="text" name="tel" placeholder="연락처">
+					<input type="text" name="tel" placeholder="연락처" value="${member.tel}">
 					<p class="error hidden"></p>
 		        </div>
 		        <div id="birth_gender">
-					<input type="text" name="birth" placeholder="주민번호 앞자리" maxlength="6">-<input type="text" name="gender_code" maxlength="1"> ■ ■ ■ ■ ■ ■
+					<input type="text" name="birth" placeholder="주민번호 앞자리" maxlength="6"  value="${member.birth}">
+					-
+					<input type="text" name="gender_code" maxlength="1"  value="${member.gender}"> ■ ■ ■ ■ ■ ■
 					<p class="error hidden"></p>
 					<input type="hidden" name="gender">
 		        </div>
 				<label>
-					<input type="checkbox" id="marketing_agree">
+					<input type="checkbox" id="marketing_agree" checked>
 					마케팅 활용 및 프로모션 이용 동의
 					<input type="button" id="marketing_agree_modal_btn" value="내용 확인 >">
 					<input type="hidden" name="marketing">
 	        	</label>
 	        </div>
 			<div class="member_btn">
-				<input type="submit" value="저장하기" data-success="${success_msg}">
+				<input type="submit" value="저장하기" data-success="${fail_msg}">
 			</div>
 		</form>
 		<div id="marketing_agree_modal" class="modal">
