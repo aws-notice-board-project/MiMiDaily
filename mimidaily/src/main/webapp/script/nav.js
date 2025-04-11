@@ -1,6 +1,8 @@
-window.addEventListener('load', () => {
-  const ov = document.getElementById('loading-overlay');
-  if (ov) ov.style.display = 'none';
+$(window).on('load', function() {
+  const ov = $('#loading_overlay');
+  if (ov) {
+    ov.css('display', 'none');
+  };
 });
 
 $(document).ready(function() {
