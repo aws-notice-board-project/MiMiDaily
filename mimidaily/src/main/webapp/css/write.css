@@ -50,7 +50,6 @@ h1.title {
 .form_box label {
   margin-bottom: 10px;
   font-weight: bold;
-  color: #333;
 }
 
 .form_box input[type="text"],
@@ -96,13 +95,20 @@ h1.title {
   background: var(--mimiDark);
 }
 
-/* .form_button button[type="reset"] {
-  background-color: #f0ad4e;
-  color: white;
+@media screen and (max-width: 568px) {
+  .form_box .hash_label {
+    display: block;
+  }
+  small {
+    font-size: 12px;
+  }
+  .form_box .category_label {
+    margin-bottom: 33px;
+  }
+  .form_button {
+    margin: 0.5rem 0;
+  }
+  .form_button button[type="submit"] {
+    width: 60%;
+  }
 }
-
-.form_button button[type="button"] {
-  background-color: #5bc0de;
-  color: white;
-} */
-

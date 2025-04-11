@@ -25,7 +25,7 @@
 			</div>
 
 			<div class="form_box">
-				<label for="category">카테고리</label>
+				<label for="category" class="category_label">카테고리</label>
 				<select name="category" id="category">
 					<option value="1">여행지</option>
 					<option value="2">맛집</option>
@@ -33,7 +33,7 @@
 			</div>
 
 			<div class="form_box">
-				<label for="hashtags">해시태그 <small>(예: #여행지 #맛집 #서울_맛집)</small></label>
+				<label for="hashtags"><span class="hash_label">해시태그</span> <small>(예: #여행지 #맛집 #서울_맛집)</small></label>
 				<input type="text" id="hashtags" name="hashtags" placeholder="#해시태그를 입력하세요.">
 			</div>
 

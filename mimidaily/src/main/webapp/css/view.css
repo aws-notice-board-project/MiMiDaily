@@ -38,6 +38,7 @@
   margin: 0 10px;
   cursor: pointer;
   width: 40%;
+  white-space: nowrap;
 }
 
 .modal_content button#yes_btn {
@@ -151,6 +152,9 @@ aside.news_right.md .aside_box i.fa-heart{font-size: 30px;}
   .comts_likes .aside_box .cont i{font-size:32px;margin-bottom:4px;}
   .comts_likes .aside_box .cont p{text-align:center;}
   .comts_likes .login_box, .comts_likes .likes, .comts_likes .comments{display:inline-block;height:80px;width:80px;}
+  .modal_content button {
+    margin: 0 5px;
+  }
 }
 @media screen and (max-width: 580px) {
   .view_container aside.news_right .aside_box{transform: translateY(160px);}
@@ -164,4 +168,9 @@ aside.news_right.md .aside_box i.fa-heart{font-size: 30px;}
   .journalist{padding:1rem;flex-direction:column;}
   .journalist i, .journalist p{margin-top:0.5rem;}
   .comments .comments_form {padding:0.5rem 0;}
+  .modal_content {
+    top: 20%;
+    width: 80%;
+    height: 30%;
+  }
 }
