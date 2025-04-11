@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					const message = xhr.responseText.trim();
 					// 응답 메시지를 data 속성에 저장
 					idInput.dataset.id_error = message;
-					alert(message); // 결과를 사용자에게 보여줌
+					alert(message+"\n 아이디 사용 버튼을 클릭하세요."); // 결과를 사용자에게 보여줌
 					// 버튼 변경
 					if (message == "사용 가능한 아이디입니다.") {
 						idCheckBtn.classList.add('hidden');
