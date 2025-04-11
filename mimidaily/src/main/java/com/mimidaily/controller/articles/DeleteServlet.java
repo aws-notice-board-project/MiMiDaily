@@ -46,7 +46,6 @@ public class DeleteServlet extends HttpServlet {
         
         // 삭제 성공 시 페이지 이동 처리
         String redirectURL = request.getParameter("redirectURL");
-        System.out.println(redirectURL);
         if (result > 0) {
             if(redirectURL != null && !redirectURL.trim().isEmpty()){
                 response.sendRedirect(request.getContextPath() + "/articles/" + redirectURL);
@@ -54,7 +53,6 @@ public class DeleteServlet extends HttpServlet {
                 // 파라미터가 없으면 기본 리스트 페이지로 이동
                 response.sendRedirect(request.getContextPath() + "/main.do");
             }
-            System.out.println("기사 삭제 성공");
         } else {
             System.out.println("기사 삭제 실패");
         }

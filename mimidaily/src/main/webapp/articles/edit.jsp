@@ -8,20 +8,7 @@
 	<title>기사 수정</title>
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/write.css">
-
-	<script>
-		// 작성시간 자동 입력
-		document.addEventListener("DOMContentLoaded", function () {
-			const now = new Date();
-			const formatted = now.getFullYear() + "-"
-				+ String(now.getMonth() + 1).padStart(2, '0') + "-"
-				+ String(now.getDate()).padStart(2, '0') + " "
-				+ String(now.getHours()).padStart(2, '0') + ":"
-				+ String(now.getMinutes()).padStart(2, '0') + ":"
-				+ String(now.getSeconds()).padStart(2, '0');
-			document.getElementById('timeInput').value = formatted;
-		});
-	</script>
+	<script src="${pageContext.request.contextPath}/script/write.js"></script>
 </head>
 
 <body>
@@ -73,8 +60,8 @@
 			</div>
 
 			<div class="form_box hide">
-				<label for="timeInput">작성시간</label>
-				<input id="timeInput" type="text" name="created_at" readonly>
+				<label for="time_input">작성시간</label>
+				<input id="time_input" type="text" name="created_at" readonly>
 			</div>
 
 			<div class="form_button">
