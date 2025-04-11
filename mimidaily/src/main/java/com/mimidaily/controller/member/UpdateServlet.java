@@ -23,7 +23,7 @@ public class UpdateServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = "update.do";
+		String url = "/member/update.jsp";
 		String id = request.getParameter("id");
 		MemberDAO mDao = new MemberDAO();
 		MemberDTO mDto = mDao.getMember(id);
@@ -35,7 +35,7 @@ public class UpdateServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8"); // 한글 깨짐을 방지
-		String url = "update.do";
+		String url = "/member/update.jsp";
 		// 폼에서 입력한 회원 정보 얻어오기
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pw");
