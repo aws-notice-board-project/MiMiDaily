@@ -56,7 +56,14 @@
 					<p class="error hidden"></p>
 		        </div>
 		        <div id="birth_gender">
-					<input type="text" name="birth" placeholder="주민등록번호 앞자리" maxlength="6">-<input type="text" name="gender_code" maxlength="1"> ■ ■ ■ ■ ■ ■
+					<input type="text" name="birth" placeholder="주민등록번호 앞자리" maxlength="6">
+					-
+					<input type="text" name="gender_code" maxlength="1">
+					<div class="xnumber"></div>
+					<div class="xnumber"></div>
+					<div class="xnumber"></div>
+					<div class="xnumber"></div>
+					<div class="xnumber"></div>
 					<p class="error hidden"></p>
 					<input type="hidden" name="gender">
 		        </div>

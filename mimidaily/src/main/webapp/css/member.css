@@ -39,7 +39,7 @@ input {
 	border: none;
 	border-bottom: 1px solid var(--mimiLight);
 	 background: var(--mimiFooter);
-	width: 450px;
+	width: 96%;
 	margin: 10px;
 }
 input:focus {
@@ -51,7 +51,7 @@ input[type="button"] {
 	background: var(--mimiLight);
 	color: white;
 	opacity: 0.5;
-	width: 100px;
+	width: 25%;
 	cursor: pointer;
 }
 input[type="button"]:hover {
@@ -62,7 +62,7 @@ input[type="checkbox"] {
 }
 #join input[name="id"], 
 #join input[name="code"] {
-	width: 325px;
+	width: 65%;
 }
 input[name="birth"] {
 	width: 250px;
@@ -83,6 +83,9 @@ input[name="gender_code"] {
 	width: 100%;
 	height: 100%;
 	cursor: pointer;
+}
+.xnumber {
+	background: var(--mimiDark);
 }
 /* 모달 스타일 */
 .modal {
@@ -148,4 +151,13 @@ input:disabled {
 }
 .readonly input::placeholder {
 	color: white;
+}
+
+@media screen and (max-width: 568px) {
+	.member_box{width: 80%;min-width:320px}
+	.member_btn{width: 240px;height: 68px;}
+	#join input[name="id"], 
+	#join input[name="code"] {
+		width: 60%;
+	}
 }
