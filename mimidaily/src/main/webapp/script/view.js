@@ -56,8 +56,6 @@ export	function insertComment(memberId, articleIdx) {
 	      articleIdx: articleIdx,
 	    },
 	    success: function (res) {
-	      console.log('댓글 생성 성공');
-	      
 	      // 댓글 추가 성공 시 처리 로직
 	      // const profileIdx = ${member.profile_idx}; // 아직 프로필 없음
 	      const context = $('#comment').val();
@@ -85,10 +83,10 @@ export	function insertComment(memberId, articleIdx) {
 	            <p>${context}</p>
 	          </div>
 	        </div>
-	      `;	      
+	      `;
         console.log(newComment);
         
-        if($('.comments_list').text() == '댓글이 없습니다.'){
+        if($('.comments_list').text().includes('댓글이 없습니다.')){
           $('.comments_list').empty(); // 댓글이 없을 때 비우기
         }
 

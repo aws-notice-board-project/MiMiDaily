@@ -138,30 +138,32 @@
 			        		<c:choose>
 			        			<c:when test="${ not empty commentsList }">
 					        		<c:forEach var="com" items="${ commentsList }">
-					        			<div class="coment_cont">
-							        		<div class="profile_img">
-							        		<c:choose>
-							        			<c:when test="${article.idx>0}">
-							        			<%-- <c:when test="${com.profile_idx == 0||com.profile_idx == null}"> --%>
-								        			<i class="fa-solid fa-circle-user none_profile"></i>
-							        			</c:when>
-							        			<c:otherwise>
-							        				이미지 있음
-							        				<%-- <div class="profile_img">
-														<img src="${pageContext.request.contextPath}${com.file_path}${com.sfile}" alt="${com.members_id}의 썸네일">
-										            </div> --%>
-							        			</c:otherwise>
-							        		</c:choose>
-							        		</div>
-							        		<div style="width: 100%;">
-								        		<div class="comt_context">
-								        			<p><strong>${ com.members_id }</strong></p>
-								        			<p>${ isSameDay? com.timeAgo:com.formattedDate }</p>
+					        			<div class="comment_box">
+					        				<div class="coment_cont">
+								        		<div class="profile_img">
+								        		<c:choose>
+								        			<c:when test="${article.idx>0}">
+								        			<%-- <c:when test="${com.profile_idx == 0||com.profile_idx == null}"> --%>
+									        			<i class="fa-solid fa-circle-user none_profile"></i>
+								        			</c:when>
+								        			<c:otherwise>
+								        				이미지 있음
+								        				<%-- <div class="profile_img">
+															<img src="${pageContext.request.contextPath}${com.file_path}${com.sfile}" alt="${com.members_id}의 썸네일">
+											            </div> --%>
+								        			</c:otherwise>
+								        		</c:choose>
 								        		</div>
-							        			<p>${ com.context }</p>
-							        		</div>
-					        			</div>
-					        			<!-- <div class="comt_btn">수정, 삭제</div> -->
+								        		<div style="width: 90%;">
+									        		<div class="comt_context">
+									        			<p><strong>${ com.members_id }</strong></p>
+									        			<p>${ isSameDay? com.timeAgo:com.formattedDate }</p>
+									        		</div>
+								        			<p class="comt_content">${ com.context }</p>
+								        		</div>
+						        			</div>
+						        			<div class="comt_btn">수정, 삭제</div>
+					        				</div>
 					        		</c:forEach>
 			        			</c:when>
 			        			<c:otherwise>
@@ -255,6 +257,16 @@
 	const commentTop = $('.view_bottom .comments').offset().top;
 	$('.comments.cont').on('click', function(){
 		$('html, body').animate({ scrollTop: commentTop }, 500);		
+	});
+	
+	// 댓글 500자 제한
+	const comment = $('textarea#comment').val();
+	comment.on('change', function(){
+		console.log(comment.length);
+		if(comment.length > 500){
+			alert('댓글은 500자 이내로 작성해주세요.');
+			comment.val(comment.substring(0, 500));
+		}
 	});
  	
 </script>

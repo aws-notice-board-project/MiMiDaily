@@ -110,7 +110,9 @@
 .comments .comment #comment:focus{border: 2px solid;outline: none;}
 .comment_btn {background-color:#594543;color:#f7f5f5;}
 .comments_list {background-color: #F0ECEC;padding:1rem;padding: 0 1rem;}
-.coment_cont{display: flex;align-items:center;padding: 1rem 0;border-bottom: 1px solid #e1dada;}
+.coment_cont{display: flex;align-items:center;}
+.comt_content {width: 100%;overflow-x: hidden;}
+.comment_box{border-bottom: 1px solid #e1dada; padding: 1rem 0;}
 .coment_cont .profile_img{line-height: 54px;margin-right:0.5rem;}
 .comt_context {display: flex;justify-content:space-between;width:100%;}
 .coment_cont i.none_profile{font-size: 32px;}
