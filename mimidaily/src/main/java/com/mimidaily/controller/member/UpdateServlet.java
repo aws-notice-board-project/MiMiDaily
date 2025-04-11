@@ -26,7 +26,6 @@ public class UpdateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "/member/update.jsp";
-		
         String memberId = (String) request.getSession().getAttribute("loginUser");
 		MemberDAO dao = new MemberDAO();
 		MemberDTO dto = dao.getMember(memberId);;
