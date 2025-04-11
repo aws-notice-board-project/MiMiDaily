@@ -8,7 +8,11 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="module" src="/script/nav.js"></script>
 </head>
-<body> 
+<body>
+	<div id="loading-overlay">
+		<div class="spinner"></div>
+	</div>
+
 	<nav id="nav"> 
 		<div id="logo">
 			<h1 class="hide">미미일보 로고</h1>

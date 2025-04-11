@@ -66,6 +66,29 @@ button{border: none; background-color: transparent; cursor: pointer;}
 }
 ::selection {background-color:#F0ECEC;color: var(--mimiDark);}
 
+/* loading-overlay */
+#loading-overlay { 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;        /* 배경색 */
+  display: flex;            /* 중앙 정렬을 위한 flex */
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;            /* 최상위에 표시 */
+}
+.spinner { 
+  width: 60px;
+  height: 60px;
+  border: 6px solid #ddd;
+  border-top-color: #3498db; /* 회전하는 부분 색 */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {  to { transform: rotate(360deg); } }
+
 /* navigation */
 #logo{margin: 0 1rem;}
 #nav{

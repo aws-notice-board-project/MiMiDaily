@@ -1,3 +1,8 @@
+window.addEventListener('load', () => {
+  const ov = document.getElementById('loading-overlay');
+  if (ov) ov.style.display = 'none';
+});
+
 $(document).ready(function() {
   let isOpen = false;
   $('#nav .menu_icon').on('click', function() {
