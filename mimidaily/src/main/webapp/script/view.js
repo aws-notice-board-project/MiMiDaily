@@ -2,11 +2,15 @@ export function loginAlert() {
   alert('로그인 후 이용 가능합니다.');
   window.location.href = '/login.do';
 }
+
+// 좋아요 비동기 처리
 export function toggleLike(articleIdx) {
   $.ajax({
     url: '/articles/like.do',
     method: 'post',
-    data: { id: articleIdx },
+    data: {
+      articleIdx: articleIdx,
+    },
     success: function (res) {
       if (res) {
         // 같이 로직 처리
@@ -40,6 +44,63 @@ export function toggleLike(articleIdx) {
     }
   });
 }
+
+	// 댓글 작성
+export	function insertComment(memberId, articleIdx) {
+	  $.ajax({
+	    url: '/comments.do',
+	    method: 'post',
+	    data: {
+	      comment: $('#comment').val(),
+	      memberId: memberId,
+	      articleIdx: articleIdx,
+	    },
+	    success: function (res) {
+	      console.log('댓글 생성 성공');
+	      
+	      // 댓글 추가 성공 시 처리 로직
+	      // const profileIdx = ${member.profile_idx}; // 아직 프로필 없음
+	      const context = $('#comment').val();
+	      const commentList = $('.comments_list');
+	      
+	      let profileHtml = '';
+
+	      // if(parseInt(profileIdx) == 0 || profileIdx == null){
+	      if(res){
+	          profileHtml = `<i class="fa-solid fa-circle-user none_profile"></i>`;
+	      }else{
+	          profileHtml = `<div class="profile_img"><img src="" alt="내 프로필 이미지"></div>`;
+	      }
+
+	      let newComment = `
+	        <div class="coment_cont">
+	          <div class="profile_img">
+	            ${profileHtml}
+	          </div>
+	          <div style="width: 100%;">
+	            <div class="comt_context">
+	              <p><strong>${memberId}</strong></p>
+	              <p>방금 전</p>
+	            </div>
+	            <p>${context}</p>
+	          </div>
+	        </div>
+	      `;	      
+        console.log(newComment);
+        
+        if($('.comments_list').text() == '댓글이 없습니다.'){
+          $('.comments_list').empty(); // 댓글이 없을 때 비우기
+        }
+
+	      commentList.prepend(newComment);
+	      $('#comment').val(''); // 입력 필드 초기화
+	    },
+		error:function(e){
+	    console.warn('댓글 추가에 실패');
+			console.log('Error :', e);
+		}
+	  })
+	};
 
 export function deleteArticle() {
   var modal = document.getElementById('deleteModal');

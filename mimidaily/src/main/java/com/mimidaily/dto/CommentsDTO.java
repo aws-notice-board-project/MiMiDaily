@@ -2,6 +2,7 @@ package com.mimidaily.dto;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class CommentsDTO {
 	private int idx;
@@ -35,6 +36,34 @@ public class CommentsDTO {
             return sdf.format(created_at);
         }
         return null;
+    }
+    // 시간 차이를 계산하여 n시간 전, n분 전 형식으로 반환
+    public String getTimeAgo() {
+        if (created_at == null) {
+            return null;
+        }
+
+        long diffInMillis = new Date().getTime() - created_at.getTime();
+        long diffInSeconds = diffInMillis / 1000;
+        long diffInMinutes = diffInSeconds / 60;
+        long diffInHours = diffInMinutes / 60;
+
+        if (diffInHours > 0) {
+            return diffInHours + "시간 전";
+        } else if (diffInMinutes > 0) {
+            return diffInMinutes + "분 전";
+        } else {
+            return "방금 전";
+        }
+    }
+    // 현재 날짜와 비교하여 같은 날인지 확인
+    public boolean isSameDay() {
+        if (created_at == null) {
+            return false;
+        }
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        return sdf.format(created_at).equals(sdf.format(new Date()));
     }
 	public String getMembers_id() {
 		return members_id;

@@ -39,7 +39,7 @@ public class LikeServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArticlesDAO dao = new ArticlesDAO();
 		String memberId = (String) request.getSession().getAttribute("loginUser");
-		String articlesIdStr = request.getParameter("id");
+		String articlesIdStr = request.getParameter("articleIdx");
 	    int articleIdx = 0;
 	    try {
 	        // 문자열을 int로 변환

@@ -71,7 +71,7 @@ aside div.index_viewest .most_viewed_news .news_content * {width: 100%;}
   #main .most_liked_news .news_list .fst_news .news_content {width:100%;height: 140px;}
   #main .most_liked_news .news_list .fst_news .context {height: 48px;}
   #main .most_liked_news .snd_news {flex-direction: column;}
-  
+  #main section.most_liked_news .news_list div.news_img{height:200px;}
 }
 @media screen and (max-width: 800px) {
   #main {flex-direction:column;align-items: center;}
@@ -91,4 +91,7 @@ aside div.index_viewest .most_viewed_news .news_content * {width: 100%;}
   aside.xs {margin-bottom:2rem; justify-content: center;}
   aside.xs .login_box {width: 320px;}
   aside.xs .index_viewest {display:none;}
+}
+@media screen and (max-width: 500px){
+  #main section.most_liked_news .news_list div.news_img{height:140px;}	
 }

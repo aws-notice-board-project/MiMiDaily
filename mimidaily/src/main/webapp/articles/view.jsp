@@ -22,11 +22,11 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
 <script type="module">
-    import { loginAlert, toggleLike , deleteArticle } from '/script/view.js';
-
+    import { loginAlert, toggleLike , deleteArticle, insertComment } from '/script/view.js';
     window.loginAlert = loginAlert;
     window.toggleLike = toggleLike;
 	window.deleteArticle = deleteArticle;
+	window.insertComment = insertComment;
 </script>
 <script type="module" src="/script/view.js"></script>
 </head>
@@ -106,40 +106,57 @@
 			        
 			        <div class="comments">
 			        	<h3>댓글</h3>
-			        	<!-- forEach 댓글 목록 -->
 			        	<div class="comment">
-			        		<form class="comments_form" method="post" action="comments.do">
-				        		<div class="input_comment">
-					        		<c:choose>
-							            <c:when test="${member.profile_idx == 0||member.profile_idx == null}">
-								             <i class="fa-solid fa-circle-user none_profile"></i>
-										</c:when>
-							            <c:otherwise>
-							            	이미지 존재
-								            <%-- <div class="profile_img">
-												<img src="${pageContext.request.contextPath}${member.file_path}${member.sfile}" alt="${sessionScope.loginUser}의 썸네일">
-								            </div> --%>
-							            </c:otherwise>
-							        </c:choose>
-					        		<textarea rows="4" cols="50" id="comment" name="comment" autocomplete="off"></textarea>
-				        		</div>
-				        		<div style="text-align:end;">
-					        		<button class="comment_btn btn" type="submit">댓글 작성</button>
-				        		</div>
-			        		</form>
+			        		<div class="comments_form">
+				        		<c:choose>
+				            		<c:when test="${empty sessionScope.loginUser}">
+				            			로그인 후 댓글을 작성할 수 있습니다.
+				            		</c:when>
+				            		<c:otherwise>
+					        			<!-- 댓글 작성 -->
+						        		<div class="input_comment">
+							        		<c:choose>
+									            <c:when test="${member.profile_idx == 0||member.profile_idx == null}">
+										             <i class="fa-solid fa-circle-user none_profile"></i>
+												</c:when>
+									            <c:otherwise>
+									            	이미지 있음
+										            <%-- <div class="profile_img">
+														<img src="${pageContext.request.contextPath}${member.file_path}${member.sfile}" alt="${sessionScope.loginUser}의 썸네일">
+										            </div> --%>
+									            </c:otherwise>
+									        </c:choose>
+							        		<textarea rows="4" cols="50" id="comment" autocomplete="off"></textarea>
+						        		</div>
+						        		<div style="text-align:end;">
+							        		<button class="comment_btn btn" type="button" onclick="insertComment('${member.id}',${article.idx})">댓글 작성</button>
+						        		</div>
+				            		</c:otherwise>
+				            	</c:choose>
+			        		</div>
 			        		<div class="comments_list">
 			        		<c:choose>
 			        			<c:when test="${ not empty commentsList }">
 					        		<c:forEach var="com" items="${ commentsList }">
 					        			<div class="coment_cont">
 							        		<div class="profile_img">
-							        			<!-- <img src="" alt="댓글 작성자의 프로필사진" /> -->
-							        			<i class="fa-solid fa-circle-user none_profile"></i>
+							        		<c:choose>
+							        			<c:when test="${article.idx>0}">
+							        			<%-- <c:when test="${com.profile_idx == 0||com.profile_idx == null}"> --%>
+								        			<i class="fa-solid fa-circle-user none_profile"></i>
+							        			</c:when>
+							        			<c:otherwise>
+							        				이미지 있음
+							        				<%-- <div class="profile_img">
+														<img src="${pageContext.request.contextPath}${com.file_path}${com.sfile}" alt="${com.members_id}의 썸네일">
+										            </div> --%>
+							        			</c:otherwise>
+							        		</c:choose>
 							        		</div>
 							        		<div style="width: 100%;">
 								        		<div class="comt_context">
 								        			<p><strong>${ com.members_id }</strong></p>
-								        			<p>${ com.formattedDate }</p>
+								        			<p>${ isSameDay? com.timeAgo:com.formattedDate }</p>
 								        		</div>
 							        			<p>${ com.context }</p>
 							        		</div>
@@ -195,8 +212,8 @@
 				<div class="likes_comments">
 					<c:choose>
 						<c:when test="${not empty sessionScope.loginUser}">
-							<div class="likes cont">
-									<i class="fa-heart" onclick="toggleLike(${article.idx});" style="color:red;"></i>
+							<div class="likes cont" onclick="toggleLike(${article.idx});">
+									<i class="fa-heart" style="color:red;"></i>
 								<p><span class="like_cnt">${article.likes}</span><span class="like_txt">좋아요</span></p>
 							</div>
 						</c:when>
