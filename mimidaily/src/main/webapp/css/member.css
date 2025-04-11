@@ -84,8 +84,9 @@ input[name="gender_code"] {
 	height: 100%;
 	cursor: pointer;
 }
-.xnumber {
+#birth_gender .xnumber {
 	background: var(--mimiDark);
+	width: 7%;
 }
 /* 모달 스타일 */
 .modal {
