@@ -44,7 +44,8 @@ public class ViewServlet extends HttpServlet {
         aDao.updateVisitCount(idx);  // 조회수 1 증가
         ArticlesDTO aDto = aDao.selectView(idx, memberId);
         List<ArticlesDTO> viewestList=aDao.viewestList(); // 실시간 관심기사 best4
-        MemberDTO mDto = mDao.writer(aDto.getMembers_id()); // 글쓴이
+        MemberDTO wDto = mDao.writer(aDto.getMembers_id()); // 글쓴이
+        MemberDTO mDto = mDao.writer(aDto.getMembers_id()); // 현재 유저(수정필요)
         // 줄바꿈 처리
         aDto.setContent(aDto.getContent().replaceAll("\r\n", "<br/>"));
         
@@ -65,7 +66,8 @@ public class ViewServlet extends HttpServlet {
         
         request.setAttribute("redirectURL", redirectURL);
         // 게시물(dto) 저장 후 뷰로 포워드
-        request.setAttribute("writer", mDto);
+        request.setAttribute("writer", wDto); // 글쓴이
+        request.setAttribute("member", mDto); // 현재 유저
         request.setAttribute("article", aDto);
         request.setAttribute("viewestList", viewestList);
         //request.setAttribute("isImage", isImage);
