@@ -45,8 +45,10 @@ export function toggleLike(articleIdx) {
   });
 }
 
-	// 댓글 작성
+// 댓글 작성
 export	function insertComment(memberId, articleIdx) {
+	// 유효성 검사 
+	
 	  $.ajax({
 	    url: '/comments.do',
 	    method: 'post',
@@ -71,11 +73,12 @@ export	function insertComment(memberId, articleIdx) {
 	      }
 
 	      let newComment = `
+		  <div class="comment_box">
 	        <div class="coment_cont">
 	          <div class="profile_img">
 	            ${profileHtml}
 	          </div>
-	          <div style="width: 100%;">
+	          <div style="width: 90%;">
 	            <div class="comt_context">
 	              <p><strong>${memberId}</strong></p>
 	              <p>방금 전</p>
@@ -83,6 +86,8 @@ export	function insertComment(memberId, articleIdx) {
 	            <p>${context}</p>
 	          </div>
 	        </div>
+			<div class="comt_btn">수정, 삭제</div>
+		  </div>
 	      `;
         console.log(newComment);
         

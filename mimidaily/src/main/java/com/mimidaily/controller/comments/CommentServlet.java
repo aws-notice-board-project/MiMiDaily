@@ -64,7 +64,7 @@ public class CommentServlet extends HttpServlet {
         boolean isSameDay = cDto.isSameDay(); // 댓글 생성시간을 현재 시간과 비교
         
         cDao.close();
-        
+        System.out.println(isSameDay);
         request.setAttribute("insertedComment", insertedComment); // 생성된 댓글
         request.setAttribute("isSameDay", isSameDay); // is현재날짜
         
