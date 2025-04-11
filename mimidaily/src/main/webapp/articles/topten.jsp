@@ -17,9 +17,10 @@
       <c:choose>
       <c:when test="${not empty topTenArticles}">
         <c:forEach var="article" varStatus="status" items="${topTenArticles}">
-       	<div class="news ${status.index < 3 ? 'row1' : status.index < 6 ? 'row2' : 'row3'}" onclick="location.href='/articles/view.do?idx=${ article.idx }'">
+       	<div class="news ${status.index < 3 ? 'row1' : status.index < 6 ? 'row2' : 'row3'} cont" onclick="location.href='/articles/view.do?idx=${ article.idx }'">
        		<div class="news_thumbnails">
-       			<div class="news_rank">${status.index + 1 < 10 ? '0' : ''}${status.index + 1}</div>
+       			<%-- <div class="news_rank">${status.index + 1 < 10 ? '0' : ''}${status.index + 1}</div> --%>
+       			<div class="news_rank">${status.index + 1}</div>
 			<c:if test="${article.thumbnails_idx == 0}">
 				<img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="no image">
 			</c:if>
