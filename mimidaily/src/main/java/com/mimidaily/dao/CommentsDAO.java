@@ -48,4 +48,31 @@ public class CommentsDAO extends DBConnPool {
 		}
 		return comments;
 	}
+	
+	public CommentsDTO insertComments(CommentsDTO dto) {
+		CommentsDTO insertComment=new CommentsDTO();
+		int result=0;
+		String query="INSERT INTO comments (idx, context, created_at, members_id, articles_idx) "
+					+"VALUES (comments_seq.NEXTVAL, ?, SYSTIMESTAMP, ?, ?)";
+					
+		try {
+			psmt=con.prepareStatement(query);
+			psmt.setString(1, dto.getContext());
+			psmt.setString(2, dto.getMembers_id());
+			psmt.setInt(3, dto.getArticles_idx());
+			result=psmt.executeUpdate();
+			if (result > 0) {
+				insertComment.setContext(dto.getContext());
+				insertComment.setMembers_id(dto.getMembers_id());
+				insertComment.setArticles_idx(dto.getArticles_idx());
+	            System.out.println("댓글 생성 성공");
+	        }
+
+		}catch(Exception e) {
+			System.out.println("댓글 생성 실패");
+			e.printStackTrace();
+		}
+		return insertComment;
+	}
+	
 }
