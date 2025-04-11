@@ -108,12 +108,41 @@
 			        	<h3>댓글</h3>
 			        	<!-- forEach 댓글 목록 -->
 			        	<div class="comment">
-			        		<div class="profile_img">
-			        			<img src="" alt="프로필사진" />
-			        		</div>
-			        		<div class="comts">
-			        			<div class="comts_top"></div>
-			        			<div class="comts_bottom"></div>
+			        		<form method="post" action="comments.do">
+				        		<div class="input_comment">
+					        		<c:choose>
+							            <c:when test="${member.profile_idx == 0||member.profile_idx == null}">
+								             <i class="fa-solid fa-circle-user none_profile"></i>
+										</c:when>
+							            <c:otherwise>
+							            	이미지 존재
+								            <%-- <div class="profile_img">
+												<img src="${pageContext.request.contextPath}${member.file_path}${member.sfile}" alt="${sessionScope.loginUser}의 썸네일">
+								            </div> --%>
+							            </c:otherwise>
+							        </c:choose>
+					        		<textarea rows="4" cols="50" id="comment" name="comment" autocomplete="off"></textarea>
+				        		</div>
+				        		<div style="text-align:end;">
+					        		<button class="comment_btn btn" type="submit">댓글 작성</button>
+				        		</div>
+			        		</form>
+			        		<div class="comments_list">
+			        		<!-- 반복문 -->
+			        			<div class="coment_cont">
+					        		<div class="profile_img">
+					        			<!-- <img src="" alt="댓글 작성자의 프로필사진" /> -->
+					        			<i class="fa-solid fa-circle-user none_profile"></i>
+					        		</div>
+					        		<div style="width: 100%;">
+						        		<div class="comt_context">
+						        			<p><strong>아이디</strong></p>
+						        			<p>작성시간</p>
+						        		</div>
+					        			<p>내용</p>
+					        		</div>
+			        			</div>
+			        			<!-- <div class="comt_btn">수정, 삭제</div> -->
 			        		</div>
 			        	</div>
 			        </div>
