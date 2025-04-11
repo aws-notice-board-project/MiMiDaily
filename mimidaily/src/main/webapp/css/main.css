@@ -66,8 +66,8 @@ button{border: none; background-color: transparent; cursor: pointer;}
 }
 ::selection {background-color:#F0ECEC;color: var(--mimiDark);}
 
-/* loading_overlay */
-#loading_overlay { 
+/* loading-overlay */
+#loading-overlay { 
   position: fixed;
   top: 0;
   left: 0;
