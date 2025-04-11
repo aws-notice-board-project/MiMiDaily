@@ -145,7 +145,7 @@ public class ArticlesDAO extends DBConnPool {
           try {
               if (dto.getOfile() == null || dto.getOfile().trim().equals("")) {
                   // 파일 업로드가 없는 경우: articles 테이블에만 INSERT
-                  String query = "INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) " +
+                  String query = "INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumbnails_idx) " +
                                  "VALUES (articles_seq.NEXTVAL, ?, ?, ?, ?, 0, ?, NULL)";
                   psmt = con.prepareStatement(query);
                   psmt.setString(1, dto.getTitle());
@@ -171,7 +171,7 @@ public class ArticlesDAO extends DBConnPool {
                       "  SELECT thumbnails_seq.NEXTVAL, articles_seq.NEXTVAL INTO v_t_seq, v_a_seq FROM dual; " +
                       "  INSERT INTO thumbnails (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
                       "  VALUES (v_t_seq, ?, ?, ?, ?, ?, ?); " +
-                      "  INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx) " +
+                      "  INSERT INTO articles (idx, title, content, category, created_at, visitcnt, members_id, thumbnails_idx) " +
                       "  VALUES (v_a_seq, ?, ?, ?, ?, 0, ?, v_t_seq); " +
                       "  ? := v_a_seq; " +
                       "END;";
@@ -205,7 +205,7 @@ public class ArticlesDAO extends DBConnPool {
     public ArticlesDTO selectView(String idx, String memberId) {
         ArticlesDTO dto = new ArticlesDTO(); // DTO 객체 생성
         String query = ""
-                + "SELECT idx, title, content, category, created_at, visitcnt, members_id, thumnails_idx "
+                + "SELECT idx, title, content, category, created_at, visitcnt, members_id, thumbnails_idx "
                 + "FROM articles "
                 + "WHERE idx = ?";
         
@@ -341,7 +341,7 @@ public class ArticlesDAO extends DBConnPool {
                     // articles 테이블 업데이트 (새 썸네일 키 반영)
                     String updateArticleQuery = 
                         "UPDATE articles " +
-                        "SET title = ?, content = ?, category = ?, created_at = ?, thumnails_idx = ? " +
+                        "SET title = ?, content = ?, category = ?, created_at = ?, thumbnails_idx = ? " +
                         "WHERE idx = ?";
                     PreparedStatement pstmtArticle = con.prepareStatement(updateArticleQuery);
                     pstmtArticle.setString(1, dto.getTitle());
@@ -373,7 +373,7 @@ public class ArticlesDAO extends DBConnPool {
                         "      content = ?, " +
                         "      category = ?, " +
                         "      created_at = ?, " +
-                        "      thumnails_idx = ? " +
+                        "      thumbnails_idx = ? " +
                         "  WHERE idx = ?; " +
                         "END;";
                     CallableStatement cstmt = con.prepareCall(query);

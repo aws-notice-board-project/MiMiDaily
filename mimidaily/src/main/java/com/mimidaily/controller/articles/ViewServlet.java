@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mimidaily.dao.ArticlesDAO;
+import com.mimidaily.dao.CommentsDAO;
 import com.mimidaily.dao.MemberDAO;
 import com.mimidaily.dto.ArticlesDTO;
+import com.mimidaily.dto.CommentsDTO;
 import com.mimidaily.dto.MemberDTO;
 
 /**
@@ -39,18 +41,24 @@ public class ViewServlet extends HttpServlet {
 		ArticlesDAO aDao = new ArticlesDAO();
 		// 글쓴이(기자) 불러오기
 		MemberDAO mDao = new MemberDAO();
+		// 댓글 불러오기
+		CommentsDAO cDao = new CommentsDAO();
 		
         String idx = request.getParameter("idx");
         aDao.updateVisitCount(idx);  // 조회수 1 증가
         ArticlesDTO aDto = aDao.selectView(idx, memberId);
         List<ArticlesDTO> viewestList=aDao.viewestList(); // 실시간 관심기사 best4
+        List<CommentsDTO> commentsList=cDao.selectComments(aDto.getIdx()); // 댓글 목록
+        int commentCnt=cDao.commentsCount(aDto.getIdx()); //  댓글 갯수
         MemberDTO wDto = mDao.writer(aDto.getMembers_id()); // 글쓴이
         MemberDTO mDto = mDao.writer(aDto.getMembers_id()); // 현재 유저(수정필요)
         // 줄바꿈 처리
         aDto.setContent(aDto.getContent().replaceAll("\r\n", "<br/>"));
         
+        // 자원회수
         aDao.close();
         mDao.close();
+        cDao.close();
         
         //첨부파일 확장자 추출 및 이미지 타입 확인
         // String ext = null, fileName = dto.getSfile();
@@ -69,7 +77,9 @@ public class ViewServlet extends HttpServlet {
         request.setAttribute("writer", wDto); // 글쓴이
         request.setAttribute("member", mDto); // 현재 유저
         request.setAttribute("article", aDto);
-        request.setAttribute("viewestList", viewestList);
+        request.setAttribute("viewestList", viewestList); // 최신 기사
+        request.setAttribute("commentCnt", commentCnt); // 댓글 갯수
+        request.setAttribute("commentsList", commentsList); // 댓글 목록
         //request.setAttribute("isImage", isImage);
         request.getRequestDispatcher("/articles/view.jsp").forward(request, response);
 	}

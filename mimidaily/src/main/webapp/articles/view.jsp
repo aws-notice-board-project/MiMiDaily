@@ -108,7 +108,7 @@
 			        	<h3>댓글</h3>
 			        	<!-- forEach 댓글 목록 -->
 			        	<div class="comment">
-			        		<form method="post" action="comments.do">
+			        		<form class="comments_form" method="post" action="comments.do">
 				        		<div class="input_comment">
 					        		<c:choose>
 							            <c:when test="${member.profile_idx == 0||member.profile_idx == null}">
@@ -128,21 +128,29 @@
 				        		</div>
 			        		</form>
 			        		<div class="comments_list">
-			        		<!-- 반복문 -->
-			        			<div class="coment_cont">
-					        		<div class="profile_img">
-					        			<!-- <img src="" alt="댓글 작성자의 프로필사진" /> -->
-					        			<i class="fa-solid fa-circle-user none_profile"></i>
-					        		</div>
-					        		<div style="width: 100%;">
-						        		<div class="comt_context">
-						        			<p><strong>아이디</strong></p>
-						        			<p>작성시간</p>
-						        		</div>
-					        			<p>내용</p>
-					        		</div>
-			        			</div>
-			        			<!-- <div class="comt_btn">수정, 삭제</div> -->
+			        		<c:choose>
+			        			<c:when test="${ not empty commentsList }">
+					        		<c:forEach var="com" items="${ commentsList }">
+					        			<div class="coment_cont">
+							        		<div class="profile_img">
+							        			<!-- <img src="" alt="댓글 작성자의 프로필사진" /> -->
+							        			<i class="fa-solid fa-circle-user none_profile"></i>
+							        		</div>
+							        		<div style="width: 100%;">
+								        		<div class="comt_context">
+								        			<p><strong>${ com.members_id }</strong></p>
+								        			<p>${ com.formattedDate }</p>
+								        		</div>
+							        			<p>${ com.context }</p>
+							        		</div>
+					        			</div>
+					        			<!-- <div class="comt_btn">수정, 삭제</div> -->
+					        		</c:forEach>
+			        			</c:when>
+			        			<c:otherwise>
+			        				댓글이 없습니다.
+			        			</c:otherwise>
+			        		</c:choose>
 			        		</div>
 			        	</div>
 			        </div>

@@ -80,8 +80,8 @@ public class ArticlesDTO {
 	public Integer getThumbnails_idx() {
 		return thumbnails_idx;
 	}
-	public void setThumbnails_idx(Integer thumnails_idx) {
-		this.thumbnails_idx = thumnails_idx;
+	public void setThumbnails_idx(Integer thumbnails_idx) {
+		this.thumbnails_idx = thumbnails_idx;
 	}
 	public int getLikes() {
 		return likes;
