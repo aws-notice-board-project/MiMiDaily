@@ -63,7 +63,6 @@ public class WriteServlet extends HttpServlet {
             } catch (Exception e) {
                 System.out.println("파일 업로드 오류입니다.");
                 e.printStackTrace();
-                // 파일 업로드 오류가 발생해도 글은 작성되도록 처리할 수 있습니다.
                 originalFileName = "";
             }
         } else {
@@ -73,7 +72,6 @@ public class WriteServlet extends HttpServlet {
         // 2. 파일 업로드 외 처리 =============================
         // 폼값을 DTO에 저장
         ArticlesDTO dto = new ArticlesDTO();
-        // dto.setIdx(request.getParameter("idx"));
         dto.setTitle(request.getParameter("title"));
         dto.setContent(request.getParameter("content"));
         String categoryParam = request.getParameter("category");
@@ -81,17 +79,17 @@ public class WriteServlet extends HttpServlet {
             try {
                 dto.setCategory(Integer.parseInt(categoryParam));
             } catch (NumberFormatException e) {
-                dto.setCategory(1); // 기본값 예시
+                dto.setCategory(1);
             }
         } else {
-            dto.setCategory(1); // 기본값
+            dto.setCategory(1);
         }
 
         String createdAtParam = request.getParameter("created_at");
         if (createdAtParam != null && !createdAtParam.isEmpty()) {
             dto.setCreated_at(Timestamp.valueOf(createdAtParam));
         } else {
-            dto.setCreated_at(new Timestamp(System.currentTimeMillis())); // 기본값
+            dto.setCreated_at(new Timestamp(System.currentTimeMillis()));
         }
         dto.setMembers_id(request.getParameter("members_id"));
 

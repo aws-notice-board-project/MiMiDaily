@@ -48,7 +48,6 @@ export function deleteArticle() {
   // 각 버튼과 창 외부 클릭 시 처리할 이벤트 핸들러 정의
   function confirmHandler() {
     modal.style.display = 'none';
-    //alert('게시글이 삭제되었습니다.');
     removeModalListeners();
 
     document.getElementById("deleteForm").submit();

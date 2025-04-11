@@ -58,12 +58,9 @@ public class LoginServlet extends HttpServlet {
 		int role = 0;
 		int visitCnt = 0;
 		MemberDAO mDao = new MemberDAO(); 
-		// MemberDAO mDao = MemberDAO.getInstance(); 
 		int result = mDao.userCheck(userid, pwd);
 		if (result == 1) {// id,비밀번호가 일치할 때
-			//MemberDTO mVo = mDao.getMember(userid); /* 로그인할때마다 정보가져오는거 (굳이 로그인할때마다 정보를 다 가져온다? 별로같아서 주석 */
 			HttpSession session = request.getSession();
-			// session.setAttribute("loginUser", mVo);
 			memberInfo = mDao.getMemberInfo(userid);
 			visitCnt = mDao.incrementUserVisitCnt(userid); // 방문횟수 증가 및 값 가져오기
 			role = mDao.getUserRole(userid);

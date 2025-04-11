@@ -101,25 +101,17 @@ public class EditServlet extends HttpServlet {
         Part filePart = request.getPart("ofile");
         String originalFileName = "";
         
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println(thumb_idx);
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        
         if (thumb_idx != null && !thumb_idx.trim().isEmpty()) {
         	int thumbnailId = Integer.parseInt(thumb_idx.trim());
         	if (thumbnailId == 0) {
         		// thumb_idx가 0인 경우의 처리 ---> 기존에 이미지가 없다
-        		System.out.println("thumb_idx는 0입니다. ---> 기존에 이미지가 없다");
-        	
                 if (filePart != null && filePart.getSize() > 0) {
-                	System.out.println("---> 새로운 이미지 삽입");
                     //---> 새로운 이미지 삽입
                     try {
                         originalFileName = FileUtil.uploadFile(request, saveDirectory);
                     } catch (Exception e) {
                         System.out.println("파일 업로드 오류입니다.");
                         e.printStackTrace();
-                        // 파일 업로드 오류가 발생해도 글은 작성되도록 처리할 수 있습니다.
                         originalFileName = "";
                     }
                     if (originalFileName != "") { 
@@ -136,23 +128,18 @@ public class EditServlet extends HttpServlet {
                         dto.setFile_path("/uploads/");
                     }
                 } else {
-                	System.out.println("//---> 이미지 그대로 없음");
                     //---> 이미지 그대로 없음
-                    System.out.println("파일이 선택되지 않았습니다.");
+                    System.out.println("이미지 추가 없음");
                 } 
         	} else {
-        		System.out.println("// thumb_idx가 0이 아닌 경우의 처리 ---> 기존에 이미지가 있다");
         		// thumb_idx가 0이 아닌 경우의 처리 ---> 기존에 이미지가 있다
-        		System.out.println("thumb_idx는 0이 아닙니다. 값: " + thumbnailId);
                 if (filePart != null && filePart.getSize() > 0) {
-                	System.out.println(" //---> 기존에 이미지 수정");
                     //---> 기존에 이미지 수정
                     try {
                         originalFileName = FileUtil.uploadFile(request, saveDirectory);
                     } catch (Exception e) {
                         System.out.println("파일 업로드 오류입니다.");
                         e.printStackTrace();
-                        // 파일 업로드 오류가 발생해도 글은 작성되도록 처리할 수 있습니다.
                         originalFileName = "";
                     }
                     if (originalFileName != "") { 
@@ -172,7 +159,6 @@ public class EditServlet extends HttpServlet {
                         FileUtil.deleteFile(request, "/uploads", prevSfile);
                     }
                 } else {
-                	System.out.println(" //---> 기존에 이미지 그대로");
                     //---> 기존에 이미지 그대로
                     dto.setOfile(prevOfile);
                     dto.setSfile(prevSfile);
@@ -183,7 +169,6 @@ public class EditServlet extends HttpServlet {
         	}
         }
        
-
         // DAO를 통해 DB에 게시 내용 저장
         ArticlesDAO dao = new ArticlesDAO();
         int articleId = 0;
@@ -192,7 +177,6 @@ public class EditServlet extends HttpServlet {
         } else {
             articleId = dao.updatePost(dto, idx, thumb_idx);
         }
-
         
         // 글 작성 후 페이지 이동 처리
         String previousPage = (String) request.getSession().getAttribute("previousPage");
@@ -216,7 +200,6 @@ public class EditServlet extends HttpServlet {
         String hashtagStr = request.getParameter("hashtags");
         // 게시글 번호와 해시태그 문자열을 넘겨 해시태그 처리
         if (articleId > 0) {
-        	System.out.println("기사 수정 성공");
             dao.updateArticleHashtagsSelective(articleId, hashtagStr);
             response.sendRedirect("../articles/view.do?idx=" + idx+"&redirectURL="+lastPath);
         } else {
