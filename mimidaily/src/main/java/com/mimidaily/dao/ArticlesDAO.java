@@ -446,7 +446,7 @@ public class ArticlesDAO extends DBConnPool {
         return id;
     }
     
-    // 새로운 해시태그 삽입 후 생성된 idx 반환 (시퀀스 hashtags_seq가 있어야 함)
+    // 새로운 해시태그 삽입 후 생성된 idx 반환
     private int insertHashtag(String tag) {
         int id = 0;
         String sql = "INSERT INTO hashtags(idx, name) VALUES(hashtags_seq.nextval, ?)";
@@ -486,7 +486,6 @@ public class ArticlesDAO extends DBConnPool {
     //현재 기사 해시태그 목록 조회
     private Set<String> getCurrentHashtags(int articleId) {
         Set<String> currentTags = new HashSet<>();
-        // hashtags_articles 테이블의 컬럼 이름에 맞게 수정 (hr.hashtags_idx)
         String sql = "SELECT h.name FROM hashtags h " +
                      "JOIN hashtags_articles hr ON h.idx = hr.hashtags_idx " +
                      "WHERE hr.articles_idx = ?";
