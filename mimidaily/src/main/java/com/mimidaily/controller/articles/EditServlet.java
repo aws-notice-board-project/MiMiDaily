@@ -45,6 +45,8 @@ public class EditServlet extends HttpServlet {
 		ArticlesDTO dto = dao.selectView(idx, memberId);
 		request.setAttribute("dto", dto);
 		request.getRequestDispatcher("/articles/edit.jsp").forward(request, response);
+		String referer = request.getHeader("Referer"); // 이전 페이지
+		request.getSession().setAttribute("previousPage", referer); // 세션에 저장
     }
 
     /**
@@ -183,7 +185,6 @@ public class EditServlet extends HttpServlet {
        
 
         // DAO를 통해 DB에 게시 내용 저장
-
         ArticlesDAO dao = new ArticlesDAO();
         int articleId = 0;
         if (thumb_idx != null) {
@@ -192,13 +193,32 @@ public class EditServlet extends HttpServlet {
             articleId = dao.updatePost(dto, idx, thumb_idx);
         }
 
+        
+        // 글 작성 후 페이지 이동 처리
+        String previousPage = (String) request.getSession().getAttribute("previousPage");
+        System.out.println("previousPage = " + previousPage);
+
+        String lastPath = null;
+        if (previousPage != null) {
+            String[] redirectSplit = previousPage.split("redirectURL=");
+            if (redirectSplit.length > 1) {
+                String lastRedirect = redirectSplit[redirectSplit.length - 1];
+                int ampIndex = lastRedirect.indexOf("&");
+                lastPath = (ampIndex > -1) 
+                    ? lastRedirect.substring(0, ampIndex) 
+                    : lastRedirect;
+            } else {
+                String[] parts = previousPage.split("/");
+                lastPath = parts[parts.length - 1];
+            }
+        }
         // 해시태그 문자열은 "hashtags" 파라미터로 전달 (예: "#여행, #맛집, #공부")
         String hashtagStr = request.getParameter("hashtags");
         // 게시글 번호와 해시태그 문자열을 넘겨 해시태그 처리
         if (articleId > 0) {
         	System.out.println("기사 수정 성공");
             dao.updateArticleHashtagsSelective(articleId, hashtagStr);
-            response.sendRedirect("../articles/view.do?idx=" + idx);
+            response.sendRedirect("../articles/view.do?idx=" + idx+"&redirectURL="+lastPath);
         } else {
             System.out.println("기사 수정 실패");
         }
