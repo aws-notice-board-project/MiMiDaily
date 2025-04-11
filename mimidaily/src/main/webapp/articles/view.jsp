@@ -50,7 +50,7 @@
 	<div class="view_container">
 		<c:if test="${ sessionScope.loginUser==article.members_id || sessionScope.userRole==0 }">
 			<div class="ud_btn">
-	            <button class="btn" type="button" onclick="location.href='../articles/edit.do?mode=edit&idx=${ param.idx }&thumb_idx=${ article.thumbnails_idx }';">
+	            <button class="btn" type="button" onclick="location.href='../articles/edit.do?mode=edit&idx=${ param.idx }&thumb_idx=${ article.thumbnails_idx }&redirectURL=${ redirectURL }';">
 	                수정하기
 	            </button>
 	            <button class="btn" type="button" onclick="deleteArticle()">
