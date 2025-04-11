@@ -1,8 +1,16 @@
-$(window).on('load', function() {
-  const ov = $('#loading_overlay');
-  if (ov) {
+function hideLoadingOverlay() {
+  const ov = $('#loading-overlay');
+  if (ov.length) {
     ov.css('display', 'none');
-  };
+  } else {
+    // 없으면 다시 시도
+    setTimeout(hideLoadingOverlay, 100);
+  }
+}
+
+// jsp include가 load를 꼬이게 
+$(window).on('load', function() {
+  hideLoadingOverlay();
 });
 
 $(document).ready(function() {
