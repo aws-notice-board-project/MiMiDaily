@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
+
 import com.mimidaily.dao.ArticlesDAO;
 import com.mimidaily.dto.ArticlesDTO;
 import com.mimidaily.utils.FileUtil;
@@ -19,7 +21,7 @@ import com.mimidaily.utils.FileUtil;
  * Servlet implementation class WriteServlet
  */
 @WebServlet("/articles/write.do")
-@MultipartConfig(maxFileSize = 1024 * 1024 * 1, // 파일업로드할때 최대 사이즈
+@MultipartConfig(maxFileSize = 1024 * 1024 * 3, // 파일업로드할때 최대 사이즈
         maxRequestSize = 1024 * 1024 * 10 // 여러개의 파일 업로드할때 총합 사이즈
 )
 public class WriteServlet extends HttpServlet {
@@ -55,7 +57,13 @@ public class WriteServlet extends HttpServlet {
         String saveDirectory = request.getServletContext().getRealPath("/uploads");
 
         // 파일 업로드
-        Part filePart = request.getPart("ofile");
+        Part filePart = null;
+        try {
+            filePart = request.getPart("ofile");
+        } catch (IllegalStateException | FileSizeLimitExceededException ex) {
+            request.setAttribute("errorMsg", "업로드 가능한 파일 크기는 최대 3MB입니다.");
+            request.getRequestDispatcher("/main.do").forward(request, response);
+        }
         String originalFileName = "";
         if (filePart != null && filePart.getSize() > 0) {
             try {
