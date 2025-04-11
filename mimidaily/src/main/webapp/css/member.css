@@ -33,7 +33,14 @@ form {
 	justify-content: center;
 }
 .member_box#profile {
+	background: none;
+	box-shadow: none;
 	width: 250px;
+}
+.member_box#profile i,
+.member_box#profile img {
+	font-size: 150px;
+	text-align: center;
 }
 input {
 	border: none;
@@ -65,10 +72,11 @@ input[type="checkbox"] {
 	width: 65%;
 }
 input[name="birth"] {
-	width: 250px;
+	width: 40%;
 }
 input[name="gender_code"] {
-	width: 30px;
+	width: 6%;
+	margin-right: 0;
 }
 .member_btn {
 	background: var(--mimiDark);
@@ -84,9 +92,16 @@ input[name="gender_code"] {
 	height: 100%;
 	cursor: pointer;
 }
-#birth_gender .xnumber {
+#birth_gender {
+	display: flex;
+	align-items: center;
+}
+#birth_gender .xnumber { 
 	background: var(--mimiDark);
-	width: 7%;
+	width: 6%;
+	height: 25px;
+	margin-left: 6px;
+	display: inline-block;
 }
 /* 모달 스타일 */
 .modal {
@@ -126,7 +141,7 @@ input[name="gender_code"] {
 .close:focus {
 	cursor: pointer;
 }
-#agree_modal_btn1, #agree_modal_btn2, #agree_modal_btn3 {
+#agree_modal_btn1, #agree_modal_btn2, #agree_modal_btn3, #marketing_agree_modal_btn {
 	border: none;
 	background: var(--mimiContainer);
 	color: var(--mimiDark);
@@ -156,9 +171,19 @@ input:disabled {
 
 @media screen and (max-width: 568px) {
 	.member_box{width: 80%;min-width:320px}
+	.member_box#profile {
+	width: 150px;
+	}
+	.member_box#profile i,
+	.member_box#profile img {
+	font-size: 100px;
+	}
 	.member_btn{width: 240px;height: 68px;}
 	#join input[name="id"], 
 	#join input[name="code"] {
 		width: 60%;
+	}
+	#birth_gender .xnumber { 
+	margin-left: 3px;
 	}
 }
