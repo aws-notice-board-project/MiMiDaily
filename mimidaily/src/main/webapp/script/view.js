@@ -45,10 +45,12 @@ export function toggleLike(articleIdx) {
   });
 }
 
+
 // 댓글 작성
 export	function insertComment(memberId, articleIdx) {
-	// 유효성 검사 
-	
+  // 유효성 검사 
+  const cnt = $('textarea#comment').val().length;
+  if(cnt<500){
 	  $.ajax({
 	    url: '/comments.do',
 	    method: 'post',
@@ -64,14 +66,14 @@ export	function insertComment(memberId, articleIdx) {
 	      const commentList = $('.comments_list');
 	      
 	      let profileHtml = '';
-
+	
 	      // if(parseInt(profileIdx) == 0 || profileIdx == null){
 	      if(res){
 	          profileHtml = `<i class="fa-solid fa-circle-user none_profile"></i>`;
 	      }else{
 	          profileHtml = `<div class="profile_img"><img src="" alt="내 프로필 이미지"></div>`;
 	      }
-
+	
 	      let newComment = `
 		  <div class="comment_box">
 	        <div class="coment_cont">
@@ -81,7 +83,7 @@ export	function insertComment(memberId, articleIdx) {
 	          <div style="width: 90%;">
 	            <div class="comt_context">
 	              <p><strong>${memberId}</strong></p>
-	              <p>방금 전</p>
+	              <p class="comt_date">방금 전</p>
 	            </div>
 	            <p>${context}</p>
 	          </div>
@@ -89,12 +91,12 @@ export	function insertComment(memberId, articleIdx) {
 			<div class="comt_btn">수정, 삭제</div>
 		  </div>
 	      `;
-        console.log(newComment);
-        
-        if($('.comments_list').text().includes('댓글이 없습니다.')){
-          $('.comments_list').empty(); // 댓글이 없을 때 비우기
-        }
-
+	    console.log(newComment);
+	    
+	    if($('.comments_list').text().includes('댓글이 없습니다.')){
+	      $('.comments_list').empty(); // 댓글이 없을 때 비우기
+	    }
+	
 	      commentList.prepend(newComment);
 	      $('#comment').val(''); // 입력 필드 초기화
 	    },
@@ -103,7 +105,10 @@ export	function insertComment(memberId, articleIdx) {
 			console.log('Error :', e);
 		}
 	  })
-	};
+  }else{
+	console.warn("댓글 500자 이상 작성 불가");
+  }
+};
 
 export function deleteArticle() {
   var modal = document.getElementById('deleteModal');

@@ -38,6 +38,7 @@ public class CommentsDAO extends DBConnPool {
 				dto.setCreated_at(rs.getTimestamp("created_at"));
 				dto.setMembers_id(rs.getString("members_id"));
 				dto.setArticles_idx(rs.getInt("articles_idx"));
+				dto.setIs_sameday(dto.isSameDay());
 				// 추후 프로필 연결
 				
 				comments.add(dto);
@@ -52,9 +53,8 @@ public class CommentsDAO extends DBConnPool {
 	public CommentsDTO insertComments(CommentsDTO dto) {
 		CommentsDTO insertComment=new CommentsDTO();
 		int result=0;
-		String query="INSERT INTO comments (idx, context, created_at, members_id, articles_idx) "
-					+"VALUES (comments_seq.NEXTVAL, ?, SYSTIMESTAMP, ?, ?)";
-					
+		String query = "INSERT INTO comments (idx, context, created_at, members_id, articles_idx) "
+	             + "VALUES (comments_seq.NEXTVAL, ?, CURRENT_TIMESTAMP, ?, ?)";		
 		try {
 			psmt=con.prepareStatement(query);
 			psmt.setString(1, dto.getContext());

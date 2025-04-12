@@ -108,13 +108,17 @@
 .comments .input_comment i.none_profile {color:#594543;margin-right:1rem;}
 .comments .comment #comment{width:90%;height:72px;background-color: #f5f2f2;border-radius: 4px;padding: 2px 4px;border-color: #cbc2c2;resize: none;}
 .comments .comment #comment:focus{border: 2px solid;outline: none;}
-.comment_btn {background-color:#594543;color:#f7f5f5;}
+.comt_cnt_box{text-align:end;}
+.comt_cnt_box span{color:#8C7B7B; font-size:14px;}
+.comment_btn {background-color:#594543;color:#f7f5f5;margin-left:0.5rem;}
 .comments_list {background-color: #F0ECEC;padding:1rem;padding: 0 1rem;}
 .coment_cont{display: flex;align-items:center;}
 .comt_content {width: 100%;overflow-x: hidden;}
 .comment_box{border-bottom: 1px solid #e1dada; padding: 1rem 0;}
 .coment_cont .profile_img{line-height: 54px;margin-right:0.5rem;}
 .comt_context {display: flex;justify-content:space-between;width:100%;}
+.comt_context strong{font-size: 18px;}
+.comt_date {color:#8C7B7B; font-size:14px;}
 .coment_cont i.none_profile{font-size: 32px;}
 .comt_btn {text-align:end;}
 
