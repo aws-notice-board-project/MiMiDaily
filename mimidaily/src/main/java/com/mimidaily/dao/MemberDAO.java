@@ -214,8 +214,8 @@ public class MemberDAO extends DBConnPool {
 			return result;
 		}
 		
-		// 글쓴이 정보 가져오기
-		public MemberDTO writer(String member_id) {
+		//특정 유저 정보 가져오기
+		public MemberDTO userInfo(String member_id) {
 			MemberDTO mDto = null;
 		    String query = "SELECT id, name, email, role FROM members WHERE id = ?"; // 필요한 컬럼 선택
 

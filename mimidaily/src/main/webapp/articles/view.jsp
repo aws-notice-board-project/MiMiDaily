@@ -53,9 +53,9 @@
 		<div class="view_detail">
 			<div class="view_box cont">
 		        <div class="view_top">
-		            <h2><span>${ article.idx }</span> ${ article.title }</h2>
+		            <h2><span id="article_idx">${ article.idx }</span> ${ article.title }</h2>
 		            <div class="view_top_info">
-		                <span><b>작성일</b> ${fn:substring(article.created_at, 0, 10)}</span>
+		                <span><b>작성일</b> ${ article.formattedDate }</span>
 		                <span><b>조회수</b> ${ article.visitcnt }</span>
 		            </div>
 		        </div>
@@ -96,82 +96,10 @@
 							</a>
 				        </div>
 					</div>
-			        
-			        <div class="comments">
-			        	<h3>댓글</h3>
-			        	<div class="comment">
-			        		<div class="comments_form">
-				        		<c:choose>
-				            		<c:when test="${empty sessionScope.loginUser}">
-				            			로그인 후 댓글을 작성할 수 있습니다.
-				            		</c:when>
-				            		<c:otherwise>
-					        			<!-- 댓글 작성 -->
-						        		<div class="input_comment">
-							        		<c:choose>
-									            <c:when test="${member.profile_idx == 0||member.profile_idx == null}">
-										             <i class="fa-solid fa-circle-user none_profile"></i>
-												</c:when>
-									            <c:otherwise>
-									            	이미지 있음
-										            <%-- <div class="profile_img">
-														<img src="${pageContext.request.contextPath}${member.file_path}${member.sfile}" alt="${sessionScope.loginUser}의 썸네일">
-										            </div> --%>
-									            </c:otherwise>
-									        </c:choose>
-							        		<textarea rows="4" cols="50" id="comment" autocomplete="off"></textarea>
-						        		</div>
-						        		<div class="comt_cnt_box">
-						        			<span class="comt_cnt">0</span><span>/500</span>
-							        		<button class="comment_btn btn" type="button" onclick="insertComment('${member.id}',${article.idx})">댓글 작성</button>
-						        		</div>
-				            		</c:otherwise>
-				            	</c:choose>
-			        		</div>
-			        		<div class="comments_list">
-			        		<c:choose>
-			        			<c:when test="${ not empty commentsList }">
-					        		<c:forEach var="com" items="${ commentsList }">
-					        			<div class="comment_box" data-comment-idx="${ com.idx }">
-					        				<div class="coment_cont">
-								        		<div class="profile_img">
-								        		<c:choose>
-								        			<c:when test="${article.idx>0}">
-								        			<%-- <c:when test="${com.profile_idx == 0||com.profile_idx == null}"> --%>
-									        			<i class="fa-solid fa-circle-user none_profile"></i>
-								        			</c:when>
-								        			<c:otherwise>
-								        				이미지 있음
-								        				<%-- <div class="profile_img">
-															<img src="${pageContext.request.contextPath}${com.file_path}${com.sfile}" alt="${com.members_id}의 썸네일">
-											            </div> --%>
-								        			</c:otherwise>
-								        		</c:choose>
-								        		</div>
-								        		<div style="width: 90%;">
-									        		<div class="comt_context">
-									        			<p><strong>${ com.members_id }</strong><c:if test="${ com.is_updated }"><span class="is_updated">(수정됨)</span></c:if></p>
-									        			<p class="comt_date">${ com.is_sameday? com.timeAgo:com.formattedDate }</p>
-									        		</div>
-								        			<p class="comt_content">${ com.context }</p>
-								        		</div>
-						        			</div>
-						        			<div class="comt_btn">
-						        				<button onclick="updateComment(${com.idx})">수정</button>
-						        				<button onclick="deleteComment(${com.idx})">삭제</button>
-						        			</div>
-					        				</div>
-					        		</c:forEach>
-			        			</c:when>
-			        			<c:otherwise>
-			        				<div class="no_comt">
-			        					댓글이 없습니다.
-			        				</div>
-			        			</c:otherwise>
-			        		</c:choose>
-			        		</div>
-			        	</div>
-			        </div>
+					<div class="comments_container">
+						<!-- /절대경로 대신 상대경로 (/없는)를 사용해야 부모 값을 전달받을 수 있음 -->				
+						<jsp:include page="/components/comments.jsp"></jsp:include>
+					</div>
 		        </div>
 			</div>
 			<div class="comts_likes">
@@ -238,15 +166,10 @@
 <jsp:include page="/components/footer.jsp"></jsp:include>
 
 <script type="module" defer>
-    import { loginAlert, toggleLike , deleteArticle, insertComment, deleteComment, updateComment, confirmUpdate, cancelUpdate } from '/script/view.js';
+    import { loginAlert, toggleLike , deleteArticle } from '/script/view.js';
     window.loginAlert = loginAlert;
     window.toggleLike = toggleLike;
 	window.deleteArticle = deleteArticle;
-	window.insertComment = insertComment;
-	window.deleteComment = deleteComment;
-	window.updateComment = updateComment;
-	window.confirmUpdate = confirmUpdate;
-	window.cancelUpdate = cancelUpdate;
 </script>
 <script>
 	const isLiked = ${article.is_liked};
@@ -262,25 +185,6 @@
 			$('.view_container .likes i').css('color', '#594543');
 		}
 	}
-	
-	// 댓글 위치로 이동
-	const commentTop = $('.view_bottom .comments').offset().top;
-	$('.comments.cont').on('click', function(){
-		$('html, body').animate({ scrollTop: commentTop-110 }, 500);		
-	});
-	
-	// 댓글 500자 제한
-	const $comment = $('textarea#comment'); // 제이쿼리 변수앞에 $를 붙여서 제이쿼리 변수라는 것을 가독성 높여줌 
-	const comcnt =  $('.comt_cnt');
-	$comment.on('input', function(){
-		const val = $comment.val();
-		comcnt.text(val.length);
-		if(val.length > 499){
-			alert('댓글은 500자 이내로 작성해주세요.');
-			$comment.val(val.substring(0, 499));
-		}
-	});
- 	
 </script>
 </body>
 </html>

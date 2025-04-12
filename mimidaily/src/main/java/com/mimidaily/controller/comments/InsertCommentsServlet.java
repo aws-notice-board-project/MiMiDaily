@@ -17,14 +17,14 @@ import com.mimidaily.dto.MemberDTO;
 /**
  * Servlet implementation class CommentServlet
  */
-@WebServlet("/comments.do")
-public class CommentsServlet extends HttpServlet {
+@WebServlet("/comments/insert.do")
+public class InsertCommentsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CommentsServlet() {
+    public InsertCommentsServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

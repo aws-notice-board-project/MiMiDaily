@@ -37,22 +37,17 @@ public class ViewServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String memberId = (String) request.getSession().getAttribute("loginUser");
         String redirectURL = request.getParameter("redirectURL");
-		// 게시물 불러오기
+		// 게시물
 		ArticlesDAO aDao = new ArticlesDAO();
-		// 글쓴이(기자) 불러오기
+		// 글쓴이(기자)
 		MemberDAO mDao = new MemberDAO();
-		// 댓글
-		CommentsDAO cDao = new CommentsDAO();
-		CommentsDTO cDto = new CommentsDTO();
 		
         String idx = request.getParameter("idx");
         aDao.updateVisitCount(idx);  // 조회수 1 증가
         ArticlesDTO aDto = aDao.selectView(idx, memberId); // 게시글 불러오기
         List<ArticlesDTO> viewestList=aDao.viewestList(); // 실시간 관심기사 best4
-        List<CommentsDTO> commentsList=cDao.selectComments(aDto.getIdx()); // 댓글 목록
-        int commentCnt=cDao.commentsCount(aDto.getIdx()); //  댓글 갯수
-        MemberDTO wDto = mDao.writer(aDto.getMembers_id()); // 글쓴이
-        MemberDTO mDto = mDao.writer(memberId); // 현재 유저(수정필요/프로필사진)
+        MemberDTO wDto = mDao.userInfo(aDto.getMembers_id()); // 글쓴이 정보
+        
 
         // 줄바꿈 처리
         aDto.setContent(aDto.getContent().replaceAll("\r\n", "<br/>"));
@@ -60,7 +55,6 @@ public class ViewServlet extends HttpServlet {
         // 자원회수
         aDao.close();
         mDao.close();
-        cDao.close();
         
         //첨부파일 확장자 추출 및 이미지 타입 확인
         // String ext = null, fileName = dto.getSfile();
@@ -76,12 +70,9 @@ public class ViewServlet extends HttpServlet {
         
         request.setAttribute("redirectURL", redirectURL);
         // 게시물(dto) 저장 후 뷰로 포워드
-        request.setAttribute("writer", wDto); // 글쓴이
-        request.setAttribute("article", aDto);
+        request.setAttribute("writer", wDto); // 글쓴이 정보
+        request.setAttribute("article", aDto); // 게시글 정보
         request.setAttribute("viewestList", viewestList); // 최신 기사
-        request.setAttribute("commentCnt", commentCnt); // 댓글 갯수
-        request.setAttribute("commentsList", commentsList); // 댓글 목록
-        request.setAttribute("member", mDto); // 현재 유저
         //request.setAttribute("isImage", isImage);
         request.getRequestDispatcher("/articles/view.jsp").forward(request, response);
 	}

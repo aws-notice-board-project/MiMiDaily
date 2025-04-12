@@ -3,6 +3,28 @@ export function loginAlert() {
   window.location.href = '/login.do';
 }
 
+// 댓글 위치로 이동
+function commentTop(){
+  $('.comments.cont').on('click', function(){
+    const commentTop = $('.view_bottom .comments').offset().top;	
+	$('html, body').animate({ scrollTop: commentTop-110 }, 500);		
+  });	
+}
+
+// 댓글 500자 제한
+function commentWord(){
+  const comment = $('textarea#comment');
+  const comcnt =  $('.comt_cnt');
+  comment.on('input', function(){
+    const val = comment.val();
+    comcnt.text(val.length);
+	  if(val.length > 499){
+  	    alert('댓글은 500자 이내로 작성해주세요.');
+        comment.val(val.substring(0, 499));
+	  }
+  });	
+}
+
 // 좋아요 비동기 처리
 export function toggleLike(articleIdx) {
   $.ajax({
@@ -45,14 +67,19 @@ export function toggleLike(articleIdx) {
   });
 }
 
-
+let alreadyExecuted = false; // 글자 갯수에 따라 옵저버 발생량 증가하므로 최적화 
 // 댓글 작성 비동기 처리
 export	function insertComment(memberId, articleIdx) {
+  alreadyExecuted=false;
   // 유효성 검사 
   const cnt = $('textarea#comment').val().length;
+  if(!cnt){
+	alert('입력된 값이 없습니다.');
+	return;
+  }
   if(cnt<500){
 	  $.ajax({
-	    url: '/comments.do',
+	    url: '/comments/insert.do',
 	    method: 'post',
 	    data: {
 	      comment: $('#comment').val(),
@@ -80,7 +107,7 @@ export	function insertComment(memberId, articleIdx) {
           <div class="profile_img">
             ${profileHtml}
           </div>
-          <div style="width: 90%;">
+          <div class="content_box">
             <div class="comt_context">
               <p><strong>${memberId}</strong><span class="is_updated"></span></p>
               <p class="comt_date">방금 전</p>
@@ -103,8 +130,8 @@ export	function insertComment(memberId, articleIdx) {
 	      $('#comment').val(''); // 입력 필드 초기화
 	    },
 		error:function(e){
-	    console.warn('댓글 추가에 실패');
-			console.log('Error :', e);
+	      console.warn('댓글 추가 실패');
+		  console.log('Error :', e);
 		}
 	  })
   }else{
@@ -113,7 +140,15 @@ export	function insertComment(memberId, articleIdx) {
 };
 
 // 댓글 수정 비동기 처리
+let isEditing = false; // 중복 수정 불가 
 export function updateComment(commentIdx) {
+  if (isEditing) {
+    alert("다른 댓글을 수정 중입니다.");
+    return;
+  }
+
+  isEditing = true; // 수정 시작
+	
   const commentBox = $(`.comment_box[data-comment-idx="${commentIdx}"]`);
   const commentText = commentBox.find('.comt_content'); // 댓글 내용 부분
   const originalText = commentText.text().trim(); // 원래 댓글 내용
@@ -123,15 +158,32 @@ export function updateComment(commentIdx) {
 
   // 버튼 변경
   const buttonHtml = `
+    <span class="updated_cnt"><span class="cnt">0</span>/500</span>
     <button onclick="confirmUpdate(${commentIdx})">확인</button>
     <button onclick="cancelUpdate(${commentIdx}, '${originalText}')">취소</button>
   `;
   commentBox.find('.comt_btn').html(buttonHtml);
+  
+  const updated = $('textarea#update_comment');
+  const updatedComcnt = $('.updated_cnt>.cnt ');
+  updatedComcnt.text(originalText.length);
+  updated.on('input', function(){
+  	const val = updated.val();
+      updatedComcnt.text(val.length);
+  	  if(val.length > 499){
+    	  alert('댓글은 500자 이내로 작성해주세요.');
+          updated.val(val.substring(0, 499));
+  	  }
+    });
 }
 // 댓글 수정 확인 비동기 처리
 export function confirmUpdate(commentIdx) {
   const commentBox = $(`.comment_box[data-comment-idx="${commentIdx}"]`);
-  const updatedText = commentBox.find('#update_comment').val(); // 수정된 댓글 내용
+  const updatedText = commentBox.find('#update_comment').val();
+  if(!updatedText){
+	alert('입력된 값이 없습니다.');
+	return;
+  }
   $.ajax({
     url: '/comments/update.do',
     method: 'post',
@@ -141,17 +193,8 @@ export function confirmUpdate(commentIdx) {
     },
     success: function (res) {
       if (res) {
-        // 성공적으로 수정된 경우
-        const commentText = commentBox.find('.comt_content');
-        commentText.html(updatedText); // 수정된 댓글 내용으로 업데이트
-		$('span.is_updated').text('(수정됨)');
-
-        // 버튼 변경
-        const buttonHtml = `
-          <button onclick="updateComment(${commentIdx})">수정</button>
-          <button onclick="deleteComment(${commentIdx})">삭제</button>
-        `;
-        commentBox.find('.comt_btn').html(buttonHtml);
+        reloadComments(); // 댓글 전체 다시 불러오기
+        isEditing = false;
       } else {
         console.warn('댓글 수정에 실패했습니다.');
       }
@@ -159,10 +202,28 @@ export function confirmUpdate(commentIdx) {
     error: function (e) {
       console.error('Error:', e);
     }
+  });	
+  
+}
+
+// 댓글 조회 리랜더링
+function reloadComments() {
+  const articleIdx = $('#article_idx').text().trim();
+  $.ajax({
+    url: '/comments/list.do',
+    method: 'get',
+    data: { articleIdx: articleIdx },
+    success: function (html) {
+      $('.comments_container').html(html); // JSP에서 렌더링된 댓글 HTML 조각
+    },
+    error: function (e) {
+      console.error('댓글 목록 불러오기 실패:', e);
+    }
   });
 }
 // 댓글 수정 취소 비동기 처리
 export function cancelUpdate(commentIdx, originalText) {
+  isEditing = false; // 수정 상태 해제
   const commentBox = $(`.comment_box[data-comment-idx="${commentIdx}"]`);
   const commentText = commentBox.find('.comt_content');
 
@@ -179,6 +240,7 @@ export function cancelUpdate(commentIdx, originalText) {
 
 // 댓글 삭제 비동기 처리
 export function deleteComment(commentIdx){
+  alreadyExecuted=false;
   if(confirm('댓글을 삭제하시겠습니까?')){
     $.ajax({
       url: '/comments/delete.do',
@@ -244,12 +306,12 @@ export function deleteArticle() {
 
 $(document).ready(function() {
   // MutationObserver: 요소 추가 제거반응 
-  let alreadyExecuted = false; // 글자 갯수에 따라 옵저버 발생량 증가하므로 최적화 
   let observer = new MutationObserver(function (mutations) {
 	if (alreadyExecuted) return; // 한 번만 실행
+	console.log('옵저버 발생');
 	alreadyExecuted = true;
     
-	let contentHeight = $('.view_box').height();
+	contentHeight = $('.view_box').height();
     $('aside.news_right').css('height', contentHeight + 200);
   });
 
@@ -259,7 +321,10 @@ $(document).ready(function() {
     // subtree: true // 자식의 자식도 감지
   });
 
-  // 초기 높이 설정
-  let contentHeight = $('.view_box').height();
-  $('aside.news_right').css('height', contentHeight + 200);
+  // 댓글 불러오기
+  reloadComments();
+
+  // 필요 함수 로드
+  commentTop();
+  commentWord();
 });
