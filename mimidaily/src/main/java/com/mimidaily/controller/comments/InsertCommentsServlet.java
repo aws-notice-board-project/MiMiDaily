@@ -17,14 +17,14 @@ import com.mimidaily.dto.MemberDTO;
 /**
  * Servlet implementation class CommentServlet
  */
-@WebServlet("/comments.do")
-public class CommentServlet extends HttpServlet {
+@WebServlet("/comments/insert.do")
+public class InsertCommentsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CommentServlet() {
+    public InsertCommentsServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -65,7 +65,22 @@ public class CommentServlet extends HttpServlet {
         cDao.close();
         request.setAttribute("insertedComment", insertedComment); // 생성된 댓글
         
-        response.getWriter().print("성공");
+        // response.getWriter().print("성공");
+        // 응답 설정
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        // JSON 문자열 수동 생성
+        String jsonResponse = 
+            "{" +
+            "\"idx\":" + insertedComment.getIdx() + "," +
+            "\"context\":\"" + insertedComment.getContext().replace("\"", "\\\"") + "\"," +
+            "\"members_id\":\"" + insertedComment.getMembers_id() + "\"," +
+            "\"articles_idx\":" + insertedComment.getArticles_idx() +
+            "}";
+
+        // 클라이언트에 응답 전송
+        response.getWriter().print(jsonResponse);
 	}
 
 }
