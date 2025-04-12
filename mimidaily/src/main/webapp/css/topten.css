@@ -81,9 +81,7 @@
 	height: 40%;
 	overflow: hidden;
 	white-space: nowrap;
-	display: flex;
-	justify-content: flex-start;
-	align-items:center;
+	position: relative;
 }
 #news_container .news_title p span {
 	background: var(--mimiLight);
