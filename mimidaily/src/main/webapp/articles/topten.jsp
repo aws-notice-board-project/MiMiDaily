@@ -9,6 +9,7 @@
 <title>Top 10</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/topten.css">
+<script src="${pageContext.request.contextPath}/script/topten.js"></script>
 </head>
 <body>
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
