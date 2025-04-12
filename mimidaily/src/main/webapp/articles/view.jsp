@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" errorPage="/components/error.jsp"%>
+    pageEncoding="UTF-8" %>
+   <!--  errorPage="/components/error.jsp" -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
@@ -127,7 +128,8 @@
 									        </c:choose>
 							        		<textarea rows="4" cols="50" id="comment" autocomplete="off"></textarea>
 						        		</div>
-						        		<div style="text-align:end;">
+						        		<div class="comt_cnt_box">
+						        			<span class="comt_cnt">0</span><span>/500</span>
 							        		<button class="comment_btn btn" type="button" onclick="insertComment('${member.id}',${article.idx})">댓글 작성</button>
 						        		</div>
 				            		</c:otherwise>
@@ -156,7 +158,7 @@
 								        		<div style="width: 90%;">
 									        		<div class="comt_context">
 									        			<p><strong>${ com.members_id }</strong></p>
-									        			<p>${ isSameDay? com.timeAgo:com.formattedDate }</p>
+									        			<p class="comt_date">${ com.is_sameday? com.timeAgo:com.formattedDate }</p>
 									        		</div>
 								        			<p class="comt_content">${ com.context }</p>
 								        		</div>
@@ -259,12 +261,14 @@
 	});
 	
 	// 댓글 500자 제한
-	const comment = $('textarea#comment').val();
-	comment.on('change', function(){
-		console.log(comment.length);
-		if(comment.length > 500){
+	const $comment = $('textarea#comment');
+	const comcnt =  $('.comt_cnt');
+	$comment.on('input', function(){
+		const val = $comment.val();
+		comcnt.text(val.length);
+		if(val.length > 499){
 			alert('댓글은 500자 이내로 작성해주세요.');
-			comment.val(comment.substring(0, 500));
+			$comment.val(val.substring(0, 499));
 		}
 	});
  	

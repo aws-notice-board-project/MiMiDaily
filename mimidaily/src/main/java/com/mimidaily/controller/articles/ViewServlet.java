@@ -50,7 +50,6 @@ public class ViewServlet extends HttpServlet {
         ArticlesDTO aDto = aDao.selectView(idx, memberId); // 게시글 불러오기
         List<ArticlesDTO> viewestList=aDao.viewestList(); // 실시간 관심기사 best4
         List<CommentsDTO> commentsList=cDao.selectComments(aDto.getIdx()); // 댓글 목록
-        boolean isSameDay = cDto.isSameDay(); // 댓글 생성시간을 현재 시간과 비교
         int commentCnt=cDao.commentsCount(aDto.getIdx()); //  댓글 갯수
         MemberDTO wDto = mDao.writer(aDto.getMembers_id()); // 글쓴이
         MemberDTO mDto = mDao.writer(memberId); // 현재 유저(수정필요/프로필사진)
@@ -82,7 +81,6 @@ public class ViewServlet extends HttpServlet {
         request.setAttribute("viewestList", viewestList); // 최신 기사
         request.setAttribute("commentCnt", commentCnt); // 댓글 갯수
         request.setAttribute("commentsList", commentsList); // 댓글 목록
-        request.setAttribute("isSameDay", isSameDay); // 댓글 목록
         request.setAttribute("member", mDto); // 현재 유저
         //request.setAttribute("isImage", isImage);
         request.getRequestDispatcher("/articles/view.jsp").forward(request, response);
