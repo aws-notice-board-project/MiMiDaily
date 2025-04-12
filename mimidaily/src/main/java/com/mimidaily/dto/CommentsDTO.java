@@ -2,9 +2,6 @@ package com.mimidaily.dto;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Date;
 
 public class CommentsDTO {
@@ -53,17 +50,10 @@ public class CommentsDTO {
             return null;
         }
 
-        // UTC → Asia/Seoul 변환
-        ZonedDateTime createdAtKST = created_at.toInstant().atZone(ZoneId.of("Asia/Seoul"));
-        ZonedDateTime nowKST = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
-
-        Duration duration = Duration.between(createdAtKST, nowKST);
-        long diffInMinutes = duration.toMinutes();
-        long diffInHours = duration.toHours();
-
-        System.out.println("createdAtKST: " + createdAtKST);
-        System.out.println("nowKST: " + nowKST);
-        System.out.println("차이 (시간): " + diffInHours + ", (분): " + diffInMinutes);
+        long diffInMillis = new Date().getTime() - created_at.getTime();
+        long diffInSeconds = diffInMillis / 1000;
+        long diffInMinutes = diffInSeconds / 60;
+        long diffInHours = diffInMinutes / 60;
 
         if (diffInHours > 0) {
             return diffInHours + "시간 전";
@@ -73,7 +63,6 @@ public class CommentsDTO {
             return "방금 전";
         }
     }
-    
     // 현재 날짜와 비교하여 같은 날인지 확인
     public boolean isSameDay() {
         if (created_at == null) {
