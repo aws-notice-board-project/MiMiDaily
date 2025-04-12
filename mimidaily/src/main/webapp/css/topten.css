@@ -18,7 +18,7 @@
 	/* background: var(--mimiDark); */
 	border-radius: 12px;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-	height: 35vh;
+	/* height: 35vh; */
 	padding: 0.5rem;
 	display: flex;
 	flex-direction: column;
@@ -81,9 +81,7 @@
 	height: 40%;
 	overflow: hidden;
 	white-space: nowrap;
-	display: flex;
-	justify-content: flex-start;
-	align-items:center;
+	position: relative;
 }
 #news_container .news_title p span {
 	background: var(--mimiLight);
