@@ -102,7 +102,7 @@
 .journalist_info .writer_email:hover{border-bottom:1px solid;}
 
 /* 댓글 */
-.comments .comments_form {padding:1rem 1.5rem;margin-top:1rem;}
+.comments .comments_form {padding:1rem 1.5rem;margin:1rem 0;}
 .comments h3 {font-size:20px;border-bottom: 1px solid rgb(188, 177, 177);padding:1rem;}
 .comments .input_comment {display:flex; justify-content:space-between;align-items:center;}
 .comments .input_comment i.none_profile {color:#594543;margin-right:1rem;}
@@ -117,10 +117,11 @@
 .comment_box{border-bottom: 1px solid #e1dada; padding: 1rem 0;}
 .coment_cont .profile_img{line-height: 54px;margin-right:0.5rem;}
 .comt_context {display: flex;justify-content:space-between;width:100%;}
-.comt_context strong{font-size: 18px;}
+/* .comt_context strong{font-size: 18px;} */
 .comt_date {color:#8C7B7B; font-size:14px;}
 .coment_cont i.none_profile{font-size: 32px;}
 .comt_btn {text-align:end;}
+.no_comt{padding:1rem;}
 
 /* aside */
 .view_container aside.news_right{

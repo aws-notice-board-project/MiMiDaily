@@ -93,7 +93,7 @@ export	function insertComment(memberId, articleIdx) {
 	      `;
 	    console.log(newComment);
 	    
-	    if($('.comments_list').text().includes('댓글이 없습니다.')){
+	    if($('.no_comt').text().includes('댓글이 없습니다.')){
 	      $('.comments_list').empty(); // 댓글이 없을 때 비우기
 	    }
 	
@@ -156,6 +156,23 @@ export function deleteArticle() {
 }
 
 $(document).ready(function() {
-  let contentHeight=$('.view_box').height();
-  $('aside.news_right').css('height', contentHeight+200);
+  // MutationObserver: 요소 추가 제거반응 
+  let alreadyExecuted = false; // 글자 갯수에 따라 옵저버 발생량 증가하므로 최적화 
+  let observer = new MutationObserver(function (mutations) {
+	if (alreadyExecuted) return; // 한 번만 실행
+	alreadyExecuted = true;
+    
+	let contentHeight = $('.view_box').height();
+    $('aside.news_right').css('height', contentHeight + 200);
+  });
+
+  // 대상 요소 지정
+  observer.observe(document.querySelector('.comments_list'), {
+    childList: true, // 자식 노드 추가/삭제 감지
+    // subtree: true // 자식의 자식도 감지
+  });
+
+  // 초기 높이 설정
+  let contentHeight = $('.view_box').height();
+  $('aside.news_right').css('height', contentHeight + 200);
 });

@@ -168,7 +168,9 @@
 					        		</c:forEach>
 			        			</c:when>
 			        			<c:otherwise>
-			        				댓글이 없습니다.
+			        				<div class="no_comt">
+			        					댓글이 없습니다.
+			        				</div>
 			        			</c:otherwise>
 			        		</c:choose>
 			        		</div>
@@ -257,7 +259,7 @@
 	// 댓글 위치로 이동
 	const commentTop = $('.view_bottom .comments').offset().top;
 	$('.comments.cont').on('click', function(){
-		$('html, body').animate({ scrollTop: commentTop }, 500);		
+		$('html, body').animate({ scrollTop: commentTop-110 }, 500);		
 	});
 	
 	// 댓글 500자 제한
