@@ -186,6 +186,7 @@ public class MemberDAO extends DBConnPool {
 					mDto.setBirth(rs.getString("birth"));
 					mDto.setGender(rs.getString("gender"));
 					mDto.setMarketing(rs.getBoolean("Marketing"));
+					loadProfile(mDto);
 				}
 			} catch (Exception e) {
 				System.out.println("회원 정보 검색 중 오류 발생");
@@ -193,6 +194,27 @@ public class MemberDAO extends DBConnPool {
 			}
 			return mDto;
 		}
+		
+		// 프로필 정보
+	    public void loadProfile(MemberDTO dto) {
+	        if (dto.getProfile_idx() != null) {
+	            String profileQuery = "SELECT ofile, sfile, file_path, file_size, file_type FROM profiles WHERE idx = ?";
+	            try (PreparedStatement profilePsmt = con.prepareStatement(profileQuery)) {
+	                profilePsmt.setInt(1, dto.getProfile_idx());
+	                ResultSet profileRs = profilePsmt.executeQuery();
+	                if (profileRs.next()) {
+	                    dto.setOfile(profileRs.getString("ofile"));
+	                    dto.setSfile(profileRs.getString("sfile"));
+	                    dto.setFile_path(profileRs.getString("file_path"));
+	                    dto.setFile_size(profileRs.getLong("file_size"));
+	                    dto.setFile_type(profileRs.getString("file_type"));
+	                }
+	            } catch (Exception e) {
+	                System.out.println("썸네일 조회 중 예외 발생");
+	                e.printStackTrace();
+	            }
+	        }
+	    }
 		
 		//회원 정보 수정
 		public int updateMember(MemberDTO mDto) {
@@ -218,7 +240,7 @@ public class MemberDAO extends DBConnPool {
 			return result;
 		}
 		
-		// 게시글 데이터를 받아 DB에 저장되어 있던 내용을 갱신합니다(파일 업로드 지원).
+		// 게시글 데이터를 받아 DB에 저장되어 있던 내용을 갱신(파일 업로드 지원).
 //	    public int updatePost(ArticlesDTO dto, String idx, String thumb_idx) {
 //	        int updatedArticleId = 0;
 //	        try {
