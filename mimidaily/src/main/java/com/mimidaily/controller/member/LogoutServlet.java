@@ -31,8 +31,20 @@ public class LogoutServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		session.invalidate(); // session 비활성 모든 session attribute 삭제
-		RequestDispatcher dispatcher=request.getRequestDispatcher("/"); // index로 이동
-		dispatcher.forward(request, response);
+		
+		// 로그아웃 시 url
+		String previousPage = request.getHeader("Referer"); // 이전 페이지
+		String url=null;
+		String lastPath = null;
+		if (previousPage != null) {
+			String[] parts = previousPage.split("/");
+			lastPath="/"+parts[parts.length - 1];
+		}
+		if(lastPath != null && !lastPath.equals("/") && !lastPath.equals("/main.do")) {
+			url = previousPage;
+		}else {url = "main.do";}
+
+		response.sendRedirect(url); //주소변경
 	}
 
 	/**

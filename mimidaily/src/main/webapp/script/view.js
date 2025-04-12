@@ -46,7 +46,7 @@ export function toggleLike(articleIdx) {
 }
 
 
-// 댓글 작성
+// 댓글 작성 비동기 처리
 export	function insertComment(memberId, articleIdx) {
   // 유효성 검사 
   const cnt = $('textarea#comment').val().length;
@@ -64,7 +64,7 @@ export	function insertComment(memberId, articleIdx) {
 	      // const profileIdx = ${member.profile_idx}; // 아직 프로필 없음
 	      const context = $('#comment').val();
 	      const commentList = $('.comments_list');
-	      
+          const commentIdx = res.idx; // 서버에서 받은 댓글 인덱스
 	      let profileHtml = '';
 	
 	      // if(parseInt(profileIdx) == 0 || profileIdx == null){
@@ -75,23 +75,25 @@ export	function insertComment(memberId, articleIdx) {
 	      }
 	
 	      let newComment = `
-		  <div class="comment_box">
-	        <div class="coment_cont">
-	          <div class="profile_img">
-	            ${profileHtml}
-	          </div>
-	          <div style="width: 90%;">
-	            <div class="comt_context">
-	              <p><strong>${memberId}</strong></p>
-	              <p class="comt_date">방금 전</p>
-	            </div>
-	            <p>${context}</p>
-	          </div>
-	        </div>
-			<div class="comt_btn">수정, 삭제</div>
+		  <div class="comment_box" data-comment-idx="${commentIdx}">
+        <div class="coment_cont">
+          <div class="profile_img">
+            ${profileHtml}
+          </div>
+          <div style="width: 90%;">
+            <div class="comt_context">
+              <p><strong>${memberId}</strong><span class="is_updated"></span></p>
+              <p class="comt_date">방금 전</p>
+            </div>
+            <p class="comt_content">${context}</p>
+          </div>
+        </div>
+        <div class="comt_btn">
+          <button onclick="updateComment(${commentIdx})">수정</button>
+          <button onclick="deleteComment(${commentIdx})">삭제</button>
+        </div>
 		  </div>
 	      `;
-	    console.log(newComment);
 	    
 	    if($('.no_comt').text().includes('댓글이 없습니다.')){
 	      $('.comments_list').empty(); // 댓글이 없을 때 비우기
@@ -108,6 +110,91 @@ export	function insertComment(memberId, articleIdx) {
   }else{
 	console.warn("댓글 500자 이상 작성 불가");
   }
+};
+
+// 댓글 수정 비동기 처리
+export function updateComment(commentIdx) {
+  const commentBox = $(`.comment_box[data-comment-idx="${commentIdx}"]`);
+  const commentText = commentBox.find('.comt_content'); // 댓글 내용 부분
+  const originalText = commentText.text().trim(); // 원래 댓글 내용
+
+  // textarea로 변경
+  commentText.html(`<textarea id="update_comment" rows="4">${originalText}</textarea>`);
+
+  // 버튼 변경
+  const buttonHtml = `
+    <button onclick="confirmUpdate(${commentIdx})">확인</button>
+    <button onclick="cancelUpdate(${commentIdx}, '${originalText}')">취소</button>
+  `;
+  commentBox.find('.comt_btn').html(buttonHtml);
+}
+// 댓글 수정 확인 비동기 처리
+export function confirmUpdate(commentIdx) {
+  const commentBox = $(`.comment_box[data-comment-idx="${commentIdx}"]`);
+  const updatedText = commentBox.find('#update_comment').val(); // 수정된 댓글 내용
+  $.ajax({
+    url: '/comments/update.do',
+    method: 'post',
+    data: {
+      commentIdx: commentIdx,
+      comment: updatedText,
+    },
+    success: function (res) {
+      if (res) {
+        // 성공적으로 수정된 경우
+        const commentText = commentBox.find('.comt_content');
+        commentText.html(updatedText); // 수정된 댓글 내용으로 업데이트
+		$('span.is_updated').text('(수정됨)');
+
+        // 버튼 변경
+        const buttonHtml = `
+          <button onclick="updateComment(${commentIdx})">수정</button>
+          <button onclick="deleteComment(${commentIdx})">삭제</button>
+        `;
+        commentBox.find('.comt_btn').html(buttonHtml);
+      } else {
+        console.warn('댓글 수정에 실패했습니다.');
+      }
+    },
+    error: function (e) {
+      console.error('Error:', e);
+    }
+  });
+}
+// 댓글 수정 취소 비동기 처리
+export function cancelUpdate(commentIdx, originalText) {
+  const commentBox = $(`.comment_box[data-comment-idx="${commentIdx}"]`);
+  const commentText = commentBox.find('.comt_content');
+
+  // 원래 댓글 내용으로 되돌리기
+  commentText.html(originalText);
+
+  // 버튼 변경
+  const buttonHtml = `
+    <button onclick="updateComment(${commentIdx})">수정</button>
+    <button onclick="deleteComment(${commentIdx})">삭제</button>
+  `;
+  commentBox.find('.comt_btn').html(buttonHtml);
+}
+
+// 댓글 삭제 비동기 처리
+export function deleteComment(commentIdx){
+  if(confirm('댓글을 삭제하시겠습니까?')){
+    $.ajax({
+      url: '/comments/delete.do',
+      method: 'post',
+      data: {
+        commentIdx: commentIdx,
+      },
+      success: function (res) {
+        $(`.comment_box[data-comment-idx="${commentIdx}"]`).remove();
+      },
+      error: function (e) {
+        console.warn('댓글 삭제 실패');
+        console.error('Error:', e);
+      }
+    });
+  }else return;
 };
 
 export function deleteArticle() {

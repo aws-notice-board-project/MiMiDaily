@@ -8,11 +8,20 @@ public class CommentsDTO {
 	private int idx;
 	private String context;
 	private Timestamp created_at;
+	private Timestamp updated_at;
 	private String members_id;
 	private int articles_idx;
 	private boolean is_sameday;
+	private boolean is_updated;
 	
-	public boolean isIs_sameday() {
+	
+	public boolean getIs_updated() {
+		return is_updated;
+	}
+	public void setIs_updated(boolean is_updated) {
+		this.is_updated = is_updated;
+	}
+	public boolean getIs_sameday() {
 		return is_sameday;
 	}
 	public void setIs_sameday(boolean is_sameday) {
@@ -72,6 +81,19 @@ public class CommentsDTO {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         return sdf.format(created_at).equals(sdf.format(new Date()));
     }
+    
+	public Timestamp getUpdated_at() {
+		return updated_at;
+	}
+	public void setUpdated_at(Timestamp updated_at) {
+		this.updated_at = updated_at;
+	}
+	// 수정 유무
+	public boolean isUpdated() {
+	    if (created_at == null || updated_at == null) return false;
+	    return created_at.getTime() != updated_at.getTime(); // 객체끼리 비교하면 객체 주소를 가져오기 때문에 getTime() 또는 equals() 사
+	}
+	
 	public String getMembers_id() {
 		return members_id;
 	}

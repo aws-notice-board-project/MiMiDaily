@@ -21,14 +21,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
-<script type="module">
-    import { loginAlert, toggleLike , deleteArticle, insertComment } from '/script/view.js';
-    window.loginAlert = loginAlert;
-    window.toggleLike = toggleLike;
-	window.deleteArticle = deleteArticle;
-	window.insertComment = insertComment;
-</script>
-<script type="module" src="/script/view.js"></script>
+<script type="module" src="/script/view.js" defer></script>
 </head>
 <body>
 	<div id="deleteModal" class="modal">
@@ -139,7 +132,7 @@
 			        		<c:choose>
 			        			<c:when test="${ not empty commentsList }">
 					        		<c:forEach var="com" items="${ commentsList }">
-					        			<div class="comment_box">
+					        			<div class="comment_box" data-comment-idx="${ com.idx }">
 					        				<div class="coment_cont">
 								        		<div class="profile_img">
 								        		<c:choose>
@@ -157,13 +150,16 @@
 								        		</div>
 								        		<div style="width: 90%;">
 									        		<div class="comt_context">
-									        			<p><strong>${ com.members_id }</strong></p>
+									        			<p><strong>${ com.members_id }</strong><c:if test="${ com.is_updated }"><span class="is_updated">(수정됨)</span></c:if></p>
 									        			<p class="comt_date">${ com.is_sameday? com.timeAgo:com.formattedDate }</p>
 									        		</div>
 								        			<p class="comt_content">${ com.context }</p>
 								        		</div>
 						        			</div>
-						        			<div class="comt_btn">수정, 삭제</div>
+						        			<div class="comt_btn">
+						        				<button onclick="updateComment(${com.idx})">수정</button>
+						        				<button onclick="deleteComment(${com.idx})">삭제</button>
+						        			</div>
 					        				</div>
 					        		</c:forEach>
 			        			</c:when>
@@ -241,6 +237,17 @@
 
 <jsp:include page="/components/footer.jsp"></jsp:include>
 
+<script type="module" defer>
+    import { loginAlert, toggleLike , deleteArticle, insertComment, deleteComment, updateComment, confirmUpdate, cancelUpdate } from '/script/view.js';
+    window.loginAlert = loginAlert;
+    window.toggleLike = toggleLike;
+	window.deleteArticle = deleteArticle;
+	window.insertComment = insertComment;
+	window.deleteComment = deleteComment;
+	window.updateComment = updateComment;
+	window.confirmUpdate = confirmUpdate;
+	window.cancelUpdate = cancelUpdate;
+</script>
 <script>
 	const isLiked = ${article.is_liked};
 	const isLogin = ${not empty sessionScope.loginUser};
@@ -263,7 +270,7 @@
 	});
 	
 	// 댓글 500자 제한
-	const $comment = $('textarea#comment');
+	const $comment = $('textarea#comment'); // 제이쿼리 변수앞에 $를 붙여서 제이쿼리 변수라는 것을 가독성 높여줌 
 	const comcnt =  $('.comt_cnt');
 	$comment.on('input', function(){
 		const val = $comment.val();

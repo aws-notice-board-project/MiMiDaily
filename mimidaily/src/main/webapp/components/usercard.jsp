@@ -10,15 +10,15 @@
 	.userbox{width: 216px; margin: 1rem 0.5rem 1rem 0.5rem ; padding: 1rem; justify-content: center;display: flex;flex-direction: column;}
 	/* 로그인 O */
 	.profile{display: flex; align-items: center; margin-bottom: 1rem;}
-	.profile i{font-size: 3rem; margin-right: 1rem;}
+	.profile i{font-size: 38px; margin-right: 1rem;}
 	.profile .name{font-weight: bold; font-size: 1.2rem; color: #4A4A4A;}
-	.profile .date{font-style: 12px; color: #8C7B7B;}
-	.info div{display: flex; justify-content: space-between; margin-bottom: 0.5rem;}
+	.profile .date{font-size: 12px; color: #8C7B7B;}
+	.info div{display: flex; justify-content: space-between; margin-bottom: 2px;}
 	.info span{color: #8C7B7B;}
 	.info .btn.myprofile {background-color: #594543;}
 	.info .btn.write {background-color: #8C7B7B;}
 	.info .btn {border-radius: 4px; color: #FBF9F9;padding: 0.5rem 0.7rem;font-size:16px;}
-	.info .profile_btn{width: 100%; justify-content: space-around;margin-top: 1rem;}
+	.info .profile_btn{width: 100%; justify-content: space-around;}
 	.info .logout_box{display:flex;justify-content:center;margin:0;}
 	.info .logout {display:inline-block;margin:auto; color:#8C7B7B; font-size:16px; border-bottom: 1px solid;}
 	/* 로그인X */
