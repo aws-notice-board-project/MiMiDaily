@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.mimidaily.common.DBConnPool;
-import com.mimidaily.dto.ArticlesDTO;
 import com.mimidaily.dto.MemberDTO;
 import com.mimidaily.dto.MemberInfoDTO;
 
@@ -241,118 +240,130 @@ public class MemberDAO extends DBConnPool {
 		}
 		
 		// 게시글 데이터를 받아 DB에 저장되어 있던 내용을 갱신(파일 업로드 지원).
-//	    public int updatePost(ArticlesDTO dto, String idx, String thumb_idx) {
-//	        int updatedArticleId = 0;
-//	        try {
-//	            // 파일 업로드 없이 단순 업데이트인 경우 (파일 변경 없음)
-//	            if (dto.getOfile() == null || dto.getOfile().trim().equals("")) {
-//	                String query = "UPDATE articles " +
-//	                               "SET title = ?, content = ?, category = ?, created_at = ? " +
-//	                               "WHERE idx = ?";
-//	                psmt = con.prepareStatement(query);
-//	                psmt.setString(1, dto.getTitle());
-//	                psmt.setString(2, dto.getContent());
-//	                psmt.setInt(3, dto.getCategory());
-//	                psmt.setTimestamp(4, dto.getCreated_at());
-//	                psmt.setString(5, idx);
-//	                int result = psmt.executeUpdate();
-//	                if (result > 0) {
-//	                    updatedArticleId = Integer.parseInt(idx);
-//	                }
-//	            } else {
-//	                // 파일 업로드가 있는 경우
-//	                // thumb_idx 값에 따라 기존 썸네일 레코드가 있는지 판단
-//	                if (thumb_idx != null && thumb_idx.trim().equals("0")) {
-//	                    // thumb_idx가 "0"이면 부모 썸네일 레코드가 없으므로 INSERT
-//	                    String insertThumbQuery = 
-//	                        "INSERT INTO thumbnails (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
-//	                        "VALUES (thumbnails_seq.nextval, ?, ?, ?, ?, ?, ?)";
-//	                    PreparedStatement pstmtThumb = con.prepareStatement(insertThumbQuery, new String[]{"idx"});
-//	                    pstmtThumb.setString(1, dto.getOfile());
-//	                    pstmtThumb.setString(2, dto.getSfile());
-//	                    pstmtThumb.setString(3, dto.getFile_path());
-//	                    pstmtThumb.setLong(4, dto.getFile_size());
-//	                    pstmtThumb.setString(5, dto.getFile_type());
-//	                    pstmtThumb.setTimestamp(6, dto.getCreated_at());
-//	                    int thumbResult = pstmtThumb.executeUpdate();
-//	                    int newThumbId = 0;
-//	                    if (thumbResult > 0) {
-//	                        ResultSet rs = pstmtThumb.getGeneratedKeys();
-//	                        if (rs.next()) {
-//	                            newThumbId = rs.getInt(1);
-//	                        }
-//	                        rs.close();
-//	                    }
-//	                    pstmtThumb.close();
-//	                    
-//	                    // articles 테이블 업데이트 (새 썸네일 키 반영)
-//	                    String updateArticleQuery = 
-//	                        "UPDATE articles " +
-//	                        "SET title = ?, content = ?, category = ?, created_at = ?, thumbnails_idx = ? " +
-//	                        "WHERE idx = ?";
-//	                    PreparedStatement pstmtArticle = con.prepareStatement(updateArticleQuery);
-//	                    pstmtArticle.setString(1, dto.getTitle());
-//	                    pstmtArticle.setString(2, dto.getContent());
-//	                    pstmtArticle.setInt(3, dto.getCategory());
-//	                    pstmtArticle.setTimestamp(4, dto.getCreated_at());
-//	                    pstmtArticle.setInt(5, newThumbId);
-//	                    pstmtArticle.setString(6, idx);
-//	                    int artResult = pstmtArticle.executeUpdate();
-//	                    if (artResult > 0) {
-//	                        updatedArticleId = Integer.parseInt(idx);
-//	                    }
-//	                    pstmtArticle.close();
-//	                } else {
-//	                    // thumb_idx가 "0"이 아니면 기존 썸네일 레코드가 존재하므로, 
-//	                    // PL/SQL 블록을 사용해 thumbnails 테이블과 articles 테이블 모두 업데이트
-//	                    String query =
-//	                        "BEGIN " +
-//	                        "  UPDATE thumbnails " +
-//	                        "  SET ofile = ?, " +
-//	                        "      sfile = ?, " +
-//	                        "      file_path = ?, " +
-//	                        "      file_size = ?, " +
-//	                        "      file_type = ?, " +
-//	                        "      created_at = ? " +
-//	                        "  WHERE idx = ?; " +
-//	                        "  UPDATE articles " +
-//	                        "  SET title = ?, " +
-//	                        "      content = ?, " +
-//	                        "      category = ?, " +
-//	                        "      created_at = ?, " +
-//	                        "      thumbnails_idx = ? " +
-//	                        "  WHERE idx = ?; " +
-//	                        "END;";
-//	                    CallableStatement cstmt = con.prepareCall(query);
-//	                    
-//	                    // thumbnails 업데이트 파라미터 (순서대로)
-//	                    cstmt.setString(1, dto.getOfile());
-//	                    cstmt.setString(2, dto.getSfile());
-//	                    cstmt.setString(3, dto.getFile_path());
-//	                    cstmt.setLong(4, dto.getFile_size());
-//	                    cstmt.setString(5, dto.getFile_type());
-//	                    cstmt.setTimestamp(6, dto.getCreated_at());
-//	                    cstmt.setString(7, thumb_idx);
-//	                    
-//	                    // articles 업데이트 파라미터 (순서대로)
-//	                    cstmt.setString(8, dto.getTitle());
-//	                    cstmt.setString(9, dto.getContent());
-//	                    cstmt.setInt(10, dto.getCategory());
-//	                    cstmt.setTimestamp(11, dto.getCreated_at());
-//	                    cstmt.setString(12, thumb_idx);
-//	                    cstmt.setString(13, idx);
-//	                    
-//	                    cstmt.execute();
-//	                    updatedArticleId = Integer.parseInt(idx);
-//	                    cstmt.close();
-//	                }
-//	            }
-//	        } catch (Exception e) {
-//	            System.out.println("게시물 수정 중 예외 발생");
-//	            e.printStackTrace();
-//	        }
-//	        return updatedArticleId;
-//	    }
+	    public int updateMember(MemberDTO dto, String id, String profile_idx) {
+	        int updated = -1;
+	        try {
+	            // 파일 업로드 없이 단순 업데이트인 경우 (프로필 변경 없음)
+	            if (dto.getOfile() == null || dto.getOfile().trim().equals("")) {
+	                String query = "UPDATE members " +
+	                               "SET pwd=?, name=?, email=?, tel=?, birth=?, gender=?, marketing=? " +
+	                               "WHERE id = ?";
+	                psmt = con.prepareStatement(query);
+					psmt.setString(8, dto.getId());
+					psmt.setString(1, dto.getPwd());
+					psmt.setString(2, dto.getName());
+					psmt.setString(3, dto.getEmail());
+					psmt.setString(4, dto.getTel());
+					psmt.setString(5, dto.getBirth());
+					psmt.setString(6, dto.getGender());
+					psmt.setBoolean(7, dto.isMarketing());
+					int result = psmt.executeUpdate();
+	                if (result > 0) {
+	                    updated = Integer.parseInt(id);
+	                }
+	            } else {
+	                // 파일 업로드가 있는 경우
+	                // profile_idx 값에 따라 기존 썸네일 레코드가 있는지 판단
+	                if (profile_idx != null && profile_idx.trim().equals("0")) {
+	                    // profile_idx가 "0"이면 부모 썸네일 레코드가 없으므로 INSERT
+	                    String insertProfileQuery = 
+	                        "INSERT INTO profiles (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
+	                        "VALUES (profiles_seq.nextval, ?, ?, ?, ?, ?, ?)";
+	                    PreparedStatement pstmtProfile = con.prepareStatement(insertProfileQuery, new String[]{"idx"});
+	                    pstmtProfile.setString(1, dto.getOfile());
+	                    pstmtProfile.setString(2, dto.getSfile());
+	                    pstmtProfile.setString(3, dto.getFile_path());
+	                    pstmtProfile.setLong(4, dto.getFile_size());
+	                    pstmtProfile.setString(5, dto.getFile_type());
+	                    pstmtProfile.setTimestamp(6, dto.getCreated_at());
+	                    int profileResult = pstmtProfile.executeUpdate();
+	                    int newProfileId = 0;
+	                    if (profileResult > 0) {
+	                        ResultSet rs = pstmtProfile.getGeneratedKeys();
+	                        if (rs.next()) {
+	                            newProfileId = rs.getInt(1);
+	                        }
+	                        rs.close();
+	                    }
+	                    pstmtProfile.close();
+	                    
+	                    // members 테이블 업데이트 (새 프로필 키 반영)
+	                    String updateMemberQuery = 
+	                        "UPDATE members " +
+	                        "SET pwd=?, name=?, email=?, tel=?, birth=?, gender=?, marketing=?, thumbnails_idx = ? " +
+	                        "WHERE id = ?";
+	                    PreparedStatement psmtMember = con.prepareStatement(updateMemberQuery);
+	                    psmtMember.setString(9, dto.getId());
+						psmtMember.setString(1, dto.getPwd());
+						psmtMember.setString(2, dto.getName());
+						psmtMember.setString(3, dto.getEmail());
+						psmtMember.setString(4, dto.getTel());
+						psmtMember.setString(5, dto.getBirth());
+						psmtMember.setString(6, dto.getGender());
+						psmtMember.setBoolean(7, dto.isMarketing());
+						psmtMember.setInt(8, newProfileId);
+	                    int memberResult = psmtMember.executeUpdate();
+	                    if (memberResult > 0) {
+	                        updated = Integer.parseInt(id);
+	                    }
+	                    psmtMember.close();
+	                } else {
+	                    // profile_idx가 "0"이 아니면 기존 썸네일 레코드가 존재하므로, 
+	                    // PL/SQL 블록을 사용해 profiles 테이블과 members 테이블 모두 업데이트
+	                    String query =
+	                        "BEGIN " +
+	                        "  UPDATE profiles " +
+	                        "  SET ofile = ?, " +
+	                        "      sfile = ?, " +
+	                        "      file_path = ?, " +
+	                        "      file_size = ?, " +
+	                        "      file_type = ?, " +
+	                        "      created_at = ? " +
+	                        "  WHERE idx = ?; " +
+	                        "  UPDATE members " +
+	                        "  SET pwd=?, " +
+	                        "      name=?, " +
+	                        "      email=?, " +
+	                        "      tel=?, " +
+	                        "      birth=?, " +
+	                        "      gender=?, " +
+	                        "      marketing=?, " +
+	                        "      profiles_idx = ? " +
+	                        "  WHERE id = ?; " +
+	                        "END;";
+	                    CallableStatement cstmt = con.prepareCall(query);
+	                    
+	                    // profiles 업데이트 파라미터 (순서대로)
+	                    cstmt.setString(1, dto.getOfile());
+	                    cstmt.setString(2, dto.getSfile());
+	                    cstmt.setString(3, dto.getFile_path());
+	                    cstmt.setLong(4, dto.getFile_size());
+	                    cstmt.setString(5, dto.getFile_type());
+	                    cstmt.setTimestamp(6, dto.getCreated_at());
+	                    cstmt.setString(7, profile_idx);
+	                    
+	                    // articles 업데이트 파라미터 (순서대로)						
+	                    cstmt.setString(8, dto.getPwd());
+	                    cstmt.setString(9, dto.getName());
+	                    cstmt.setString(10, dto.getEmail());
+	                    cstmt.setString(11, dto.getTel());
+	                    cstmt.setString(12, dto.getBirth());
+	                    cstmt.setString(13, dto.getGender());
+	                    cstmt.setBoolean(14, dto.isMarketing());
+	                    cstmt.setString(15, profile_idx);
+	                    cstmt.setString(16, dto.getId());
+	                    
+	                    cstmt.execute();
+	                    updated = Integer.parseInt(id);
+	                    cstmt.close();
+	                }
+	            }
+	        } catch (Exception e) {
+	            System.out.println("회원 정보 수정 중 예외 발생");
+	            e.printStackTrace();
+	        }
+	        return updated;
+	    }
 		
 		//특정 유저 정보 가져오기
 		public MemberDTO userInfo(String member_id) {
