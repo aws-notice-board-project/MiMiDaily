@@ -629,7 +629,7 @@ public class ArticlesDAO extends DBConnPool {
 		return article;
 	}
 	
-	// 게시물 번호로 해당돠는 해시태그들 반환
+	// 게시물 번호로 해당되는 해시태그들 반환
 	public List<String> hashtagsByArticle(int articleIdx) {
 		List<String> hashtags=new ArrayList<String>();
 		String hashtagQuery = "SELECT h.name " +

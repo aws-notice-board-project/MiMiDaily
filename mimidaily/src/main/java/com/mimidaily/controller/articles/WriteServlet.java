@@ -148,9 +148,6 @@ public class WriteServlet extends HttpServlet {
         }
         dao.close();
         
-
-		
-        
     }
 
 }

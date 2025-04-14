@@ -10,11 +10,12 @@ public class ArticlesDTO {
 	private String title;
 	private String content;
 	private int category;
-	private Timestamp created_at;
 	private int visitcnt;
 	private String members_id;
 	private Integer thumbnails_idx;
 	private int likes;
+	
+	private Timestamp created_at;
     
 	private String ofile;
 	private String sfile;
