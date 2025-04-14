@@ -11,6 +11,7 @@ public class CommentsDTO {
 	private Timestamp updated_at;
 	private String members_id;
 	private int articles_idx;
+	private MemberDTO profiles;
 	private boolean is_sameday;
 	private boolean is_updated;
 	
@@ -106,4 +107,11 @@ public class CommentsDTO {
 	public void setArticles_idx(int articles_idx) {
 		this.articles_idx = articles_idx;
 	}
+	public MemberDTO getProfiles() {
+		return profiles;
+	}
+	public void setProfiles(MemberDTO profiles) {
+		this.profiles = profiles;
+	}
+	
 }

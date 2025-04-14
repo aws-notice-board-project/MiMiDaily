@@ -114,6 +114,10 @@ public class MemberDAO extends DBConnPool {
                 memberInfo.setArticleCount(rs.getInt("article_count"));
                 memberInfo.setCommentCount(rs.getInt("comment_count"));
                 memberInfo.setCreatedAt(rs.getTimestamp("created_at"));
+                MemberDTO mDto = getMember(memberInfo.getId());
+				if (mDto != null) {
+					memberInfo.setProfiles(mDto);
+				}
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -388,7 +392,7 @@ public class MemberDAO extends DBConnPool {
 	//특정 유저 정보 가져오기(글쓴이/댓글 작성자 정보 가져오기)
 	public MemberDTO userInfo(String member_id) {
 		MemberDTO mDto = null;
-	    String query = "SELECT id, name, email, role FROM members WHERE id = ?"; // 필요한 컬럼 선택
+	    String query = "SELECT id, name, email, role, profiles_idx FROM members WHERE id = ?"; // 필요한 컬럼 선택
 
 	    try {
 	        psmt = con.prepareStatement(query);
@@ -401,6 +405,8 @@ public class MemberDAO extends DBConnPool {
 	            mDto.setName(rs.getString("name"));
 	            mDto.setEmail(rs.getString("email"));
 	            mDto.setRole(rs.getInt("role"));
+	            mDto.setProfile_idx(rs.getInt("profiles_idx"));
+				loadProfile(mDto);
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();

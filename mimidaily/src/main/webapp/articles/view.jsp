@@ -24,9 +24,9 @@
 </head>
 <body>
 	<div id="deleteModal" class="modal">
-		<div class="modal_content">
+		<div class="modal_content cont">
 			<span id="close_btn">&times;</span>
-			<p>정말 삭제하시겠어요?</p>
+			<p>게시글을 삭제하시겠습니까?</p>
 			<div class="btn_box">
 				<button id="yes_btn">예</button>
 				<button id="no_btn">아니오</button>
@@ -81,12 +81,12 @@
 		 	 	    <div class="journalist">
 						<h3 class="hide">기자정보</h3>
 						<c:choose>
-				            <c:when test="${empty writer.profile_idx}">
+				            <c:when test="${writer.profile_idx==0}">
 					              <i class="fa-solid fa-circle-user none_profile"></i>
 							</c:when>
 				            <c:otherwise>
 				            <div class="profile_img">
-								<img src="${pageContext.request.contextPath}${writer.file_path}${writer.sfile}" alt="${article.members_id}의 프로필">
+								<img src="${pageContext.request.contextPath}${writer.file_path}/${writer.sfile}" alt="${article.members_id}의 프로필">
 				            </div>
 				            </c:otherwise>
 				        </c:choose>
@@ -109,14 +109,13 @@
 				     			<!-- 댓글 작성 -->
 				      		<div class="input_comment">
 				       		<c:choose>
-					            <c:when test="${member.profile_idx == 0||member.profile_idx == null}">
+					            <c:when test="${member.profile_idx == 0}">
 						             <i class="fa-solid fa-circle-user none_profile"></i>
 								</c:when>
 					            <c:otherwise>
-					            	이미지 있음
-						            <%-- <div class="profile_img">
-										<img src="${pageContext.request.contextPath}${member.file_path}${member.sfile}" alt="${sessionScope.loginUser}의 썸네일">
-						            </div> --%>
+									<div class="profile_img">
+										<img src="${pageContext.request.contextPath}${member.file_path}/${member.sfile}" alt="${sessionScope.loginUser}의 썸네일">
+						            </div>
 					            </c:otherwise>
 					        </c:choose>
 				       		<textarea rows="4" cols="50" id="comment" autocomplete="off"></textarea>
@@ -222,6 +221,10 @@
 			$('.view_container .likes i').css('color', '#594543');
 		}
 	}
+	
+	// 페이지 로드 시, 더보기 버튼
+	const cnt = ${commentCnt}
+	if(cnt<11){$('.view_bottom .more_btn').css('display','none');}
 </script>
 </body>
 </html>

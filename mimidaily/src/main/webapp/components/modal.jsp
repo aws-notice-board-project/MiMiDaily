@@ -24,7 +24,7 @@
 </style> 
 <div class="comfirm_modal" id="confirmModal">
   <div class="modal_content cont">
-    <p>삭제하시겠습니까?</p>
+    <p>댓글을 삭제하시겠습니까?</p>
     <div class="btn_box">
       <button id="confirmYes" class="btn">예</button>
       <button id="confirmNo" class="btn">아니오</button>
