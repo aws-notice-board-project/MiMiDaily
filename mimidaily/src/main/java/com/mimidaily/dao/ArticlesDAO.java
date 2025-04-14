@@ -4,7 +4,6 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-//import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +22,7 @@ public class ArticlesDAO extends DBConnPool {
  	public List<ArticlesDTO> viewestList(){
  		List<ArticlesDTO> viewest=new ArrayList<ArticlesDTO>();
 
- 		// 조회수 많은 게시물 순으로 내림차순
+ 		// 조회수 많은 기사 순으로 내림차순
  		String query=""
  					+"select * from (select * from articles order by visitcnt desc)"
  					+" where rownum <= 4";
@@ -48,7 +47,7 @@ public class ArticlesDAO extends DBConnPool {
  		return viewest;
  	}
 
- 	// 게시물 갯수 =============================================================
+ 	// 기사 갯수 =============================================================
     public int selectCount(Map<String, Object> map) {
         int totalCount = 0;
         String query = "SELECT COUNT(*) FROM articles";
@@ -75,7 +74,7 @@ public class ArticlesDAO extends DBConnPool {
             rs.next();
             totalCount = rs.getInt(1);
         } catch (Exception e) {
-            System.out.println("게시물 카운트 중 예외 발생");
+            System.out.println("기사 카운트 중 예외 발생");
             e.printStackTrace();
         }
         return totalCount;
@@ -133,7 +132,7 @@ public class ArticlesDAO extends DBConnPool {
 				article.add(dto);
 			}
 		}catch(Exception e) {
-			System.out.println("게시물 목록 조회 중 예외 발생");
+			System.out.println("기사 목록 조회 중 예외 발생");
 			e.getStackTrace();
 		}
 		return article;
@@ -194,14 +193,14 @@ public class ArticlesDAO extends DBConnPool {
                   articleId = cstmt.getInt(12);
               }
           } catch (Exception e) {
-              System.out.println("게시물 입력 중 예외 발생");
+              System.out.println("기사 입력 중 예외 발생");
               e.printStackTrace();
           }
           return articleId;
     }
     
 
-    // 주어진 일련번호에 해당하는 게시물을 DTO에 담아 반환합니다.
+    // 주어진 일련번호에 해당하는 기사을 DTO에 담아 반환합니다.
     public ArticlesDTO selectView(String idx, String memberId) {
         ArticlesDTO dto = new ArticlesDTO(); // DTO 객체 생성
         String query = ""
@@ -213,13 +212,6 @@ public class ArticlesDAO extends DBConnPool {
             psmt = con.prepareStatement(query); // 쿼리문 준비
             psmt.setString(1, idx); // 게시글 ID 설정
             rs = psmt.executeQuery(); // 쿼리문 실행
-            
-            // ResultSetMetaData를 사용하여 컬럼 정보 출력
-			/*
-			 * ResultSetMetaData metaData = rs.getMetaData(); int columnCount =
-			 * metaData.getColumnCount(); for (int i = 1; i <= columnCount; i++) {
-			 * System.out.println("Column " + i + ": " + metaData.getColumnName(i)); }
-			 */
 
             if (rs.next()) { // 결과를 DTO 객체에 저장
                 dto.setIdx(rs.getInt(1));
@@ -243,13 +235,13 @@ public class ArticlesDAO extends DBConnPool {
                 
             }
         } catch (Exception e) {
-            System.out.println("게시물 상세보기 중 예외 발생");
+            System.out.println("기사 상세보기 중 예외 발생");
             e.printStackTrace();
         }
         return dto; // 결과 반환
     }
 
-    // 주어진 일련번호에 해당하는 게시물의 조회수를 1 증가시킵니다.
+    // 주어진 일련번호에 해당하는 기사의 조회수를 1 증가시킵니다.
     public void updateVisitCount(String idx) {
         String query = "UPDATE articles SET "
                 + " visitcnt=visitcnt+1 "
@@ -259,7 +251,7 @@ public class ArticlesDAO extends DBConnPool {
             psmt.setString(1, idx);
             psmt.executeQuery();
         } catch (Exception e) {
-            System.out.println("게시물 조회수 증가 중 예외 발생");
+            System.out.println("기사 조회수 증가 중 예외 발생");
             e.printStackTrace();
         }
     }
@@ -317,7 +309,7 @@ public class ArticlesDAO extends DBConnPool {
                 psmt.close();
             }
         } catch (Exception e) {
-            System.out.println("게시글 삭제 중 예외 발생");
+            System.out.println("기사 삭제 중 예외 발생");
             e.printStackTrace();
         }
         return result;
@@ -417,7 +409,7 @@ public class ArticlesDAO extends DBConnPool {
                 }
             }
         } catch (Exception e) {
-            System.out.println("게시물 수정 중 예외 발생");
+            System.out.println("기사 수정 중 예외 발생");
             e.printStackTrace();
         }
         return updatedArticleId;
@@ -432,8 +424,6 @@ public class ArticlesDAO extends DBConnPool {
             if (tag.startsWith("#")) {
                 tag = tag.substring(1);
             }
-            // 불필요한 기호 및 공백 제거
-            //tag = tag.replaceAll("[,\\s]+", "");
             if (tag.isEmpty()) continue;
             int hashtagId = getHashtagId(tag);
             if (hashtagId == 0) {
@@ -606,7 +596,7 @@ public class ArticlesDAO extends DBConnPool {
         }
     }
     
-	// 상위 10개 게시물 반환(top10)
+	// 상위 10개 기사 반환(top10)
 	public List<ArticlesDTO> selectTopArticles() {
 		List<ArticlesDTO> article=new ArrayList<ArticlesDTO>();
 		String query=""
@@ -618,7 +608,6 @@ public class ArticlesDAO extends DBConnPool {
 				+"		  on a.idx=l.articles_idx "
 				+"		  order by likecnt desc, visitcnt) "
 				+" where rownum <= 10";
-//		System.out.println(query);
 		
 		try {
 			psmt=con.prepareStatement(query); // 동적쿼리
@@ -645,7 +634,7 @@ public class ArticlesDAO extends DBConnPool {
 		return article;
 	}
 	
-	// 게시물 번호로 해당되는 해시태그들 반환
+	// 기사 번호로 해당되는 해시태그들 반환
 	public List<String> hashtagsByArticle(int articleIdx) {
 		List<String> hashtags=new ArrayList<String>();
 		String hashtagQuery = "SELECT h.name " +

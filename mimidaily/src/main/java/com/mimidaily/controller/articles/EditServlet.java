@@ -17,9 +17,6 @@ import com.mimidaily.dao.ArticlesDAO;
 import com.mimidaily.dto.ArticlesDTO;
 import com.mimidaily.utils.FileUtil;
 
-/**
- * Servlet implementation class WriteServlet
- */
 @WebServlet("/articles/edit.do")
 @MultipartConfig(maxFileSize = 1024 * 1024 * 3, // 파일업로드할때 최대 사이즈
         maxRequestSize = 1024 * 1024 * 10 // 여러개의 파일 업로드할때 총합 사이즈
@@ -27,18 +24,10 @@ import com.mimidaily.utils.FileUtil;
 public class EditServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public EditServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     *      response)
-     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String memberId = (String) request.getSession().getAttribute("loginUser");
@@ -51,10 +40,6 @@ public class EditServlet extends HttpServlet {
 		request.getRequestDispatcher("/articles/edit.jsp").forward(request, response);
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-     *      response)
-     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // 수정 내용을 매개변수에서 얻어옴 - jsp hidden
@@ -95,16 +80,16 @@ public class EditServlet extends HttpServlet {
         }
         
 		
-        // 1. 파일 업로드 처리 =============================
+        // 1. 이미지 업로드 처리 =============================
         // 업로드 디렉터리의 물리적 경로 확인
         String saveDirectory = request.getServletContext().getRealPath("/uploads");
 
-        // 파일 업로드
+        // 이미지 업로드
         Part filePart = null;
         try {
             filePart = request.getPart("ofile");
         } catch (IllegalStateException | FileSizeLimitExceededException ex) {
-            request.setAttribute("errorMsg", "업로드 가능한 파일 크기는 최대 3MB입니다.");
+            request.setAttribute("errorMsg", "업로드 가능한 이미지 크기는 최대 3MB입니다.");
             request.getRequestDispatcher("/main.do").forward(request, response);
         }
 
@@ -119,19 +104,19 @@ public class EditServlet extends HttpServlet {
                     try {
                         originalFileName = FileUtil.uploadFile(request, saveDirectory);
                     } catch (Exception e) {
-                        System.out.println("파일 업로드 오류입니다.");
+                        System.out.println("이미지 업로드 오류입니다.");
                         e.printStackTrace();
                         originalFileName = "";
                     }
                     if (originalFileName != "") { 
                         String savedFileName = FileUtil.renameFile(saveDirectory, originalFileName);
                         
-                        dto.setOfile(originalFileName);  // 원본 파일 이름
-                        dto.setSfile(savedFileName);  // 서버에 저장된 파일 이름
+                        dto.setOfile(originalFileName);  // 원본 이미지 이름
+                        dto.setSfile(savedFileName);  // 서버에 저장된 이미지 이름
             
-                        // 파일의 Part 객체에서 추가 정보를 추출합니다.
-                        long fileSize = filePart.getSize(); // 파일 크기
-                        String fileType = filePart.getContentType(); // 파일 유형(MIME 타입)
+                        // 이미지의 Part 객체에서 추가 정보를 추출합니다.
+                        long fileSize = filePart.getSize(); // 이미지 크기
+                        String fileType = filePart.getContentType(); // 이미지 유형(MIME 타입)
                         dto.setFile_size(fileSize);
                         dto.setFile_type(fileType);
                         dto.setFile_path("/uploads/");
@@ -147,24 +132,24 @@ public class EditServlet extends HttpServlet {
                     try {
                         originalFileName = FileUtil.uploadFile(request, saveDirectory);
                     } catch (Exception e) {
-                        System.out.println("파일 업로드 오류입니다.");
+                        System.out.println("이미지 업로드 오류입니다.");
                         e.printStackTrace();
                         originalFileName = "";
                     }
                     if (originalFileName != "") { 
                         String savedFileName = FileUtil.renameFile(saveDirectory, originalFileName);
                         
-                        dto.setOfile(originalFileName);  // 원래 파일 이름
-                        dto.setSfile(savedFileName);  // 서버에 저장된 파일 이름
+                        dto.setOfile(originalFileName);  // 원래 이미지 이름
+                        dto.setSfile(savedFileName);  // 서버에 저장된 이미지 이름
             
-                        // 파일의 Part 객체에서 추가 정보를 추출합니다.
-                        long fileSize = filePart.getSize(); // 파일 크기
-                        String fileType = filePart.getContentType(); // 파일 유형(MIME 타입)
+                        // 이미지의 Part 객체에서 추가 정보를 추출합니다.
+                        long fileSize = filePart.getSize(); // 이미지 크기
+                        String fileType = filePart.getContentType(); // 이미지 유형(MIME 타입)
                         dto.setFile_size(fileSize);
                         dto.setFile_type(fileType);
                         dto.setFile_path("/uploads/");
                         
-                        // 기존 파일 삭제
+                        // 기존 이미지 삭제
                         FileUtil.deleteFile(request, "/uploads", prevSfile);
                     }
                 } else {
