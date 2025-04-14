@@ -73,7 +73,6 @@ public class UpdateServlet extends HttpServlet {
 		dto.setGender(gender);
 		dto.setMarketing(marketing);
 		
-		
 		// 1. 파일 업로드 처리 =============================
         // 업로드 디렉터리의 물리적 경로 확인
         String saveDirectory = request.getServletContext().getRealPath("/uploads/profiles");
