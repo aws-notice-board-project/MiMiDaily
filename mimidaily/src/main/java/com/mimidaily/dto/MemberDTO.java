@@ -22,6 +22,7 @@ public class MemberDTO {
 	private long file_size;
 	private String file_type;
     
+	
 	public String getId() {
 		return id;
 	}

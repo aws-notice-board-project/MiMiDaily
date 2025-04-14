@@ -290,7 +290,7 @@ public class MemberDAO extends DBConnPool {
 	                    // members 테이블 업데이트 (새 프로필 키 반영)
 	                    String updateMemberQuery = 
 	                        "UPDATE members " +
-	                        "SET pwd=?, name=?, email=?, tel=?, birth=?, gender=?, marketing=?, thumbnails_idx = ? " +
+	                        "SET pwd=?, name=?, email=?, tel=?, birth=?, gender=?, marketing=?, profiles_idx = ? " +
 	                        "WHERE id = ?";
 	                    PreparedStatement psmtMember = con.prepareStatement(updateMemberQuery);
 	                    psmtMember.setString(9, dto.getId());
