@@ -45,7 +45,6 @@
             </c:otherwise>
         	</c:choose>
 			</div>
-			
 	        <div class="member_box">
 	        	<label for="ofile">
 	        		이미지 첨부

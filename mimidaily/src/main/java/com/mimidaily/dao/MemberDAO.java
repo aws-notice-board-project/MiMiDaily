@@ -14,7 +14,7 @@ public class MemberDAO extends DBConnPool {
 	public MemberDAO() {
 		super();
 	}
-
+	
 	// 로그인시 사용하는 메서드
 	public int userCheck(String userid, String pwd) {
 		int result = -1; // 기본값
@@ -352,7 +352,6 @@ public class MemberDAO extends DBConnPool {
 	                    throw new SQLException("Invalid profile_idx format: " + profile_idx, e);
 	                }
 
-	                
 	                // profiles 업데이트 파라미터 (순서대로)
 	                cstmt.setString(1, dto.getOfile());
 	                cstmt.setString(2, dto.getSfile());
