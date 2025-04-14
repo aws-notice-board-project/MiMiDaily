@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" errorPage="/components/error.jsp"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -27,6 +27,14 @@
 			</div>
 		</form>
 		<form action="update.do" method="post" name="member_form">
+			<div class="member_box hide">
+				<input type="hidden" name="prevprofile_idx" value="${ member.profile_idx }" />
+				<input type="hidden" name="prevOfile" value="${ member.ofile }" />
+				<input type="hidden" name="prevSfile" value="${ member.sfile }" />
+				<input type="hidden" name="prevfile_path" value="${ member.file_path }" />
+				<input type="hidden" name="prevfile_size" value="${ member.file_size }" />
+				<input type="hidden" name="prevfile_type" value="${ member.file_type }" />
+			</div>
 			<div class="member_box" id="profile">
 			<c:choose>
             <c:when test="${empty member.profile_idx}">
@@ -65,7 +73,7 @@
 					<p class="error hidden"></p>
 		        </div>
 		        <div id="birth_gender">
-					<input type="text" name="birth" placeholder="주민등록번호" maxlength="6">
+					<input type="text" name="birth" placeholder="주민등록번호" maxlength="6" value="${member.birth}">
 					-
 					<input type="text" name="gender_code" maxlength="1">
 					<div class="xnumber"></div>
@@ -75,7 +83,7 @@
 					<div class="xnumber"></div>
 					<div class="xnumber"></div>
 					<p class="error hidden"></p>
-					<input type="hidden" name="gender">
+					<input type="hidden" name="gender" value="${member.gender}">
 		        </div>
 				<label>
 					<input type="checkbox" id="marketing_agree" checked>

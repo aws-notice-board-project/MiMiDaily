@@ -181,11 +181,7 @@ public class EditServlet extends HttpServlet {
         // DAO를 통해 DB에 게시 내용 저장
         ArticlesDAO dao = new ArticlesDAO();
         int articleId = 0;
-        if (thumb_idx != null) {
-            articleId = dao.updatePost(dto, idx, thumb_idx);
-        } else {
-            articleId = dao.updatePost(dto, idx, thumb_idx);
-        }
+        articleId = dao.updatePost(dto, idx, thumb_idx);
         
         // 글 작성 후 페이지 이동 처리
         String previousPage = (String) request.getSession().getAttribute("previousPage");
