@@ -13,24 +13,14 @@ import javax.servlet.http.HttpSession;
 import com.mimidaily.dao.MemberDAO;
 import com.mimidaily.dto.MemberInfoDTO;
 
-/**
- * Servlet implementation class LoginServlet
- */
 @WebServlet("/login.do")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    
     public LoginServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String referer = request.getHeader("Referer"); // 이전 페이지
 		request.getSession().setAttribute("previousPage", referer); // 세션에 저장
@@ -47,9 +37,6 @@ public class LoginServlet extends HttpServlet {
 		dispatcher.forward(request, response);//주소가 변경되지 않음.
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "member/login.jsp";
 		String userid = request.getParameter("userid");

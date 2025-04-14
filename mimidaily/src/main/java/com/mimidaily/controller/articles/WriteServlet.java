@@ -17,9 +17,6 @@ import com.mimidaily.dao.ArticlesDAO;
 import com.mimidaily.dto.ArticlesDTO;
 import com.mimidaily.utils.FileUtil;
 
-/**
- * Servlet implementation class WriteServlet
- */
 @WebServlet("/articles/write.do")
 @MultipartConfig(maxFileSize = 1024 * 1024 * 3, // 파일업로드할때 최대 사이즈
         maxRequestSize = 1024 * 1024 * 10 // 여러개의 파일 업로드할때 총합 사이즈
@@ -27,18 +24,10 @@ import com.mimidaily.utils.FileUtil;
 public class WriteServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public WriteServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     *      response)
-     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	String referer = request.getHeader("Referer"); // 이전 페이지
@@ -46,10 +35,6 @@ public class WriteServlet extends HttpServlet {
         request.getRequestDispatcher("/articles/write.jsp").forward(request, response);
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-     *      response)
-     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // 1. 파일 업로드 처리 =============================

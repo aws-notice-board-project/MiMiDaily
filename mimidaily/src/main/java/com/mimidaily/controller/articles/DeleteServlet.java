@@ -10,32 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mimidaily.dao.ArticlesDAO;
 
-/**
- * Servlet implementation class DeleteServlet
- */
 @WebServlet("/articles/delete.do")
 public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+     
     public DeleteServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String referer = request.getHeader("Referer"); // 이전 페이지
 		request.getSession().setAttribute("previousPage", referer); // 세션에 저장
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		  // 게시글 idx 파라미터 얻기 (삭제할 게시글 번호)
         String idx = request.getParameter("idx");
