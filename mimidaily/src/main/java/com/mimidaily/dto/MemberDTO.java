@@ -1,5 +1,7 @@
 package com.mimidaily.dto;
 
+import java.sql.Timestamp;
+
 public class MemberDTO {
     private String id;
     private String pwd;
@@ -12,7 +14,7 @@ public class MemberDTO {
     private int role;
     private Integer profile_idx;
     private int visitcnt;
-    private String created_at;
+    private Timestamp created_at;
     
     private String ofile;
 	private String sfile;
@@ -20,6 +22,7 @@ public class MemberDTO {
 	private long file_size;
 	private String file_type;
     
+	
 	public String getId() {
 		return id;
 	}
@@ -86,10 +89,10 @@ public class MemberDTO {
 	public void setProfile_idx(Integer profile_idx) {
 		this.profile_idx = profile_idx;
 	}
-	public String getCreated_at() {
+	public Timestamp getCreated_at() {
 		return created_at;
 	}
-	public void setCreated_at(String created_at) {
+	public void setCreated_at(Timestamp created_at) {
 		this.created_at = created_at;
 	}
 	
