@@ -5,4 +5,4 @@ Servers/Tomcat v9.0 Server at localhost-config/server.xml
 Servers/Tomcat v9.0 Server at localhost-config/web.xml
 Servers/Tomcat v9.0 Server at localhost-config/context.xml
 mimidaily/.classpath
-mimidaily/mimidaily.cld
+**/mimidaily.cld

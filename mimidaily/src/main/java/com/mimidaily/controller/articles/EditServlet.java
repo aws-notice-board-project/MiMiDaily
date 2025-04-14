@@ -46,9 +46,9 @@ public class EditServlet extends HttpServlet {
 		ArticlesDAO dao = new ArticlesDAO();
 		ArticlesDTO dto = dao.selectView(idx, memberId);
 		request.setAttribute("dto", dto);
-		request.getRequestDispatcher("/articles/edit.jsp").forward(request, response);
 		String referer = request.getHeader("Referer"); // 이전 페이지
 		request.getSession().setAttribute("previousPage", referer); // 세션에 저장
+		request.getRequestDispatcher("/articles/edit.jsp").forward(request, response);
     }
 
     /**
@@ -57,7 +57,7 @@ public class EditServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // 수정 내용을 매개변수에서 얻어옴
+        // 수정 내용을 매개변수에서 얻어옴 - jsp hidden
 		String idx = request.getParameter("idx");
 		String thumb_idx = request.getParameter("prevthumbnails_idx");
 		String members_id = request.getParameter("members_id");
@@ -81,17 +81,17 @@ public class EditServlet extends HttpServlet {
             try {
                 dto.setCategory(Integer.parseInt(categoryParam));
             } catch (NumberFormatException e) {
-                dto.setCategory(1); // 기본값 예시
+                dto.setCategory(1);
             }
         } else {
-            dto.setCategory(1); // 기본값
+            dto.setCategory(1);
         }
 
         String createdAtParam = request.getParameter("created_at");
         if (createdAtParam != null && !createdAtParam.isEmpty()) {
             dto.setCreated_at(Timestamp.valueOf(createdAtParam));
         } else {
-            dto.setCreated_at(new Timestamp(System.currentTimeMillis())); // 기본값
+            dto.setCreated_at(new Timestamp(System.currentTimeMillis()));
         }
         
 		
@@ -126,7 +126,7 @@ public class EditServlet extends HttpServlet {
                     if (originalFileName != "") { 
                         String savedFileName = FileUtil.renameFile(saveDirectory, originalFileName);
                         
-                        dto.setOfile(originalFileName);  // 원래 파일 이름
+                        dto.setOfile(originalFileName);  // 원본 파일 이름
                         dto.setSfile(savedFileName);  // 서버에 저장된 파일 이름
             
                         // 파일의 Part 객체에서 추가 정보를 추출합니다.

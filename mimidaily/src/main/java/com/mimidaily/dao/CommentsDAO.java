@@ -25,12 +25,19 @@ public class CommentsDAO extends DBConnPool {
 	}
 	
 	// 댓글 목록 조회 
-	public List<CommentsDTO> selectComments(int article_idx) {
+	public List<CommentsDTO> selectComments(int article_idx, int start, int end) {
 		List<CommentsDTO> comments=new ArrayList<CommentsDTO>();
-		String query="select * from comments where articles_idx=? order by idx desc";
+		String query = 
+			    "SELECT * FROM (" +
+			    "  SELECT ROWNUM rnum, c.* FROM (" +
+			    "    SELECT * FROM comments WHERE articles_idx = ? ORDER BY idx DESC" +
+			    "  ) c WHERE ROWNUM <= ?" +
+			    ") WHERE rnum > ?";
 		try {
 			psmt=con.prepareStatement(query);
 			psmt.setInt(1, article_idx);
+			psmt.setInt(2, end);      // limit
+			psmt.setInt(3, start);    // offset
 			rs=psmt.executeQuery();
 			while(rs.next()) {
 				CommentsDTO dto =new CommentsDTO();

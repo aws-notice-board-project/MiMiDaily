@@ -328,7 +328,7 @@ public class ArticlesDAO extends DBConnPool {
     public int updatePost(ArticlesDTO dto, String idx, String thumb_idx) {
         int updatedArticleId = 0;
         try {
-            // 파일 업로드 없이 단순 업데이트인 경우 (파일 변경 없음)
+            // 이미지 업로드 없이 단순 업데이트인 경우
             if (dto.getOfile() == null || dto.getOfile().trim().equals("")) {
                 String query = "UPDATE articles " +
                                "SET title = ?, content = ?, category = ?, created_at = ? " +
@@ -344,10 +344,10 @@ public class ArticlesDAO extends DBConnPool {
                     updatedArticleId = Integer.parseInt(idx);
                 }
             } else {
-                // 파일 업로드가 있는 경우
-                // thumb_idx 값에 따라 기존 썸네일 레코드가 있는지 판단
+                // 이미지 업로드가 있는 경우
+                // thumb_idx 값에 따라 기존 썸네일이 있는지 판단
                 if (thumb_idx != null && thumb_idx.trim().equals("0")) {
-                    // thumb_idx가 "0"이면 부모 썸네일 레코드가 없으므로 INSERT
+                    // 기존 썸네일은 없는데 새로 썸네일은 넣은 경우
                     String insertThumbQuery = 
                         "INSERT INTO thumbnails (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
                         "VALUES (thumbnails_seq.nextval, ?, ?, ?, ?, ?, ?)";
@@ -387,26 +387,12 @@ public class ArticlesDAO extends DBConnPool {
                     }
                     pstmtArticle.close();
                 } else {
-                    // thumb_idx가 "0"이 아니면 기존 썸네일 레코드가 존재하므로, 
-                    // PL/SQL 블록을 사용해 thumbnails 테이블과 articles 테이블 모두 업데이트
-                    String query =
-                        "BEGIN " +
-                        "  UPDATE thumbnails " +
-                        "  SET ofile = ?, " +
-                        "      sfile = ?, " +
-                        "      file_path = ?, " +
-                        "      file_size = ?, " +
-                        "      file_type = ?, " +
-                        "      created_at = ? " +
-                        "  WHERE idx = ?; " +
-                        "  UPDATE articles " +
-                        "  SET title = ?, " +
-                        "      content = ?, " +
-                        "      category = ?, " +
-                        "      created_at = ?, " +
-                        "      thumbnails_idx = ? " +
-                        "  WHERE idx = ?; " +
-                        "END;";
+                   // 기존 썸네일이 있는데 썸네일을 바꾼 경우
+                   String query = 
+                    "BEGIN " +
+                    "UPDATE thumbnails SET ofile = ?, sfile = ?, file_path = ?, file_size = ?, file_type = ?, created_at = ? WHERE idx = ?; " +
+                    "UPDATE articles SET title = ?, content = ?, category = ?, created_at = ?, thumbnails_idx = ? WHERE idx = ?; " +
+                    "END;";
                     CallableStatement cstmt = con.prepareCall(query);
                     
                     // thumbnails 업데이트 파라미터 (순서대로)
@@ -417,7 +403,6 @@ public class ArticlesDAO extends DBConnPool {
                     cstmt.setString(5, dto.getFile_type());
                     cstmt.setTimestamp(6, dto.getCreated_at());
                     cstmt.setString(7, thumb_idx);
-                    
                     // articles 업데이트 파라미터 (순서대로)
                     cstmt.setString(8, dto.getTitle());
                     cstmt.setString(9, dto.getContent());
