@@ -33,11 +33,15 @@
           		<i class="fa-solid fa-circle-user none_profile"></i>
 			</c:when>
             <c:otherwise>
-				<img src="" alt="${member.id}의 프로필">
+				<img src="${pageContext.request.contextPath}${member.file_path}${member.sfile}" alt="${member.id}의 프로필">
             </c:otherwise>
         	</c:choose>
 			</div>
 	        <div class="member_box">
+	        	<label for="ofile">
+	        		이미지 첨부
+					<input type="file" id="ofile" name="ofile" accept="image/*">
+				</label>
 				<div class="readonly">
 					<input type="text" name="id" value="${sessionScope.loginUser}" readonly>
 				</div>
@@ -61,7 +65,7 @@
 					<p class="error hidden"></p>
 		        </div>
 		        <div id="birth_gender">
-					<input type="text" name="birth" placeholder="주민등록번호 앞자리" maxlength="6">
+					<input type="text" name="birth" placeholder="주민등록번호" maxlength="6">
 					-
 					<input type="text" name="gender_code" maxlength="1">
 					<div class="xnumber"></div>

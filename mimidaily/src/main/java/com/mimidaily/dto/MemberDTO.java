@@ -14,13 +14,13 @@ public class MemberDTO {
     private int role;
     private Integer profile_idx;
     private int visitcnt;
-    private Timestamp created_at;
     
     private String ofile;
 	private String sfile;
 	private String file_path;
 	private long file_size;
 	private String file_type;
+	private Timestamp created_at;
     
 	
 	public String getId() {

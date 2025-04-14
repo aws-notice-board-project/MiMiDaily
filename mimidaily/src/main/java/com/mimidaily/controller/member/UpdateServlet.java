@@ -28,7 +28,7 @@ public class UpdateServlet extends HttpServlet {
 		String url = "/member/update.jsp";
         String memberId = (String) request.getSession().getAttribute("loginUser");
 		MemberDAO dao = new MemberDAO();
-		MemberDTO dto = dao.getMember(memberId);;
+		MemberDTO dto = dao.getMember(memberId);
 		request.setAttribute("member", dto);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);
