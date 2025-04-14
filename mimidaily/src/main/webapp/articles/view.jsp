@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" %>
-   <!--  errorPage="/components/error.jsp" -->
+    pageEncoding="UTF-8" errorPage="/components/error.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
@@ -96,8 +95,8 @@
 							</a>
 				        </div>
 					</div>
-					<div class="comments_container">
-						<!-- /절대경로 대신 상대경로 (/없는)를 사용해야 부모 값을 전달받을 수 있음 -->				
+					<!-- 댓글 -->
+					<div class="comments_container">		
 						<jsp:include page="/components/comments.jsp"></jsp:include>
 					</div>
 		        </div>
