@@ -96,9 +96,43 @@
 				        </div>
 					</div>
 					<!-- 댓글 -->
-					<div class="comments_container">		
+					<div class="comments">
+						<h3>댓글 <span class="comment_cnt">${ commentCnt }</span></h3>
+						<div class="comments_form">
+				    		<c:choose>
+				        		<c:when test="${empty sessionScope.loginUser}">
+				        			로그인 후 댓글을 작성할 수 있습니다.
+				        		</c:when>
+				        		<c:otherwise>
+				     			<!-- 댓글 작성 -->
+				      		<div class="input_comment">
+				       		<c:choose>
+					            <c:when test="${member.profile_idx == 0||member.profile_idx == null}">
+						             <i class="fa-solid fa-circle-user none_profile"></i>
+								</c:when>
+					            <c:otherwise>
+					            	이미지 있음
+						            <%-- <div class="profile_img">
+										<img src="${pageContext.request.contextPath}${member.file_path}${member.sfile}" alt="${sessionScope.loginUser}의 썸네일">
+						            </div> --%>
+					            </c:otherwise>
+					        </c:choose>
+				       		<textarea rows="4" cols="50" id="comment" autocomplete="off"></textarea>
+				      		</div>
+				      		<div class="comt_cnt_box">
+				      			<span class="comt_cnt">0</span><span>/500</span>
+				       		<button class="comment_btn btn" type="button" onclick="insertComment('${sessionScope.loginUser}',${article.idx})">댓글 작성</button>
+				      		</div>
+				        		</c:otherwise>
+				        	</c:choose>
+				   		</div>
+					</div>
+					<div class="comments_container">
 						<jsp:include page="/components/comments.jsp"></jsp:include>
 					</div>
+					<div class="more_btn">
+		     			<button class="btn" onclick="loadMoreComments(${article.idx}, ${commentCnt})">더보기</button>
+		     		</div>
 		        </div>
 			</div>
 			<div class="comts_likes">
@@ -165,10 +199,12 @@
 <jsp:include page="/components/footer.jsp"></jsp:include>
 
 <script type="module" defer>
-    import { loginAlert, toggleLike , deleteArticle } from '/script/view.js';
+    import { insertComment, loginAlert, toggleLike , deleteArticle, loadMoreComments } from '/script/view.js';
+	window.insertComment = insertComment;
     window.loginAlert = loginAlert;
     window.toggleLike = toggleLike;
 	window.deleteArticle = deleteArticle;
+	window.loadMoreComments = loadMoreComments;
 </script>
 <script>
 	const isLiked = ${article.is_liked};
