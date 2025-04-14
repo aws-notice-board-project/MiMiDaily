@@ -193,7 +193,7 @@ public class MemberDAO extends DBConnPool {
 		}
 		return mDto;
 	}
-		
+	
 	// 프로필 정보
     public void loadProfile(MemberDTO dto) {
         if (dto.getProfile_idx() != null) {
@@ -222,7 +222,6 @@ public class MemberDAO extends DBConnPool {
 				+ " tel=?, birth=?, gender=?, marketing=? where id=?";
 		try {
 			psmt = con.prepareStatement(sql);
-			psmt.setString(8, mDto.getId());
 			psmt.setString(1, mDto.getPwd());
 			psmt.setString(2, mDto.getName());
 			psmt.setString(3, mDto.getEmail());
@@ -230,6 +229,7 @@ public class MemberDAO extends DBConnPool {
 			psmt.setString(5, mDto.getBirth());
 			psmt.setString(6, mDto.getGender());
 			psmt.setBoolean(7, mDto.isMarketing());
+			psmt.setString(8, mDto.getId());
 			result = psmt.executeUpdate();
 		} catch (Exception e) {
 			System.out.println("회원 정보 수정 중 오류 발생");
@@ -239,9 +239,9 @@ public class MemberDAO extends DBConnPool {
 		return result;
 	}
 		
-	// 게시글 데이터를 받아 DB에 저장되어 있던 내용을 갱신(파일 업로드 지원).
-    public int updateMember(MemberDTO dto, String profile_idx) {
-        int updated = -1;
+	// 회원 정보 데이터를 받아 DB에 저장되어 있던 내용을 갱신(파일 업로드 지원).
+    public String updateMember(MemberDTO dto, String profile_idx) {
+    	String updated = null;
         try {
             // 파일 업로드 없이 단순 업데이트인 경우 (프로필 변경 없음)
             if (dto.getOfile() == null || dto.getOfile().trim().equals("")) {
@@ -259,7 +259,7 @@ public class MemberDAO extends DBConnPool {
 				psmt.setString(8, dto.getId());
 				int result = psmt.executeUpdate();
                 if (result > 0) {
-                    updated = Integer.parseInt(dto.getId());
+                    updated = dto.getId();
                 }
             } else {
                 // 파일 업로드가 있는 경우
@@ -304,7 +304,7 @@ public class MemberDAO extends DBConnPool {
 					psmtMember.setString(9, dto.getId());
                     int memberResult = psmtMember.executeUpdate();
                     if (memberResult > 0) {
-                        updated = Integer.parseInt(dto.getId());
+                        updated = dto.getId();
                     }
                     psmtMember.close();
                 } else {
@@ -354,7 +354,7 @@ public class MemberDAO extends DBConnPool {
                     cstmt.setString(16, dto.getId());
                     
                     cstmt.execute();
-                    updated = Integer.parseInt(dto.getId());
+                    updated = dto.getId();
                     cstmt.close();
                 }
             }
