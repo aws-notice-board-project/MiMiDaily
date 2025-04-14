@@ -33,11 +33,19 @@ public class ListCommentsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 댓글 더보기
+		int page = Integer.parseInt(request.getParameter("page")); // js로 받은 page 번호
+		int limit = 10; // 10개씩
+		int start = (page - 1) * limit;
+		int end = page * limit;
+		
 		// 댓글 목록
 		CommentsDAO cDao = new CommentsDAO();
 		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
-		List<CommentsDTO> commentsList=cDao.selectComments(articleIdx); // 댓글 목록
-        int commentCnt=cDao.commentsCount(articleIdx); //  댓글 갯수
+		List<CommentsDTO> commentsList=cDao.selectComments(articleIdx, start, end); // 댓글 목록
+        
+        
+        
         // 현재 유저
         MemberDAO mDao = new MemberDAO();
         String memberId = (String) request.getSession().getAttribute("loginUser");
@@ -48,7 +56,6 @@ public class ListCommentsServlet extends HttpServlet {
         
         request.setAttribute("articleIdx", articleIdx); // 현재 유저
         request.setAttribute("member", mDto); // 현재 유저
-        request.setAttribute("commentCnt", commentCnt); // 댓글 갯수
         request.setAttribute("commentsList", commentsList); // 댓글 목록
         
         request.getRequestDispatcher("/components/comments.jsp").forward(request, response);
