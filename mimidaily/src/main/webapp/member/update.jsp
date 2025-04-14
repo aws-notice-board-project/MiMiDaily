@@ -26,7 +26,7 @@
 				<input type="submit" value="확인">
 			</div>
 		</form>
-		<form action="update.do" method="post" name="member_form">
+		<form action="update.do" method="post" enctype="multipart/form-data" onsubmit="return validateForm(this);" name="member_form">
 			<div class="member_box hide">
 				<input type="hidden" name="prevprofile_idx" value="${ member.profile_idx }" />
 				<input type="hidden" name="prevOfile" value="${ member.ofile }" />
@@ -41,10 +41,11 @@
           		<i class="fa-solid fa-circle-user none_profile"></i>
 			</c:when>
             <c:otherwise>
-				<img src="${pageContext.request.contextPath}${member.file_path}${member.sfile}" alt="${member.id}의 프로필">
+				<img src="${pageContext.request.contextPath}${member.file_path}/${member.sfile}" alt="${member.id}의 프로필">
             </c:otherwise>
         	</c:choose>
 			</div>
+			
 	        <div class="member_box">
 	        	<label for="ofile">
 	        		이미지 첨부

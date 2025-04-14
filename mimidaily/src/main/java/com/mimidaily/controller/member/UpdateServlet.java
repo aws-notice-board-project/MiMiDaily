@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,12 +21,14 @@ import com.mimidaily.dto.MemberDTO;
 import com.mimidaily.utils.FileUtil;
 
 @WebServlet("/update.do")
+@MultipartConfig(maxFileSize = 1024 * 1024 * 3, // 파일업로드할때 최대 사이즈
+maxRequestSize = 1024 * 1024 * 10 // 여러개의 파일 업로드할때 총합 사이즈
+)
 public class UpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     public UpdateServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -69,7 +72,6 @@ public class UpdateServlet extends HttpServlet {
 		dto.setGender(gender);
 		dto.setMarketing(marketing);
 		
-		
 		// 1. 파일 업로드 처리 =============================
         // 업로드 디렉터리의 물리적 경로 확인
         String saveDirectory = request.getServletContext().getRealPath("/uploads/profiles");
@@ -81,14 +83,13 @@ public class UpdateServlet extends HttpServlet {
         } catch (IllegalStateException | FileSizeLimitExceededException ex) {
             request.setAttribute("errorMsg", "업로드 가능한 파일 크기는 최대 3MB입니다.");
             request.getRequestDispatcher("/main.do").forward(request, response);
+            return;
         }
-
-        String originalFileName = "";
         
-        if (profile_idx != null && !profile_idx.trim().isEmpty()) {
-        	int profileId = Integer.parseInt(profile_idx.trim());
-        	if (profileId == 0) {
-        		// thumb_idx가 0인 경우의 처리 ---> 기존에 이미지가 없다
+        String originalFileName = "";
+        if (profile_idx != null) {
+        	if (profile_idx.trim().isEmpty()) {
+        		// profile_idx가 0인 경우의 처리 ---> 기존에 이미지가 없다
                 if (filePart != null && filePart.getSize() > 0) {
                     //---> 새로운 이미지 삽입
                     try {
@@ -151,6 +152,8 @@ public class UpdateServlet extends HttpServlet {
                     dto.setFile_path(prevfile_path);
                 }
         	}
+        } else {
+        	System.out.println("데이터 오류");
         }
 		
         // DAO를 통해 DB에 게시 내용 저장
@@ -163,7 +166,7 @@ public class UpdateServlet extends HttpServlet {
 		if (updatedId == dto.getId()) {
 			session.setAttribute("id", dto.getId());
 			request.setAttribute("success_msg", "회원 정보 수정에 성공했습니다.");
-			url = "/member/update.jsp";
+			url = "main.do";
 		} else {
 			request.setAttribute("success_msg", "회원 정보 수정에 실패했습니다.");
 		}

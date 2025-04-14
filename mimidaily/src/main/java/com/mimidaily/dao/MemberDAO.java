@@ -185,6 +185,7 @@ public class MemberDAO extends DBConnPool {
 				mDto.setBirth(rs.getString("birth"));
 				mDto.setGender(rs.getString("gender"));
 				mDto.setMarketing(rs.getBoolean("Marketing"));
+				mDto.setProfile_idx(rs.getInt("profiles_idx"));
 				loadProfile(mDto);
 			}
 		} catch (Exception e) {
@@ -240,130 +241,150 @@ public class MemberDAO extends DBConnPool {
 	}
 		
 	// 회원 정보 데이터를 받아 DB에 저장되어 있던 내용을 갱신(파일 업로드 지원).
-    public String updateMember(MemberDTO dto, String profile_idx) {
-    	String updated = null;
-        try {
-            // 파일 업로드 없이 단순 업데이트인 경우 (프로필 변경 없음)
-            if (dto.getOfile() == null || dto.getOfile().trim().equals("")) {
-                String query = "UPDATE members " +
-                               "SET pwd=?, name=?, email=?, tel=?, birth=?, gender=?, marketing=? " +
-                               "WHERE id = ?";
-                psmt = con.prepareStatement(query);
-				psmt.setString(1, dto.getPwd());
-				psmt.setString(2, dto.getName());
-				psmt.setString(3, dto.getEmail());
-				psmt.setString(4, dto.getTel());
-				psmt.setString(5, dto.getBirth());
-				psmt.setString(6, dto.getGender());
-				psmt.setBoolean(7, dto.isMarketing());
-				psmt.setString(8, dto.getId());
-				int result = psmt.executeUpdate();
-                if (result > 0) {
-                    updated = dto.getId();
-                }
-            } else {
-                // 파일 업로드가 있는 경우
-                // profile_idx 값에 따라 기존 썸네일 레코드가 있는지 판단
-                if (profile_idx != null && profile_idx.trim().equals("0")) {
-                    // profile_idx가 "0"이면 부모 썸네일 레코드가 없으므로 INSERT
-                    String insertProfileQuery = 
-                        "INSERT INTO profiles (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
-                        "VALUES (profiles_seq.nextval, ?, ?, ?, ?, ?, ?)";
-                    PreparedStatement pstmtProfile = con.prepareStatement(insertProfileQuery, new String[]{"idx"});
-                    pstmtProfile.setString(1, dto.getOfile());
-                    pstmtProfile.setString(2, dto.getSfile());
-                    pstmtProfile.setString(3, dto.getFile_path());
-                    pstmtProfile.setLong(4, dto.getFile_size());
-                    pstmtProfile.setString(5, dto.getFile_type());
-                    pstmtProfile.setTimestamp(6, dto.getCreated_at());
-                    int profileResult = pstmtProfile.executeUpdate();
-                    int newProfileId = 0;
-                    if (profileResult > 0) {
-                        ResultSet rs = pstmtProfile.getGeneratedKeys();
-                        if (rs.next()) {
-                            newProfileId = rs.getInt(1);
-                        }
-                        rs.close();
-                    }
-                    pstmtProfile.close();
-                    
-                    // members 테이블 업데이트 (새 프로필 키 반영)
-                    String updateMemberQuery = 
-                        "UPDATE members " +
-                        "SET pwd=?, name=?, email=?, tel=?, birth=?, gender=?, marketing=?, profiles_idx = ? " +
-                        "WHERE id = ?";
-                    PreparedStatement psmtMember = con.prepareStatement(updateMemberQuery);
-					psmtMember.setString(1, dto.getPwd());
-					psmtMember.setString(2, dto.getName());
-					psmtMember.setString(3, dto.getEmail());
-					psmtMember.setString(4, dto.getTel());
-					psmtMember.setString(5, dto.getBirth());
-					psmtMember.setString(6, dto.getGender());
-					psmtMember.setBoolean(7, dto.isMarketing());
-					psmtMember.setInt(8, newProfileId);
-					psmtMember.setString(9, dto.getId());
-                    int memberResult = psmtMember.executeUpdate();
-                    if (memberResult > 0) {
-                        updated = dto.getId();
-                    }
-                    psmtMember.close();
-                } else {
-                    // profile_idx가 "0"이 아니면 기존 썸네일 레코드가 존재하므로, 
-                    // PL/SQL 블록을 사용해 profiles 테이블과 members 테이블 모두 업데이트
-                    String query =
-                        "BEGIN " +
-                        "  UPDATE profiles " +
-                        "  SET ofile = ?, " +
-                        "      sfile = ?, " +
-                        "      file_path = ?, " +
-                        "      file_size = ?, " +
-                        "      file_type = ?, " +
-                        "      created_at = ? " +
-                        "  WHERE idx = ?; " +
-                        "  UPDATE members " +
-                        "  SET pwd=?, " +
-                        "      name=?, " +
-                        "      email=?, " +
-                        "      tel=?, " +
-                        "      birth=?, " +
-                        "      gender=?, " +
-                        "      marketing=?, " +
-                        "      profiles_idx = ? " +
-                        "  WHERE id = ?; " +
-                        "END;";
-                    CallableStatement cstmt = con.prepareCall(query);
-                    
-                    // profiles 업데이트 파라미터 (순서대로)
-                    cstmt.setString(1, dto.getOfile());
-                    cstmt.setString(2, dto.getSfile());
-                    cstmt.setString(3, dto.getFile_path());
-                    cstmt.setLong(4, dto.getFile_size());
-                    cstmt.setString(5, dto.getFile_type());
-                    cstmt.setTimestamp(6, dto.getCreated_at());
-                    cstmt.setString(7, profile_idx);
-                    
-                    // 회원 정보 업데이트 파라미터 (순서대로)						
-                    cstmt.setString(8, dto.getPwd());
-                    cstmt.setString(9, dto.getName());
-                    cstmt.setString(10, dto.getEmail());
-                    cstmt.setString(11, dto.getTel());
-                    cstmt.setString(12, dto.getBirth());
-                    cstmt.setString(13, dto.getGender());
-                    cstmt.setBoolean(14, dto.isMarketing());
-                    cstmt.setString(15, profile_idx);
-                    cstmt.setString(16, dto.getId());
-                    
-                    cstmt.execute();
-                    updated = dto.getId();
-                    cstmt.close();
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("회원 정보 수정 중 예외 발생");
-            e.printStackTrace();
-        }
-        return updated;
-    }
+	public String updateMember(MemberDTO dto, String profile_idx) {
+	    String updated = null;
+	    try {
+	        // 파일 업로드 없이 단순 업데이트인 경우 (프로필 변경 없음)
+	        if (dto.getOfile() == null || dto.getOfile().trim().equals("")) {
+	            String query = "UPDATE members " +
+	                           "SET pwd=?, name=?, email=?, tel=?, birth=?, gender=?, marketing=? " +
+	                           "WHERE id = ?";
+	            psmt = con.prepareStatement(query);
+	            psmt.setString(1, dto.getPwd());
+	            psmt.setString(2, dto.getName());
+	            psmt.setString(3, dto.getEmail());
+	            psmt.setString(4, dto.getTel());
+	            psmt.setString(5, dto.getBirth());
+	            psmt.setString(6, dto.getGender());
+	            psmt.setBoolean(7, dto.isMarketing());
+	            psmt.setString(8, dto.getId());
+	            int result = psmt.executeUpdate();
+	            if (result > 0) {
+	                updated = dto.getId();
+	            }
+	        } else {
+	            // 파일 업로드가 있는 경우
+	            // profile_idx 값에 따라 기존 썸네일 레코드가 있는지 판단
+	            if (profile_idx == null || profile_idx.trim().isEmpty() || profile_idx.trim().equals("0")) {
+	                // profile_idx가 "0"이거나 null, 빈 값이면 새 프로필 생성
+	                String insertProfileQuery = 
+	                    "INSERT INTO profiles (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
+	                    "VALUES (profiles_seq.nextval, ?, ?, ?, ?, ?, SYSTIMESTAMP)";
+	                PreparedStatement pstmtProfile = con.prepareStatement(insertProfileQuery, new String[]{"idx"});
+	                pstmtProfile.setString(1, dto.getOfile());
+	                pstmtProfile.setString(2, dto.getSfile());
+	                pstmtProfile.setString(3, dto.getFile_path());
+	                pstmtProfile.setLong(4, dto.getFile_size());
+	                pstmtProfile.setString(5, dto.getFile_type());
+	                int profileResult = pstmtProfile.executeUpdate();
+	                int newProfileId = 0;
+	                if (profileResult > 0) {
+	                    ResultSet rs = pstmtProfile.getGeneratedKeys();
+	                    if (rs.next()) {
+	                        newProfileId = rs.getInt(1);  // 새로 생성된 프로필 ID를 가져옴
+	                    }
+	                    rs.close();
+	                }
+	                pstmtProfile.close();
+	                
+	                // newProfileId가 0이면 프로필 삽입이 실패한 것이므로 예외를 발생시킴
+	                if (newProfileId == 0) {
+	                    throw new SQLException("프로필 생성에 실패했습니다.");
+	                }
+	                
+	                // members 테이블 업데이트 (새 프로필 키 반영)
+	                String updateMemberQuery = 
+	                    "UPDATE members " +
+	                    "SET pwd=?, name=?, email=?, tel=?, birth=?, gender=?, marketing=?, profiles_idx = ? " +
+	                    "WHERE id = ?";
+	                PreparedStatement psmtMember = con.prepareStatement(updateMemberQuery);
+	                psmtMember.setString(1, dto.getPwd());
+	                psmtMember.setString(2, dto.getName());
+	                psmtMember.setString(3, dto.getEmail());
+	                psmtMember.setString(4, dto.getTel());
+	                psmtMember.setString(5, dto.getBirth());
+	                psmtMember.setString(6, dto.getGender());
+	                psmtMember.setBoolean(7, dto.isMarketing());
+	                psmtMember.setInt(8, newProfileId);  // 새로 생성된 프로필 ID 삽입
+	                psmtMember.setString(9, dto.getId());
+	                int memberResult = psmtMember.executeUpdate();
+	                if (memberResult > 0) {
+	                    updated = dto.getId();
+	                }
+	                psmtMember.close();
+	            } else {
+	                // profile_idx가 "0"이 아니면 기존 프로필 레코드가 존재하므로, 
+	                // PL/SQL 블록을 사용해 profiles 테이블과 members 테이블 모두 업데이트
+	                String query =
+	                    "BEGIN " +
+	                    "  UPDATE profiles " +
+	                    "  SET ofile = ?, " +
+	                    "      sfile = ?, " +
+	                    "      file_path = ?, " +
+	                    "      file_size = ?, " +
+	                    "      file_type = ?, " +
+	                    "      created_at = SYSTIMESTAMP " +
+	                    "  WHERE idx = ?; " +
+	                    "  UPDATE members " +
+	                    "  SET pwd=?, " +
+	                    "      name=?, " +
+	                    "      email=?, " +
+	                    "      tel=?, " +
+	                    "      birth=?, " +
+	                    "      gender=?, " +
+	                    "      marketing=?, " +
+	                    "      profiles_idx = ? " +
+	                    "  WHERE id = ?; " +
+	                    "END;";
+
+	                CallableStatement cstmt = con.prepareCall(query);
+
+	                // profile_idx 값 검증
+	                if (profile_idx == null || profile_idx.trim().isEmpty()) {
+	                    throw new SQLException("profile_idx is empty or null");
+	                }
+
+	                // profile_idx가 숫자일 경우만 처리
+	                int profileId = -1;
+	                try {
+	                    profileId = Integer.parseInt(profile_idx.trim());  // profile_idx를 숫자로 변환
+	                } catch (NumberFormatException e) {
+	                    throw new SQLException("Invalid profile_idx format: " + profile_idx, e);
+	                }
+
+	                
+	                // profiles 업데이트 파라미터 (순서대로)
+	                cstmt.setString(1, dto.getOfile());
+	                cstmt.setString(2, dto.getSfile());
+	                cstmt.setString(3, dto.getFile_path());
+	                cstmt.setLong(4, dto.getFile_size());
+	                cstmt.setString(5, dto.getFile_type());
+	                cstmt.setInt(6, profileId);  // 변환된 profile_id 사용
+
+	                // 회원 정보 업데이트 파라미터 (순서대로)
+	                cstmt.setString(7, dto.getPwd());
+	                cstmt.setString(8, dto.getName());
+	                cstmt.setString(9, dto.getEmail());
+	                cstmt.setString(10, dto.getTel());
+	                cstmt.setString(11, dto.getBirth());
+	                cstmt.setString(12, dto.getGender());
+	                cstmt.setInt(13, dto.isMarketing() ? 1 : 0);
+
+	                // profile_idx를 다시 한 번 사용 (이미 확인했으므로 올바른 값이 설정됨)
+	                cstmt.setInt(14, profileId);  // 변환된 profile_id 사용
+	                cstmt.setString(15, dto.getId());
+
+	                cstmt.execute();
+	                updated = dto.getId();
+	                cstmt.close();
+	            }
+	        }
+	    } catch (Exception e) {
+	        System.out.println("회원 정보 수정 중 예외 발생");
+	        e.printStackTrace();
+	    }
+	    return updated;
+	}
 		
 	//특정 유저 정보 가져오기(글쓴이/댓글 작성자 정보 가져오기)
 	public MemberDTO userInfo(String member_id) {

@@ -26,8 +26,6 @@ public class FileUtil {
 		 
 		//Part 객체의 헤더값 중 content-disposition 읽어오기 
         String partHeader = part.getHeader("content-disposition");
-        //출력결과 => form-data; name="attachedFile"; filename="파일명.jpg"
-        System.out.println("partHeader="+ partHeader);
          
         //헤더값에서 파일명 잘라내기
         String[] phArr = partHeader.split("filename=");
