@@ -219,7 +219,7 @@ function reloadComments() {
     url: '/comments/list.do',
     method: 'get',
     data: { articleIdx: articleIdx },
-    success: function (html) {
+    success: function (html) { //  서버(/comments/list.do)가 응답한 JSP 조각(HTML) => 서버가 랜더링한 html문자열이 jQuery Ajax에 의해 그대로 html 변수에 담겨옴
       $('.comments_container').html(html); // JSP에서 렌더링된 댓글 HTML 조각
     },
     error: function (e) {
