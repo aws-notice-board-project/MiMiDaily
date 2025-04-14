@@ -264,27 +264,58 @@ public class ArticlesDAO extends DBConnPool {
         }
     }
 
-    // 지정한 일련번호의 게시물을 삭제합니다.
-    public int deletePost(String idx) {
+    public int deletePost(String articleIdx) {
         int result = 0;
+        Integer thumbnailIdx = null;
+        
         try {
-            // 1. 해시태그와의 연관 레코드 삭제 (hashtags_articles)
+            // 0. 게시글에 연결된 썸네일 인덱스 조회
+            String selectThumbQuery = "SELECT thumbnails_idx FROM articles WHERE idx = ?";
+            psmt = con.prepareStatement(selectThumbQuery);
+            psmt.setString(1, articleIdx);
+            ResultSet rs = psmt.executeQuery();
+            if (rs.next()) {
+                thumbnailIdx = rs.getInt("thumbnails_idx");
+            }
+            rs.close();
+            psmt.close();
+    
+            // 1. 해시태그 연관 레코드 삭제
             String deleteHashtagsArticlesQuery = "DELETE FROM hashtags_articles WHERE articles_idx = ?";
             psmt = con.prepareStatement(deleteHashtagsArticlesQuery);
-            psmt.setString(1, idx);
+            psmt.setString(1, articleIdx);
             psmt.executeUpdate();
-            
-            // 2. 좋아요와 같은 다른 자식 레코드가 있다면 같은 방식으로 삭제 처리
+            psmt.close();
+    
+            // 2. 좋아요 연관 레코드 삭제
             String deleteLikesQuery = "DELETE FROM likes WHERE articles_idx = ?";
             psmt = con.prepareStatement(deleteLikesQuery);
-            psmt.setString(1, idx);
+            psmt.setString(1, articleIdx);
             psmt.executeUpdate();
-            
-            // 3. 마지막으로 게시글 삭제
+            psmt.close();
+    
+            // 3. 코멘트 연관 레코드 삭제
+            String deleteCommentsQuery = "DELETE FROM comments WHERE articles_idx = ?";
+            psmt = con.prepareStatement(deleteCommentsQuery);
+            psmt.setString(1, articleIdx);
+            psmt.executeUpdate();
+            psmt.close();
+    
+            // 4. 게시글 자체 삭제
             String deleteArticleQuery = "DELETE FROM articles WHERE idx = ?";
             psmt = con.prepareStatement(deleteArticleQuery);
-            psmt.setString(1, idx);
+            psmt.setString(1, articleIdx);
             result = psmt.executeUpdate();
+            psmt.close();
+    
+            // 5. 연결된 썸네일 삭제 (조회한 thumbnails_idx를 사용)
+            if (thumbnailIdx != null) {
+                String deleteThumbnailQuery = "DELETE FROM thumbnails WHERE idx = ?";
+                psmt = con.prepareStatement(deleteThumbnailQuery);
+                psmt.setInt(1, thumbnailIdx);
+                psmt.executeUpdate();
+                psmt.close();
+            }
         } catch (Exception e) {
             System.out.println("게시글 삭제 중 예외 발생");
             e.printStackTrace();
