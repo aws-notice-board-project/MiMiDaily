@@ -70,14 +70,15 @@
 	</c:if>
 </div>
 <script type="module" defer>
-$.ajax({
+const user = '${sessionScope.loginUser}';
+if(user){
+	$.ajax({
 		url: '/member/usercard.do',
 		type: 'get',
 		dataType: 'json',
 		success: function(data) {
 				// JSON 응답을 처리합니다.
 				if (data) {	
-					console.log(data);
 					// 성공적으로 데이터를 가져온 경우 필요한 DOM 요소를 업데이트
 					// $('.userbox .profile .name').text(data.name);
 					$('.userbox .profile .date').text(data.date);
@@ -90,5 +91,6 @@ $.ajax({
 		error: function(xhr, status, error) {
 				console.error('Error:', error);
 		}
-});
+	});
+}
 </script>
