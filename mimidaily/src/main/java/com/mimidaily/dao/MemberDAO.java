@@ -352,6 +352,7 @@ public class MemberDAO extends DBConnPool {
 	                    throw new SQLException("Invalid profile_idx format: " + profile_idx, e);
 	                }
 
+	                
 	                // profiles 업데이트 파라미터 (순서대로)
 	                cstmt.setString(1, dto.getOfile());
 	                cstmt.setString(2, dto.getSfile());
