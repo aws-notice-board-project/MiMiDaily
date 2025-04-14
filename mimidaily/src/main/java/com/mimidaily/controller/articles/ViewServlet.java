@@ -49,6 +49,7 @@ public class ViewServlet extends HttpServlet {
         ArticlesDTO aDto = aDao.selectView(idx, memberId); // 게시글 불러오기
         List<ArticlesDTO> viewestList=aDao.viewestList(); // 실시간 관심기사 best4
         MemberDTO wDto = mDao.userInfo(aDto.getMembers_id()); // 글쓴이 정보
+        MemberDTO mDto = mDao.userInfo(memberId); // 접속자 정보
         
         int intIdx = Integer.parseInt(idx);
         int commentCnt=cDao.commentsCount(intIdx); //  댓글 갯수
@@ -78,6 +79,7 @@ public class ViewServlet extends HttpServlet {
         // 게시물(dto) 저장 후 뷰로 포워드
         request.setAttribute("commentCnt", commentCnt); // 댓글 갯수
         request.setAttribute("writer", wDto); // 글쓴이 정보
+        request.setAttribute("member", mDto); // 접속자 정보
         request.setAttribute("article", aDto); // 게시글 정보
         request.setAttribute("viewestList", viewestList); // 최신 기사
         //request.setAttribute("isImage", isImage);

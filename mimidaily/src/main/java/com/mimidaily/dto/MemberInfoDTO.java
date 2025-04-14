@@ -9,6 +9,7 @@ public class MemberInfoDTO {
     private int articleCount;
     private int commentCount;
     private Timestamp createdAt;
+    private MemberDTO profiles;
 
     // Getters and Setters
     public String getId() { return id; }
@@ -28,6 +29,12 @@ public class MemberInfoDTO {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         return sdf.format(createdAt);
     }
-
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+	public MemberDTO getProfiles() {
+		return profiles;
+	}
+	public void setProfiles(MemberDTO profiles) {
+		this.profiles = profiles;
+	}
+    
 }

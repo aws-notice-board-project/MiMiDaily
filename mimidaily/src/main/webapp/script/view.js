@@ -111,9 +111,10 @@ export function loadMoreComments(articleIdx, cnt) {
   });
 }
 
-//let alreadyExecuted = false; // 글자 갯수에 따라 옵저버 발생량 증가하므로 최적화 
+let alreadyExecuted = false; // 글자 갯수에 따라 옵저버 발생량 증가하므로 최적화 
 // 댓글 작성 비동기 처리
 export	function insertComment(memberId, articleIdx) {
+  alreadyExecuted = false;
   // 유효성 검사 
   const cnt = $('textarea#comment').val().length;
   if(!cnt){
@@ -174,7 +175,9 @@ export	function insertComment(memberId, articleIdx) {
 		  const comtCnt=$('.comments .comment_cnt');
 		  let cnt = parseInt(comtCnt.text());
 		  comtCnt.text(cnt+1);
-		  
+		  // 더보기 추가
+		  if(cnt+1>10){$('.view_bottom .more_btn').css('display','flex');}
+		  currentPage=1; // 초기화
 	    },
 		error:function(e){
 	      console.warn('댓글 추가 실패');
@@ -286,6 +289,7 @@ export function showConfirmModal(callback) {
 
 // 댓글 삭제 비동기 처리
 export function deleteComment(commentIdx){
+	alreadyExecuted = false;
 	showConfirmModal((isConfirmed) => {
 	    if (!isConfirmed) return;
 	
@@ -305,6 +309,9 @@ export function deleteComment(commentIdx){
           const comtCnt=$('.comments .comment_cnt');
           let cnt = parseInt(comtCnt.text());
           comtCnt.text(cnt-1);
+		  // 더보기 삭제 
+		  if(cnt-1<11){$('.view_bottom .more_btn').css('display','none');}
+		  currentPage=1; // 초기화
 	      },
 	      error: function (e) {
 	        console.warn('댓글 삭제 실패');
@@ -316,7 +323,7 @@ export function deleteComment(commentIdx){
 
 export function deleteArticle() {
   var modal = document.getElementById('deleteModal');
-  modal.style.display = 'block';
+  modal.style.display = 'flex';
   
   // 각 버튼과 창 외부 클릭 시 처리할 이벤트 핸들러 정의
   function confirmHandler() {
@@ -362,17 +369,14 @@ export function deleteArticle() {
 $(document).ready(function() {
   // MutationObserver: 요소 추가 제거반응 
   // let observer = new MutationObserver(function (mutations) {
-	// if (alreadyExecuted) return; // 한 번만 실행
-	// alreadyExecuted = true;
-    
-	// contentHeight = $('.view_box').height();
-  //   $('aside.news_right').css('height', contentHeight + 200);
+  //   if (alreadyExecuted) return; // 한 번만 실행
+  //   alreadyExecuted = true;
   // });
 
-  // // 대상 요소 지정
+  // 대상 요소 지정
   // observer.observe(document.querySelector('.comments_list'), {
   //   childList: true, // 자식 노드 추가/삭제 감지
-  //   // subtree: true // 자식의 자식도 감지
+  //   subtree: true // 자식의 자식도 감지
   // });
 
   // 댓글 불러오기

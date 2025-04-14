@@ -8,11 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mimidaily.dao.ArticlesDAO;
 import com.mimidaily.dao.CommentsDAO;
-import com.mimidaily.dto.ArticlesDTO;
 import com.mimidaily.dto.CommentsDTO;
-import com.mimidaily.dto.MemberDTO;
 
 /**
  * Servlet implementation class CommentServlet

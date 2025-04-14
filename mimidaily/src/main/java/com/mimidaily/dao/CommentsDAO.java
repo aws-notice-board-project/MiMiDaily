@@ -1,10 +1,13 @@
 package com.mimidaily.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.mimidaily.common.DBConnPool;
 import com.mimidaily.dto.CommentsDTO;
+import com.mimidaily.dto.MemberDTO;
 
 public class CommentsDAO extends DBConnPool {
 	// 댓글 수
@@ -40,16 +43,22 @@ public class CommentsDAO extends DBConnPool {
 			psmt.setInt(3, start);    // offset
 			rs=psmt.executeQuery();
 			while(rs.next()) {
-				CommentsDTO dto =new CommentsDTO();
+				CommentsDTO dto = new CommentsDTO();
 				dto.setIdx(rs.getInt("idx"));
 				dto.setContext(rs.getString("context"));
 				dto.setCreated_at(rs.getTimestamp("created_at"));
 				dto.setUpdated_at(rs.getTimestamp("updated_at"));
 				dto.setMembers_id(rs.getString("members_id"));
 				dto.setArticles_idx(rs.getInt("articles_idx"));
+				
+				// 프로필
+				MemberDTO mDto = getMember(dto.getMembers_id());
+				if (mDto != null) {
+					dto.setProfiles(mDto);
+				}
+				
 				dto.setIs_sameday(dto.isSameDay());
 				dto.setIs_updated(dto.isUpdated());
-				// 추후 프로필 연결
 				
 				comments.add(dto);
 			}
@@ -134,6 +143,45 @@ public class CommentsDAO extends DBConnPool {
 	    }
 	    return null;
 	}
-
 	
+	// (댓글조회-프로필) 멤버 정보
+	public MemberDTO getMember(String id) {
+		MemberDTO mDto = null;
+		String sql = "select id, profiles_idx from members where id=?";
+		try(PreparedStatement localPsmt = con.prepareStatement(sql);) {
+			localPsmt.setString(1, id);
+	        ResultSet localRs = localPsmt.executeQuery();
+	        if (localRs.next()) {
+	            mDto = new MemberDTO();
+	            mDto.setId(localRs.getString("id"));
+	            mDto.setProfile_idx(localRs.getInt("profiles_idx"));
+	            loadProfile(mDto);
+			}
+		} catch (Exception e) {
+			System.out.println("회원 정보 검색 중 오류 발생");
+			e.printStackTrace();
+		}
+		return mDto;
+	}
+
+	// 프로필 정보
+    public void loadProfile(MemberDTO dto) {
+        if (dto.getProfile_idx() != null) {
+            String profileQuery = "SELECT ofile, sfile, file_path, file_size, file_type FROM profiles WHERE idx = ?";
+            try (PreparedStatement profilePsmt = con.prepareStatement(profileQuery)) {
+                profilePsmt.setInt(1, dto.getProfile_idx());
+                ResultSet profileRs = profilePsmt.executeQuery();
+                if (profileRs.next()) {
+                    dto.setOfile(profileRs.getString("ofile"));
+                    dto.setSfile(profileRs.getString("sfile"));
+                    dto.setFile_path(profileRs.getString("file_path"));
+                    dto.setFile_size(profileRs.getLong("file_size"));
+                    dto.setFile_type(profileRs.getString("file_type"));
+                }
+            } catch (Exception e) {
+                System.out.println("프로필 조회 중 예외 발생");
+                e.printStackTrace();
+            }
+        }
+    }
 }

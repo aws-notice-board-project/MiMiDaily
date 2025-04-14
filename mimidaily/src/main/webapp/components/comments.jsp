@@ -9,20 +9,18 @@
    			<jsp:include page="/components/modal.jsp"></jsp:include>
    			<div class="comment_box" data-comment-idx="${ com.idx }">
      			<div class="coment_cont">
-	        		<div class="profile_img">
 	        		<c:choose>
-	        			<c:when test="${ not empty commentsList }">
-	        			<%-- <c:when test="${com.profile_idx == 0||com.profile_idx == null}"> --%>
-		        			<i class="fa-solid fa-circle-user none_profile"></i>
+	        			<c:when test="${com.profiles.profile_idx == 0 || com.profiles.profile_idx == null}">
+			        		<div class="profile_img">
+			        			<i class="fa-solid fa-circle-user none_profile"></i>
+			        		</div>
 	        			</c:when>
 	        			<c:otherwise>
-	        				이미지 있음
-	        				<%-- <div class="profile_img">
-								<img src="${pageContext.request.contextPath}${com.file_path}${com.sfile}" alt="${com.members_id}의 썸네일">
-				            </div> --%>
+	        				<div class="profile_img images">
+								<img src="${pageContext.request.contextPath}${com.profiles.file_path}/${com.profiles.sfile}" alt="${com.members_id}의 썸네일">
+				            </div>
 	        			</c:otherwise>
 	        		</c:choose>
-	        		</div>
 	        		<div class="content_box">
 		        		<div class="comt_context">
 		        			<p><strong>${ com.members_id }</strong><c:if test="${ com.is_updated }"><span class="is_updated">(수정됨)</span></c:if></p>
