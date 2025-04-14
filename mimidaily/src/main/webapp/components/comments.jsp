@@ -36,6 +36,7 @@
    		<c:choose>
    			<c:when test="${ not empty commentsList }">
      		<c:forEach var="com" items="${ commentsList }">
+     			<jsp:include page="/components/modal.jsp"></jsp:include>
      			<div class="comment_box" data-comment-idx="${ com.idx }">
      				<div class="coment_cont">
         		<div class="profile_img">
@@ -63,7 +64,7 @@
       			<c:if test="${ sessionScope.loginUser==com.members_id || sessionScope.userRole==0 }">
        			<div class="comt_btn">
        				<button onclick="updateComment(${com.idx})">수정</button>
-       				<button onclick="deleteComment(${com.idx})">삭제</button>
+       				<button onclick=" deleteComment(${com.idx})">삭제</button>
        			</div>
       			</c:if>
      				</div>

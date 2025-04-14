@@ -103,22 +103,22 @@ export	function insertComment(memberId, articleIdx) {
 	
 	      let newComment = `
 		  <div class="comment_box" data-comment-idx="${commentIdx}">
-        <div class="coment_cont">
-          <div class="profile_img">
-            ${profileHtml}
-          </div>
-          <div class="content_box">
-            <div class="comt_context">
-              <p><strong>${memberId}</strong><span class="is_updated"></span></p>
-              <p class="comt_date">방금 전</p>
-            </div>
-            <p class="comt_content">${context}</p>
-          </div>
-        </div>
-        <div class="comt_btn">
-          <button onclick="updateComment(${commentIdx})">수정</button>
-          <button onclick="deleteComment(${commentIdx})">삭제</button>
-        </div>
+	        <div class="coment_cont">
+	          <div class="profile_img">
+	            ${profileHtml}
+	          </div>
+	          <div class="content_box">
+	            <div class="comt_context">
+	              <p><strong>${memberId}</strong><span class="is_updated"></span></p>
+	              <p class="comt_date">방금 전</p>
+	            </div>
+	            <p class="comt_content">${context}</p>
+	          </div>
+	        </div>
+	        <div class="comt_btn">
+	          <button onclick="updateComment(${commentIdx})">수정</button>
+	          <button onclick="deleteComment(${commentIdx})">삭제</button>
+	        </div>
 		  </div>
 	      `;
 	    
@@ -128,6 +128,12 @@ export	function insertComment(memberId, articleIdx) {
 	
 	      commentList.prepend(newComment);
 	      $('#comment').val(''); // 입력 필드 초기화
+		  
+		  // 댓글 갯수 변경
+		  const comtCnt=$('.comments .comment_cnt');
+		  let cnt = parseInt(comtCnt.text());
+		  comtCnt.text(cnt+1);
+		  
 	    },
 		error:function(e){
 	      console.warn('댓글 추가 실패');
@@ -213,7 +219,7 @@ function reloadComments() {
     url: '/comments/list.do',
     method: 'get',
     data: { articleIdx: articleIdx },
-    success: function (html) {
+    success: function (html) { //  서버(/comments/list.do)가 응답한 JSP 조각(HTML) => 서버가 랜더링한 html문자열이 jQuery Ajax에 의해 그대로 html 변수에 담겨옴
       $('.comments_container').html(html); // JSP에서 렌더링된 댓글 HTML 조각
     },
     error: function (e) {
@@ -238,25 +244,46 @@ export function cancelUpdate(commentIdx, originalText) {
   commentBox.find('.comt_btn').html(buttonHtml);
 }
 
+// 삭제 모달
+export function showConfirmModal(callback) {
+  $('#confirmModal').css('display', 'flex'); // 모달창 열림
+
+  $('#confirmYes').off('click').on('click', () => { // 기존 클릭이벤트 제거후, 콜백으로 새로운 클릭이벤트 바인딩(버블링 방지)
+    $('#confirmModal').css('display', 'none');
+    callback(true); // 예
+  });
+  $('#confirmNo').off('click').on('click', () => { // 기존 클릭이벤트 제거후, 콜백으로 새로운 클릭이벤트 바인딩(버블링 방지)
+    $('#confirmModal').css('display', 'none');
+    callback(false); // 아니오
+  });
+}
+
 // 댓글 삭제 비동기 처리
 export function deleteComment(commentIdx){
-  alreadyExecuted=false;
-  if(confirm('댓글을 삭제하시겠습니까?')){
-    $.ajax({
-      url: '/comments/delete.do',
-      method: 'post',
-      data: {
-        commentIdx: commentIdx,
-      },
-      success: function (res) {
-        $(`.comment_box[data-comment-idx="${commentIdx}"]`).remove();
-      },
-      error: function (e) {
-        console.warn('댓글 삭제 실패');
-        console.error('Error:', e);
-      }
-    });
-  }else return;
+	showConfirmModal((isConfirmed) => {
+	    if (!isConfirmed) return;
+	
+	    $.ajax({
+	      url: '/comments/delete.do',
+	      method: 'post',
+	      data: {
+	        commentIdx: commentIdx,
+	      },
+	      success: function (res) {
+	        $(`.comment_box[data-comment-idx="${commentIdx}"]`).remove();
+			$('#confirmModal').css('display', 'none');
+			
+			// 댓글 갯수 감소
+			const comtCnt=$('.comments .comment_cnt');
+		    let cnt = parseInt(comtCnt.text());
+		    comtCnt.text(cnt-1);
+	      },
+	      error: function (e) {
+	        console.warn('댓글 삭제 실패');
+	        console.error('Error:', e);
+	      }
+	  });
+	});
 };
 
 export function deleteArticle() {
