@@ -97,13 +97,13 @@
 				</label>
 				<label>
 					<input type="checkbox" name="agree3" checked>
-					마케팅 활용 및 프로모션 이용 동의
+					<span style="font-size:14px;">(선택)마케팅 활용 및 프로모션 이용 동의</span>
 					<input type="button" id="agree_modal_btn3" value="내용 확인 >">
 					<input type="hidden" name="marketing">
 				</label>
 			</div>
 			<div class="member_btn">
-				<input type="submit" value="가입하기" data-success="${success_msg}" disabled>
+				<input type="submit" value="가입하기" data-success="${success_msg}">
 			</div>
 		</form>
 		<!-- 모달 창들 -->

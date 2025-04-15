@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		idCheckBtn.classList.remove('hidden');
 		idUseBtn.classList.add('hidden');
 	});
+	
 	// id 중복 체크
 	idCheckBtn.addEventListener("click", function() {
 		const id_value=idInput.value;
@@ -93,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	idUseBtn.addEventListener("click", function() {
 		idInput.readOnly = true;
 		idUseBtn.disabled = true;
-		toggleSubmitButton();
+		// toggleSubmitButton();
 		document.querySelector('#id').classList.add('readonly');
 	});
 	
@@ -170,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			alert("기자 인증이 완료되었습니다.");
 			codeInput.readOnly = true;
 			codeCheckBtn.disabled = true;
-			toggleSubmitButton();
+			// toggleSubmitButton();
 			document.querySelector('#code').classList.add('readonly');
 		}
 	});
@@ -183,10 +184,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			   nameInput.value.trim() &&
 			   emailInput.value.trim();
 	}
-
+	let requiredInputs;
 	// 작성된 값들이 알맞은지 확인하는 함수
 	function checkValidInputs() {
-		const requiredInputs = document.querySelectorAll('input[required][name="code"]');
+		requiredInputs = document.querySelectorAll('input[required][name="code"]');
 		if(requiredInputs.length==0){
 			return (regex.pw.test(pwInput.value)) && 
 				   (rpwInput.value === pwInput.value) && 
@@ -219,12 +220,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			register.disabled = true;
 		}
 	}
-	const inputs = form.querySelectorAll('input');
+	
+	// input값이 변경될 때 마다 가입하기 버튼 활성화 체크 
+	/*const inputs = form.querySelectorAll('input');
 	inputs.forEach(inputtag => {
 	  inputtag.addEventListener('input', () => {
 	    toggleSubmitButton();
 	  });
-	});
+	});*/
 	
 
 	// 전체 선택/해제 체크박스를 클릭하면 나머지 체크박스를 선택하거나 해제하는 함수
@@ -233,20 +236,27 @@ document.addEventListener('DOMContentLoaded', function() {
 		agree1.checked = true;
 		agree2.checked = true;
 		agree3.checked = true;
-		toggleSubmitButton();
+		// toggleSubmitButton();
 	}
 	// 각 체크박스에 이벤트 리스너 추가
-	agree1.addEventListener('click', toggleSubmitButton);
-	agree2.addEventListener('click', toggleSubmitButton);
+	// agree1.addEventListener('click', toggleSubmitButton);
+	// agree2.addEventListener('click', toggleSubmitButton);
 	// 전체 선택 체크박스 클릭 시 전체 선택 이벤트 추가
 	agreeAll.addEventListener('click', AllCheck);
 	
 	
 	// submit 버튼이 클릭되었을 때 경고창 띄우기
 	form.addEventListener('submit', function(event) {
+		requiredInputs = document.querySelectorAll('input[required][name="code"]');
 		if (!checkRequiredFields() || !checkValidInputs()) {
 			event.preventDefault(); // 제출 막기
-			alert('모든 필수 입력값을 작성하고, 형식에 맞게 입력해 주세요.');
+			if(!idInput.readOnly){
+				alert('아이디 중복확인 후, 사용 버튼을 눌러주세요.');			
+			}else if(requiredInputs.length!=0&&!codeInput.readOnly){
+				alert('기자회원은 기자코드를 인증해야 합니다.');
+			}else{
+				alert('모든 필수 입력값을 작성하고, 형식에 맞게 입력해 주세요.');				
+			}
 		} else if (!agree1.checked || !agree2.checked) {
 			event.preventDefault(); // 제출 막기
 			alert('이용 약관과 개인정보 수집에 모두 동의하셔야 가입이 가능합니다.');
