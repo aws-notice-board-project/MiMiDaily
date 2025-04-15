@@ -37,7 +37,7 @@
 			</div>
 			<div class="member_box" id="profile">
 			<c:choose>
-            <c:when test="${empty member.profile_idx}">
+            <c:when test="${member.profile_idx == 0}">
           		<i class="fa-solid fa-circle-user none_profile"></i>
 			</c:when>
             <c:otherwise>
@@ -46,9 +46,9 @@
         	</c:choose>
 			</div>
 	        <div class="member_box">
-	        	<label for="ofile">
-	        		이미지 첨부
-					<input type="file" id="ofile" name="ofile" accept="image/*">
+	        	<label id="profile_upload">
+	        		<span id="upload_label_text">프로필 선택</span>
+					<input type="file" name="ofile" accept="image/*" class="file_upload_input">
 				</label>
 				<div class="readonly">
 					<input type="text" name="id" value="${sessionScope.loginUser}" readonly>

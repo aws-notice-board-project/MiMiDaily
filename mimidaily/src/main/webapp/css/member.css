@@ -45,7 +45,7 @@ form {
 input {
 	border: none;
 	border-bottom: 1px solid var(--mimiLight);
-	 background: var(--mimiFooter);
+	background: var(--mimiFooter);
 	width: 96%;
 	margin: 10px;
 }
@@ -103,6 +103,21 @@ input[name="gender_code"] {
 	margin-left: 6px;
 	display: inline-block;
 }
+#profile_upload {
+	border: none;
+	background: var(--mimiDark);
+	color: white;
+	width: 96%;
+	margin: 10px;
+	cursor: pointer;
+}
+#profile_upload span{
+	color: white;
+}
+.file_upload_input {
+  display: none;
+}
+
 /* 모달 스타일 */
 .modal {
     background: rgba(0, 0, 0, 0.5); /* 배경을 어둡게 */
