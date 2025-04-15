@@ -187,11 +187,11 @@ input:disabled {
 @media screen and (max-width: 568px) {
 	.member_box{width: 80%;min-width:320px}
 	.member_box#profile {
-	width: 150px;
+		width: 250px;
 	}
 	.member_box#profile i,
 	.member_box#profile img {
-	font-size: 100px;
+		font-size: 150px;
 	}
 	.member_btn{width: 240px;height: 68px;}
 	#join input[name="id"], 
