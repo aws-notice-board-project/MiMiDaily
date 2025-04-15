@@ -33,8 +33,9 @@
 			</div>
 
 			<div class="form_box">
-				<label for="hashtags"><span class="hash_label">해시태그</span> <small>(예: #여행지 #맛집 #서울_맛집)</small></label>
+				<label for="hashtags"><span class="hash_label">해시태그</span></label>
 				<input type="text" id="hashtags" name="hashtags" placeholder="#해시태그를 입력하세요.">
+				<p><small>(예: #여행지 #맛집 #서울_맛집)</small></p>
 			</div>
 
 			<div class="form_box">
