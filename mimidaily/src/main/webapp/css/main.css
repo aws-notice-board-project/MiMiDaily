@@ -104,7 +104,7 @@ button{border: none; background-color: transparent; cursor: pointer;}
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 11;
   border-bottom: 1px solid var(--mimiLight);
 }
 #nav .menu{display: flex; margin: 0 1rem;width: 50%;justify-content: space-around;min-width: 360px;}
@@ -144,6 +144,7 @@ footer{
   align-items: center;
   font-size: 14px;
   margin-top: 8rem;
+  z-index:12;
 }
 footer hr{width: 90%;border-color: var(--mimiLight);margin: 1rem auto;}
 footer .footer_logo{width: 90%; text-align: start;margin:auto;}

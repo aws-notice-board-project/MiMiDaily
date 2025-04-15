@@ -1,4 +1,21 @@
 @charset "UTF-8";
+.select_form{
+	width:100%;
+	height:100%;
+	position:fixed;
+	overflow:hidden;
+	background-color:var(--mimiBg);
+	z-index:11;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	}
+.select_form .option{width:40%;display:flex; justify-content:center;align-items:center;flex-direction:column;}
+.select_form .option img{width: 380px;}
+.select_form .option button {color:var(--mimiFooter); padding: 0.5rem 1rem;border-radius:4px;font-size:18px;margin-top:1rem;}
+.select_form .option.reporter button{background-color:var(--mimiLight);}
+.select_form .option.user button{background-color:var(--mimiDark);}
+
 #wrap {
 	width: 100%;
 	padding: 70px 0;
@@ -84,17 +101,19 @@ input[name="gender_code"] {
 	height: 78px;
 }
 .member_btn input {
+	margin:0;
 	border: 0;
 	background: rgba(0, 0, 0, 0);
 	color: #ffffff;
 	font-size: 24px;
-	width: 95%;
-	height: 70%;
+	width: 100%;
+	height: 100%;
 	cursor: pointer;
 }
 #birth_gender {
 	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
 }
 #birth_gender .xnumber { 
 	background: var(--mimiDark);
@@ -170,13 +189,15 @@ input[name="gender_code"] {
 	display: none !important;
 }
 .error {
+	font-size:14px;
+	margin-left:1rem;
 	color: red;
 }
 .readonly input,
 input:disabled {
 	border: none;
-  	background: var(--mimiLight);
-	color: white;
+  	background: #e5e5e5;
+	color: #a19a9a;
 	opacity: 1;
 	cursor: not-allowed;
 }
@@ -184,7 +205,10 @@ input:disabled {
 	color: white;
 }
 
+@media screen and (max-width: 1200px) {.select_form .option img{width: 300px;}}
+@media screen and (max-width: 800px) {.select_form .option img{width: 200px;}}
 @media screen and (max-width: 568px) {
+	.select_form .option img{width: 140px;}
 	.member_box{width: 80%;min-width:320px}
 	.member_box#profile {
 		width: 250px;
