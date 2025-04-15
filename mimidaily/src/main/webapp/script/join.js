@@ -298,10 +298,12 @@ function selectRole(role){
 	if(role==1){ // 일반회원
 		form.classList.remove('hidden');
 		$('#code_box').addClass('hidden');
+		$('#code_box input[name="code"]').attr('required', false);
 		$('.select_form').css('display','none');
 	}else if(role==2){ // 기자회원
 		form.classList.remove('hidden');
 		$('#code_box').removeClass('hidden');
+		$('#code_box input[name="code"]').attr('required', true);
 		$('.select_form').css('display','none');
 	}
 } 
