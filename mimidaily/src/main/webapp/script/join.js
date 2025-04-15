@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	// 정규 표현식 모음
 	const regex = {
 		id: /^[a-zA-Z0-9_]{4,20}$/, 
-		pw: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/, 
+		pw: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*`.])[A-Za-z\d!@#$%^&*`.]{8,20}$/, 
 		email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 
 		tel: /^010-?\d{4}-?\d{4}$/, 
 		birth: /^\d{6}$/, 

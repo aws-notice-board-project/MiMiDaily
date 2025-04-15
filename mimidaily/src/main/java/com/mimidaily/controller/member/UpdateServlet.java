@@ -38,6 +38,7 @@ public class UpdateServlet extends HttpServlet {
 		MemberDAO dao = new MemberDAO();
 		MemberDTO dto = dao.getMember(memberId);
 		request.setAttribute("member", dto);
+		dao.close();
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}

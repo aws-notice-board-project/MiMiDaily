@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	    return;
 	}
 	// 입력 필드 모음
+	const profileInput = form.querySelector('[name="ofile"]');
 	const pwInput = form.querySelector('[name="pw"]');
 	const rpwInput = form.querySelector('[name="rpw"]');
 	const nameInput = form.querySelector('[name="name"]');
@@ -34,18 +35,29 @@ document.addEventListener('DOMContentLoaded', function() {
 	};
 	// 정규 표현식 모음
 	const regex = { 
-		pw: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/, 
+		pw: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*`.])[A-Za-z\d!@#$%^&*`.]{8,20}$/, 
 		email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 
 		tel: /^010-?\d{4}-?\d{4}$/, 
 		birth: /^\d{6}$/, 
 		gender: /^[1-4]$/
 	};
 		
+	function updateFileText(input) {
+	  const labelText = document.getElementById("upload_label_text");
+	  if (input.files.length > 0) {
+	    labelText.textContent = input.files[0].name; // 파일 이름 표시
+	  } else {
+	    labelText.textContent = "프로필 선택"; // 초기 텍스트 복구
+	  }
+	}
+	profileInput.addEventListener("change", function () {
+	  updateFileText(this);
+	});
 	pwInput.addEventListener('input', function() {
 		const pw_value=pwInput.value;
 		if (!regex.pw.test(pw_value)) {
 			error.pw.classList.remove('hidden');
-			error.pw.textContent = '비밀번호는 8~20자이며, 영문자, 숫자, 특수문자(!@#$%^&*)를 각각 하나 이상 포함해야 합니다.';
+			error.pw.textContent = '비밀번호는 8~20자이며, 영문자, 숫자, 특수문자(!@#$%^&*`.)를 각각 하나 이상 포함해야 합니다.';
 			pwInput.focus();
 		} else {
 			error.pw.classList.add('hidden');
