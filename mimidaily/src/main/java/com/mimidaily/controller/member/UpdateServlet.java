@@ -14,9 +14,7 @@ import javax.servlet.http.Part;
 
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 
-import com.mimidaily.dao.ArticlesDAO;
 import com.mimidaily.dao.MemberDAO;
-import com.mimidaily.dto.ArticlesDTO;
 import com.mimidaily.dto.MemberDTO;
 import com.mimidaily.utils.FileUtil;
 
