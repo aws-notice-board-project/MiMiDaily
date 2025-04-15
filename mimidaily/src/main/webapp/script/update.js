@@ -188,3 +188,28 @@ document.addEventListener('DOMContentLoaded', function() {
 		closeModal('marketing_agree_modal');
 	});
 });
+
+function pwdchk(){
+	const pwd=$("#confirmPwd").val();
+	$.ajax({
+		url: 'member/pwdchk.do',
+		method: 'post',
+		data: {chkpwd: pwd},
+		success: function(data){
+			console.log(data.pwdchk);
+			if(data.pwdchk=="true"){ // 비밀번호 일치
+				$('.confirm_pwd').css('display', 'none');
+				$('.confirm_pwd_bottom').css('display', 'none');
+				$('#update #wrap').removeClass('hidden');
+			}else{
+				alert("비밀번호가 일치하지 않아 정보수정이 불가합니다.");
+				$('.confirm_pwd_bottom').css('display', 'block');
+				$('.confirm_pwd').css('display', 'flex');				
+				$('#update #wrap').addClass('hidden');
+			}
+		}
+	});
+}
+
+// 전역으로 호출
+window.pwdchk=pwdchk;

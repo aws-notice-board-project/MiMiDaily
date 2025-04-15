@@ -11,10 +11,25 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/member.css">
 <script src="${pageContext.request.contextPath}/script/update.js"></script>
+<style>
+	.confirm_pwd{width:100%; height:100%; position:fixed;background-color:var(--mimiBg);z-index:10;display:flex;justify-content:center;align-items:center;}
+	.confirm_pwd_box{width:320px; text-align:center;padding: 3rem 0;}
+	.confirm_pwd_box input{width: 200px;}
+	.confirm_pwd_box button{background-color:var(--mimiDark);color:var(--mimiBg);padding: 4px 8px;border-radius:4px;}
+	.confirm_pwd_bottom{width:100%;height:500px;}
+</style>
 </head>
 <body id="update">
+	<div class="confirm_pwd">
+		<div class="confirm_pwd_box cont">
+			<p><strong>정보 수정</strong></p>
+			<input type="password" name="confirmPwd" id="confirmPwd" placeholder="비밀번호 확인" />
+			<button class="btn" onclick="pwdchk()">확인</button>
+		</div>
+	</div>
+	<div class="confirm_pwd_bottom"></div>
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
-	<div id="wrap">
+	<div id="wrap" class="hidden">
 		<div id="mimilogo"></div>
 		<h1 class="hide">미미일보</h1>
 		<h2>정보수정</h2>
@@ -104,6 +119,16 @@
 			</div>
 		</div>
 	</div>
-	<jsp:include page="/components/footer.jsp"></jsp:include>
+	<%-- <jsp:include page="/components/footer.jsp"></jsp:include> --%>
+	<script>
+	$(document).ready(function() {
+		$('#confirmPwd').on('keypress', function(e) {
+			if (e.key === 'Enter') {
+				e.preventDefault(); // 기본 동작 방지
+				pwdchk();
+			}
+		});
+	});
+	</script>
 </body>
 </html>

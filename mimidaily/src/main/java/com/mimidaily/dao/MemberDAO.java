@@ -41,6 +41,24 @@ public class MemberDAO extends DBConnPool {
 		return result;
 	}
 	
+	// 비밀번호 체크 메서드
+	public int pwdChk(String pwd) {
+		int result=-1;
+		String query="select * from members where pwd=?";
+		try {
+			psmt=con.prepareStatement(query);
+			psmt.setString(1, pwd);
+			rs=psmt.executeQuery();
+			if (rs.next()) {
+	            result = 1; // 조회 성공
+	        }
+		}catch(Exception e) {
+			System.out.print("비밀번호 오류");
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	// 역할을 가져오는 메서드
     public int getUserRole(String userid) {
         int role = 0;
