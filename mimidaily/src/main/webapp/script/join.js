@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		code: /^(NEWS24X7|PRESS911|JOURN88|MEDIA2025|REP0RT10)$/
 	};
 	
-	// id input 클릭 또는 입력 시작 시 버튼(중복확인)
+	// id input 클릭 또는 입력 시작 시 버튼(중복확인버튼)
 	idInput.addEventListener("focus", function() {
 		if (idInput.readOnly) return; // 비활성화 상태에서는 무시
 		idCheckBtn.classList.remove('hidden');
