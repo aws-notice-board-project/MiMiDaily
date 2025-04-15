@@ -196,8 +196,7 @@ function pwdchk(){
 		method: 'post',
 		data: {chkpwd: pwd},
 		success: function(data){
-			console.log(data.pwdchk);
-			if(data.pwdchk=="true"){ // 비밀번호 일치
+			if(data.pwdchk){ // 비밀번호 일치
 				$('.confirm_pwd').css('display', 'none');
 				$('.confirm_pwd_bottom').css('display', 'none');
 				$('#update #wrap').removeClass('hidden');

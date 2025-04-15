@@ -42,12 +42,13 @@ public class MemberDAO extends DBConnPool {
 	}
 	
 	// 비밀번호 체크 메서드
-	public int pwdChk(String pwd) {
+	public int pwdChk(String pwd, String memberId) {
 		int result=-1;
-		String query="select * from members where pwd=?";
+		String query="select * from members where pwd=? and id=?";
 		try {
 			psmt=con.prepareStatement(query);
 			psmt.setString(1, pwd);
+			psmt.setString(2, memberId);
 			rs=psmt.executeQuery();
 			if (rs.next()) {
 	            result = 1; // 조회 성공

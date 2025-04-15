@@ -92,7 +92,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	// 사용 버튼 클릭 시 비활성화(변경 불가 상태)
 	idUseBtn.addEventListener("click", function() {
 		idInput.readOnly = true;
-		idUseBtn.diabled = true;
+		idUseBtn.disabled = true;
+		toggleSubmitButton();
 		document.querySelector('#id').classList.add('readonly');
 	});
 	
@@ -169,6 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			alert("기자 인증이 완료되었습니다.");
 			codeInput.readOnly = true;
 			codeCheckBtn.disabled = true;
+			toggleSubmitButton();
 			document.querySelector('#code').classList.add('readonly');
 		}
 	});
@@ -184,13 +186,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// 작성된 값들이 알맞은지 확인하는 함수
 	function checkValidInputs() {
-		return (!pwInput.value || regex.pw.test(pwInput.value)) && 
-			   (!rpwInput.value || rpwInput.value === pwInput.value) && 
-			   (!emailInput.value || regex.email.test(emailInput.value)) && 
-			   (!telInput.value || regex.tel.test(telInput.value)) && 
-			   (!birthInput.value || regex.birth.test(birthInput.value)) && 
-			   (!genderInput.value || regex.gender.test(genderInput.value)) && 
-			   (!codeInput.value || codeInput.readOnly);
+		const requiredInputs = document.querySelectorAll('input[required][name="code"]');
+		if(requiredInputs.length==0){
+			return (regex.pw.test(pwInput.value)) && 
+				   (rpwInput.value === pwInput.value) && 
+				   /* 선택값 */
+				   (!emailInput.value || regex.email.test(emailInput.value)) && 
+				   (!telInput.value || regex.tel.test(telInput.value)) && 
+				   (!birthInput.value || regex.birth.test(birthInput.value)) && 
+				   (!genderInput.value || regex.gender.test(genderInput.value)) && 
+				   (!codeInput.value || codeInput.readOnly);			
+		}else{
+			return (regex.pw.test(pwInput.value)) && 
+				   (rpwInput.value === pwInput.value) && 
+				   (codeInput.readOnly)&&
+				   /* 선택값 */
+				   (!emailInput.value || regex.email.test(emailInput.value)) && 
+				   (!telInput.value || regex.tel.test(telInput.value)) && 
+				   (!birthInput.value || regex.birth.test(birthInput.value)) && 
+				   (!genderInput.value || regex.gender.test(genderInput.value));
+			
+		}
 	}
 	
 	// 필수 입력값들이 비어있지 않고 작성된 값들이 알맞은 상태에서
@@ -198,11 +214,18 @@ document.addEventListener('DOMContentLoaded', function() {
 	function toggleSubmitButton() {
 		if (checkValidInputs() && checkRequiredFields()) {
 			register.disabled = false;
+			register.disabled = !(agree1.checked && agree2.checked); 
 		} else {
 			register.disabled = true;
 		}
-		register.disabled = !(agree1.checked && agree2.checked); 
 	}
+	const inputs = form.querySelectorAll('input');
+	inputs.forEach(inputtag => {
+	  inputtag.addEventListener('input', () => {
+	    toggleSubmitButton();
+	  });
+	});
+	
 
 	// 전체 선택/해제 체크박스를 클릭하면 나머지 체크박스를 선택하거나 해제하는 함수
 	function AllCheck() {
@@ -215,7 +238,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	// 각 체크박스에 이벤트 리스너 추가
 	agree1.addEventListener('click', toggleSubmitButton);
 	agree2.addEventListener('click', toggleSubmitButton);
-	agree3.addEventListener('click', toggleSubmitButton);
 	// 전체 선택 체크박스 클릭 시 전체 선택 이벤트 추가
 	agreeAll.addEventListener('click', AllCheck);
 	

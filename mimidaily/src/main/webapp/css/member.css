@@ -10,7 +10,7 @@
 	justify-content:center;
 	align-items:center;
 	}
-.select_form .option{width:40%;display:flex; justify-content:center;align-items:center;flex-direction:column;}
+.select_form .option{margin-top:5rem;width:40%;display:flex; justify-content:center;align-items:center;flex-direction:column;}
 .select_form .option img{width: 380px;}
 .select_form .option button {color:var(--mimiFooter); padding: 0.5rem 1rem;border-radius:4px;font-size:18px;margin-top:1rem;}
 .select_form .option.reporter button{background-color:var(--mimiLight);}
@@ -48,7 +48,9 @@ form {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	position:relative;
 }
+.member_box .discription{position:absolute;top: 4px;font-size: 13px;}
 .member_box#profile {
 	background: none;
 	box-shadow: none;
