@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="${pageContext.request.contextPath}/media/images/favicon.ico" type="image/x-icon" />
 <title>
     <c:choose>
         <c:when test="${article.category == 1}">
