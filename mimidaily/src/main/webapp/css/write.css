@@ -14,6 +14,7 @@ h1.title {
 
 .form_cont form {
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
   row-gap: 12px;
   column-gap: 20px;
 }
@@ -22,6 +23,10 @@ h1.title {
 .form_box {
   display: flex;
   flex-direction: column;
+}
+.form_box:nth-child(1) {
+  grid-column-start: 0;
+	grid-column-end: 0;
 }
 .form_box:nth-child(2) {
   grid-column-start: 1;
@@ -44,6 +49,7 @@ h1.title {
 	grid-column-end: 4;
 }
 .form_button:nth-child(8) {
+	margin-top:1rem;
  grid-column-start: 1;
 	grid-column-end: 4;
 }
@@ -96,19 +102,24 @@ h1.title {
 }
 
 @media screen and (max-width: 568px) {
-  .form_box .hash_label {
-    display: block;
-  }
-  small {
-    font-size: 12px;
-  }
-  .form_box .category_label {
-    margin-bottom: 33px;
-  }
+  .form_cont{padding:2rem 1rem;width:90%;}
+  .form_cont form{row-gap: 20px;column-gap: 16px;grid-template-columns: 1fr;}
+  .form_box .hash_label {display: block;}
+  small {font-size: 12px;}
+  .form_button {margin: 0.5rem 0;}
+  .form_button button[type="submit"] {width: 60%;}
+
+  .form_box:nth-child(2) .category_label{margin-bottom:10px;}
+
+  .form_box,
   .form_button {
-    margin: 0.5rem 0;
+    grid-column: 1 / -1 !important; /* 전체 너비 차지 */
   }
-  .form_button button[type="submit"] {
-    width: 60%;
+  
+  .form_box {width:80%;margin: auto;}
+  
+  .form_box:nth-child(2) {
+    width:50%;
   }
+  
 }
