@@ -274,22 +274,22 @@ public class MemberDAO extends DBConnPool {
 	                String insertProfileQuery = 
 	                    "INSERT INTO profiles (idx, ofile, sfile, file_path, file_size, file_type, created_at) " +
 	                    "VALUES (profiles_seq.nextval, ?, ?, ?, ?, ?, SYSTIMESTAMP)";
-	                PreparedStatement pstmtProfile = con.prepareStatement(insertProfileQuery, new String[]{"idx"});
-	                pstmtProfile.setString(1, dto.getOfile());
-	                pstmtProfile.setString(2, dto.getSfile());
-	                pstmtProfile.setString(3, dto.getFile_path());
-	                pstmtProfile.setLong(4, dto.getFile_size());
-	                pstmtProfile.setString(5, dto.getFile_type());
-	                int profileResult = pstmtProfile.executeUpdate();
+	                PreparedStatement psmtProfile = con.prepareStatement(insertProfileQuery, new String[]{"idx"});
+	                psmtProfile.setString(1, dto.getOfile());
+	                psmtProfile.setString(2, dto.getSfile());
+	                psmtProfile.setString(3, dto.getFile_path());
+	                psmtProfile.setLong(4, dto.getFile_size());
+	                psmtProfile.setString(5, dto.getFile_type());
+	                int profileResult = psmtProfile.executeUpdate();
 	                int newProfileId = 0;
 	                if (profileResult > 0) {
-	                    ResultSet rs = pstmtProfile.getGeneratedKeys();
+	                    ResultSet rs = psmtProfile.getGeneratedKeys();
 	                    if (rs.next()) {
 	                        newProfileId = rs.getInt(1);  // 새로 생성된 프로필 ID를 가져옴
 	                    }
 	                    rs.close();
 	                }
-	                pstmtProfile.close();
+	                psmtProfile.close();
 	                
 	                // newProfileId가 0이면 프로필 삽입이 실패한 것이므로 예외를 발생시킴
 	                if (newProfileId == 0) {
@@ -372,8 +372,6 @@ public class MemberDAO extends DBConnPool {
 	                cstmt.setString(11, dto.getBirth());
 	                cstmt.setString(12, dto.getGender());
 	                cstmt.setInt(13, dto.isMarketing() ? 1 : 0);
-
-	                // profile_idx를 다시 한 번 사용 (이미 확인했으므로 올바른 값이 설정됨)
 	                cstmt.setInt(14, profileId);  // 변환된 profile_id 사용
 	                cstmt.setString(15, dto.getId());
 
