@@ -37,9 +37,9 @@ public class PwdChkServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		MemberDAO dao=new MemberDAO();
-		
+		String memberId = (String) request.getSession().getAttribute("loginUser");
 		String pwd=request.getParameter("chkpwd");
-		int result=dao.pwdChk(pwd);
+		int result=dao.pwdChk(pwd, memberId);
 		dao.close();
 		
 		response.setContentType("application/json;charset=UTF-8");
@@ -50,7 +50,7 @@ public class PwdChkServlet extends HttpServlet {
 			String jsonResponse = 
 					"{" +
 					"\"result\":\"" + "success" + "\"," +
-					"\"pwdchk\":\"" + "true" + "\"" +
+					"\"pwdchk\":\"" + true + "\"" +
 					"}";			
 			// 클라이언트에 응답 전송
 			response.getWriter().print(jsonResponse);
@@ -58,7 +58,7 @@ public class PwdChkServlet extends HttpServlet {
 			String jsonResponse = 
 					"{" +
 					"\"result\":\"" + "success" + "\"," +
-					"\"pwdchk\":\"" + "false" + "\"" +
+					"\"pwdchk\":\"" + false + "\"" +
 					"}";			
 			// 클라이언트에 응답 전송
 			response.getWriter().print(jsonResponse);

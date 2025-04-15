@@ -30,6 +30,7 @@
 		<h2>회원가입</h2>
 		<form action="join.do" method="post" autocomplete="off" name="member_form" class="hidden">
 	        <div class="member_box">
+	        	<p class="discription">*필수</p>
 				<div id="id">
 					<input type="text" name="id" placeholder="아이디">
 					<input type="button" value="중복 확인" id="id_check">
@@ -53,6 +54,7 @@
 				</div>
 	        </div>
 	        <div class="member_box">
+	        	<p class="discription">*선택</p>
 				<div id="tel">
 					<input type="text" name="tel" placeholder="연락처">
 					<p class="error hidden"></p>
@@ -101,7 +103,7 @@
 				</label>
 			</div>
 			<div class="member_btn">
-				<input type="submit" value="가입하기" data-success="${success_msg}">
+				<input type="submit" value="가입하기" data-success="${success_msg}" disabled>
 			</div>
 		</form>
 		<!-- 모달 창들 -->
