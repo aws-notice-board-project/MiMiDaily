@@ -3,7 +3,7 @@
 <script src="https://kit.fontawesome.com/e7c9242ec2.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="module" src="/script/nav.js"></script>
-<link rel="icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="${pageContext.request.contextPath}/media/images/favicon.ico" type="image/x-icon" />
 <div id="loading-overlay">
 	<div class="spinner"></div>
 </div>

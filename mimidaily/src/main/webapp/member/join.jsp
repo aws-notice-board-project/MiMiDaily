@@ -11,22 +11,23 @@
 <script src="${pageContext.request.contextPath}/script/join.js"></script>
 </head>
 <body id="join">
+	<div class="select_form">
+		<div class="option reporter">
+			<img src="${pageContext.request.contextPath}/media/images/reporter.png" alt="기자 아이콘"/>
+			<button class="btn" onclick="selectRole(2)">기자 회원</button>
+		</div>
+		<div class="option user">
+			<img src="${pageContext.request.contextPath}/media/images/user.png" alt="회원 아이콘"/>
+			<button class="btn" onclick="selectRole(1)">일반 회원</button>
+		</div>
+	</div>
+	<div class="select_body"></div>
 	<jsp:include page="/components/navigation.jsp"></jsp:include>
 	<div id="wrap">
 		<div id="mimilogo"></div>
 		<h1 class="hide">미미일보</h1>
 		<h2>회원가입</h2>
-		<form action="join.do" method="get" name="precheck" class="hidden">
-			<label>
-				<input type="checkbox" value="reporter" name="role" class="hidden">
-				<img src="${pageContext.request.contextPath}/media/images/user.png" id="unchecked" alt="일반회원">
-				<img src="${pageContext.request.contextPath}/media/images/reporter.png" id="checked" alt="기자" class="hidden">
-			</label>
-			<div class="member_btn">
-				<input type="submit" value="일반 회원 가입">
-			</div>
-		</form>
-		<form action="join.do" method="post" autocomplete="off" name="member_form">
+		<form action="join.do" method="post" autocomplete="off" name="member_form" class="hidden">
 	        <div class="member_box">
 				<div id="id">
 					<input type="text" name="id" placeholder="아이디">
@@ -69,7 +70,7 @@
 					<input type="hidden" name="gender">
 		        </div>
 	        </div>
-	        <div class="member_box">
+	        <div class="member_box" id="code_box">
 				<div id="code" data-job="${job}">
 					<input type="text" name="code" placeholder="기자 인증 코드">
 					<input type="button" value="인  증" id="code_check">
@@ -122,6 +123,6 @@
 			</div>
 		</div>
 	</div>
-	<jsp:include page="/components/footer.jsp"></jsp:include>
+	<%-- <jsp:include page="/components/footer.jsp"></jsp:include> --%>
 </body>
 </html>
