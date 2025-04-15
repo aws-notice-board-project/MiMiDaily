@@ -25,16 +25,6 @@ public class JoinServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "/member/join.jsp";
-		// 기자인지 일반 회원인지 구분
-//		String type;
-//		if ("reporter".equals(request.getParameter("role"))) {
-//		    type = "reporter";
-//		} else {
-//		    type = "user";
-//		}
-//		request.setAttribute("job", type);
-//		System.out.println(request.getParameter("role"));
-//		System.out.println(type);
 		
 		// id 중복 체크 전달(id, error_msg)
 		String id = request.getParameter("id");
