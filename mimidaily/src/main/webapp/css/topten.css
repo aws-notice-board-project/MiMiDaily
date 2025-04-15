@@ -48,12 +48,12 @@
 }
 #news_container .news_thumbnails .news_rank {
 	border-radius: 15rem;
-	background: var(--mimiDark);
-	color: #FFE082;
+	background: var(--mimiFooter);;
+	color: var(--mimiDark);;
 	font-size: 20px;
 	font-weight: bold;
-	width: 3rem;
-	height: 3rem;
+	width: 2rem;
+	height: 2rem;
 	padding: 0.5rem 0 0.6rem;
 	position: absolute;
 	top: 0.3rem;
@@ -61,6 +61,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
 #news_container .news_thumbnails img{
 	width: 100%;
