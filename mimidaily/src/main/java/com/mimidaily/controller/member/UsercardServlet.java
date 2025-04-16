@@ -37,10 +37,14 @@ public class UsercardServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
         // JSON 문자열 수동 생성
+		System.out.println(dto.getProfiles().getFile_path());
+		System.out.println(dto.getProfiles().getSfile());
 		String jsonResponse = 
 			    "{" +
 			    "\"id\":\"" + dto.getId() + "\"," +
 			    "\"name\":\"" + dto.getName() + "\"," +
+			    "\"profilePath\":\"" + dto.getProfiles().getFile_path() + "\"," +
+			    "\"profileName\":\"" + dto.getProfiles().getSfile() + "\"," +
 			    "\"articleCnt\":" + dto.getArticleCount() + "," +
 			    "\"commentCnt\":" + dto.getCommentCount() + "," +
 			    "\"createdAt\":\"" + dto.getCreatedAt() + "\"" +

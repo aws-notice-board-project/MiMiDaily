@@ -36,7 +36,7 @@
 				</c:when>
 	            <c:otherwise>
 					<div class="profile_img">
-						<img src="${pageContext.request.contextPath}${memberInfo.profiles.file_path}/${memberInfo.profiles.sfile}" alt="${memberInfo.id}의 썸네일">
+						<img src="${pageContext.request.contextPath}${memberInfo.profiles.file_path}/${memberInfo.profiles.sfile}" alt="${memberInfo.id}의 프로필사진">
 		            </div>
 	            </c:otherwise>
 	        </c:choose>
@@ -84,6 +84,17 @@ if(user){
 					$('.userbox .profile .date').text(data.date);
 					$('.userbox .info div:nth-child(2) span').text(data.articleCnt + '개');
 					$('.userbox .info div:nth-child(3) span').text(data.commentCnt + '개');
+					console.log(data.profilePath);
+					console.log(data.profileName);
+					
+					// 프로필 이미지 업데이트
+					// if (data.profilePath && data.profileName) {
+					// 	console.log(`${data.profilePath}/${data.profileName}`);
+					// 	const profileImgTag = `
+					// 		<img src="${pageContext.request.contextPath}${data.profilePath}/${data.profileName}" alt="${data.id}의 프로필 사진">
+					// 	`;
+					// 	$('.userbox .profile .profile_img').html(profileImgTag);
+					// }
 				} else {
 					console.error('Failed to load user card data.');
 				}
