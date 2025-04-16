@@ -37,8 +37,6 @@ public class UsercardServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
         // JSON 문자열 수동 생성
-		System.out.println(dto.getProfiles().getFile_path());
-		System.out.println(dto.getProfiles().getSfile());
 		String jsonResponse = 
 			    "{" +
 			    "\"id\":\"" + dto.getId() + "\"," +
