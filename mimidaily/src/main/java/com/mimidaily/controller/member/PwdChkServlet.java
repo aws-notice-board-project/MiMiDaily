@@ -48,18 +48,18 @@ public class PwdChkServlet extends HttpServlet {
         // JSON 문자열 수동 생성
 		if(result>0) { // 비밀번호 일치
 			String jsonResponse = 
-					"{" +
-					"\"result\":\"" + "success" + "\"," +
-					"\"pwdchk\":\"" + true + "\"" +
-					"}";			
+			        "{" +
+			        "\"result\":\"success\"," +
+			        "\"pwdchk\":" + true +
+			        "}";			
 			// 클라이언트에 응답 전송
 			response.getWriter().print(jsonResponse);
 		}else { // 비밀번호 불일치
 			String jsonResponse = 
-					"{" +
-					"\"result\":\"" + "success" + "\"," +
-					"\"pwdchk\":\"" + false + "\"" +
-					"}";			
+			        "{" +
+			        "\"result\":\"success\"," +
+			        "\"pwdchk\":" + false +
+			        "}";		
 			// 클라이언트에 응답 전송
 			response.getWriter().print(jsonResponse);
 		}
