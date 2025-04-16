@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,7 +50,26 @@ public class LoginServlet extends HttpServlet {
 		if (result == 1) {// id,비밀번호가 일치할 때
 			HttpSession session = request.getSession();
 			memberInfo = mDao.getMemberInfo(userid);
-			visitCnt = mDao.incrementUserVisitCnt(userid); // 방문횟수 증가 및 값 가져오기
+			
+			boolean isVisited=false; // 방문 이력
+	        String cookieName = "visited_" + userid; // 방문한 게시글의 쿠키이름
+	        Cookie[] cookies = request.getCookies();
+	        if(cookies!=null) {
+	        	for(Cookie cookie:cookies) {
+	        		if(cookie.getName().equals(cookieName)) { // 이미 쿠키값이 있으면
+	        			isVisited=true;
+	        			break;
+	        		}
+	        	}
+	        }
+	        if(!isVisited) {
+	        	Cookie newcookie=new Cookie(cookieName, "true");
+	        	newcookie.setMaxAge(60*60*24); // 하루동안 유지
+	        	newcookie.setPath("/"); // 모든 경로에서 접속 허용
+	        	response.addCookie(newcookie);
+	        }
+			
+			visitCnt = mDao.incrementUserVisitCnt(userid, isVisited); // 방문횟수 증가 및 값 가져오기
 			role = mDao.getUserRole(userid);
 
 			request.getSession().setAttribute("memberInfo", memberInfo); // 멤버 정보

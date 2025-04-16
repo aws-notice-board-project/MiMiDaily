@@ -80,7 +80,7 @@ public class MemberDAO extends DBConnPool {
     }
     
     // 방문횟수 조회 및 증가
-    public int incrementUserVisitCnt(String userid) {
+    public int incrementUserVisitCnt(String userid, boolean isVisited) {
         int visitcnt = 0;
         String selectSql = "SELECT visitcnt FROM members WHERE id = ?"; // 방문 횟수 조회 SQL
         String updateSql = "UPDATE members SET visitcnt = ? WHERE id = ?"; // 방문 횟수 증가 SQL
@@ -94,9 +94,12 @@ public class MemberDAO extends DBConnPool {
             if (rs.next()) {
                 visitcnt = rs.getInt("visitcnt"); // 현재 방문 횟수 가져오기
             }
-
-            // 방문 횟수 증가
-            visitcnt++; // 1 증가
+            
+            
+            if(!isVisited) {
+            	// 방문 횟수 증가
+            	visitcnt++; // 1 증가            	
+            }
 
             // 업데이트 실행
             psmt = con.prepareStatement(updateSql);
