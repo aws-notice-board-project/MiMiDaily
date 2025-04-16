@@ -1,0 +1,230 @@
+@charset "UTF-8";
+.select_form{
+	width:100%;
+	height:100%;
+	position:fixed;
+	overflow:hidden;
+	background-color:var(--mimiBg);
+	z-index:11;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	}
+.select_form .option{margin-top:5rem;width:40%;display:flex; justify-content:center;align-items:center;flex-direction:column;}
+.select_form .option img{width: 380px;}
+.select_form .option button {color:var(--mimiFooter); padding: 0.5rem 1rem;border-radius:4px;font-size:18px;margin-top:1rem;}
+.select_form .option.reporter button{background-color:var(--mimiLight);}
+.select_form .option.user button{background-color:var(--mimiDark);}
+
+#wrap {
+	width: 100%;
+	padding: 70px 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+#mimilogo {
+	background: url(../media/images/logo.svg);
+	width: 250px;
+	height: 60px;
+}
+h2 {
+	font-size: 40px;
+	font-family: "NotoSansKR-Light";
+	margin-bottom: 50px;
+}
+form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.member_box {
+	background: var(--mimiContainer);
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	width: 500px;
+	margin-bottom: 20px;
+	padding: 15px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	position:relative;
+}
+.member_box .discription{position:absolute;top: 4px;font-size: 13px;}
+.member_box#profile {
+	background: none;
+	box-shadow: none;
+	width: 250px;
+}
+.member_box#profile i,
+.member_box#profile img {
+	font-size: 150px;
+	text-align: center;
+}
+input {
+	border: none;
+	border-bottom: 1px solid var(--mimiLight);
+	background: var(--mimiFooter);
+	width: 96%;
+	margin: 10px;
+}
+input:focus {
+	outline: none;
+	box-shadow: none;
+}
+input[type="button"] {
+	border: none;
+	background: var(--mimiLight);
+	color: white;
+	opacity: 0.5;
+	width: 25%;
+	cursor: pointer;
+}
+input[type="button"]:hover {
+	opacity: 1;
+}
+input[type="checkbox"] {
+	width: 20px;
+}
+#join input[name="id"], 
+#join input[name="code"] {
+	width: 65%;
+}
+input[name="birth"] {
+	width: 40%;
+}
+input[name="gender_code"] {
+	width: 6%;
+	margin-right: 0;
+}
+.member_btn {
+	background: var(--mimiDark);
+	width: 336px;
+	height: 78px;
+}
+.member_btn input {
+	margin:0;
+	border: 0;
+	background: rgba(0, 0, 0, 0);
+	color: #ffffff;
+	font-size: 24px;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+}
+#birth_gender {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}
+#birth_gender .xnumber { 
+	background: var(--mimiDark);
+	width: 6%;
+	height: 25px;
+	margin-left: 6px;
+	display: inline-block;
+}
+#profile_upload {
+	border: none;
+	background: var(--mimiDark);
+	color: white;
+	width: 96%;
+	margin: 10px;
+	cursor: pointer;
+}
+#profile_upload span{
+	color: white;
+}
+.file_upload_input {
+  display: none;
+}
+
+/* 모달 스타일 */
+.modal {
+    background: rgba(0, 0, 0, 0.5); /* 배경을 어둡게 */
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    display: none; /* 초기에는 보이지 않게 설정 */
+    overflow: hidden;
+}
+.modal_content {
+    background: var(--mimiContainer); /* 모달 내용 배경 */
+    margin: 5% auto;
+    padding: 20px;
+    width: 70%;
+    height: 70%;
+	position: fixed;
+	top: 10%;
+	left: 15%;
+	overflow: auto;
+	z-index: 150; /* 내용은 배경 위에 위치하도록 */
+}
+.close {
+	font-size: 28px;
+	font-weight: bold;
+	color: var(--mimiDark);
+	opacity: 0.7;
+	position: absolute;
+	top: 18%;
+	right: 17%;
+	z-index: 200;
+}
+.close:hover,
+.close:focus {
+	cursor: pointer;
+}
+#agree_modal_btn1, #agree_modal_btn2, #agree_modal_btn3, #marketing_agree_modal_btn {
+	border: none;
+	background: var(--mimiContainer);
+	color: var(--mimiDark);
+	opacity: 0.5;
+	width: 80px;
+	cursor: pointer;
+}
+
+/* js관련 클래스 모음 */
+.hidden {
+	display: none !important;
+}
+.error {
+	font-size:14px;
+	margin-left:1rem;
+	color: red;
+}
+.readonly input,
+input:disabled {
+	border: none;
+  	background: #e5e5e5;
+	color: #a19a9a;
+	opacity: 1;
+	cursor: not-allowed;
+}
+.readonly input::placeholder {
+	color: white;
+}
+
+@media screen and (max-width: 1200px) {.select_form .option img{width: 300px;}}
+@media screen and (max-width: 800px) {.select_form .option img{width: 200px;}}
+@media screen and (max-width: 568px) {
+	.select_form .option img{width: 140px;}
+	.member_box{width: 80%;min-width:320px}
+	.member_box#profile {
+		width: 250px;
+	}
+	.member_box#profile i,
+	.member_box#profile img {
+		font-size: 150px;
+	}
+	.member_btn{width: 240px;height: 68px;}
+	#join input[name="id"], 
+	#join input[name="code"] {
+		width: 60%;
+	}
+	#birth_gender .xnumber { 
+	margin-left: 3px;
+	}
+}
