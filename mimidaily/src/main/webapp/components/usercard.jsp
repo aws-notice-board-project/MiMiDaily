@@ -84,8 +84,6 @@ if(user){
 					$('.userbox .profile .date').text(data.date);
 					$('.userbox .info div:nth-child(2) span').text(data.articleCnt + '개');
 					$('.userbox .info div:nth-child(3) span').text(data.commentCnt + '개');
-					console.log(data.profilePath);
-					console.log(data.profileName);
 					
 					// 프로필 이미지 업데이트
 					// if (data.profilePath && data.profileName) {
