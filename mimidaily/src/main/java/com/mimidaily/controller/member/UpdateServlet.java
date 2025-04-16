@@ -16,6 +16,7 @@ import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededExceptio
 
 import com.mimidaily.dao.MemberDAO;
 import com.mimidaily.dto.MemberDTO;
+import com.mimidaily.dto.MemberInfoDTO;
 import com.mimidaily.utils.FileUtil;
 
 @WebServlet("/update.do")
@@ -161,9 +162,15 @@ public class UpdateServlet extends HttpServlet {
 		String updatedId = null;
 		updatedId = dao.updateMember(dto, profile_idx);
 		
+		// 프로필 usercard 적용
+		MemberInfoDTO memberInfo = null;
 		
 		HttpSession session = request.getSession();
 		if (updatedId == dto.getId()) {
+			// 멤버 정보
+			memberInfo = dao.getMemberInfo(id);
+			request.getSession().setAttribute("memberInfo", memberInfo);
+			
 			session.setAttribute("id", dto.getId());
 			request.setAttribute("success_msg", "회원 정보 수정에 성공했습니다.");
 			url = "main.do";
