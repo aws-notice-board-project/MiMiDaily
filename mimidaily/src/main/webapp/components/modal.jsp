@@ -16,7 +16,7 @@
 	z-index:99;
 	}
 	.comfirm_modal .modal_content{width:320px;padding:2rem 1rem;}
-	.comfirm_modal .modal_content p{text-align:center;margin:1rem 0 0 0;}
+	.comfirm_modal .modal_content p{text-align:center;margin:1rem 0 0 0;font-size:18px;}
 	.modal_content .btn_box{text-align:center;margin-top:1rem;}
 	.modal_content .btn_box button{margin:4px;color: #FBF9F9;padding: 0.5rem;border-radius:4px;width:100px;}
 	.modal_content .btn_box button:first-child{background-color:#594543;}
