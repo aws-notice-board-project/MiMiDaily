@@ -25,7 +25,7 @@
 }
 #deleteModal .modal_content p {font-size: 18px;margin: 1rem 0 0 0;}
 .modal_content button {padding: 10px 20px;font-size: 16px;margin: 0 10px;cursor: pointer;width: 40%;white-space: nowrap;display: flex;justify-content: center;}
-.modal_content .btn_box {display: flex;justify-content: center;}
+.modal_content .btn_box {display: flex;justify-content: center;margin-top: 1rem;}
 .modal_content button#yes_btn {background-color: #8C7B7B;color: white;}
 .modal_content button#no_btn {background-color: #594543;color: white;}
 #close_btn {position: absolute;top: 5px;right: 10px;font-size: 24px;font-weight: bold;color: #aaa;cursor: pointer;}

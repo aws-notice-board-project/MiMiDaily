@@ -170,7 +170,7 @@ export	function insertComment(memberId, articleIdx) {
         // }
 	      // commentList.prepend(newComment);
 	      $('#comment').val(''); // 입력 필드 초기화
-        const updatedComcnt = $('.updated_cnt>.cnt ');
+        const updatedComcnt = $('.comt_cnt');
         updatedComcnt.text(0); // 글자 수 초기화
 		  
 		  // 댓글 갯수 변경
