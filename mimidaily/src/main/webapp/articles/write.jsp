@@ -70,8 +70,8 @@
 	
 	<script>
 	$(document).ready(function(){
-		const role=${sessionScope.userRole};
-		if(role==1){
+		let role='${sessionScope.userRole}';
+		if(role==1||!role){
 			alert('글쓰기 권한이 없습니다.');
 			window.location='/main.do';
 		}
