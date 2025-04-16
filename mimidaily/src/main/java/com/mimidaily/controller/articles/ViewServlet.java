@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +14,6 @@ import com.mimidaily.dao.ArticlesDAO;
 import com.mimidaily.dao.CommentsDAO;
 import com.mimidaily.dao.MemberDAO;
 import com.mimidaily.dto.ArticlesDTO;
-import com.mimidaily.dto.CommentsDTO;
 import com.mimidaily.dto.MemberDTO;
 
 /**
@@ -45,11 +45,31 @@ public class ViewServlet extends HttpServlet {
 		CommentsDAO cDao = new CommentsDAO();
 		
         String idx = request.getParameter("idx");
-        aDao.updateVisitCount(idx);  // 조회수 1 증가
         ArticlesDTO aDto = aDao.selectView(idx, memberId); // 게시글 불러오기
         List<ArticlesDTO> viewestList=aDao.viewestList(); // 실시간 관심기사 best4
         MemberDTO wDto = mDao.userInfo(aDto.getMembers_id()); // 글쓴이 정보
         MemberDTO mDto = mDao.userInfo(memberId); // 접속자 정보
+        
+        // 게시물 조회 이력 체크 및 조회수 증가
+        boolean isVisited=false; // 방문 이력
+        String cookieName = "visited_" + idx; // 방문한 게시글의 쿠키이름
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null) {
+        	for(Cookie cookie:cookies) {
+        		if(cookie.getName().equals(cookieName)) { // 이미 쿠키값이 있으면
+        			isVisited=true;
+        			break;
+        		}
+        	}
+        }
+        if(!isVisited) {
+        	aDao.updateVisitCount(idx);  // 조회수 1 증가
+        	Cookie newcookie=new Cookie(cookieName, "true");
+        	newcookie.setMaxAge(60*60*24); // 하루동안 유지
+        	newcookie.setPath("/"); // 모든 경로에서 접속 허용
+        	response.addCookie(newcookie);
+        }
+        
         
         int intIdx = Integer.parseInt(idx);
         int commentCnt=cDao.commentsCount(intIdx); //  댓글 갯수
