@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
+
 
 import com.mimidaily.dao.MemberDAO;
 import com.mimidaily.dto.MemberDTO;
@@ -81,7 +81,7 @@ public class UpdateServlet extends HttpServlet {
         Part filePart = null;
         try {
             filePart = request.getPart("ofile");
-        } catch (IllegalStateException | FileSizeLimitExceededException ex) {
+        } catch (IllegalStateException ex) {
             request.setAttribute("errorMsg", "업로드 가능한 파일 크기는 최대 3MB입니다.");
             request.getRequestDispatcher("/main.do").forward(request, response);
             return;
