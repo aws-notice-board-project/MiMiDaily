@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mimidaily
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mimidaily
+  template:
+    metadata:
+      labels:
+        app: mimidaily
+    spec:
+      containers:
+        - name: mimidaily
+          image: <ECR_URI>/mimidaily:latest
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mimidaily
+spec:
+  type: LoadBalancer
+  selector:
+    app: mimidaily
+  ports:
+    - port: 80
+      targetPort: 8080
