@@ -16,6 +16,6 @@
 | ---------- | ---------------------------------------- |
 | Front End  | HTML5, CSS3, JavaScript, JQuery, [TailwindCSS](https://tailwindcss.com/docs/installation/using-vite) |
 | Back End   | Java, JSP, JDBC                          |
-| DB         | OracleDB                                 |
+| DB         | MySQLDB                                 |
 | IDE        | VsCode, Eclipse                          |
 | Management | Git, Jira, Notion, Figma                 |
