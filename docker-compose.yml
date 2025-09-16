@@ -1,9 +1,18 @@
-version: "3.8"
 services:
   mimidaily:
-    image: mimidaily:v1.04
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mimidaily:v0.02
     container_name: mimidaily
     ports:
       - "8080:8080"
     env_file:
       - .env
+    environment:
+      # Tomcat이 META-INF/context.xml에서 ${DB_*}를 치환할 수 있도록 -D로 주입
+      CATALINA_OPTS: >-
+        -DDB_HOST=${DB_HOST}
+        -DDB_NAME=${DB_NAME}
+        -DDB_USER=${DB_USER}
+        -DDB_PASS=${DB_PASS}
