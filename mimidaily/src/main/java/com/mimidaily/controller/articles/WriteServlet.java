@@ -125,7 +125,7 @@ public class WriteServlet extends HttpServlet {
         		url = "/articles/travel.do";
         	}else if(lastPath != null && lastPath.equals("/newest.do")) {
         		url = "/articles/newest.do";
-        	}else {url = "/newest.do";}
+        	}else {url = "/articles/newest.do";}
         	
         	response.sendRedirect(url); //주소변경
         } else {

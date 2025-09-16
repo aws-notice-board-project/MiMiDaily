@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: mimidaily:v0.02
+    image: mimidaily:v0.04
     container_name: mimidaily
     ports:
       - "8080:8080"
