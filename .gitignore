@@ -6,3 +6,4 @@ Servers/Tomcat v9.0 Server at localhost-config/web.xml
 Servers/Tomcat v9.0 Server at localhost-config/context.xml
 **/.classpath
 **/mimidaily.cld
+.env

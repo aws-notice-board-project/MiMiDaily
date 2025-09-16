@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  mimidaily:
+    image: mimidaily:v1.04
+    container_name: mimidaily
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
