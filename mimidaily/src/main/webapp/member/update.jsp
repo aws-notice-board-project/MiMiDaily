@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" errorPage="/components/error.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,14 +53,28 @@
 				<input type="hidden" name="prevfile_type" value="${ member.file_type }" />
 			</div>
 			<div class="member_box" id="profile">
-			<c:choose>
+                        <c:choose>
             <c:when test="${member.profile_idx == 0}">
-          		<i class="fa-solid fa-circle-user none_profile"></i>
-			</c:when>
+                        <i class="fa-solid fa-circle-user none_profile"></i>
+                        </c:when>
             <c:otherwise>
-				<img src="${pageContext.request.contextPath}${member.file_path}/${member.sfile}" alt="${member.id}의 프로필">
+                                <c:set var="profileUrl" value="${member.imageUrl}" />
+                                <c:choose>
+                                        <c:when test="${empty profileUrl}">
+                                                <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="${member.id}의 프로필">
+                                        </c:when>
+                                        <c:when test="${fn:startsWith(profileUrl, 'http://') || fn:startsWith(profileUrl, 'https://')}">
+                                                <img src="${profileUrl}" alt="${member.id}의 프로필">
+                                        </c:when>
+                                        <c:when test="${fn:startsWith(profileUrl, '/')}">
+                                                <img src="${pageContext.request.contextPath}${profileUrl}" alt="${member.id}의 프로필">
+                                        </c:when>
+                                        <c:otherwise>
+                                                <img src="${pageContext.request.contextPath}/${profileUrl}" alt="${member.id}의 프로필">
+                                        </c:otherwise>
+                                </c:choose>
             </c:otherwise>
-        	</c:choose>
+                </c:choose>
 			</div>
 	        <div class="member_box">
 	        	<label id="profile_upload">

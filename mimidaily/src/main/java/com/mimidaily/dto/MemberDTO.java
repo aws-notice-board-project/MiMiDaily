@@ -121,10 +121,35 @@ public class MemberDTO {
 	public void setFile_size(long fileSize) {
 		this.file_size = fileSize;
 	}
-	public String getFile_type() {
-		return file_type;
-	}
-	public void setFile_type(String file_type) {
-		this.file_type = file_type;
-	}
+        public String getFile_type() {
+                return file_type;
+        }
+        public void setFile_type(String file_type) {
+                this.file_type = file_type;
+        }
+
+        public String getImageUrl() {
+                if (sfile == null || sfile.trim().isEmpty()) {
+                        return null;
+                }
+                String key = sfile.trim();
+                if (key.startsWith("http://") || key.startsWith("https://")) {
+                        return key;
+                }
+                if (file_path == null || file_path.trim().isEmpty()) {
+                        return sfile;
+                }
+                String base = file_path.trim();
+                
+                if (base.startsWith("http://") || base.startsWith("https://")) {
+                        if (base.endsWith("/")) {
+                                return base + key;
+                        }
+                        return base + "/" + key;
+                }
+                if (base.endsWith("/")) {
+                        return base + key;
+                }
+                return base + "/" + key;
+        }
 }

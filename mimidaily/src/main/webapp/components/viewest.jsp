@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" errorPage="/components/error.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <style>
 	.most_viewed_news{width: 216px;margin: 1rem 0.5rem 1rem 0.5rem ; padding: 1rem;}
 	.most_viewed_news .news_img {width: 80px;margin-right: 0.5rem;height: 58px;overflow: hidden;}
@@ -24,9 +25,23 @@
 		            </div>
 					</c:when>
 		            <c:otherwise>
-		            <div class="news_img">
-						<img src="${pageContext.request.contextPath}${i.file_path}${i.sfile}" alt="${i.title} 썸네일">
-		            </div> 
+                            <div class="news_img">
+                                                <c:set var="thumbUrl" value="${i.imageUrl}" />
+                                                <c:choose>
+                                                        <c:when test="${empty thumbUrl}">
+                                                                <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
+                                                        </c:when>
+                                                        <c:when test="${fn:startsWith(thumbUrl, 'http://') || fn:startsWith(thumbUrl, 'https://')}">
+                                                                <img src="${thumbUrl}" alt="${i.title} 썸네일">
+                                                        </c:when>
+                                                        <c:when test="${fn:startsWith(thumbUrl, '/')}">
+                                                                <img src="${pageContext.request.contextPath}${thumbUrl}" alt="${i.title} 썸네일">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                                <img src="${pageContext.request.contextPath}/${thumbUrl}" alt="${i.title} 썸네일">
+                                                        </c:otherwise>
+                                                </c:choose>
+                            </div>
 		            </c:otherwise>
 		        </c:choose>
 				<div class="news_content">

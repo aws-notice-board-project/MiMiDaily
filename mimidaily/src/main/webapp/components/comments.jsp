@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
    	<div class="comment">
    		<div class="comments_list">
    		<c:choose>
@@ -15,11 +16,25 @@
 			        			<i class="fa-solid fa-circle-user none_profile"></i>
 			        		</div>
 	        			</c:when>
-	        			<c:otherwise>
-	        				<div class="profile_img images">
-								<img src="${pageContext.request.contextPath}${com.profiles.file_path}/${com.profiles.sfile}" alt="${com.members_id}의 썸네일">
-				            </div>
-	        			</c:otherwise>
+                                        <c:otherwise>
+                                                <div class="profile_img images">
+                                                                <c:set var="profileUrl" value="${com.profiles.imageUrl}" />
+                                                                <c:choose>
+                                                                        <c:when test="${empty profileUrl}">
+                                                                                <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="${com.members_id}의 썸네일">
+                                                                        </c:when>
+                                                                        <c:when test="${fn:startsWith(profileUrl, 'http://') || fn:startsWith(profileUrl, 'https://')}">
+                                                                                <img src="${profileUrl}" alt="${com.members_id}의 썸네일">
+                                                                        </c:when>
+                                                                        <c:when test="${fn:startsWith(profileUrl, '/')}">
+                                                                                <img src="${pageContext.request.contextPath}${profileUrl}" alt="${com.members_id}의 썸네일">
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                                <img src="${pageContext.request.contextPath}/${profileUrl}" alt="${com.members_id}의 썸네일">
+                                                                        </c:otherwise>
+                                                                </c:choose>
+                                            </div>
+                                        </c:otherwise>
 	        		</c:choose>
 	        		<div class="content_box">
 		        		<div class="comt_context">

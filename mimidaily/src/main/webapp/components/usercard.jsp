@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <style>
 	.userbox{width: 216px; margin: 1rem 0.5rem 1rem 0.5rem ; padding: 1rem; justify-content: center;display: flex;flex-direction: column;}
 	/* 로그인 O */
@@ -34,11 +35,25 @@
 			             <i class="fa-solid fa-circle-user none_profile"></i>
 					</div>
 				</c:when>
-	            <c:otherwise>
-					<div class="profile_img">
-						<img src="${pageContext.request.contextPath}${memberInfo.profiles.file_path}/${memberInfo.profiles.sfile}" alt="${memberInfo.id}의 프로필사진">
-		            </div>
-	            </c:otherwise>
+                    <c:otherwise>
+                                        <div class="profile_img">
+                                                <c:set var="profileUrl" value="${memberInfo.profiles.imageUrl}" />
+                                                <c:choose>
+                                                        <c:when test="${empty profileUrl}">
+                                                                <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="${memberInfo.id}의 프로필사진">
+                                                        </c:when>
+                                                        <c:when test="${fn:startsWith(profileUrl, 'http://') || fn:startsWith(profileUrl, 'https://')}">
+                                                                <img src="${profileUrl}" alt="${memberInfo.id}의 프로필사진">
+                                                        </c:when>
+                                                        <c:when test="${fn:startsWith(profileUrl, '/')}">
+                                                                <img src="${pageContext.request.contextPath}${profileUrl}" alt="${memberInfo.id}의 프로필사진">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                                <img src="${pageContext.request.contextPath}/${profileUrl}" alt="${memberInfo.id}의 프로필사진">
+                                                        </c:otherwise>
+                                                </c:choose>
+                            </div>
+                    </c:otherwise>
 	        </c:choose>
 			<div style="width: 70%;">
 				<p class="name">${sessionScope.loginUser != null ? sessionScope.loginUser : "게스트"}</p>
@@ -77,25 +92,24 @@ if(user){
 		type: 'get',
 		dataType: 'json',
 		success: function(data) {
-				// JSON 응답을 처리합니다.
-				if (data) {	
-					// 성공적으로 데이터를 가져온 경우 필요한 DOM 요소를 업데이트
-					// $('.userbox .profile .name').text(data.name);
+				if (data) {
 					$('.userbox .profile .date').text(data.date);
 					$('.userbox .info div:nth-child(2) span').text(data.articleCnt + '개');
 					$('.userbox .info div:nth-child(3) span').text(data.commentCnt + '개');
-					
-					// 프로필 이미지 업데이트
-					// if (data.profilePath && data.profileName) {
-					// 	console.log(`${data.profilePath}/${data.profileName}`);
-					// 	const profileImgTag = `
-					// 		<img src="${pageContext.request.contextPath}${data.profilePath}/${data.profileName}" alt="${data.id}의 프로필 사진">
-					// 	`;
-					// 	$('.userbox .profile .profile_img').html(profileImgTag);
-					// }
+
+					if (data.profileUrl) {
+						const profileImgTag = `<img src="${data.profileUrl}" alt="${data.id}의 프로필 사진">`;
+						$('.userbox .profile .profile_img').html(profileImgTag);
+					} else if (data.profilePath && data.profileName) {
+						const prefix = data.profilePath.startsWith('/') ? '${pageContext.request.contextPath}' : '${pageContext.request.contextPath}/';
+						const separator = data.profilePath.endsWith('/') ? '' : '/';
+						const profileImgTag = `<img src="${prefix}${data.profilePath}${separator}${data.profileName}" alt="${data.id}의 프로필 사진">`;
+						$('.userbox .profile .profile_img').html(profileImgTag);
+					}
 				} else {
 					console.error('Failed to load user card data.');
 				}
+			}
 		},
 		error: function(xhr, status, error) {
 				console.error('Error:', error);

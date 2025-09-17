@@ -37,16 +37,32 @@ public class UsercardServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
         // JSON 문자열 수동 생성
-		String jsonResponse = 
-			    "{" +
-			    "\"id\":\"" + dto.getId() + "\"," +
-			    "\"name\":\"" + dto.getName() + "\"," +
-			    "\"profilePath\":\"" + dto.getProfiles().getFile_path() + "\"," +
-			    "\"profileName\":\"" + dto.getProfiles().getSfile() + "\"," +
-			    "\"articleCnt\":" + dto.getArticleCount() + "," +
-			    "\"commentCnt\":" + dto.getCommentCount() + "," +
-			    "\"createdAt\":\"" + dto.getCreatedAt() + "\"" +
-			    "}";
+                String profilePath = "";
+                String profileName = "";
+                String profileUrl = "";
+                if (dto.getProfiles() != null) {
+                        if (dto.getProfiles().getFile_path() != null) {
+                                profilePath = dto.getProfiles().getFile_path();
+                        }
+                        if (dto.getProfiles().getSfile() != null) {
+                                profileName = dto.getProfiles().getSfile();
+                        }
+                        if (dto.getProfiles().getImageUrl() != null) {
+                                profileUrl = dto.getProfiles().getImageUrl();
+                        }
+                }
+
+                String jsonResponse =
+                            "{" +
+                            "\"id\":\"" + dto.getId() + "\"," +
+                            "\"name\":\"" + dto.getName() + "\"," +
+                            "\"profilePath\":\"" + profilePath + "\"," +
+                            "\"profileName\":\"" + profileName + "\"," +
+                            "\"profileUrl\":\"" + profileUrl + "\"," +
+                            "\"articleCnt\":" + dto.getArticleCount() + "," +
+                            "\"commentCnt\":" + dto.getCommentCount() + "," +
+                            "\"createdAt\":\"" + dto.getCreatedAt() + "\"" +
+                            "}";
 		dao.close();
         // 클라이언트에 응답 전송
         response.getWriter().print(jsonResponse);

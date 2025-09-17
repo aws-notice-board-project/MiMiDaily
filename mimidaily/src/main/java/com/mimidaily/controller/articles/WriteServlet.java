@@ -11,11 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-
-
 import com.mimidaily.dao.ArticlesDAO;
 import com.mimidaily.dto.ArticlesDTO;
-import com.mimidaily.utils.FileUtil;
+import com.mimidaily.utils.S3StorageService;
+import com.mimidaily.utils.S3StorageService.UploadResult;
 
 @WebServlet("/articles/write.do")
 @MultipartConfig(maxFileSize = 1024 * 1024 * 3, // 파일업로드할때 최대 사이즈
@@ -38,8 +37,12 @@ public class WriteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // 1. 파일 업로드 처리 =============================
-        // 업로드 디렉터리의 물리적 경로 확인
-        String saveDirectory = request.getServletContext().getRealPath("/uploads");
+        S3StorageService storageService = null;
+        try {
+            storageService = new S3StorageService(getServletContext());
+        } catch (IllegalStateException ex) {
+            throw new ServletException("S3 설정이 누락되었습니다.", ex);
+        }
 
         // 파일 업로드
         Part filePart = null;
@@ -49,19 +52,17 @@ public class WriteServlet extends HttpServlet {
             request.setAttribute("errorMsg", "업로드 가능한 파일 크기는 최대 3MB입니다.");
             request.getRequestDispatcher("/main.do").forward(request, response);
         }
-        String originalFileName = "";
+        UploadResult uploadResult = null;
         if (filePart != null && filePart.getSize() > 0) {
             try {
-                originalFileName = FileUtil.uploadFile(request, saveDirectory);
+                uploadResult = storageService.upload(filePart, "articles");
             } catch (Exception e) {
-                System.out.println("파일 업로드 오류입니다.");
+                System.out.println("S3 업로드 오류입니다.");
                 e.printStackTrace();
-                originalFileName = "";
+                uploadResult = null;
             }
-        } else {
-            System.out.println("파일이 선택되지 않았습니다.");
         }
-          
+
         // 2. 파일 업로드 외 처리 =============================
         // 폼값을 DTO에 저장
         ArticlesDTO dto = new ArticlesDTO();
@@ -86,19 +87,12 @@ public class WriteServlet extends HttpServlet {
         }
         dto.setMembers_id(request.getParameter("members_id"));
 
-        // 원본 파일명과 저장된 파일 이름 설정
-        if (originalFileName != "") {
-            // 파일명 변경 후 저장 (파일명 중복 방지를 위해)
-            String savedFileName = FileUtil.renameFile(saveDirectory, originalFileName);
-            dto.setOfile(originalFileName); // 원래 파일 이름
-            dto.setSfile(savedFileName); // 서버에 저장된 파일 이름
-
-            // 파일의 Part 객체에서 추가 정보를 추출합니다.
-            long fileSize = filePart.getSize(); // 파일 크기
-            String fileType = filePart.getContentType(); // 파일 유형(MIME 타입)
-            dto.setFile_size(fileSize);
-            dto.setFile_type(fileType);
-            dto.setFile_path("/uploads/");
+        if (uploadResult != null) {
+            dto.setOfile(uploadResult.getOriginalFileName());
+            dto.setSfile(uploadResult.getObjectKey());
+            dto.setFile_size(uploadResult.getSize());
+            dto.setFile_type(uploadResult.getContentType());
+            dto.setFile_path(uploadResult.getBasePath());
         }
 
         // DAO를 통해 DB에 게시 내용 저장
