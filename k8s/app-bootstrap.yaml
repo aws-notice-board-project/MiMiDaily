@@ -10,7 +10,7 @@ stringData:
   DB_HOST: prj-db.cps6wc00of5n.ap-northeast-2.rds.amazonaws.com
   DB_NAME: mimidaily
   DB_USER: admin
-  DB_PASS: "powermvp"          # 실제 비밀번호로 교체
+  DB_PASS: "powermvp"
 ---
 apiVersion: v1
 kind: ConfigMap
