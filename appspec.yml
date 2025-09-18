@@ -1,27 +1,9 @@
 version: 0.0
 os: linux
-#파일 차후에 수정
 files:
-    - source: /
-      destination: /home/api/api_back
-    - source: /nginx
-      destination: /home/api/nginx
-    - source: /docker-compose.yml
-      destination: /home/api
-    - source: /.env
-      destination: /home/api
-    - source: /config/
-      destination: /home/api/config
-file_exists_behavior: OVERWRITE
-#권환 지정
-permissions:
-    - object: /home/api
-      pattern: '**'
-      owner: root
-      group: root
-#이벤트 지정
+  - source: /
+    destination: /home/ec2-user/MiMiDaily # EC2 서버상의 경로, 변경 가능
 hooks:
-    AfterInstall:
-        - location: scripts/after-deploy.sh
-          timeout: 2000
-          runas: root
+  AfterInstall:
+    - location: scripts/after-deploy.sh
+      runas: ec2-user

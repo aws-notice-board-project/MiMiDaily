@@ -1,49 +1,72 @@
-name: 🚀 Deploy workflow on production environment
+name: Build & Deploy to Production
 
 on:
   pull_request:
-    branches: [main]
-      types: [closed]
+    branches:
+      - main
+    types:
+      - closed
 
 jobs:
-  deploy:
+  build:
     if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ✅ Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin" # AdoptOpenJDK or Temurin 등
+          java-version: 17 # Java 버전, 네 환경에 맞게
+
+      - name: Build with Maven
+        run: mvn clean package -DskipTests # Maven인지 Gradle인지, skipTests 여부 조정
+
+      - name: Archive build artifact
+        run: zip -r app.zip target/*.jar # 출력물(.jar/.war) 경로 조정
+        # 또는 .war 파일이라면 target/xxx.war
+
+  deploy:
+    needs: build
+    if: github.event.pull_request.merged == true
+    environment: production
+    runs-on: ubuntu-latest
     env:
       ENV_PATH: .env
       S3_BUCKET_DIR_NAME: production
       DEPLOYMENT_GROUP_NAME: production
-    environment: production
-    runs-on: ubuntu-latest
     steps:
-      - name: ✅ Checkout branch
+      - name: ✅ Checkout code
         uses: actions/checkout@v3
 
-      - name: 🗂️ Make config folder
-        run: mkdir -p config
-
-      - name: ⚙️ Create .env file
+      - name: Create .env file
         run: |
-            touch ${{ env.ENV_PATH }}
-            echo DOMAIN_FIR=${{ secrets.DOMAIN_FIR }} >> ${{ env.ENV_PATH }}
-            echo SOCKET_PORT_PROD=${{ secrets.SOCKET_PORT_PROD }} >> ${{ env.ENV_PATH }}
-            echo SOCKET_PORT_TEST=${{ secrets.SOCKET_PORT_TEST }} >> ${{ env.ENV_PATH }}
-      
-      - name: 📦 Zip project files
-         run: zip -r ./$GITHUB_SHA.zip .
-      
-      - name: 🌎 Access to AWS
+          echo DB_HOST=${{ secrets.DB_HOST_PROD }} >> ${{ env.ENV_PATH }}
+          echo DB_PORT=${{ secrets.DB_PORT_PROD }} >> ${{ env.ENV_PATH }}
+          echo OTHER_SECRET=${{ secrets.OTHER_SECRET_PROD }} >> ${{ env.ENV_PATH }}
+          # 필요한 환경변수들 다 추가
+
+      - name: Zip code + config
+        run: zip -r deploy.zip . -x "**/target/**" # 빌드 산출물 포함하거나 제외할 파일 조정 가능
+
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-          
-      - name: 🚛 Upload to S3
-         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://${{ secrets.S3_BUCKET_NAME }}/${{ env.S3_BUCKET_DIR_NAME }}/$GITHUB_SHA.zip
-         
-      - name: 🚀 Deploy to EC2 with CodeDeploy
-         run: aws deploy create-deployment
-             --application-name codedeploy-app
-             --deployment-config-name CodeDeployDefault.AllAtOnce
-             --deployment-group-name ${{ env.DEPLOYMENT_GROUP_NAME }}
-             --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=${{ env.S3_BUCKET_DIR_NAME }}/$GITHUB_SHA.zip
+          aws-region: ap-northeast-2 # 리전 조정
+
+      - name: Upload to S3
+        run: |
+          aws s3 cp deploy.zip s3://${{ secrets.S3_BUCKET_NAME }}/${{ env.S3_BUCKET_DIR_NAME }}/deploy-${{ github.sha }}.zip
+
+      - name: Deploy via CodeDeploy
+        run: |
+          aws deploy create-deployment \
+            --application-name MiMiDaily-App \              # CodeDeploy 애플리케이션 이름
+            --deployment-config-name CodeDeployDefault.AllAtOnce \
+            --deployment-group-name ${{ env.DEPLOYMENT_GROUP_NAME }} \
+            --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=${{ env.S3_BUCKET_DIR_NAME }}/deploy-${{ github.sha }}.zip
