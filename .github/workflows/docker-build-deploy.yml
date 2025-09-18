@@ -38,20 +38,10 @@ jobs:
           docker build -t ${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:$IMAGE_TAG -f ./Dockerfile.tomcat .
           docker push ${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:$IMAGE_TAG
 
-      - name: Create deployment bundle
-        run: |
-          mkdir -p deploy
-          echo "nginx:${{ steps.login-ecr.outputs.registry }}/ecr_nginx:${GITHUB_SHA::7}" > deploy/images.txt
-          echo "tomcat:${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:${GITHUB_SHA::7}" >> deploy/images.txt
-          zip -r deploy.zip deploy/
-
-      - name: Upload bundle to S3
-        run: |
-          aws s3 cp deploy.zip s3://${{ secrets.AWS_S3_BUCKET }}/deploy.zip
-
+      # --- 이후 CodeDeploy 또는 ECS 배포 ---
       - name: Deploy to EC2/ECS with CodeDeploy
         run: |
           aws deploy create-deployment \
-            --application-name codedeploy \
-            --deployment-group-name production \
-            --s3-location bucket=${{ secrets.AWS_S3_BUCKET }},key=deploy.zip,bundleType=zip
+            --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
+            --deployment-group-name ${{ secrets.CODEDEPLOY_GROUP_NAME }} \
+            --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
