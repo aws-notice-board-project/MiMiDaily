@@ -1,14 +1,12 @@
 # <h1 align="left"><img src="https://aws-board-project.s3.ap-northeast-2.amazonaws.com/%ED%85%8C%EC%8A%A4%ED%8A%B8+%EC%9D%B4%EB%AF%B8%EC%A7%80.png" alt="Project Icon" width="40" style="vertical-align:middle;"> MiMiDaily</h1>
 
-![Project Main](/main.png)
+## ![Project Main](/main.png)
+
+MiMiDaily는 여행지와 맛집에 관한기사를 등록하고 관리할 수 있는 웹 클라우드 개발 프로젝트입니다.
 
 ---
 
-MiMiDaily는 여행지와 맛집에 관한 기사를 등록하고 관리할 수 있는 웹 클라우드 개발 프로젝트입니다.
-
----
-
-## 🧩 기술 스택 
+## 🧩 기술 스택
 
 ### Front End
 
