@@ -2,7 +2,6 @@
 # ==========================
 # MiMiDaily after-deploy.sh
 # ==========================
-
 AWS_REGION="ap-northeast-2"            # ⚠️ 본인 리전
 ACCOUNT_ID="${AWS_ACCOUNT_ID}"         # EC2 환경변수 또는 하드코딩
 REPO_NGINX="ecr_nginx"                     # ⚠️ ECR nginx repository
