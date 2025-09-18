@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/MiMiDaily # EC2 서버상의 경로, 변경 가능
+    destination: /home/ec2-user/MiMiDaily
 hooks:
   AfterInstall:
     - location: scripts/after-deploy.sh

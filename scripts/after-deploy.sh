@@ -1,20 +1,45 @@
 #!/bin/bash
+# ==========================
+# MiMiDaily after-deploy.sh
+# ==========================
 
-# 경로 설정: appspec.yml destination 과 동일하게
-cd /home/ec2-user/MiMiDaily || exit 1
+AWS_REGION="ap-northeast-2"            # ⚠️ 본인 리전
+ACCOUNT_ID="${AWS_ACCOUNT_ID}"         # EC2 환경변수 또는 하드코딩
+REPO_NGINX="nginx"                     # ⚠️ ECR nginx repository
+REPO_TOMCAT="tomcat"                   # ⚠️ ECR tomcat repository
+PORT_NGINX="80"                        # ⚠️ HostPort (nginx)
+PORT_TOMCAT="8080"                     # ⚠️ HostPort (tomcat)
 
-# 만약 .jar 또는 .war 로 실행하는 방식이면
-# 기존 프로세스 종료
-if pgrep -f "MiMiDaily" ; then
-  echo "Stopping existing application..."
-  pkill -f "MiMiDaily"
-fi
+echo "=== MiMiDaily: after-deploy.sh started ==="
 
-# 실행
-echo "Starting application..."
-# 예: 만약 Spring Boot jar 가 있다면
-nohup java -jar target/MiMiDaily.jar > /home/ec2-user/logs/app.log 2>&1 &
+# Docker 로그인
+aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
-# 만약 톰캣이나 JSP 컨테이너 사용한다면 그에 맞는 restart 스크립트
-# 예: /opt/tomcat/bin/shutdown.sh && /opt/tomcat/bin/startup.sh
+# Function: deploy container
+deploy_container() {
+  local repo=$1
+  local name=$2
+  local port=$3
 
+  echo "--- Deploying $name from repo $repo ---"
+
+  docker pull $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$repo:latest
+
+  if [ "$(docker ps -q -f name=$name)" ]; then
+    echo "Stopping and removing existing container: $name"
+    docker rm -f $name
+  fi
+
+  docker image prune -f
+
+  docker run -d --name $name -p $port:$port \
+    $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$repo:latest
+}
+
+# 배포 nginx
+deploy_container $REPO_NGINX mimidaily-nginx $PORT_NGINX
+
+# 배포 tomcat
+deploy_container $REPO_TOMCAT mimidaily-tomcat $PORT_TOMCAT
+
+echo "=== MiMiDaily: after-deploy.sh completed successfully ==="
