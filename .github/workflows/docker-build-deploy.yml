@@ -42,26 +42,3 @@ jobs:
           docker build -t ${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:$IMAGE_TAG -f ./Dockerfile.tomcat .
           docker push ${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:$IMAGE_TAG
           echo "TOMCAT_IMAGE=${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:$IMAGE_TAG" >> $GITHUB_ENV
-
-      # 6. 배포 번들 생성 (appspec.yml + 스크립트 + 이미지 태그 기록)
-      - name: Create deployment bundle
-        run: |
-          mkdir -p deploy
-          cp appspec.yml deploy/
-          cp -r scripts deploy/
-          echo $NGINX_IMAGE > deploy/nginx_image.txt
-          echo $TOMCAT_IMAGE > deploy/tomcat_image.txt
-          zip -r deploy.zip deploy
-
-      # 7. 배포 번들을 S3에 업로드
-      - name: Upload bundle to S3
-        run: |
-          aws s3 cp deploy.zip s3://${{ secrets.AWS_S3_BUCKET }}/deploy.zip
-
-      # 8. CodeDeploy 실행
-      - name: Deploy to EC2 with CodeDeploy
-        run: |
-          aws deploy create-deployment \
-            --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
-            --deployment-group-name ${{ secrets.CODEDEPLOY_GROUP_NAME }} \
-            --s3-location bucket=${{ secrets.AWS_S3_BUCKET }},key=deploy.zip,bundleType=zip
