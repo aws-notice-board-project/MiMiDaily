@@ -2,6 +2,17 @@
 CREATE DATABASE IF NOT EXISTS mimidaily DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE mimidaily;
 
+-- profiles 테이블
+CREATE TABLE profiles (
+    idx INT AUTO_INCREMENT PRIMARY KEY,
+    ofile VARCHAR(200), -- original file name
+    sfile VARCHAR(200), -- saved file name
+    file_path VARCHAR(300),
+    file_size BIGINT,
+    file_type VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- members 테이블
 CREATE TABLE members (
     id VARCHAR(50) NOT NULL PRIMARY KEY,
@@ -20,11 +31,11 @@ CREATE TABLE members (
     FOREIGN KEY (profiles_idx) REFERENCES profiles(idx)
 );
 
--- profiles 테이블
-CREATE TABLE profiles (
+-- thumbnails 테이블
+CREATE TABLE thumbnails (
     idx INT AUTO_INCREMENT PRIMARY KEY,
-    ofile VARCHAR(200), -- original file name
-    sfile VARCHAR(200), -- saved file name
+    ofile VARCHAR(200),
+    sfile VARCHAR(200),
     file_path VARCHAR(300),
     file_size BIGINT,
     file_type VARCHAR(50),
@@ -43,17 +54,6 @@ CREATE TABLE articles (
     thumbnails_idx INT,
     FOREIGN KEY (members_id) REFERENCES members(id) ON DELETE CASCADE,
     FOREIGN KEY (thumbnails_idx) REFERENCES thumbnails(idx) 
-);
-
--- thumbnails 테이블
-CREATE TABLE thumbnails (
-    idx INT AUTO_INCREMENT PRIMARY KEY,
-    ofile VARCHAR(200),
-    sfile VARCHAR(200),
-    file_path VARCHAR(300),
-    file_size BIGINT,
-    file_type VARCHAR(50),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- comments 테이블
@@ -100,4 +100,4 @@ CREATE INDEX idx_comments_members_id ON comments(members_id);
 CREATE INDEX idx_likes_articles_idx ON likes(articles_idx);
 
 -- 초기 관리자 계정 예시
-INSERT INTO members (id, pwd, name, email, role, marketing) VALUES ('admin', 'adminpwd', '관리자', 'admin@mimidaily.com', 99, TRUE);
+INSERT INTO members (id, pwd, name, email, role, marketing) VALUES ('admin', 'adminpwd', '관리자', 'admin@mimidaily.com', 2, TRUE);
