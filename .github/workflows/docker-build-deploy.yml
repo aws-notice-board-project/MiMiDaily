@@ -1,4 +1,4 @@
-name: MiMiDaily Docker Build & Deploy (nginx + tomcat)
+name: build-deploy
 
 on:
   push:
@@ -8,56 +8,48 @@ on:
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: ✅ Checkout
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ap-northeast-2
 
       - name: Log in to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+        uses: aws-actions/amazon-ecr-login@v1
 
-      # 🔹 Build & push nginx
       - name: Build & Push nginx Docker image
         run: |
           IMAGE_TAG=${GITHUB_SHA::7}
-          docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NGINX }}:${IMAGE_TAG} -f Dockerfile.nginx .
-          docker tag ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NGINX }}:${IMAGE_TAG} \
-                     ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NGINX }}:latest
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NGINX }}:${IMAGE_TAG}
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NGINX }}:latest
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/ecr_nginx:$IMAGE_TAG ./nginx
+          docker push ${{ steps.login-ecr.outputs.registry }}/ecr_nginx:$IMAGE_TAG
 
-      # 🔹 Build & push tomcat
       - name: Build & Push tomcat Docker image
         run: |
           IMAGE_TAG=${GITHUB_SHA::7}
-          docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_TOMCAT }}:${IMAGE_TAG} -f Dockerfile.tomcat .
-          docker tag ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_TOMCAT }}:${IMAGE_TAG} \
-                     ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_TOMCAT }}:latest
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_TOMCAT }}:${IMAGE_TAG}
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_TOMCAT }}:latest
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:$IMAGE_TAG ./tomcat
+          docker push ${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:$IMAGE_TAG
 
       - name: Create deployment bundle
         run: |
-          mkdir -p codedeploy/scripts
-          cp appspec.yml codedeploy/
-          cp scripts/after-deploy.sh codedeploy/scripts/after-deploy.sh
-          zip -r deploy.zip codedeploy
+          mkdir -p deploy
+          echo "ecr_nginx:${{ steps.login-ecr.outputs.registry }}/ecr_nginx:${GITHUB_SHA::7}" > deploy/images.txt
+          echo "ecr_tomcat:${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:${GITHUB_SHA::7}" >> deploy/images.txt
+          zip -r deploy.zip deploy/
 
       - name: Upload bundle to S3
         run: |
-          aws s3 cp deploy.zip s3://${{ secrets.S3_BUCKET_NAME }}/docker/${{ github.sha }}.zip
+          aws s3 cp deploy.zip s3://${{ secrets.AWS_S3_BUCKET }}/deploy.zip
 
       - name: Deploy to EC2/ECS with CodeDeploy
         run: |
           aws deploy create-deployment \
-            --application-name MiMiDaily-Docker-App \
-            --deployment-config-name CodeDeployDefault.AllAtOnce \
-            --deployment-group-name ${{ secrets.DEPLOYMENT_GROUP_NAME }} \
-            --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=docker/${{ github.sha }}.zip
+            --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
+            --deployment-group-name ${{ secrets.CODEDEPLOY_GROUP_NAME }} \
+            --s3-location bucket=${{ secrets.AWS_S3_BUCKET }},key=deploy.zip,bundleType=zip
