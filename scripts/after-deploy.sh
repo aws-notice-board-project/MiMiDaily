@@ -18,7 +18,7 @@ aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --
 deploy_container() {
   local repo=$1
   local name=$2
-  local port=$3
+  local port=$3 
 
   echo "--- Deploying $name from repo $repo ---"
 
