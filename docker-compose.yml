@@ -1,0 +1,30 @@
+services:
+  tomcat:
+    image: mimidaily:v0.04
+    container_name: tomcat
+    expose:
+      - "8080"   # 외부로 열지 않고 내부 네트워크에만
+    env_file:
+      - .env
+    environment:
+      CATALINA_OPTS: >-
+        -DDB_HOST=${DB_HOST}
+        -DDB_NAME=${DB_NAME}
+        -DDB_USER=${DB_USER}
+        -DDB_PASS=${DB_PASS}
+    networks: [appnet]
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: nginx
+    ports:
+      - "80:80"   # 외부는 nginx 80 포트만 노출
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - tomcat
+    networks: [appnet]
+
+networks:
+  appnet:
+    driver: bridge

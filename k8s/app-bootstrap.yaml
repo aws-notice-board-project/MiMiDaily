@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Namespace
+metadata: { name: app }
+---
+apiVersion: v1
+kind: Secret
+metadata: { name: db-secret, namespace: app }
+type: Opaque
+stringData:
+  DB_HOST: prj-db.cps6wc00of5n.ap-northeast-2.rds.amazonaws.com
+  DB_NAME: mimidaily
+  DB_USER: admin
+  DB_PASS: "powermvp"          # 실제 비밀번호로 교체
+---
+apiVersion: v1
+kind: ConfigMap
+metadata: { name: s3-config, namespace: app }
+data:
+  AWS_S3_BUCKET: aws-board-project
+  AWS_S3_REGION: ap-northeast-2

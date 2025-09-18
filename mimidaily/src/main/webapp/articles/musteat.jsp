@@ -42,9 +42,23 @@
 						            </div>   
 								</c:when>
 					            <c:otherwise>
-					            <div class="news_img">
-									<img src="${pageContext.request.contextPath}${i.file_path}${i.sfile}" alt="${i.title} 썸네일">
-					            </div>
+                                                    <div class="news_img">
+                                                                        <c:set var="thumbUrl" value="${i.imageUrl}" />
+                                                                        <c:choose>
+                                                                                <c:when test="${empty thumbUrl}">
+                                                                                        <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
+                                                                                </c:when>
+                                                                                <c:when test="${fn:startsWith(thumbUrl, 'http://') || fn:startsWith(thumbUrl, 'https://')}">
+                                                                                        <img src="${thumbUrl}" alt="${i.title} 썸네일">
+                                                                                </c:when>
+                                                                                <c:when test="${fn:startsWith(thumbUrl, '/')}">
+                                                                                        <img src="${pageContext.request.contextPath}${thumbUrl}" alt="${i.title} 썸네일">
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                        <img src="${pageContext.request.contextPath}/${thumbUrl}" alt="${i.title} 썸네일">
+                                                                                </c:otherwise>
+                                                                        </c:choose>
+                                                    </div>
 					            </c:otherwise>
 					        </c:choose>
 							<div class="contents">

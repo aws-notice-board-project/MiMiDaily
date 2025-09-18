@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+
+    <!-- JNDI DataSource 참조 선언 (이 이름이 코드/컨텍스트와 반드시 일치) -->
+    <resource-ref>
+        <description>MySQL DataSource</description>
+        <res-ref-name>jdbc/mysql</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
+    <!-- 필요 시 서블릿/필터 매핑 추가 -->
+</web-app>
