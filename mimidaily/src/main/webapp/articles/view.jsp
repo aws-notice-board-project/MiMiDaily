@@ -62,11 +62,25 @@
 		            </div>
 		        </div>
 		        <div class="view_bottom">
-		            <c:if test="${article.thumbnails_idx != 0}">
-			            <div class="news_img">
-							<img src="${pageContext.request.contextPath}${article.file_path}${article.sfile}" alt="${article.title} 사진 자료">
-			            </div>
-					</c:if>
+                            <c:if test="${article.thumbnails_idx != 0}">
+                                    <div class="news_img">
+                                                        <c:set var="thumbUrl" value="${article.imageUrl}" />
+                                                        <c:choose>
+                                                                <c:when test="${empty thumbUrl}">
+                                                                        <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="${article.title} 사진 자료">
+                                                                </c:when>
+                                                                <c:when test="${fn:startsWith(thumbUrl, 'http://') || fn:startsWith(thumbUrl, 'https://')}">
+                                                                        <img src="${thumbUrl}" alt="${article.title} 사진 자료">
+                                                                </c:when>
+                                                                <c:when test="${fn:startsWith(thumbUrl, '/')}">
+                                                                        <img src="${pageContext.request.contextPath}${thumbUrl}" alt="${article.title} 사진 자료">
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                        <img src="${pageContext.request.contextPath}/${thumbUrl}" alt="${article.title} 사진 자료">
+                                                                </c:otherwise>
+                                                        </c:choose>
+                                    </div>
+                                        </c:if>
 	
 			        <div class="news_context">${ article.content }</div>
 					
@@ -85,11 +99,25 @@
 				            <c:when test="${writer.profile_idx==0}">
 					              <i class="fa-solid fa-circle-user none_profile"></i>
 							</c:when>
-				            <c:otherwise>
-				            <div class="profile_img">
-								<img src="${pageContext.request.contextPath}${writer.file_path}/${writer.sfile}" alt="${article.members_id}의 프로필">
-				            </div>
-				            </c:otherwise>
+                                            <c:otherwise>
+                                            <div class="profile_img">
+                                                                <c:set var="writerProfileUrl" value="${writer.imageUrl}" />
+                                                                <c:choose>
+                                                                        <c:when test="${empty writerProfileUrl}">
+                                                                                <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="${article.members_id}의 프로필">
+                                                                        </c:when>
+                                                                        <c:when test="${fn:startsWith(writerProfileUrl, 'http://') || fn:startsWith(writerProfileUrl, 'https://')}">
+                                                                                <img src="${writerProfileUrl}" alt="${article.members_id}의 프로필">
+                                                                        </c:when>
+                                                                        <c:when test="${fn:startsWith(writerProfileUrl, '/')}">
+                                                                                <img src="${pageContext.request.contextPath}${writerProfileUrl}" alt="${article.members_id}의 프로필">
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                                <img src="${pageContext.request.contextPath}/${writerProfileUrl}" alt="${article.members_id}의 프로필">
+                                                                        </c:otherwise>
+                                                                </c:choose>
+                                            </div>
+                                            </c:otherwise>
 				        </c:choose>
 				        <div class="journalist_info">
 							<p><b>${ writer.name }</b> <c:if test="${ writer.role==2 }">기자</c:if></p>
@@ -113,11 +141,25 @@
 					            <c:when test="${member.profile_idx == 0}">
 						             <i class="fa-solid fa-circle-user none_profile"></i>
 								</c:when>
-					            <c:otherwise>
-									<div class="profile_img">
-										<img src="${pageContext.request.contextPath}${member.file_path}/${member.sfile}" alt="${sessionScope.loginUser}의 썸네일">
-						            </div>
-					            </c:otherwise>
+                                                    <c:otherwise>
+                                                                        <div class="profile_img">
+                                                                                <c:set var="memberProfileUrl" value="${member.imageUrl}" />
+                                                                                <c:choose>
+                                                                                        <c:when test="${empty memberProfileUrl}">
+                                                                                                <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="${sessionScope.loginUser}의 썸네일">
+                                                                                        </c:when>
+                                                                                        <c:when test="${fn:startsWith(memberProfileUrl, 'http://') || fn:startsWith(memberProfileUrl, 'https://')}">
+                                                                                                <img src="${memberProfileUrl}" alt="${sessionScope.loginUser}의 썸네일">
+                                                                                        </c:when>
+                                                                                        <c:when test="${fn:startsWith(memberProfileUrl, '/')}">
+                                                                                                <img src="${pageContext.request.contextPath}${memberProfileUrl}" alt="${sessionScope.loginUser}의 썸네일">
+                                                                                        </c:when>
+                                                                                        <c:otherwise>
+                                                                                                <img src="${pageContext.request.contextPath}/${memberProfileUrl}" alt="${sessionScope.loginUser}의 썸네일">
+                                                                                        </c:otherwise>
+                                                                                </c:choose>
+                                                            </div>
+                                                    </c:otherwise>
 					        </c:choose>
 				       		<textarea rows="4" cols="50" id="comment" autocomplete="off"></textarea>
 				      		</div>

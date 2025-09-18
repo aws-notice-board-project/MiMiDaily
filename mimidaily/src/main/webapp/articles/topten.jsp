@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" errorPage="/components/error.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,12 +24,28 @@
        		<div class="news_thumbnails">
        			<%-- <div class="news_rank">${status.index + 1 < 10 ? '0' : ''}${status.index + 1}</div> --%>
        			<div class="news_rank">${status.index + 1}</div>
-			<c:if test="${article.thumbnails_idx == 0}">
-				<img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="no image">
-			</c:if>
-			<c:if test="${article.thumbnails_idx != 0}">
-				<img src="${pageContext.request.contextPath}${article.file_path}${article.sfile}" alt="${article.idx}_thumbnail">
-			</c:if>
+                        <c:choose>
+                                <c:when test="${article.thumbnails_idx == 0}">
+                                        <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="no image">
+                                </c:when>
+                                <c:otherwise>
+                                        <c:set var="thumbUrl" value="${article.imageUrl}" />
+                                        <c:choose>
+                                                <c:when test="${empty thumbUrl}">
+                                                        <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="no image">
+                                                </c:when>
+                                                <c:when test="${fn:startsWith(thumbUrl, 'http://') || fn:startsWith(thumbUrl, 'https://')}">
+                                                        <img src="${thumbUrl}" alt="${article.idx}_thumbnail">
+                                                </c:when>
+                                                <c:when test="${fn:startsWith(thumbUrl, '/')}">
+                                                        <img src="${pageContext.request.contextPath}${thumbUrl}" alt="${article.idx}_thumbnail">
+                                                </c:when>
+                                                <c:otherwise>
+                                                        <img src="${pageContext.request.contextPath}/${thumbUrl}" alt="${article.idx}_thumbnail">
+                                                </c:otherwise>
+                                        </c:choose>
+                                </c:otherwise>
+                        </c:choose>
 			</div>
        		<div class="news_title">
        			<p>

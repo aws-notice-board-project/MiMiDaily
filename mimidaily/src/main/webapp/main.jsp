@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" errorPage="/components/error.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,11 +52,25 @@
 				                    <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
 				                </div>
 				            </c:when>
-				            <c:otherwise>
-				                <div class="news_img">
-				                    <img src="${pageContext.request.contextPath}${news.file_path}${news.sfile}" alt="${news.title} 썸네일"> <!-- 여기에서도 news 사용 -->
-				                </div>
-				            </c:otherwise>
+                                            <c:otherwise>
+                                                <div class="news_img">
+                                                    <c:set var="thumbUrl" value="${news.imageUrl}" />
+                                                    <c:choose>
+                                                        <c:when test="${empty thumbUrl}">
+                                                            <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
+                                                        </c:when>
+                                                        <c:when test="${fn:startsWith(thumbUrl, 'http://') || fn:startsWith(thumbUrl, 'https://')}">
+                                                            <img src="${thumbUrl}" alt="${news.title} 썸네일">
+                                                        </c:when>
+                                                        <c:when test="${fn:startsWith(thumbUrl, '/')}">
+                                                            <img src="${pageContext.request.contextPath}${thumbUrl}" alt="${news.title} 썸네일">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="${pageContext.request.contextPath}/${thumbUrl}" alt="${news.title} 썸네일">
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                            </c:otherwise>
 				        </c:choose>
 				        <div class="news_content">
 				            <h3>${news.title}</h3> <!-- 여기에서도 news.title 사용 -->
@@ -74,11 +89,25 @@
 					                    <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
 					                </div>   
 					            </c:when>
-					            <c:otherwise>
-					                <div class="news_img">
-					                    <img src="${pageContext.request.contextPath}${news.file_path}${news.sfile}" alt="${news.title} 썸네일"> <!-- 여기에서도 news 사용 -->
-					                </div>
-					            </c:otherwise>
+                                                    <c:otherwise>
+                                                        <div class="news_img">
+                                                            <c:set var="thumbUrl" value="${news.imageUrl}" />
+                                                            <c:choose>
+                                                                <c:when test="${empty thumbUrl}">
+                                                                    <img src="${pageContext.request.contextPath}/media/images/no_image.png" alt="No Image">
+                                                                </c:when>
+                                                                <c:when test="${fn:startsWith(thumbUrl, 'http://') || fn:startsWith(thumbUrl, 'https://')}">
+                                                                    <img src="${thumbUrl}" alt="${news.title} 썸네일">
+                                                                </c:when>
+                                                                <c:when test="${fn:startsWith(thumbUrl, '/')}">
+                                                                    <img src="${pageContext.request.contextPath}${thumbUrl}" alt="${news.title} 썸네일">
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <img src="${pageContext.request.contextPath}/${thumbUrl}" alt="${news.title} 썸네일">
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </div>
+                                                    </c:otherwise>
 					        </c:choose>
 					        <div class="news_content">
 					            <h3>${news.title}</h3> <!-- 여기에서도 news.title 사용 -->

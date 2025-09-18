@@ -1,0 +1,53 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: PRJ-PRD-EKS
+  region: ap-northeast-2
+  version: "1.29"
+
+vpc:
+  id: vpc-038349a9ace0d90a9
+  subnets:
+    private:
+      ap-northeast-2a-frontend: { id: subnet-0632416458a2863b1 } # nginx용 2a
+      ap-northeast-2c-frontend: { id: subnet-0960c8b19cf1768bf } # nginx용 2c
+      ap-northeast-2a-backend:  { id: subnet-0d4b91d8b97ae4a15  } # tomcat용 2a
+      ap-northeast-2c-backend:  { id: subnet-074277d2af9a99039  } # tomcat용 2c
+    public:
+      ap-northeast-2a: { id: subnet-063cf26dbb1821305 }               # ALB용 2a
+      ap-northeast-2c: { id: subnet-0818a43221784f39e }               # ALB용 2c
+
+iam:
+  withOIDC: true
+
+cloudWatch:
+  clusterLogging:
+    enableTypes: ["api","audit","authenticator"]
+
+managedNodeGroups:
+  - name: frontend-ng
+    instanceType: t3.medium          # x86 (이미지도 x86로 푸시 완료)
+    desiredCapacity: 2               # 2a/2c에 1대씩
+    minSize: 2
+    maxSize: 4
+    privateNetworking: true
+    subnets:
+      - subnet-0632416458a2863b1
+      - subnet-0960c8b19cf1768bf
+    labels: { workload: frontend }
+    taints:
+      - { key: workload, value: frontend, effect: NoSchedule }
+
+  - name: backend-ng
+    instanceType: t3.medium
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 4
+    privateNetworking: true
+    subnets:
+      - subnet-0d4b91d8b97ae4a15
+      - subnet-074277d2af9a99039
+    labels: { workload: backend }
+    taints:
+      - { key: workload, value: backend, effect: NoSchedule }
