@@ -36,8 +36,7 @@ managedNodeGroups:
       - subnet-0632416458a2863b1
       - subnet-0960c8b19cf1768bf
     labels: { workload: frontend }
-    taints:
-      - { key: workload, value: frontend, effect: NoSchedule }
+
 
   - name: backend-ng
     instanceType: t3.medium
@@ -49,5 +48,3 @@ managedNodeGroups:
       - subnet-0d4b91d8b97ae4a15
       - subnet-074277d2af9a99039
     labels: { workload: backend }
-    taints:
-      - { key: workload, value: backend, effect: NoSchedule }
