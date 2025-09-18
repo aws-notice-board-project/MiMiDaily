@@ -27,20 +27,20 @@ jobs:
       - name: Build & Push nginx Docker image
         run: |
           IMAGE_TAG=${GITHUB_SHA::7}
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/ecr_nginx:$IMAGE_TAG ./ecr_nginx
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/ecr_nginx:$IMAGE_TAG ./nginx
           docker push ${{ steps.login-ecr.outputs.registry }}/ecr_nginx:$IMAGE_TAG
 
       - name: Build & Push tomcat Docker image
         run: |
           IMAGE_TAG=${GITHUB_SHA::7}
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:$IMAGE_TAG ./ecr_tomcat
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:$IMAGE_TAG ./tomcat
           docker push ${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:$IMAGE_TAG
 
       - name: Create deployment bundle
         run: |
           mkdir -p deploy
-          echo "ecr_nginx:${{ steps.login-ecr.outputs.registry }}/ecr_nginx:${GITHUB_SHA::7}" > deploy/images.txt
-          echo "ecr_tomcat:${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:${GITHUB_SHA::7}" >> deploy/images.txt
+          echo "nginx:${{ steps.login-ecr.outputs.registry }}/ecr_nginx:${GITHUB_SHA::7}" > deploy/images.txt
+          echo "tomcat:${{ steps.login-ecr.outputs.registry }}/ecr_tomcat:${GITHUB_SHA::7}" >> deploy/images.txt
           zip -r deploy.zip deploy/
 
       - name: Upload bundle to S3
