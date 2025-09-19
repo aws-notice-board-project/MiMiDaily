@@ -10,13 +10,13 @@ vpc:
   id: vpc-038349a9ace0d90a9
   subnets:
     private:
-      ap-northeast-2a-frontend: { id: subnet-0632416458a2863b1 }
-      ap-northeast-2c-frontend: { id: subnet-0960c8b19cf1768bf }
-      ap-northeast-2a-backend:  { id: subnet-0d4b91d8b97ae4a15  }
-      ap-northeast-2c-backend:  { id: subnet-074277d2af9a99039  }
+      ap-northeast-2a-frontend: { id: subnet-0249d4f38c90d0bcc } # nginx용 2a
+      ap-northeast-2c-frontend: { id: subnet-0960c8b19cf1768bf } # nginx용 2c
+      ap-northeast-2a-backend:  { id: subnet-0d4b91d8b97ae4a15 } # tomcat용 2a
+      ap-northeast-2c-backend:  { id: subnet-0c1a65ce932d4b19c } # tomcat용 2c
     public:
-      ap-northeast-2a: { id: subnet-063cf26dbb1821305 }
-      ap-northeast-2c: { id: subnet-0818a43221784f39e }
+      ap-northeast-2a: { id: subnet-063cf26dbb1821305 }               # ALB용 2a
+      ap-northeast-2c: { id: subnet-0818a43221784f39e }               # ALB용 2c
 
 iam:
   withOIDC: true
@@ -33,11 +33,10 @@ managedNodeGroups:
     maxSize: 4
     privateNetworking: true
     subnets:
-      - subnet-0632416458a2863b1
+      - subnet-0249d4f38c90d0bcc
       - subnet-0960c8b19cf1768bf
     labels: { workload: frontend }
-
-
+    
   - name: backend-ng
     instanceType: t3.medium
     desiredCapacity: 2
@@ -46,5 +45,5 @@ managedNodeGroups:
     privateNetworking: true
     subnets:
       - subnet-0d4b91d8b97ae4a15
-      - subnet-074277d2af9a99039
+      - subnet-0c1a65ce932d4b19c
     labels: { workload: backend }
