@@ -1,0 +1,12 @@
+# k8s/kustomization.yaml
+resources:
+  - app-bootstrap.yaml
+  - tomcat.yaml
+  - nginx.yaml
+  - ingress.yaml
+
+images:
+  - name: 857305036087.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_nginx
+    newTag: v0.11   # 초기 태그 (CI가 이 값을 sha7로 자동 업데이트)
+  - name: 857305036087.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_tomcat
+    newTag: v0.11
