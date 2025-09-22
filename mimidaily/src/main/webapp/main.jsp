@@ -122,7 +122,7 @@
 		<aside class="md">
 			<div class="login_box cont">
 			<c:if test="${empty sessionScope.loginUser}">
-				<p><b>재열일보</b>가 당신의 여정에 동행합니다.</p>
+				<p><b>미미일보</b>가 당신의 여정에 동행합니다.</p>
 				<a class="login btn" href="login.do">로그인</a>
 				<a class="register" href="join.do">회원가입</a>
 			</c:if>
