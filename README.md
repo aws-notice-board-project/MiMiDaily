@@ -10,8 +10,7 @@ MiMiDaily는 여행지와 맛집에 관한기사를 등록하고 관리할 수 �
 
 ### Front End
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black) ![jQuery](https://img.shields.io/badge/jQuery-0769AD?logo=jquery&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwind-css&logoColor=white)
-
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black) ![jQuery](https://img.shields.io/badge/jQuery-0769AD?logo=jquery&logoColor=white)
 ### Back End
 
 ![Java](https://img.shields.io/badge/Java-007396?logo=java&logoColor=white) ![JSP](https://img.shields.io/badge/JSP-000000?logo=java&logoColor=white) ![JDBC](https://img.shields.io/badge/JDBC-005A9C?logo=database&logoColor=white)
@@ -31,17 +30,6 @@ MiMiDaily는 여행지와 맛집에 관한기사를 등록하고 관리할 수 �
 ### Cloud / Infra
 
 ![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazon-aws&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) ![Argo CD](https://img.shields.io/badge/ArgoCD-6E4A9E?logo=argocd&logoColor=white) ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?logo=kubernetes&logoColor=white) ![Tomcat](https://img.shields.io/badge/Tomcat-F8DC75?logo=apache-tomcat&logoColor=black) ![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)
-
----
-
-## ⚙️ 설치 및 실행
-
-```bash
-git clone https://github.com/aws-notice-board-project/MiMiDaily.git
-cd MiMiDaily
-npm install
-npm run dev
-```
 
 ---
 
