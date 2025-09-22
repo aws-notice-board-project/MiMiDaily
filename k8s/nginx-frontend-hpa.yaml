@@ -1,0 +1,19 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nginx-frontend-hpa
+  namespace: app
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1  # Deployment의 API 버전
+    kind: Deployment      # 대상 리소스 종류
+    name: nginx-frontend # 대상 리소스 이름
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60

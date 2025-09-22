@@ -1,0 +1,19 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: tomcat-backend-hpa
+  namespace: app
+spec:
+  scaleTargetRef:
+    apiVersion: argoproj.io/v1alpha1 # Rollout의 API 버전
+    kind: Rollout                   # 대상 리소스 종류
+    name: tomcat-backend            # 대상 리소스 이름
+  minReplicas: 2
+  maxReplicas: 7
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
