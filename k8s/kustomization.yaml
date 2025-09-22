@@ -7,6 +7,6 @@ resources:
   - ingress.yaml
 images:
   - name: 857305036087.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_nginx
-    newTag: v0.11
+    newTag: ed9117f
   - name: 857305036087.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_tomcat
-    newTag: v0.10
+    newTag: ed9117f
