@@ -4,7 +4,8 @@ metadata:
   name: nginx-frontend
   namespace: app
 spec:
-  replicas: 2
+  replicas: 3
+  revisionHistoryLimit: 3
   selector: { matchLabels: { app: nginx-frontend } }
   template:
     metadata: { labels: { app: nginx-frontend } }
