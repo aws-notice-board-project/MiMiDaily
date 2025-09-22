@@ -16,7 +16,7 @@ spec:
           effect: NoSchedule
       containers:
         - name: nginx
-          image: 857305036087.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_nginx:v0.10
+          image: 857305036087.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_nginx:v0.11
           ports: [ { containerPort: 80 } ]
 ---
 apiVersion: v1
