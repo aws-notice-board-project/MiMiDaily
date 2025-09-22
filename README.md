@@ -29,7 +29,14 @@ MiMiDaily는 여행지와 맛집에 관한기사를 등록하고 관리할 수 �
 
 ### Cloud / Infra
 
-![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazon-aws&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) ![Argo CD](https://img.shields.io/badge/ArgoCD-6E4A9E?logo=argocd&logoColor=white) ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?logo=kubernetes&logoColor=white) ![Tomcat](https://img.shields.io/badge/Tomcat-F8DC75?logo=apache-tomcat&logoColor=black) ![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)
+![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazon-aws&logoColor=white) 
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) 
+![Argo CD](https://img.shields.io/badge/ArgoCD-6E4A9E?logo=argocd&logoColor=white) 
+![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?logo=kubernetes&logoColor=white) 
+![Tomcat](https://img.shields.io/badge/Tomcat-F8DC75?logo=apache-tomcat&logoColor=black) 
+![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black) 
+![Terraform Cloud](https://img.shields.io/badge/Terraform%20Cloud-623CE4?logo=terraform&logoColor=white)
+
 
 ---
 
