@@ -20,3 +20,16 @@ spec:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
       - PrunePropagationPolicy=foreground
+    ignoreDifferences:
+      - group: apps
+        kind: Deployment
+        namespace: app
+        name: nginx-frontend
+        jsonPointers:
+          - /spec/replicas
+      - group: argoproj.io
+        kind: Rollout
+        namespace: app
+        name: tomcat-backend
+        jsonPointers:
+          - /spec/replicas
