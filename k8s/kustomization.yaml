@@ -7,6 +7,6 @@ resources:
   - ingress.yaml
 images:
   - name: 857305036087.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_nginx
-    newTag: "00676db" # 초기 태그 (CI가 이 값을 sha7로 자동 업데이트)
+    newTag: v0.11
   - name: 857305036087.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_tomcat
-    newTag: "00676db"
+    newTag: v0.10
