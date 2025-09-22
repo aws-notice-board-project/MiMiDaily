@@ -19,6 +19,13 @@ spec:
         - name: nginx
           image: 857305036087.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_nginx:v0.11
           ports: [ { containerPort: 80 } ]
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
 ---
 apiVersion: v1
 kind: Service
