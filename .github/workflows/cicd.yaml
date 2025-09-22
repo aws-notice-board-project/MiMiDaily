@@ -1,0 +1,104 @@
+name: CI/CD (ECR + ArgoCD)
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "Dockerfile.nginx"
+      - "Dockerfile.tomcat"
+      - "nginx.conf"
+      - "mimidaily/**"
+      - "k8s/**"
+      - ".github/workflows/cicd.yaml"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write      # kustomization.yaml 커밋에 필요
+      id-token: write      # OIDC 사용할 경우 필요
+
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      ECR_NGINX: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NGINX }}
+      ECR_TOMCAT: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_TOMCAT }}
+      IMAGE_TAG: ${{ github.sha }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # --- AWS 자격증명 구성 (액세스 키) ---
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region:            ${{ secrets.AWS_REGION }}
+
+      # (OIDC 사용 시)
+      # - name: Configure AWS credentials (OIDC)
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     role-to-assume: arn:aws:iam::857305036087:role/GitHubActionsECRPushRole
+      #     aws-region:     ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # --- Build & Push NGINX ---
+      - name: Build & Push NGINX (linux/amd64)
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            -f Dockerfile.nginx \
+            -t ${ECR_NGINX}:${IMAGE_TAG::7} \
+            -t ${ECR_NGINX}:latest \
+            --push .
+
+      # --- Build & Push TOMCAT ---
+      - name: Build & Push TOMCAT (linux/amd64)
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            -f Dockerfile.tomcat \
+            -t ${ECR_TOMCAT}:${IMAGE_TAG::7} \
+            -t ${ECR_TOMCAT}:latest \
+            --push .
+
+      # --- kustomization.yaml의 이미지 태그 bump ---
+      - name: Install yq
+        uses: mikefarah/yq@v4.44.3
+
+      - name: Update kustomize image tags
+        run: |
+          # 1) sha7 태그를 셸에서 만들고 환경변수로 노출
+          SHORT_TAG="${IMAGE_TAG::7}"
+          export SHORT_TAG
+
+          echo "ECR_NGINX=${ECR_NGINX}"
+          echo "ECR_TOMCAT=${ECR_TOMCAT}"
+          echo "SHORT_TAG=${SHORT_TAG}"
+
+          # 2) newTag를 각각 갱신 (yq v4 문법)
+          yq eval -i '
+            (.images[] | select(.name == env(ECR_NGINX)).newTag) = env(SHORT_TAG) |
+            (.images[] | select(.name == env(ECR_TOMCAT)).newTag) = env(SHORT_TAG)
+          ' k8s/kustomization.yaml
+
+          echo "==== kustomization.yaml (after) ===="
+          cat k8s/kustomization.yaml
+
+      - name: Commit & Push manifest bump
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add k8s/kustomization.yaml
+          git commit -m "ci: bump images to ${IMAGE_TAG::7}" || echo "No changes to commit"
+          # 현재 워크플로 트리거 브랜치로 바로 푸시
+          git push origin HEAD:${GITHUB_REF_NAME}

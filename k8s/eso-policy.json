@@ -1,0 +1,13 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    { "Effect":"Allow",
+      "Action":[ "secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret", "secretsmanager:ListSecretVersionIds" ],
+      "Resource": "arn:aws:secretsmanager:ap-northeast-2:*:secret:prj/prod/db*"
+    },
+    { "Effect":"Allow",
+      "Action":[ "kms:Decrypt" ],
+      "Resource": "*"
+    }
+  ]
+}
