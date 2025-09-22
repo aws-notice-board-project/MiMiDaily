@@ -91,6 +91,8 @@ public class LoginServlet extends HttpServlet {
 				url = previousPage;
 			}else {url = "main.do";}
 
+			session.removeAttribute("previousPage");
+
 			response.sendRedirect(url); //주소변경
 		} else if (!(result == 1)) {//id 또는 비밀번호가 일치하지 않을 때
 			request.setAttribute("message", "아이디 또는 비밀번호가 맞지 않습니다.");
