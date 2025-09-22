@@ -1,0 +1,54 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: nginx-frontend
+  namespace: app
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: nginx-frontend
+  template:
+    metadata:
+      labels:
+        app: nginx-frontend
+    spec:
+      nodeSelector:
+        workload: frontend
+      tolerations:
+        - key: "workload"
+          value: "frontend"
+          effect: NoSchedule
+      containers:
+        - name: nginx
+          image: 857305036087.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_nginx:v0.11
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+
+  strategy:
+    canary:
+      # stable/canary Service 이름을 Rollouts에 알려줌
+      stableService: nginx-frontend-stable
+      canaryService: nginx-frontend-canary
+
+      # ALB(aws-load-balancer-controller)와 트래픽 라우팅 연동
+      trafficRouting:
+        alb:
+          ingress: web         # Ingress 리소스 이름 (app 네임스페이스의 그 Ingress)
+          servicePort: 80      # Service 노출 포트
+
+      steps:
+        - setWeight: 20        # ← tomcat과 같은 패턴: 20%
+        - pause: { duration: 60s }
+        - setWeight: 50
+        - pause: { duration: 120s }
+        - setWeight: 100

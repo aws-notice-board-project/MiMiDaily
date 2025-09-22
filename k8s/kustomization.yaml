@@ -2,7 +2,8 @@
 resources:
   - app-bootstrap.yaml
   - tomcat-rollout.yaml
-  - nginx.yaml
+  - nginx-rollout.yaml
+  - nginx-svc.yaml
   - ingress.yaml
 images:
   - name: 857305036087.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_nginx

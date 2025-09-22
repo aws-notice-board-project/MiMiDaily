@@ -20,7 +20,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: nginx-frontend
+                name: nginx-frontend-stable
                 port:
                   number: 80
     - host: www.mimidaily.shop
@@ -30,6 +30,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: nginx-frontend
+                name: nginx-frontend-stable
                 port:
                   number: 80
