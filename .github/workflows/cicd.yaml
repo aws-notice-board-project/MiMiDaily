@@ -2,7 +2,7 @@ name: CI/CD (ECR + ArgoCD)
 
 on:
   push:
-    branches: [ "jaeyeol-container" ]
+    branches: [ "main" ]
     paths:
       - "Dockerfile.nginx"
       - "Dockerfile.tomcat"

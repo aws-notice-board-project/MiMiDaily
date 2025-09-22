@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/woduf1020/MiMiDaily.git   # ← 본인 레포
-    targetRevision: jaeyeol-container
+    repoURL: https://github.com/aws-notice-board-project/MiMiDaily.git   # ← 본인 레포
+    targetRevision: main
     path: k8s
   destination:
     server: https://kubernetes.default.svc
