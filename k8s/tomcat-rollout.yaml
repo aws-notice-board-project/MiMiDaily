@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: tomcat-backend
+  namespace: app
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: tomcat-backend
+  template:
+    metadata:
+      labels:
+        app: tomcat-backend
+    spec:
+      containers:
+        - name: tomcat
+          image: 857305036087.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_tomcat:v0.10
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef: { name: db-secret }
+            - configMapRef: { name: s3-config }
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+  strategy:
+    canary:
+      steps:
+        - setWeight: 20           # 전체 트래픽 중 20%만 새 버전으로
+        - pause: { duration: 60s } # 1분 대기
+        - setWeight: 50
+        - pause: { duration: 120s }
+        - setWeight: 100
