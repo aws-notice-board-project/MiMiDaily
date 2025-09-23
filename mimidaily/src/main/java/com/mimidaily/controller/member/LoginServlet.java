@@ -72,13 +72,21 @@ public class LoginServlet extends HttpServlet {
 			visitCnt = mDao.incrementUserVisitCnt(userid, isVisited); // 방문횟수 증가 및 값 가져오기
 			role = mDao.getUserRole(userid);
 
-			request.getSession().setAttribute("memberInfo", memberInfo); // 멤버 정보
+			// 세션 정보 설정 - 동일한 세션 객체 사용
+			session.setAttribute("memberInfo", memberInfo); // 멤버 정보
 			session.setAttribute("userRole", role);
 			session.setAttribute("visitCnt", visitCnt);
 			session.setAttribute("loginUser", userid);
 			
+			// 디버그 로그 추가
+			System.out.println("로그인 성공 - 세션 설정 완료:");
+			System.out.println("Session ID: " + session.getId());
+			System.out.println("loginUser: " + session.getAttribute("loginUser"));
+			System.out.println("userRole: " + session.getAttribute("userRole"));
+			System.out.println("visitCnt: " + session.getAttribute("visitCnt"));
+			
 			// 세션에서 이전 페이지 URL 가져오기
-			String previousPage = (String) request.getSession().getAttribute("previousPage");
+			String previousPage = (String) session.getAttribute("previousPage");
 			String lastPath = null;
 			if (previousPage != null) {
 				String[] parts = previousPage.split("/");

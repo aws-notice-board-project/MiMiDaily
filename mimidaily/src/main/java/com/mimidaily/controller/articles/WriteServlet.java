@@ -41,7 +41,10 @@ public class WriteServlet extends HttpServlet {
         try {
             storageService = new S3StorageService(getServletContext());
         } catch (IllegalStateException ex) {
-            throw new ServletException("S3 설정이 누락되었습니다.", ex);
+            System.err.println("S3 설정 오류: " + ex.getMessage());
+            request.setAttribute("errorMsg", "파일 업로드 서비스가 설정되지 않았습니다. 관리자에게 문의하세요.");
+            request.getRequestDispatcher("/articles/write.jsp").forward(request, response);
+            return;
         }
 
         // 파일 업로드
@@ -51,6 +54,7 @@ public class WriteServlet extends HttpServlet {
         } catch (IllegalStateException ex) {
             request.setAttribute("errorMsg", "업로드 가능한 파일 크기는 최대 3MB입니다.");
             request.getRequestDispatcher("/main.do").forward(request, response);
+            return;
         }
         UploadResult uploadResult = null;
         if (filePart != null && filePart.getSize() > 0) {

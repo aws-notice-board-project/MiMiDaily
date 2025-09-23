@@ -4,6 +4,45 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
+    <!-- Session Configuration -->
+    <session-config>
+        <session-timeout>60</session-timeout> <!-- 60분 -->
+        <cookie-config>
+            <name>JSESSIONID</name>
+            <path>/</path>
+            <http-only>true</http-only>
+            <secure>false</secure> <!-- HTTPS 사용 시 true로 변경 -->
+            <max-age>3600</max-age> <!-- 1시간 -->
+        </cookie-config>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+
+    <!-- S3 Configuration Parameters -->
+    <context-param>
+        <param-name>aws.s3.bucket</param-name>
+        <param-value>${AWS_S3_BUCKET}</param-value>
+    </context-param>
+    <context-param>
+        <param-name>aws.s3.region</param-name>
+        <param-value>${AWS_S3_REGION}</param-value>
+    </context-param>
+    <context-param>
+        <param-name>aws.accessKeyId</param-name>
+        <param-value>${AWS_ACCESS_KEY_ID}</param-value>
+    </context-param>
+    <context-param>
+        <param-name>aws.secretAccessKey</param-name>
+        <param-value>${AWS_SECRET_ACCESS_KEY}</param-value>
+    </context-param>
+    <context-param>
+        <param-name>aws.sessionToken</param-name>
+        <param-value>${AWS_SESSION_TOKEN}</param-value>
+    </context-param>
+    <context-param>
+        <param-name>aws.s3.publicUrl</param-name>
+        <param-value>${AWS_S3_PUBLIC_URL}</param-value>
+    </context-param>
+
     <!-- JNDI DataSource 참조 선언 (이 이름이 코드/컨텍스트와 반드시 일치) -->
     <resource-ref>
         <description>MySQL DataSource</description>

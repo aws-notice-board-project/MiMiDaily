@@ -63,12 +63,12 @@
 		<div class="info">
 			<div><b>방문</b><span>${visitCnt}회</span></div>
 			
-			<c:if test="${ userRole==0 || userRole==2 }">
+			<c:if test="${ sessionScope.userRole==0 || sessionScope.userRole==2 }">
 				<div><b>게시글</b><span>개</span></div>
 			</c:if>
 			<div><b>댓글</b><span>개</span></div>
 			<div class="profile_btn">
-				<c:if test="${ userRole==0 || userRole==2 }">
+				<c:if test="${ sessionScope.userRole==0 || sessionScope.userRole==2 }">
 					<a class="write btn" href="/articles/write.do">기사 작성</a>
 				</c:if>
 				<a class="myprofile btn" href="/update.do">나의 정보</a>

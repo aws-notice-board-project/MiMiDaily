@@ -32,6 +32,18 @@ public class MainServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 세션 디버깅
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			System.out.println("MainServlet - 세션 정보:");
+			System.out.println("Session ID: " + session.getId());
+			System.out.println("loginUser: " + session.getAttribute("loginUser"));
+			System.out.println("userRole: " + session.getAttribute("userRole"));
+			System.out.println("visitCnt: " + session.getAttribute("visitCnt"));
+		} else {
+			System.out.println("MainServlet - 세션이 없습니다.");
+		}
+		
 		ArticlesDAO dao=new ArticlesDAO();
 		List<ArticlesDTO> viewestList=dao.viewestList(); // 실시간 관심기사 best4
 		List<ArticlesDTO> toptenList = dao.selectTopArticles();// 게시글 상위 10개 조회
