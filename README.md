@@ -1,4 +1,4 @@
-# <h1 align="left"><img src="https://aws-board-project.s3.ap-northeast-2.amazonaws.com/%ED%85%8C%EC%8A%A4%ED%8A%B8+%EC%9D%B4%EB%AF%B8%EC%A7%80.png" alt="Project Icon" width="40" style="vertical-align:middle;"> MiMiDaily</h1>
+# <h1 align="left"><img src="https://aws-board-project.s3.ap-northeast-2.amazonaws.com/%ED%85%8C%EC%8A%A4%ED%8A%B8+%EC%9D%B4%EB%AF%B8%EC%A7%80.png" alt="Project Icon" width="40" style="vertical-align:middle;">MiMiDaily</h1>
 
 ## ![Project Main](/main.png)
 
