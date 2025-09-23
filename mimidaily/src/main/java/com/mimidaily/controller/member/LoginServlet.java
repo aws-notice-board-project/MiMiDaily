@@ -78,13 +78,6 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("visitCnt", visitCnt);
 			session.setAttribute("loginUser", userid);
 			
-			// 디버그 로그 추가
-			System.out.println("로그인 성공 - 세션 설정 완료:");
-			System.out.println("Session ID: " + session.getId());
-			System.out.println("loginUser: " + session.getAttribute("loginUser"));
-			System.out.println("userRole: " + session.getAttribute("userRole"));
-			System.out.println("visitCnt: " + session.getAttribute("visitCnt"));
-			
 			// 세션에서 이전 페이지 URL 가져오기
 			String previousPage = (String) session.getAttribute("previousPage");
 			String lastPath = null;
