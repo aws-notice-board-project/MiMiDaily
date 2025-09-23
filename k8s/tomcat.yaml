@@ -33,6 +33,10 @@ metadata:
 spec:
   selector: { app: tomcat-backend }
   type: ClusterIP
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 3600
   ports:
     - name: legacy-8080
       port: 8080
