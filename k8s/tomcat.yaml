@@ -11,10 +11,6 @@ spec:
     spec:
       # 노드 격리 쓰면 유지, 아니면 아래 두 줄 제거 가능
       nodeSelector: { workload: backend }
-      tolerations:
-        - key: "workload"
-          value: "backend"
-          effect: NoSchedule
       containers:
         - name: tomcat
           image: 857305036087.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_tomcat:v0.10
