@@ -1,15 +1,31 @@
-# ingress.yaml (HTTP 전용, 두 호스트 모두 허용 예시)
+# ingress.yaml (HTTP→HTTPS 리다이렉트 + ACM 인증서)
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: web
   namespace: app
   annotations:
+    # ALB 컨트롤러 기본
+    kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
+
+    # ALB가 놓일 퍼블릭 서브넷(본인 서브넷 ID로 유지)
     alb.ingress.kubernetes.io/subnets: "subnet-063cf26dbb1821305,subnet-0818a43221784f39e"
+
+    # 헬스체크
     alb.ingress.kubernetes.io/healthcheck-path: /healthz
     alb.ingress.kubernetes.io/success-codes: "200,302"
+
+    # 리스너: 80/443
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+
+    # HTTPS용 인증서
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:857305036087:certificate/c3456c47-2a74-4142-b3b6-bab52eda1e15
+
+    # HTTP 접근은 443으로 리다이렉트
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+
 spec:
   ingressClassName: alb
   rules:
@@ -33,3 +49,9 @@ spec:
                 name: nginx-frontend
                 port:
                   number: 80
+  # 선택) 기본 규칙: Host가 비어도 / 로 프록시 (원하면 유지)
+  defaultBackend:
+    service:
+      name: nginx-frontend
+      port:
+        number: 80
