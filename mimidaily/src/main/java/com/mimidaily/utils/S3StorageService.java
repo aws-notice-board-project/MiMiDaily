@@ -68,11 +68,29 @@ public class S3StorageService {
                 "ap-northeast-2"
         );
 
-        String baseUrl = optionalConfig(context, "AWS_S3_BUCKET", "aws.s3.bucket");
-        if (baseUrl == null || baseUrl.trim().isEmpty()) {
+        String baseUrl = optionalConfig(context, "AWS_S3_PUBLIC_URL", "aws.s3.publicUrl");
+        if (baseUrl == null) {
             baseUrl = "https://" + bucketName + ".s3." + region + ".amazonaws.com/";
-        } else if (!baseUrl.endsWith("/")) {
-            baseUrl = baseUrl + "/";
+        } else {
+            String normalizedBaseUrl = stripLeadingSlashes(baseUrl);
+            if (!normalizedBaseUrl.contains("://")) {
+                normalizedBaseUrl = stripLeadingSlashes(normalizedBaseUrl);
+                normalizedBaseUrl = "https://" + normalizedBaseUrl;
+            }
+            normalizedBaseUrl = stripLeadingSlashes(normalizedBaseUrl);
+            int schemeIdx = normalizedBaseUrl.indexOf("://");
+            if (schemeIdx >= 0) {
+                String prefix = normalizedBaseUrl.substring(0, schemeIdx + 3);
+                String remainder = normalizedBaseUrl.substring(schemeIdx + 3);
+                remainder = stripTrailingSlashes(remainder);
+                normalizedBaseUrl = prefix + remainder;
+            } else {
+                normalizedBaseUrl = stripTrailingSlashes(normalizedBaseUrl);
+            }
+            if (!normalizedBaseUrl.endsWith("/")) {
+                normalizedBaseUrl = normalizedBaseUrl + "/";
+            }
+            baseUrl = normalizedBaseUrl;
         }
         this.publicBaseUrl = baseUrl;
         this.endpoint = "https://" + bucketName + ".s3." + region + ".amazonaws.com";
@@ -359,13 +377,41 @@ public class S3StorageService {
     }
 
     private static String optionalConfig(ServletContext context, String env, String param) {
-        String ev = System.getenv(env);
-        if (ev != null && !ev.trim().isEmpty()) return ev.trim();
+        String ev = sanitizeOptionalValue(System.getenv(env));
+        if (ev != null) return ev;
         if (context != null) {
-            String pv = context.getInitParameter(param);
-            if (pv != null && !pv.trim().isEmpty()) return pv.trim();
+            String pv = sanitizeOptionalValue(context.getInitParameter(param));
+            if (pv != null) return pv;
         }
         return null;
+    }
+
+    private static String sanitizeOptionalValue(String value) {
+        if (value == null) return null;
+        String trimmed = value.trim();
+        if (trimmed.isEmpty()) return null;
+        if (trimmed.startsWith("${") && trimmed.endsWith("}")) return null;
+        String withoutSlashes = stripTrailingSlashes(stripLeadingSlashes(trimmed));
+        if (withoutSlashes.isEmpty()) return null;
+        return trimmed;
+    }
+
+    private static String stripLeadingSlashes(String value) {
+        if (value == null) return null;
+        int start = 0;
+        while (start < value.length() && (value.charAt(start) == '/' || value.charAt(start) == '\\')) {
+            start++;
+        }
+        return value.substring(start);
+    }
+
+    private static String stripTrailingSlashes(String value) {
+        if (value == null) return null;
+        int end = value.length();
+        while (end > 0 && (value.charAt(end - 1) == '/' || value.charAt(end - 1) == '\\')) {
+            end--;
+        }
+        return value.substring(0, end);
     }
 
     private static String coalesce(String... vals) {
