@@ -25,6 +25,8 @@ metadata:
 
     # HTTP 접근은 443으로 리다이렉트
     alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/target-group-attributes: >
+      stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=3600
 
 spec:
   ingressClassName: alb
