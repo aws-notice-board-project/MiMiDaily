@@ -26,8 +26,7 @@ metadata:
     alb.ingress.kubernetes.io/ssl-redirect: '443'
 
     # ALB TargetGroup 스티키 (세션 고정)
-    alb.ingress.kubernetes.io/target-group-attributes: >
-      stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=3600
+    alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=3600
 
     # www → apex로 영구 리다이렉트
     alb.ingress.kubernetes.io/actions.redirect-www-to-apex: >
