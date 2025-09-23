@@ -38,6 +38,10 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.UUID;
 
+/**
+ * S3 업로드/삭제를 AWS SDK 없이 SigV4로 수행.
+ * 방법 B: IRSA(WebIdentity)가 보이면 무조건 IRSA 우선, 정적 키는 유효성 통과 시에만 Fallback.
+ */
 public class S3StorageService {
 
     private static final DateTimeFormatter AMZ_DATE_FORMAT =
@@ -73,19 +77,21 @@ public class S3StorageService {
         this.publicBaseUrl = baseUrl;
         this.endpoint = "https://" + bucketName + ".s3." + region + ".amazonaws.com";
 
-        // 1) 정적 키가 있으면 우선 사용(로컬/개발편의)
+        // --- 방법 B: IRSA 우선 → 정적 키는 유효성 통과 시에만 사용 ---
+        WebIdentityConfiguration webIdentity = WebIdentityConfiguration.from(context);
         AwsCredentials staticCreds = loadStaticCredentials(context);
-        if (staticCreds != null) {
+
+        if (webIdentity != null) {
+            // IRSA가 보이면 무조건 IRSA
+            this.credentialsProvider = new WebIdentityCredentialsProvider(webIdentity);
+        } else if (isValidStatic(staticCreds)) {
+            // IRSA 없고, 정적 키가 "정말로" 유효할 때만 fallback
             this.credentialsProvider = new StaticCredentialsProvider(staticCreds);
             this.cachedCredentials = staticCreds;
-            return;
+        } else {
+            throw new IllegalStateException(
+                    "No valid AWS credentials. IRSA(AWS_ROLE_ARN/AWS_WEB_IDENTITY_TOKEN_FILE) or valid static keys required.");
         }
-        // 2) IRSA(WebIdentity) 사용
-        WebIdentityConfiguration webIdentityConfiguration = WebIdentityConfiguration.from(context);
-        if (webIdentityConfiguration == null) {
-            throw new IllegalStateException("Missing AWS credentials. Provide IRSA (AWS_ROLE_ARN/AWS_WEB_IDENTITY_TOKEN_FILE) or static keys.");
-        }
-        this.credentialsProvider = new WebIdentityCredentialsProvider(webIdentityConfiguration);
     }
 
     /** 업로드 */
@@ -182,6 +188,9 @@ public class S3StorageService {
         if (code < 200 || code >= 300) {
             String body = safeReadUtf8(conn.getErrorStream());
             conn.disconnect();
+            // 디버깅에 도움 되도록 표준에러로도 남김
+            System.err.println("[S3][DEBUG] HTTP " + code + " " + method + " " + endpoint + canonicalUri);
+            System.err.println("[S3][DEBUG] ERROR BODY: " + body);
             throw new IOException("S3 request failed " + code + " - " + body);
         }
         conn.disconnect();
@@ -203,9 +212,23 @@ public class S3StorageService {
     }
 
     // ================= helpers =================
+    private static boolean isValidStatic(AwsCredentials c) {
+        if (c == null) return false;
+        // 템플릿/플레이스홀더("${...}") 또는 공백 검출
+        if (looksLikePlaceholder(c.accessKeyId) || looksLikePlaceholder(c.secretAccessKey)) return false;
+        // 일반적인 AccessKeyId 패턴: AKIA/ASIA/ANPA 로 시작 + 총 20자 (대략 검증)
+        return c.accessKeyId != null && c.accessKeyId.matches("^(AKIA|ASIA|ANPA)[A-Z0-9]{16}$")
+                && c.secretAccessKey != null && c.secretAccessKey.length() >= 30;
+    }
+
+    private static boolean looksLikePlaceholder(String s) {
+        if (s == null) return false;
+        String t = s.trim();
+        return t.isEmpty() || t.startsWith("${") || t.contains("AWS_ACCESS_KEY_ID") || t.contains("AWS_SECRET_ACCESS_KEY");
+    }
+
     private static String normalizeObjectKey(String key) {
         if (key == null) return "";
-        // 선행 슬래시 제거 (S3 key는 앞에 /가 없어야 함)
         while (key.startsWith("/")) key = key.substring(1);
         return key;
     }
