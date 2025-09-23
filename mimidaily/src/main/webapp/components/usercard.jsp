@@ -107,7 +107,7 @@ if(user){
 						$('.userbox .profile .profile_img').html(profileImgTag);
 					}
 				} else {
-					console.error('Failed to load user card data.');
+					console.error('유저카드 정보를 불러오는데 실패했습니다.');
 				}
 			}
 		},
