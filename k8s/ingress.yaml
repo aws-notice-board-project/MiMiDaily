@@ -1,36 +1,54 @@
-# ingress.yaml (HTTP→HTTPS 리다이렉트 + ACM 인증서)
+# ingress.yaml (HTTPS + HTTP→HTTPS 리다이렉트 + www→apex 리다이렉트 + 스티키)
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: web
   namespace: app
   annotations:
-    # ALB 컨트롤러 기본
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
 
-    # ALB가 놓일 퍼블릭 서브넷(본인 서브넷 ID로 유지)
+    # ALB 퍼블릭 서브넷 (필요 시 본인 값으로 유지)
     alb.ingress.kubernetes.io/subnets: "subnet-063cf26dbb1821305,subnet-0818a43221784f39e"
 
     # 헬스체크
     alb.ingress.kubernetes.io/healthcheck-path: /healthz
     alb.ingress.kubernetes.io/success-codes: "200,302"
 
-    # 리스너: 80/443
+    # 리스너
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
 
-    # HTTPS용 인증서
+    # HTTPS 인증서
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:857305036087:certificate/c3456c47-2a74-4142-b3b6-bab52eda1e15
 
-    # HTTP 접근은 443으로 리다이렉트
+    # HTTP는 443으로 리다이렉트
     alb.ingress.kubernetes.io/ssl-redirect: '443'
+
+    # ALB TargetGroup 스티키 (세션 고정)
     alb.ingress.kubernetes.io/target-group-attributes: >
       stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=3600
+
+    # www → apex로 영구 리다이렉트
+    alb.ingress.kubernetes.io/actions.redirect-www-to-apex: >
+      {"Type":"redirect","RedirectConfig":{"Host":"mimidaily.shop","Protocol":"HTTPS","Port":"443","StatusCode":"HTTP_301"}}
 
 spec:
   ingressClassName: alb
   rules:
+    # www는 apex로 리다이렉트
+    - host: www.mimidaily.shop
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: redirect-www-to-apex
+                port:
+                  name: use-annotation
+
+    # 실제 트래픽은 apex 도메인만 사용
     - host: mimidaily.shop
       http:
         paths:
@@ -41,17 +59,8 @@ spec:
                 name: nginx-frontend
                 port:
                   number: 80
-    - host: www.mimidaily.shop
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: nginx-frontend
-                port:
-                  number: 80
-  # 선택) 기본 규칙: Host가 비어도 / 로 프록시 (원하면 유지)
+
+  # (선택) Host 없는 접근도 기본 백엔드로 연결
   defaultBackend:
     service:
       name: nginx-frontend
