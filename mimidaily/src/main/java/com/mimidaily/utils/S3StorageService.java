@@ -68,7 +68,7 @@ public class S3StorageService {
                 "ap-northeast-2"
         );
 
-        String baseUrl = optionalConfig(context, "AWS_S3_PUBLIC_URL", "aws.s3.publicUrl");
+        String baseUrl = optionalConfig(context, "AWS_S3_BUCKET", "aws.s3.bucket");
         if (baseUrl == null || baseUrl.trim().isEmpty()) {
             baseUrl = "https://" + bucketName + ".s3." + region + ".amazonaws.com/";
         } else if (!baseUrl.endsWith("/")) {
