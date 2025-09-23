@@ -1,9 +1,16 @@
 {
   "Version":"2012-10-17",
-  "Statement":[{
-    "Effect":"Allow",
-    "Principal":{"Federated":"arn:aws:iam::857305036087:oidc-provider/oidc.eks.ap-northeast-2.amazonaws.com/id/CC26984F358ED35757840D25C1FF226E"},
-    "Action":"sts:AssumeRoleWithWebIdentity",
-    "Condition":{"StringEquals":{"oidc.eks.ap-northeast-2.amazonaws.com/id/CC26984F358ED35757840D25C1FF226E:sub":"system:serviceaccount:app:app-backend-sa"}}
-  }]
+  "Statement":[
+    {
+      "Effect":"Allow",
+      "Principal":{"Federated":"arn:aws:iam::857305036087:oidc-provider/oidc.eks.ap-northeast-2.amazonaws.com/id/DA34F16AE8ED358ECF40AA1331E698D0"},
+      "Action":"sts:AssumeRoleWithWebIdentity",
+      "Condition":{
+        "StringEquals":{
+          "oidc.eks.ap-northeast-2.amazonaws.com/id/DA34F16AE8ED358ECF40AA1331E698D0:sub":"system:serviceaccount:app:app-backend-sa",
+          "oidc.eks.ap-northeast-2.amazonaws.com/id/DA34F16AE8ED358ECF40AA1331E698D0:aud":"sts.amazonaws.com"
+        }
+      }
+    }
+  ]
 }
